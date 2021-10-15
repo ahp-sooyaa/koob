@@ -25,9 +25,9 @@
 
         <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <section>
-                <h1 class="font-semibold mb-3 text-gray-500 text-lg">All Books</h1>
-                <div class="flex flex-wrap bg-white px-4 py-5 rounded-md shadow">
-                    <div v-for="book in books" class="w-1/5">
+                <h1 class="font-bold mb-3 text-gray-500 text-xl">All Books</h1>
+                <div class="grid grid-cols-5 gap-4">
+                    <div v-for="book in books">
                         <book :data="book"></book>
                     </div>
                 </div>

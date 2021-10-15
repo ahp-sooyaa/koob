@@ -12,13 +12,10 @@ class BooksTest extends TestCase
 
     public function test_user_can_see_all_books_list()
     {
-        // arrange books
         $books = Book::factory(3)->create();
 
-        // act
-        $response = $this->get('/books');
+        $response = $this->get(route('books.index'));
 
-        // assert
         $response->assertStatus(200)
             ->assertSee($books[0]->title)
             ->assertSee($books[1]->title)
