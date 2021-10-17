@@ -15,15 +15,26 @@
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <BreezeNavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                                <BreezeNavLink 
+                                    v-if="$page.props.auth.user" 
+                                    :href="route('dashboard')" 
+                                    :active="route().current('dashboard')"
+                                >
                                     Dashboard
                                 </BreezeNavLink>
+                                <BreezeNavLink 
+                                    :href="route('books.index')" 
+                                    :active="route().current('books.index')"
+                                >
+                                    Shop
+                                </BreezeNavLink>
+                                <CartLink :responsive="false"/>
                             </div>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ml-6">
                             <!-- Settings Dropdown -->
-                            <div class="ml-3 relative">
+                            <div v-if="$page.props.auth.user" class="ml-3 relative">
                                 <BreezeDropdown align="right" width="48">
                                     <template #trigger>
                                         <span class="inline-flex rounded-md">
@@ -44,6 +55,17 @@
                                     </template>
                                 </BreezeDropdown>
                             </div>
+                        
+                            <template v-else>
+                                <div class="flex space-x-3">
+                                    <Link :href="route('login')" :active="route().current('login')" class="text-sm hover:text-gray-700 text-gray-500">
+                                        Log in
+                                    </Link>
+                                    <Link :href="route('register')" :active="route().current('register')" class="text-sm hover:text-gray-700 text-gray-500">
+                                        Register
+                                    </Link>
+                                </div>
+                            </template>
                         </div>
 
                         <!-- Hamburger -->
@@ -60,22 +82,39 @@
 
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
-                    <div class="pt-2 pb-3 space-y-1">
-                        <BreezeResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
-                        </BreezeResponsiveNavLink>
-                    </div>
-
-                    <!-- Responsive Settings Options -->
-                    <div class="pt-4 pb-1 border-t border-gray-200">
-                        <div class="px-4">
-                            <div class="font-medium text-base text-gray-800">{{ $page.props.auth.user.name }}</div>
-                            <div class="font-medium text-sm text-gray-500">{{ $page.props.auth.user.email }}</div>
+                    <div v-if="$page.props.auth.user">
+                        <div class="pt-2 pb-3 space-y-1">
+                            <BreezeResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
+                                Dashboard
+                            </BreezeResponsiveNavLink>
+                            <BreezeResponsiveNavLink :href="route('books.index')" :active="route().current('books.index')">
+                                Shop
+                            </BreezeResponsiveNavLink>
+                            <CartLink :responsive="true"/>
                         </div>
 
-                        <div class="mt-3 space-y-1">
-                            <BreezeResponsiveNavLink :href="route('logout')" method="post" as="button">
-                                Log Out
+                        <!-- Responsive Settings Options -->
+                        <div class="pt-4 pb-1 border-t border-gray-200">
+                            <div class="px-4">
+                                <div class="font-medium text-base text-gray-800">{{ $page.props.auth.user.name }}</div>
+                                <div class="font-medium text-sm text-gray-500">{{ $page.props.auth.user.email }}</div>
+                            </div>
+
+                            <div class="mt-3 space-y-1">
+                                <BreezeResponsiveNavLink :href="route('logout')" method="post" as="button">
+                                    Log Out
+                                </BreezeResponsiveNavLink>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div v-else class="pt-4 pb-1 border-t border-gray-200">
+                        <div class="px-4">
+                            <BreezeResponsiveNavLink :href="route('login')" :active="route().current('login')">
+                                Log in
+                            </BreezeResponsiveNavLink>
+                            <BreezeResponsiveNavLink :href="route('register')" :active="route().current('register')">
+                                Register
                             </BreezeResponsiveNavLink>
                         </div>
                     </div>
@@ -104,6 +143,7 @@ import BreezeDropdownLink from '@/Components/DropdownLink.vue'
 import BreezeNavLink from '@/Components/NavLink.vue'
 import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue'
 import { Link } from '@inertiajs/inertia-vue3';
+import CartLink from '@/Components/CartLink'
 
 export default {
     components: {
@@ -113,6 +153,7 @@ export default {
         BreezeNavLink,
         BreezeResponsiveNavLink,
         Link,
+        CartLink
     },
 
     data() {

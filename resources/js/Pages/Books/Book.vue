@@ -7,7 +7,7 @@
             <h1 class="text-lg font-semibold">{{ data.title }}</h1>
             <div class="flex justify-center items-center">
                 <span class="font-bold mr-3 text-xl">${{ data.price }}</span>
-                <button class="bg-blue-500 font-bold px-4 py-2 rounded-xl text-white">Add to Cart</button>
+                <button @click="addToCart" class="bg-blue-500 font-bold px-4 py-2 rounded-xl text-white">Add to Cart</button>
             </div>
         </div>
     </div>
@@ -18,6 +18,16 @@
         props: {
             data: Object
         },
+        methods: {
+            addToCart() {
+                axios.post(`books/${this.data.id}/cart`)
+                    .catch(err => console.log(err))
+                    .then(() => {
+                        window.events.emit('added')
+                        flash('Successfully added to Cart')
+                    })
+            }
+        }
     }
 </script>
 

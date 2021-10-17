@@ -1,55 +1,35 @@
 <template>
-    <div class="bg-gray-100 min-h-screen">
-        <nav class="bg-white shadow mb-7">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center">
-                    <BreezeApplicationLogo class="block h-9 w-auto" />
-                    <div v-if="canLogin" class="hidden px-6 py-4 sm:block">
-                        <Link v-if="$page.props.auth.user" href="/dashboard" class="text-sm text-gray-700 underline">
-                            Dashboard
-                        </Link>
-
-                        <template v-else>
-                            <Link :href="route('login')" class="text-sm text-gray-700 underline">
-                                Log in
-                            </Link>
-
-                            <Link v-if="canRegister" :href="route('register')" class="ml-4 text-sm text-gray-700 underline">
-                                Register
-                            </Link>
-                        </template>
-                    </div>
-                </div>
-            </div>
-        </nav>
-
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <BreezeNavBarLayout>
+        <Flash/>
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-7">
             <section>
                 <h1 class="font-bold mb-3 text-gray-500 text-xl">All Books</h1>
                 <div class="grid grid-cols-5 gap-4">
                     <div v-for="book in books">
-                        <book :data="book"></book>
+                        <Book :data="book"></Book>
                     </div>
                 </div>
             </section>
         </main>
-    </div>
+    </BreezeNavBarLayout>
 </template>
 
 <script>
     import {Link} from '@inertiajs/inertia-vue3'
     import BreezeApplicationLogo from '@/Components/ApplicationLogo'
-    import book from '@/Components/Book'
+    import BreezeNavBarLayout from '@/Layouts/NavBar'
+    import Book from './Book'
+    import CartLink from '@/Components/CartLink'
     export default {
         components: { 
-            Link,
+            BreezeNavBarLayout,
             BreezeApplicationLogo,
-            book
+            Book,
+            CartLink,
+            Link
         },
 
         props: {
-            canLogin: Boolean,
-            canRegister: Boolean,
             books: Object
         }
     }

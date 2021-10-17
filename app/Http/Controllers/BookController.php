@@ -10,9 +10,7 @@ class BookController extends Controller
 {
     public function index()
     {
-        return Inertia::render('books/Index', [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
+        return Inertia::render('Books/Index', [
             'books' => Book::all()
         ]);
     }

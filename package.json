@@ -24,5 +24,8 @@
         "tailwindcss": "^2.1.2",
         "vue": "^3.0.5",
         "vue-loader": "^16.1.2"
+    },
+    "dependencies": {
+        "tiny-emitter": "^2.1.0"
     }
 }
