@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -23,6 +24,9 @@ Route::get('/books', [BookController::class, 'index'])->name('books.index');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/books/{book}/cart', [CartController::class, 'store'])->name('cart.store');
 Route::delete('/books/{book}/cart', [CartController::class, 'destroy'])->name('cart.destroy');
+
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 
 Route::get('/api/cart', function () {
     return session()->get('cart');

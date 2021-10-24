@@ -10,15 +10,8 @@ class CartController extends Controller
 {
     public function index()
     {
-        // give user's all cart data
-        $cart = [];
-
-        if (session()->has('cart')) {
-            foreach (session('cart') as $key => $value) {
-                $cart[] = Book::whereId($key)->first();
-            }
-        }
-        return Inertia::render('Cart', compact('cart'));
+        // give user's all cart data from inertia shared props
+        return Inertia::render('Cart');
     }
 
     public function update()
