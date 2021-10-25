@@ -18,6 +18,8 @@
         "@vue/compiler-sfc": "^3.0.5",
         "autoprefixer": "^10.2.4",
         "axios": "^0.21",
+        "eslint": "^8.1.0",
+        "eslint-plugin-vue": "^7.20.0",
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.2.13",
