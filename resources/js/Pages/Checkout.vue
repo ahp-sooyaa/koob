@@ -1,7 +1,5 @@
 <template>
-  <Thankyou />
   <div
-    v-if="show"
     class="w-full"
   >
     <div class="lg:w-2/3 w-full mx-auto mt-8 overflow-auto">
@@ -198,10 +196,10 @@
       </div>
       <div class="p-2 w-full">
         <button
+          @click="processPayment"
           class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
           :class="!cart.length ? 'cursor-not-allowed' : ''"
           :disabled="paymentProcessing || !cart.length"
-          @click="processPayment"
           v-text="paymentProcessing ? 'Processing' : 'Pay Now'"
         />
       </div>
@@ -210,12 +208,10 @@
 </template>
 <script>
 import { Link } from '@inertiajs/inertia-vue3'
-import Thankyou from '@/Pages/thankyou'
 import { loadStripe } from '@stripe/stripe-js'
 export default {
     components: {
         Link,
-        Thankyou
     },
 
     data() {
@@ -232,7 +228,6 @@ export default {
                 zip_code: '',
             },
             paymentProcessing: false,
-            show: true
         }
     },
     computed: {
@@ -300,12 +295,8 @@ export default {
                     .post('/checkout', this.customer)
                     .then((response) => {
                         this.paymentProcessing = false
-                        this.show = false
-
-                        // flash noti will also be ok, definitely no need to show again & again order/cart info
-                        // just show transaction_id with flash message
-                        window.thankyou(response.data)
-                        // console.log(response.data);
+                        this.$inertia.get('/thankyou/' + response.data.id)
+                        // console.log(response.data)
                     })
                     .catch((error) => {
                         this.paymentProcessing = false

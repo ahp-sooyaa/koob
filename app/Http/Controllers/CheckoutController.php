@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -13,14 +14,17 @@ class CheckoutController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Checkout');
+        if (session('cart')) {
+            return Inertia::render('Checkout');
+        } else {
+            return Redirect::route('books.index');
+        }
     }
 
     public function store(Request $request)
     {
         // check order quantity are more than avaliable stock here
         // or check this in addToCart before add to cart
-
         $user = User::firstOrCreate(
             [
                 'email' => $request->input('email')
@@ -66,9 +70,14 @@ class CheckoutController extends Controller
 
             // coupon here or not
 
-            return $order->load('books');
+            return $order;
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
+    }
+
+    public function thankyou(Order $order)
+    {
+        return Inertia::render('Thankyou', ['order' => $order->load('books')]);
     }
 }

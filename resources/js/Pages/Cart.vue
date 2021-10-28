@@ -13,53 +13,20 @@
         <table class="table-auto w-full text-left whitespace-no-wrap">
           <thead>
             <tr>
-              <th
-                class="
-                  px-4
-                  py-3
-                  title-font
-                  tracking-wider
-                  text-gray-900 text-sm
-                  bg-gray-200
-                  rounded-tl rounded-bl
-                "
-              >
+              <th class="px-4 py-3 title-font tracking-wider text-gray-900 text-sm bg-gray-200 rounded-tl rounded-bl">
                 Item
               </th>
               <th
-                class="
-                  px-4
-                  py-3
-                  title-font
-                  tracking-wider
-                  text-gray-900 text-sm
-                  bg-gray-200
-                "
+                class="px-4 py-3 title-font tracking-wider text-gray-900 text-sm bg-gray-200"
               >
                 Quantity
               </th>
               <th
-                class="
-                  px-4
-                  py-3
-                  title-font
-                  tracking-wider
-                  text-gray-900 text-sm
-                  bg-gray-200
-                "
+                class="px-4 py-3 title-font tracking-wider text-gray-900 text-sm bg-gray-200"
               >
                 Price
               </th>
-              <th
-                class="
-                  px-4
-                  py-3
-                  title-font
-                  tracking-wider
-                  text-gray-900 text-sm
-                  bg-gray-200
-                "
-              >
+              <th class="px-4 py-3 title-font tracking-wider text-gray-900 text-sm bg-gray-200">
                 SubTotal Price
               </th>
               <th class="px-4 py-3 title-font tracking-wider text-gray-900 text-sm bg-gray-200 rounded-tr rounded-br">
@@ -78,8 +45,28 @@
               />
               <td
                 class="p-4"
-                v-text="item.quantity"
-              />
+              >
+                <!-- <input
+                  ref="input"
+                  v-model="item.quantity"
+                  @change="updateCartQuantity(item.quantity, item.id)"
+                  class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                  type="number"
+                  min="1"
+                > -->
+                <select
+                  v-model="item.quantity"
+                  @change="updateCartQuantity(item.quantity, item.id)"
+                >
+                  <option
+                    v-for="qty in 10"
+                    :key="qty"
+                    :value="qty"
+                  >
+                    {{ qty }}
+                  </option>
+                </select>
+              </td>
               <td
                 class="p-4"
                 v-text="formatPrice(item.price)"
@@ -90,8 +77,8 @@
               />
               <td class="w-10">
                 <button
-                  class="flex ml-auto text-sm text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
                   @click="removeFromCart(index)"
+                  class="flex ml-auto text-sm text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
                 >
                   Remove
                 </button>
@@ -128,10 +115,11 @@
 <script>
 import { Link } from '@inertiajs/inertia-vue3'
 import BreezeNavBarLayout from '@/Layouts/NavBar'
+import axios from 'axios'
 export default {
     components: {
         Link,
-        BreezeNavBarLayout
+        BreezeNavBarLayout,
     },
 
     props: {
@@ -154,6 +142,7 @@ export default {
             for (const key in this.cart) {
                 amount += this.cart[key].quantity * this.cart[key].price
             }
+            // console.log(amount)
             return this.formatPrice(amount)
         },
     },
@@ -173,6 +162,11 @@ export default {
                 window.events.emit('removed')
                 window.flash('Successfully deleted from cart')
             })
+        },
+
+        updateCartQuantity(qty, id){
+            axios.patch(`/books/${id}/cart`, {qty: qty})
+                .then(flash('Successfully updated quantity'))
         }
     }
 }
