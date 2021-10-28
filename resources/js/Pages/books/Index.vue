@@ -10,6 +10,7 @@
           <div
             v-for="book in books"
             :key="book.id"
+            class="flex flex-col"
           >
             <Book :data="book" />
           </div>
