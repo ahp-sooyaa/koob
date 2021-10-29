@@ -1,3 +1,3 @@
-# About this project
+# About
 
-Koob (Book) is open source online bookstore project for personal portfolio that's built by laravel 8.
+Koob (Book) is ecommerce bookstore project for personal portfolio that's built by laravel 8.

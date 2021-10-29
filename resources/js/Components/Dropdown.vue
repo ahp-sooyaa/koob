@@ -22,12 +22,12 @@
       <div
         v-show="open"
         @click="open = false"
-        class="absolute z-50 mt-2 rounded-md shadow-lg"
+        class="absolute z-50 mt-2 rounded-md shadow-lg bg-white"
         :class="[widthClass, alignmentClasses]"
         style="display: none;"
       >
         <div
-          class="rounded-md ring-1 ring-black ring-opacity-5"
+          class="py-1 rounded-md ring-1 ring-black ring-opacity-5"
           :class="contentClasses"
         >
           <slot name="content" />

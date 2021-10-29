@@ -14,7 +14,7 @@ class Cart
         session()->put($this->cartKey($book->id), $cartItem);
     }
 
-    public function add($book)
+    public function add($book, $qty)
     {
         // check user is logged in or not
         // if user is not logged in use session
@@ -24,7 +24,7 @@ class Cart
                 session()->put($this->cartKey($book->id), [
                     'id' => $book->id,
                     'title' => $book->title,
-                    'quantity' => 1,
+                    'quantity' => $qty,
                     'price' => $book->price,
                 ]);
             } else {

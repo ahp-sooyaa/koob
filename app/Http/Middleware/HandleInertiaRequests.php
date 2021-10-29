@@ -37,7 +37,8 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'cart' => $request->session()->get('cart') ? array_values($request->session()->get('cart')) : []
+            'cart' => $request->session()->get('cart') ? array_values($request->session()->get('cart')) : [],
+            'urlPrev' => url()->previous()
         ]);
     }
 }

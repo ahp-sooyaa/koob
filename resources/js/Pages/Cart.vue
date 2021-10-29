@@ -5,28 +5,34 @@
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-7">
       <div v-if="cart.length">
         <Link
+          :href="$page.props.urlPrev"
+          class="ml-3"
+        >
+          Back
+        </Link>
+        <Link
           :href="route('checkout.index')"
           class="ml-3"
         >
           Checkout
         </Link>
-        <table class="table-auto w-full text-left whitespace-no-wrap">
+        <table class="table-auto w-full whitespace-no-wrap">
           <thead>
             <tr>
-              <th class="px-4 py-3 title-font tracking-wider text-gray-900 text-sm bg-gray-200 rounded-tl rounded-bl">
+              <th class="text-left px-4 py-3 title-font tracking-wider text-gray-900 text-sm bg-gray-200 rounded-tl rounded-bl">
                 Item
               </th>
               <th
-                class="px-4 py-3 title-font tracking-wider text-gray-900 text-sm bg-gray-200"
+                class="text-left px-4 py-3 title-font tracking-wider text-gray-900 text-sm bg-gray-200"
               >
                 Quantity
               </th>
               <th
-                class="px-4 py-3 title-font tracking-wider text-gray-900 text-sm bg-gray-200"
+                class="text-right px-4 py-3 title-font tracking-wider text-gray-900 text-sm bg-gray-200"
               >
                 Price
               </th>
-              <th class="px-4 py-3 title-font tracking-wider text-gray-900 text-sm bg-gray-200">
+              <th class="text-right px-4 py-3 title-font tracking-wider text-gray-900 text-sm bg-gray-200">
                 SubTotal Price
               </th>
               <th class="px-4 py-3 title-font tracking-wider text-gray-900 text-sm bg-gray-200 rounded-tr rounded-br">
@@ -34,13 +40,13 @@
               </th>
             </tr>
           </thead>
-          <tbody>
+          <tbody class="divide-y">
             <tr
               v-for="(item, index) in cart"
               :key="item.id"
             >
               <td
-                class="p-4"
+                class="text-left p-4"
                 v-text="item.title"
               />
               <td
@@ -68,11 +74,11 @@
                 </select>
               </td>
               <td
-                class="p-4"
+                class="text-right p-4"
                 v-text="formatPrice(item.price)"
               />
               <td
-                class="p-4"
+                class="text-right p-4"
                 v-text="formatPrice(item.price * item.quantity)"
               />
               <td class="w-10">

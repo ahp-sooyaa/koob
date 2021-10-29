@@ -21,10 +21,11 @@ class CartController extends Controller
         $cart->update($book, $request->input('qty'));
     }
 
-    public function store(Book $book, Cart $cart)
+    public function store(Book $book, Cart $cart, Request $request)
     {
         // add to cart session
-        $cart->add($book);
+        $qty = $request->input('qty') ?: 1;
+        $cart->add($book, $qty);
     }
 
     public function destroy(Book $book, Cart $cart)

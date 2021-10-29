@@ -21,6 +21,8 @@ Route::get('/dashboard', function () {
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
+Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
+
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 // cart url is little strange :)
 Route::post('/books/{book}/cart', [CartController::class, 'store'])->name('cart.store');

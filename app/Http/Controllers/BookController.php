@@ -13,4 +13,9 @@ class BookController extends Controller
             'books' => Book::query()->select('id', 'title', 'price', 'cover')->get()
         ]);
     }
+
+    public function show(Book $book)
+    {
+        return Inertia::render('Books/Show', compact('book'));
+    }
 }

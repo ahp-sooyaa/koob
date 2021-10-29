@@ -6,12 +6,14 @@
       class="h-4/5 w-5/6"
     >
   </div>
-  <h1 class="flex-1 line-clamp-2 text-md text-center font-bold mb-2">
+  <a
+    :href="'books/' + data.id"
+    class="flex-1 line-clamp-2 text-md text-center font-bold mb-2"
+  >
     {{ data.title }}
-  </h1>
+  </a>
   <div class="flex justify-center items-center">
     <span class="font-semibold mr-3 text-md">{{ formatPrice(data.price) }}</span>
-    <span class="font-semibold mr-3 text-md">{{ $page.props.cart.id }}</span>
     <button
       @click="addToCart"
       class="font-bold px-4 py-2 rounded-xl text-white"
@@ -44,7 +46,7 @@ export default {
         },
 
         addToCart() {
-            axios.post(`books/${this.data.id}/cart`)
+            axios.post(`/books/${this.data.id}/cart`)
                 .catch(err => console.log(err))
                 .then(() => {
                     this.isAdded = true
