@@ -14,8 +14,6 @@ Coming soon
 
 First you need to clone and then copy .env.example to .env and setup stripe key, database, db:seed, install dependencies, compile vue.
 
-> You need to change thankyou.vue to Thankyou.vue as last step (github doesn't track filename changes, need to fix that later)
-
 ### Step 1
 
 Clone the repo
@@ -36,7 +34,7 @@ STRIPE_KEY=PASTE_KEY_HERE
 STRIPE_SECRET=PASTE_SECRET_HERE
 ```
 
-## Step 3
+### Step 3
 
 Setup database & add new database "koob" or as you like
 
@@ -53,7 +51,7 @@ php artisan migrate
 php artisan db:seed
 ```
 
-## Step 4
+### Step 4
 
 Install dependencies
 
