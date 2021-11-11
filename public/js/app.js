@@ -22173,7 +22173,7 @@ var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 
 var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "mt-10 mx-5"
-}, " main content ", -1
+}, " main content from main branch ", -1
 /* HOISTED */
 );
 

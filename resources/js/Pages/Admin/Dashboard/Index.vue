@@ -8,7 +8,7 @@
   </div>
 
   <div class="mt-10 mx-5">
-    main content
+    main content from main branch
   </div>
 </template>
 
