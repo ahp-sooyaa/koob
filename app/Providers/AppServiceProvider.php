@@ -7,8 +7,6 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    // testing haha
-
     /**
      * Register any application services.
      *
