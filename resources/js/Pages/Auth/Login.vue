@@ -96,7 +96,10 @@ export default {
 
     props: {
         canResetPassword: Boolean,
-        status: String,
+        status: {
+            type: String,
+            required: true
+        },
     },
 
     data() {

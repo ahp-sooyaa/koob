@@ -3,6 +3,7 @@
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -15,6 +16,8 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+Route::get('/home', HomeController::class)->name('home'); // give conditional redirect path
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -38,3 +41,4 @@ Route::get('/api/cart', function () {
 });
 
 require __DIR__ . '/auth.php';
+require __DIR__ . '/admin.php';
