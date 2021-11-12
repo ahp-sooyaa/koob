@@ -2,13 +2,15 @@
 
 Koob (Book) is ecommerce bookstore project for personal portfolio that's built by laravel 8, Vue3, Inertia. User can add book to cart, checkout the books in the cart.
 
-## Live link
-
-Coming soon
-
 ## Screenshots
 
-Coming soon
+![preview](Doc/index.png)
+
+![preview](Doc/cart.png)
+
+![preview](Doc/checkout.png)
+
+![preview](Doc/thankyou.png)
 
 ## Installation
 
