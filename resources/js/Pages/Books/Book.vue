@@ -1,32 +1,108 @@
 <template>
-  <div class="bg-white shadow flex h-72 items-center justify-center mb-3 rounded-2xl">
-    <img
-      :src="data.cover"
-      alt="cover"
-      class="h-4/5 w-5/6"
-    >
-  </div>
-  <a
-    :href="'books/' + data.id"
-    class="flex-1 line-clamp-2 text-md text-center font-bold mb-2"
+  <img
+    :src="data.cover"
+    alt="cover"
+    class="h-96 md:h-72 lg:h-60 w-full mb-3 object-cover rounded-xl"
   >
-    {{ data.title }}
-  </a>
-  <div class="flex justify-center items-center">
-    <span class="font-semibold mr-3 text-md">{{ formatPrice(data.price) }}</span>
-    <button
-      @click="addToCart"
-      class="font-bold px-4 py-2 rounded-xl text-white"
-      :class="isAdded ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-500'"
-      :disabled="isAdded"
+  <div class="flex flex-1 flex-col px-5">
+    <Link
+      :href="'books/' + data.id"
+      class="font-semibold line-clamp-2 mb-auto text-lg lg:text-sm"
     >
-      Add to Cart
-    </button>
+      <!-- {{ data.title }} -->
+      Strategy design engineering
+    </Link>
+    <div class="flex justify-between items-center mt-3">
+      <span class="text-gray-500 mr-3 text-lg lg:text-sm">{{ formatPrice(data.price) }}</span>
+      <!-- <button
+        @click="addToCart"
+        class="font-bold px-4 py-2 rounded-xl text-white min-w-max text-sm"
+        :class="isAdded ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-500'"
+        :disabled="isAdded"
+      >
+        Add to Cart
+      </button> -->
+      <!-- <div
+        @click="addToCart"
+        class="cursor-pointer bg-gray-200 border border-gray-300 flex h-10 items-center relative rounded-2xl w-10"
+        :class="isAdded ? 'cursor-not-allowed' : ''"
+        :disabled="isAdded"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-10"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+          />
+        </svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="absolute bg-black border-2 border-gray-200 h-4 right-1 rounded-full text-white top-1 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+          />
+        </svg>
+      </div> -->
+      <div
+        @click="addToCart"
+        class="bg-gradient-to-bl border cursor-pointer flex from-indigo-500 items-center relative rounded-xl text-white to-red-500 h-14 w-14 lg:h-10 lg:w-10"
+        :class="isAdded ? 'cursor-not-allowed' : ''"
+        :disabled="isAdded"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-8 w-12 lg:h-5 lg:w-10"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+          />
+        </svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="absolute bg-white right-2 top-2 rounded-full shadow text-gray-600 h-5 w-5 lg:h-4 lg:w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+          />
+        </svg>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { Link } from '@inertiajs/inertia-vue3'
 export default {
+    components: {
+        Link
+    },
+    
     props: {
         data: {
             type: Object,

@@ -3,7 +3,7 @@
     <div
       v-if="show"
       :class="[status == 'error' ? 'bg-red-500' : 'bg-green-500']"
-      class="text-white shadow-lg rounded-lg fixed top-2 inset-x-1/3 py-2 px-3"
+      class="text-white shadow-lg rounded-lg fixed top-2 inset-x-1/3 py-2 px-3 z-50"
       role="alert"
     >
       <div

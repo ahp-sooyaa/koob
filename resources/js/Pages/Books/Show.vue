@@ -1,7 +1,7 @@
 <template>
   <BreezeNavBarLayout>
     <Flash />
-    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-7">
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 my-16 pt-7">
       <div class="flex justify-center">
         <img
           :src="book.cover"

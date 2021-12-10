@@ -1,15 +1,18 @@
 <template>
   <div>
     <div class="flex flex-col min-h-screen bg-gray-100">
-      <nav class="bg-white border-b border-gray-100">
+      <nav class="fixed z-20 w-full bg-white border-b border-gray-100 shadow-md">
         <!-- Primary Navigation Menu -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex justify-between h-16">
             <div class="flex">
               <!-- Logo -->
               <div class="flex-shrink-0 flex items-center">
-                <Link :href="route('dashboard')">
-                  <BreezeApplicationLogo class="block h-9 w-auto" />
+                <Link
+                  :href="route('welcome')"
+                  class="uppercase font-extrabold"
+                >
+                  Koob
                 </Link>
               </div>
 
@@ -28,15 +31,14 @@
                 >
                   Shop
                 </BreezeNavLink>
-                <CartLink :responsive="false" />
               </div>
             </div>
 
-            <div class="hidden sm:flex sm:items-center sm:ml-6">
+            <div class="hidden sm:flex sm:ml-6">
               <!-- Settings Dropdown -->
               <div
                 v-if="$page.props.auth.user"
-                class="ml-3 relative"
+                class="flex items-center ml-3 relative"
               >
                 <BreezeDropdown
                   align="right"
@@ -80,19 +82,20 @@
                         
               <template v-else>
                 <div class="flex space-x-3">
+                  <CartLink :responsive="false" />
                   <Link
                     :href="route('login')"
                     :active="route().current('login')"
-                    class="text-sm hover:text-gray-700 text-gray-500"
+                    class="flex items-center text-sm hover:text-gray-700 text-gray-500"
                   >
-                    Log in
+                    Sign in
                   </Link>
                   <Link
                     :href="route('register')"
                     :active="route().current('register')"
-                    class="text-sm hover:text-gray-700 text-gray-500"
+                    class="flex items-center text-sm hover:text-gray-700 text-gray-500"
                   >
-                    Register
+                    Create an account
                   </Link>
                 </div>
               </template>
@@ -135,43 +138,44 @@
           :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}"
           class="sm:hidden"
         >
-          <div v-if="$page.props.auth.user">
-            <div class="pt-2 pb-3 space-y-1">
-              <BreezeResponsiveNavLink
-                :href="route('dashboard')"
-                :active="route().current('dashboard')"
-              >
-                Dashboard
-              </BreezeResponsiveNavLink>
-              <BreezeResponsiveNavLink
-                :href="route('books.index')"
-                :active="route().current('books.index')"
-              >
-                Shop
-              </BreezeResponsiveNavLink>
-              <CartLink :responsive="true" />
+          <div class="pt-2 pb-3 space-y-1">
+            <BreezeResponsiveNavLink
+              v-if="$page.props.auth.user"
+              :href="route('dashboard')"
+              :active="route().current('dashboard')"
+            >
+              Dashboard
+            </BreezeResponsiveNavLink>
+            <BreezeResponsiveNavLink
+              :href="route('books.index')"
+              :active="route().current('books.index')"
+            >
+              Shop
+            </BreezeResponsiveNavLink>
+          </div>
+
+          <!-- Responsive Settings Options -->
+          <div
+            v-if="$page.props.auth.user"
+            class="pt-4 pb-1 border-t border-gray-200"
+          >
+            <div class="px-4">
+              <div class="font-medium text-base text-gray-800">
+                {{ $page.props.auth.user.name }}
+              </div>
+              <div class="font-medium text-sm text-gray-500">
+                {{ $page.props.auth.user.email }}
+              </div>
             </div>
 
-            <!-- Responsive Settings Options -->
-            <div class="pt-4 pb-1 border-t border-gray-200">
-              <div class="px-4">
-                <div class="font-medium text-base text-gray-800">
-                  {{ $page.props.auth.user.name }}
-                </div>
-                <div class="font-medium text-sm text-gray-500">
-                  {{ $page.props.auth.user.email }}
-                </div>
-              </div>
-
-              <div class="mt-3 space-y-1">
-                <BreezeResponsiveNavLink
-                  :href="route('logout')"
-                  method="post"
-                  as="button"
-                >
-                  Log Out
-                </BreezeResponsiveNavLink>
-              </div>
+            <div class="mt-3 space-y-1">
+              <BreezeResponsiveNavLink
+                :href="route('logout')"
+                method="post"
+                as="button"
+              >
+                Log Out
+              </BreezeResponsiveNavLink>
             </div>
           </div>
 
@@ -179,20 +183,19 @@
             v-else
             class="pt-4 pb-1 border-t border-gray-200"
           >
-            <div class="px-4">
-              <BreezeResponsiveNavLink
-                :href="route('login')"
-                :active="route().current('login')"
-              >
-                Log in
-              </BreezeResponsiveNavLink>
-              <BreezeResponsiveNavLink
-                :href="route('register')"
-                :active="route().current('register')"
-              >
-                Register
-              </BreezeResponsiveNavLink>
-            </div>
+            <CartLink :responsive="true" />
+            <BreezeResponsiveNavLink
+              :href="route('login')"
+              :active="route().current('login')"
+            >
+              Sign in
+            </BreezeResponsiveNavLink>
+            <BreezeResponsiveNavLink
+              :href="route('register')"
+              :active="route().current('register')"
+            >
+              Create an account
+            </BreezeResponsiveNavLink>
           </div>
         </div>
       </nav>
@@ -213,15 +216,81 @@
       </main>
 
       <!-- page Footer -->
-      <footer class="py-6 mt-6 w-5/6 border-t border-gray-300 mx-auto text-center text-gray-700 text-sm">
-        &copy; 2021 Koob. All rights reserved.
+      <footer class="bg-gray-700 text-white">
+        <div class="container mx-auto pt-10 lg:pt-20 pb-5">
+          <div class="px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row space-y-10 space-x-0 lg:space-y-0 lg:space-x-32">
+            <div>
+              <h1 class="text-lg font-bold mb-5">
+                Support Menu
+              </h1>
+              <ul class="space-y-3 text-gray-100">
+                <li>About Me</li>
+                <li>Contact Us</li>
+                <li>My account</li>
+                <li>Terms & Condition</li>
+              </ul>
+            </div>
+            <div>
+              <h1 class="text-lg font-bold mb-5">
+                Customer Services
+              </h1>
+              <ul class="space-y-3 text-gray-100">
+                <li>Shipping</li>
+                <li>Returns</li>
+                <li>Warranty</li>
+                <li>FAQ</li>
+                <li>Payments</li>
+              </ul>
+            </div>
+            <div>
+              <h1 class="text-lg font-bold mb-5">
+                Contact Information
+              </h1>
+              <ul class="space-y-3 text-gray-100">
+                <li class="flex space-x-3 items-center">
+                  <svg
+                    height="20"
+                    aria-hidden="true"
+                    viewBox="0 0 16 16"
+                    width="20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                    />
+                  </svg>
+                  <a href="https://github.com/ahp-sooyaa">https://github.com/ahp-sooyaa</a>
+                </li>
+                <li class="flex space-x-3 items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    width="20"
+                    height="20"
+                  >
+                    <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                    <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                  </svg>
+                  <p>
+                    apaing894@gmail.com
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <hr class="my-10 border border-gray-600">
+          <div class="text-center">
+            © 2021 All Right Reserved. Aung Htet Paing.
+          </div>
+        </div>
       </footer>
     </div>
   </div>
 </template>
 
 <script>
-import BreezeApplicationLogo from '@/Components/ApplicationLogo.vue'
 import BreezeDropdown from '@/Components/Dropdown.vue'
 import BreezeDropdownLink from '@/Components/DropdownLink.vue'
 import BreezeNavLink from '@/Components/NavLink.vue'
@@ -231,7 +300,6 @@ import CartLink from '@/Components/CartLink'
 
 export default {
     components: {
-        BreezeApplicationLogo,
         BreezeDropdown,
         BreezeDropdownLink,
         BreezeNavLink,

@@ -2,8 +2,11 @@
   <Flash />
 
   <BreezeNavBarLayout>
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-7">
-      <div v-if="cart.length">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 my-16 pt-7">
+      <div
+        v-if="cart.length"
+        class="overflow-x-scroll"
+      >
         <Link
           :href="$page.props.urlPrev"
           class="ml-3"
@@ -114,7 +117,7 @@
           Continue Shopping
         </Link>
       </div>
-    </main>
+    </div>
   </BreezeNavBarLayout>
 </template>
 

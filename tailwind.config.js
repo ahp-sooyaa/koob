@@ -12,7 +12,11 @@ module.exports = {
         extend: {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                inter: ['Inter']
             },
+            backgroundImage: {
+                'hero-image': 'url("/images/hero_image.jpg")',
+            }
         },
     },
 

@@ -2,16 +2,16 @@
   <div
     class="min-h-screen bg-gray-50 flex flex-col justify-center items-center"
   >
-    <div class="text-center lg:w-2/3 w-full mx-auto mt-32 overflow-auto">
+    <div class="text-center lg:w-2/3 w-full mx-auto overflow-auto">
       <h2
         class="text-sm title-font text-gray-700 tracking-widest"
         v-text="'Transaction ID: ' + order.transaction_id"
       />
-      <h1 class="text-indigo-600 text-4xl title-font font-bold mb-7">
+      <h1 class="bg-clip-text bg-gradient-to-r font-bold from-blue-500 inline-block mb-7 text-4xl text-transparent title-font to-red-500">
         Thank you for your purchase
       </h1>
     </div>
-    <div class="divide-y-2 lg:w-1/2 w-full">
+    <div class="container mx-auto divide-y-2 lg:w-1/2">
       <div
         v-for="book in order.books"
         :key="book.id"
@@ -34,10 +34,10 @@
             </div>
             <div class="flex w-full divide-x">
               <div class="mr-3">
-                <span class="font-bold">Quantity</span> <span class="text-gray-700">{{ book.pivot.quantity }}</span>
+                <span class="text-gray-600">Quantity</span> <span class="font-bold">{{ book.pivot.quantity }}</span>
               </div>
               <div class="pl-3">
-                <span class="font-bold">Price</span> <span class="text-gray-700">{{ formatPrice(book.price) }}</span>
+                <span class="text-gray-600">Price</span> <span class="font-bold">{{ formatPrice(book.price) }}</span>
               </div>
             </div>
           </div>
