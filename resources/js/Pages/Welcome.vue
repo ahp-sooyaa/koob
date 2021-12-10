@@ -25,7 +25,7 @@
         </h1>
         <div class="grid grid-cols-1 gap-y-5 md:grid-cols-3 lg:grid-cols-5 md:gap-x-10 px-4 sm:px-6 lg:px-8">
           <div class="flex justify-center relative overflow-hidden">
-            <div class="-bottom-24 absolute bg-gradient-to-b filter flex font-bold from-transparent h-full items-end justify-center pb-28 text-white to-black w-full">
+            <div class="absolute bg-gradient-to-b bottom-0 flex font-bold from-transparent h-full items-end justify-center pb-5 text-white to-gray-800 via-transparent w-full">
               Action & Adventure
             </div>
             <img
@@ -45,7 +45,7 @@
             >
           </div>
           <div class="flex justify-center relative">
-            <div class="absolute backdrop-blur backdrop-filter bottom-0 filter grid h-14 place-items-center w-full text-white font-bold">
+            <div class="absolute bg-gradient-to-b bottom-0 flex font-bold from-transparent h-full items-end justify-center pb-5 text-white to-gray-800 via-transparent w-full">
               Action
             </div>
             <img
@@ -55,7 +55,7 @@
             >
           </div>
           <div class="flex justify-center relative">
-            <div class="absolute backdrop-blur backdrop-filter bottom-0 filter grid h-14 place-items-center w-full text-white font-bold">
+            <div class="absolute bg-gradient-to-b bottom-0 flex font-bold from-transparent h-full items-end justify-center pb-5 text-white to-gray-800 via-transparent w-full">
               Classic
             </div>
             <img
@@ -65,7 +65,7 @@
             >
           </div>
           <div class="flex justify-center relative">
-            <div class="absolute backdrop-blur backdrop-filter bottom-0 filter grid h-14 place-items-center w-full text-white font-bold">
+            <div class="absolute bg-gradient-to-b bottom-0 flex font-bold from-transparent h-full items-end justify-center pb-5 text-white to-gray-800 via-transparent w-full">
               Cosmic
             </div>
             <img

@@ -70,6 +70,23 @@
       </BreezeButton>
     </div>
   </form>
+
+  <div class="flex items-center justify-center my-5">
+    <hr class="flex-1">
+    <span class="inline-block px-4 text-center">Or</span>
+    <hr class="flex-1">
+  </div>
+  <div class="flex justify-center items-center space-x-5">
+    <div class="text-sm text-gray-800">
+      New User ?
+    </div>
+    <Link
+      :href="route('register')"
+      class="underline text-sm text-gray-600 hover:text-gray-900"
+    >
+      Create an account
+    </Link>
+  </div>
 </template>
 
 <script>
