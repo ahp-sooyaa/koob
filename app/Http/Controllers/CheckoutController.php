@@ -16,9 +16,9 @@ class CheckoutController extends Controller
     {
         if (session('cart')) {
             return Inertia::render('Checkout');
-        } else {
-            return Redirect::route('books.index');
         }
+
+        return Redirect::route('books.index');
     }
 
     public function store(Request $request)

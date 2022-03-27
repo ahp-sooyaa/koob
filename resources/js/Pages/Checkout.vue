@@ -1,7 +1,7 @@
 <template>
   <BreezeNavBarLayout>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 my-16 pt-7">
-      <div class="lg:w-2/3 w-full mx-auto overflow-auto">
+      <div class="lg:w-2/3 w-full mx-auto overflow-x-auto">
         <Link :href="route('books.index')">
           Continue Shopping
         </Link>
@@ -15,17 +15,39 @@
           <thead>
             <tr>
               <th
-                class="px-4 py-3 title-font tracking-wider text-gray-900 text-sm bg-gray-200 rounded-tl rounded-bl"
+                class="
+                  px-4
+                  py-3
+                  title-font
+                  tracking-wider
+                  text-gray-900 text-sm
+                  bg-gray-200
+                  rounded-tl rounded-bl
+                "
               >
                 Item
               </th>
               <th
-                class="px-4 py-3 title-font tracking-wider text-gray-900 text-sm bg-gray-200"
+                class="
+                  px-4
+                  py-3
+                  title-font
+                  tracking-wider
+                  text-gray-900 text-sm
+                  bg-gray-200
+                "
               >
                 Quantity
               </th>
               <th
-                class="px-4 py-3 title-font tracking-wider text-gray-900 text-sm bg-gray-200"
+                class="
+                  px-4
+                  py-3
+                  title-font
+                  tracking-wider
+                  text-gray-900 text-sm
+                  bg-gray-200
+                "
               >
                 Price
               </th>
@@ -78,8 +100,24 @@
                 v-model="customer.first_name"
                 type="text"
                 name="first_name"
-                class="w-full bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                class="
+                  w-full
+                  bg-gray-100
+                  rounded
+                  border border-gray-300
+                  focus:border-indigo-500
+                  text-base
+                  outline-none
+                  text-gray-700
+                  py-1
+                  px-3
+                  leading-8
+                  transition-colors
+                  duration-200
+                  ease-in-out
+                "
                 :disabled="paymentProcessing"
+                dusk="first_name"
               >
             </div>
           </div>
@@ -94,7 +132,22 @@
                 v-model="customer.last_name"
                 type="text"
                 name="last_name"
-                class="w-full bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                class="
+                  w-full
+                  bg-gray-100
+                  rounded
+                  border border-gray-300
+                  focus:border-indigo-500
+                  text-base
+                  outline-none
+                  text-gray-700
+                  py-1
+                  px-3
+                  leading-8
+                  transition-colors
+                  duration-200
+                  ease-in-out
+                "
                 :disabled="paymentProcessing"
               >
             </div>
@@ -110,7 +163,22 @@
                 v-model="customer.email"
                 type="email"
                 name="email"
-                class="w-full bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                class="
+                  w-full
+                  bg-gray-100
+                  rounded
+                  border border-gray-300
+                  focus:border-indigo-500
+                  text-base
+                  outline-none
+                  text-gray-700
+                  py-1
+                  px-3
+                  leading-8
+                  transition-colors
+                  duration-200
+                  ease-in-out
+                "
                 :disabled="paymentProcessing"
               >
             </div>
@@ -128,7 +196,22 @@
                 v-model="customer.address"
                 type="text"
                 name="address"
-                class="w-full bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                class="
+                  w-full
+                  bg-gray-100
+                  rounded
+                  border border-gray-300
+                  focus:border-indigo-500
+                  text-base
+                  outline-none
+                  text-gray-700
+                  py-1
+                  px-3
+                  leading-8
+                  transition-colors
+                  duration-200
+                  ease-in-out
+                "
                 :disabled="paymentProcessing"
               >
             </div>
@@ -144,7 +227,22 @@
                 v-model="customer.city"
                 type="text"
                 name="city"
-                class="w-full bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                class="
+                  w-full
+                  bg-gray-100
+                  rounded
+                  border border-gray-300
+                  focus:border-indigo-500
+                  text-base
+                  outline-none
+                  text-gray-700
+                  py-1
+                  px-3
+                  leading-8
+                  transition-colors
+                  duration-200
+                  ease-in-out
+                "
                 :disabled="paymentProcessing"
               >
             </div>
@@ -160,7 +258,22 @@
                 v-model="customer.state"
                 type="email"
                 name="state"
-                class="w-full bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                class="
+                  w-full
+                  bg-gray-100
+                  rounded
+                  border border-gray-300
+                  focus:border-indigo-500
+                  text-base
+                  outline-none
+                  text-gray-700
+                  py-1
+                  px-3
+                  leading-8
+                  transition-colors
+                  duration-200
+                  ease-in-out
+                "
                 :disabled="paymentProcessing"
               >
             </div>
@@ -176,7 +289,22 @@
                 v-model="customer.zip_code"
                 type="email"
                 name="zip_code"
-                class="w-full bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                class="
+                  w-full
+                  bg-gray-100
+                  rounded
+                  border border-gray-300
+                  focus:border-indigo-500
+                  text-base
+                  outline-none
+                  text-gray-700
+                  py-1
+                  px-3
+                  leading-8
+                  transition-colors
+                  duration-200
+                  ease-in-out
+                "
                 :disabled="paymentProcessing"
               >
             </div>
@@ -196,7 +324,20 @@
         <div class="p-2 w-full">
           <button
             @click="processPayment"
-            class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg"
+            class="
+              flex
+              mx-auto
+              text-white
+              bg-indigo-500
+              border-0
+              py-2
+              px-8
+              focus:outline-none
+              hover:bg-indigo-600
+              rounded
+              text-lg
+            "
+            dusk="paynow"
             :class="!cart.length ? 'cursor-not-allowed' : ''"
             :disabled="paymentProcessing || !cart.length"
             v-text="paymentProcessing ? 'Processing' : 'Pay Now'"
@@ -213,7 +354,7 @@ import BreezeNavBarLayout from '@/Layouts/NavBar'
 export default {
     components: {
         Link,
-        BreezeNavBarLayout
+        BreezeNavBarLayout,
     },
 
     data() {
@@ -253,6 +394,7 @@ export default {
             return amount
         },
     },
+
     async mounted() {
         this.stripe = await loadStripe(process.env.MIX_STRIPE_KEY)
         const elements = this.stripe.elements()
@@ -265,7 +407,10 @@ export default {
     },
     methods: {
         formatPrice(price) {
-            return (price / 100).toLocaleString('en-US', {style: 'currency', currency: 'USD'})
+            return (price / 100).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+            })
         },
 
         async processPayment() {
@@ -288,7 +433,6 @@ export default {
             )
             if (error) {
                 this.paymentProcessing = false
-                console.error(error)
             } else {
                 this.customer.payment_method_id = paymentMethod.id
                 this.customer.amount = this.cartTotal
@@ -298,7 +442,6 @@ export default {
                     .then((response) => {
                         this.paymentProcessing = false
                         this.$inertia.get('/thankyou/' + response.data.id)
-                        // console.log(response.data)
                     })
                     .catch((error) => {
                         this.paymentProcessing = false

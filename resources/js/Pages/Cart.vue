@@ -5,7 +5,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 my-16 pt-7">
       <div
         v-if="cart.length"
-        class="overflow-x-scroll"
+        class="overflow-x-auto"
       >
         <Link
           :href="$page.props.urlPrev"
@@ -64,13 +64,13 @@
                   min="1"
                 > -->
                 <select
-                  v-model="item.quantity"
-                  @change="updateCartQuantity(item.quantity, item.id)"
+                  @change="updateCartQuantity(index, item.user_id ? item.book : item, $event)"
                 >
                   <option
                     v-for="qty in 10"
                     :key="qty"
                     :value="qty"
+                    :selected="item.quantity == qty"
                   >
                     {{ qty }}
                   </option>
@@ -86,13 +86,14 @@
               />
               <td class="w-10">
                 <button
-                  @click="removeFromCart(index)"
+                  @click="removeFromCart(index, item.user_id ? item.book : item)"
                   class="flex ml-auto text-sm text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
                 >
                   Remove
                 </button>
               </td>
             </tr>
+            
             <tr>
               <td class="col-span-2 p-4 font-bold">
                 Total Amount
@@ -111,6 +112,7 @@
           </tbody>
         </table>
       </div>
+
       <div v-else>
         <p>There is no items in cart!</p>
         <Link :href="route('books.index')">
@@ -125,6 +127,7 @@
 import { Link } from '@inertiajs/inertia-vue3'
 import BreezeNavBarLayout from '@/Layouts/NavBar'
 import axios from 'axios'
+
 export default {
     components: {
         Link,
@@ -144,6 +147,7 @@ export default {
             for (const key in this.cart) {
                 totalQty += this.cart[key].quantity
             }
+
             return totalQty
         },
         cartTotal() {
@@ -151,7 +155,7 @@ export default {
             for (const key in this.cart) {
                 amount += this.cart[key].quantity * this.cart[key].price
             }
-            // console.log(amount)
+            
             return this.formatPrice(amount)
         },
     },
@@ -161,21 +165,32 @@ export default {
             return (price / 100).toLocaleString('en-US', {style: 'currency', currency: 'USD'})
         },
         
-        removeFromCart(index) {
+        removeFromCart(index, item) {
             let _this = this
-            let item = this.cart[index]
 
-            axios.delete(`/books/${item.id}/cart`).then(() => {
-                _this.cart.splice(index, 1)
+            axios.delete(`/books/${item.id}/cart`)
+                .then(() => {
+                    _this.cart.splice(index, 1)
 
-                window.events.emit('removed')
-                window.flash('Successfully deleted from cart')
-            })
+                    window.events.emit('removed')
+                    window.flash('Successfully deleted from cart')
+                })
         },
 
-        updateCartQuantity(qty, id){
-            axios.patch(`/books/${id}/cart`, {qty: qty})
-                .then(flash('Successfully updated quantity'))
+        updateCartQuantity(index, item, event){
+            let _this = this
+            let cartItem = _this.cart[index]
+
+            axios.patch(`/books/${item.id}/cart`, {qty: parseInt(event.target.value)})
+                .then(res => {
+                    flash(res.data.message)
+                    // window.events.emit('added')
+                    cartItem.quantity = parseInt(event.target.value)
+                })
+                .catch(err => {
+                    flash(err.response.data.message, 'error')
+                    event.target.value = cartItem.quantity
+                })
         }
     }
 }

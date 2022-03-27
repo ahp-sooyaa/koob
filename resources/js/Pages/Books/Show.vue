@@ -35,11 +35,12 @@
             <button
               @click="addToCart"
               class="w-60 font-bold px-4 py-2 rounded-xl text-white"
-              :class="isAdded ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-500'"
+              :class="
+                isAdded ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-500'
+              "
               :disabled="isAdded"
-            >
-              Add to Cart
-            </button>
+              v-text="isAdded ? 'Added to Cart' : 'Add to Cart'"
+            />
           </div>
         </div>
       </div>
@@ -53,41 +54,46 @@ import BreezeNavBarLayout from '@/Layouts/NavBar'
 export default {
     components: {
         Flash,
-        BreezeNavBarLayout
+        BreezeNavBarLayout,
     },
 
     props: {
         book: {
             type: Object,
-            required: true
-        }
+            required: true,
+        },
     },
 
-    data(){
+    data() {
         return {
             quantity: 1,
-            isAdded: this.$page.props.cart.some( item => item['id'] === this.book.id )
+            isAdded: this.$page.props.cart.some(
+                (item) => item['id'] === this.book.id
+            ),
         }
     },
 
     methods: {
         formatPrice(price) {
-            return (price / 100).toLocaleString('en-US', {style: 'currency', currency: 'USD'})
+            return (price / 100).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+            })
         },
 
         addToCart() {
-            axios.post(`/books/${this.book.id}/cart`, { qty: this.quantity})
-                .catch(err => console.log(err))
+            axios
+                .post(`/books/${this.book.id}/cart`, { qty: this.quantity })
+                .catch((err) => console.log(err))
                 .then(() => {
                     this.isAdded = true
                     window.events.emit('added')
                     window.flash('Successfully added to Cart')
                 })
-        }
-    }
+        },
+    },
 }
 </script>
 
 <style lang="scss" scoped>
-
 </style>

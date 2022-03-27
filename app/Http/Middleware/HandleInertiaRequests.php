@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -37,7 +38,8 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'cart' => $request->session()->get('cart') ? array_values($request->session()->get('cart')) : [],
+            // 'cart' => $request->session()->get('cart') ? array_values($request->session()->get('cart')) : [],
+            'cart' => auth()->check() ? Cart::where('user_id', auth()->id())->get() : ($request->session()->get('cart') ? array_values($request->session()->get('cart')) : []),
             'urlPrev' => url()->previous()
         ]);
     }

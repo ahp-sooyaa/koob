@@ -9,8 +9,8 @@
       :href="'books/' + data.id"
       class="font-semibold line-clamp-2 mb-auto text-lg lg:text-sm"
     >
-      <!-- {{ data.title }} -->
-      Strategy design engineering
+      {{ data.title }}
+      <!-- Strategy design engineering -->
     </Link>
     <div class="flex justify-between items-center mt-3">
       <span class="text-gray-500 mr-3 text-lg lg:text-sm">{{ formatPrice(data.price) }}</span>
@@ -62,6 +62,7 @@
         class="bg-gradient-to-bl border cursor-pointer flex from-indigo-500 items-center relative rounded-xl text-white to-red-500 h-14 w-14 lg:h-12 lg:w-12"
         :class="isAdded ? 'cursor-not-allowed' : ''"
         :disabled="isAdded"
+        dusk="addToCart"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -122,13 +123,15 @@ export default {
         },
 
         addToCart() {
+            if(this.isAdded) return
+
             axios.post(`/books/${this.data.id}/cart`)
-                .catch(err => console.log(err))
                 .then(() => {
                     this.isAdded = true
                     window.events.emit('added')
                     window.flash('Successfully added to Cart')
                 })
+                .catch(err => console.log(err))
         }
     }
 }

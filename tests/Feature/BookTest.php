@@ -1,12 +1,12 @@
 <?php
 
-namespace Tests\Feature\Auth;
+namespace Tests\Feature;
 
 use App\Models\Book;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class BooksTest extends TestCase
+class BookTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -16,11 +16,17 @@ class BooksTest extends TestCase
 
         $response = $this->get(route('books.index'));
 
-        $response->assertStatus(200)
+        $response->assertSuccessful()
             ->assertSee($books[0]->title)
             ->assertSee($books[1]->title)
             ->assertSee($books[2]->title);
+    }
 
-        $this->assertCount(3, $books);
+    public function test_user_can_see_single_book()
+    {
+        $book = Book::factory()->create();
+
+        $this->get(route('books.show', $book->id))
+            ->assertSee($book->title);
     }
 }

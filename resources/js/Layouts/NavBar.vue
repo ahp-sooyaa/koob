@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex flex-col min-h-screen bg-gray-100">
-      <nav class="fixed z-20 w-full bg-white border-b border-gray-100 shadow-md">
+      <nav class="fixed z-20 w-full bg-white border-b border-gray-100">
         <!-- Primary Navigation Menu -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div class="flex justify-between h-16">
@@ -10,7 +10,7 @@
               <div class="flex-shrink-0 flex items-center">
                 <Link
                   :href="route('welcome')"
-                  class="uppercase font-extrabold"
+                  class="uppercase font-bold text-xl"
                 >
                   Koob
                 </Link>
@@ -40,6 +40,7 @@
                 v-if="$page.props.auth.user"
                 class="flex items-center ml-3 relative"
               >
+                <CartLink :responsive="false" />
                 <BreezeDropdown
                   align="right"
                   width="48"
@@ -203,9 +204,9 @@
       <!-- Page Heading -->
       <header
         v-if="$slots.header"
-        class="bg-white shadow"
+        class="bg-white shadow sticky top-0"
       >
-        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 mt-16">
           <slot name="header" />
         </div>
       </header>

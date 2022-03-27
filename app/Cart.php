@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Models\Cart as ModelsCart;
+
 /**
  *
  */
@@ -9,9 +11,14 @@ class Cart
 {
     public function update($book, $qty)
     {
-        $cartItem = $this->cartItem($book);
-        $cartItem['quantity'] = $qty;
-        session()->put($this->cartKey($book->id), $cartItem);
+        if (auth()->user()) {
+            $cartItem = $this->cartItem($book);
+            $cartItem->update(['quantity' => $qty]);
+        } else {
+            $cartItem = $this->cartItem($book);
+            $cartItem['quantity'] = $qty;
+            session()->put($this->cartKey($book->id), $cartItem);
+        }
     }
 
     public function add($book, $qty)
@@ -32,14 +39,31 @@ class Cart
                 session()->put($this->cartKey($book->id), $cartItem);
             }
             // session()->increment($this->cartKey($book->id));
+        } else {
+            // otherwise use cart table to persist cart data
+            // Cart::create($book);
+            $cartItem = ModelsCart::where('book_id', $book->id)->first();
+            if (! $cartItem) {
+                ModelsCart::create([
+                    'user_id' => auth()->id(),
+                    'book_id' => $book->id,
+                    'title' => $book->title,
+                    'quantity' => $qty,
+                    'price' => $book->price
+                ]);
+            } else {
+                $cartItem->increment('quantity');
+            }
         }
-
-        // otherwise use session table to persist cart data
     }
 
     public function remove($book)
     {
-        session()->pull($this->cartKey($book->id));
+        if (auth()->user()) {
+            ModelsCart::where('book_id', $book->id)->delete();
+        } else {
+            session()->pull($this->cartKey($book->id));
+        }
     }
 
     protected function cartKey($id)
@@ -49,6 +73,10 @@ class Cart
 
     protected function cartItem($book)
     {
+        if (auth()->user()) {
+            return ModelsCart::where('book_id', $book->id)->first();
+        }
+
         return session()->get($this->cartKey($book->id));
     }
 }

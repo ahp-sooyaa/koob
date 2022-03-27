@@ -35,6 +35,7 @@ Route::get('/thankyou/{order}', [CheckoutController::class, 'thankyou'])->name('
 
 Route::get('/api/cart', function () {
     return session()->get('cart');
+    // return session()->pull('cart.1');
 });
 
 require __DIR__ . '/auth.php';

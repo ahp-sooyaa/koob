@@ -5,7 +5,10 @@
       <h1 class="font-bold mb-3 text-gray-500 text-xl">
         All Books
       </h1>
-      <div class="grid grid-cols-1 gap-y-5 md:grid-cols-3 lg:grid-cols-5 md:gap-10">
+      <div
+        v-if="books.length"
+        class="grid grid-cols-1 gap-y-5 md:grid-cols-3 lg:grid-cols-5 md:gap-10"
+      >
         <div
           v-for="book in books"
           :key="book.id"
@@ -13,6 +16,10 @@
         >
           <Book :data="book" />
         </div>
+      </div>
+
+      <div v-else>
+        No books
       </div>
     </section>
   </BreezeNavBarLayout>
