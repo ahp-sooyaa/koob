@@ -96,18 +96,18 @@
             
             <tr>
               <td class="col-span-2 p-4 font-bold">
-                Total Amount
+                Total
               </td>
               <td
                 class="p-4 font-bold"
                 v-text="cartQuantity"
               />
-              <td class="w-10" />
+              <td />
               <td
-                class="p-4 font-bold"
+                class="p-4 font-bold text-right"
                 v-text="cartTotal"
               />
-              <td class="w-10" />
+              <td />
             </tr>
           </tbody>
         </table>

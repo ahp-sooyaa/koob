@@ -19369,52 +19369,30 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     responsive: {
       type: Boolean
-    } // cart: {
-    //     type: Array,
-    //     required: true
-    // }
-
+    }
   },
   data: function data() {
     return {
-      // cartItems: this.$page.props.cart,
       cartItemsCount: 0,
       component: this.responsive ? 'BreezeResponsiveNavLink' : 'BreezeNavLink'
     };
   },
-  // mounted() {
-  //     this.fetchCartItemsCount()
-  //     window.events.on('removed', () => this.fetchCartItemsCount())
-  // },
   created: function created() {
-    this.fetchCartItemsCount(); // window.events.on('removed', () => this.fetchCartItemsCount())
+    this.fetchCartItemsCount(); // window.events.on('cartQtyUpdated', () => this.fetchCartItemsCount())
 
-    window.events.on('removed', this.fetchCartItemsCount);
+    window.events.on('cartQtyUpdated', this.fetchCartItemsCount);
   },
   methods: {
     fetchCartItemsCount: function fetchCartItemsCount() {
       var _this = this;
 
-      // loop and sum the quantities count on every cart items
-      // let totalQty = 0 
-      // for(const key in this.$page.props.cart) {
-      //     console.log(this.$page.props.cart[key].quantity, totalQty)
-      //     totalQty += this.$page.props.cart[key].quantity
-      // }
-      // this.cartItemsCount = totalQty
-      // this.cartItemsCount = this.$page.props.cart ? Object.keys(this.$page.props.cart).length : 0
+      //* fetch cart data from web route
       axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/cart').then(function (res) {
-        // let totalQty = 0 
-        // for(let key in res.data) {
-        //     totalQty += res.data[key].quantity
-        // }
-        // this.cartItemsCount = totalQty
-        _this.calculateCartTotalQuantity(res.data); // this.cartItemsCount = res.data
-        // console.log(res.data)
-
+        _this.calculateCartTotalQuantity(res.data);
       });
     },
     calculateCartTotalQuantity: function calculateCartTotalQuantity(cart) {
+      //* loop and sum the quantities count on every cart items
       var totalQty = 0;
 
       for (var key in cart) {
@@ -19659,7 +19637,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['href', 'active'],
   computed: {
     classes: function classes() {
-      return this.active ? 'inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition  duration-150 ease-in-out' : 'inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out';
+      return this.active ? 'h-full inline-flex items-center px-1 pt-1 border-b-2 border-indigo-400 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition  duration-150 ease-in-out' : 'h-full inline-flex items-center px-1 pt-1 border-b-2 border-transparent text-sm font-medium leading-5 text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out';
     }
   }
 });
@@ -20391,15 +20369,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.isAdded) return;
       axios.post("/books/".concat(this.data.id, "/cart")).then(function () {
         _this2.isAdded = true;
-
-        _this2.$page.props.cart.push({
-          'id': _this2.data.id,
-          'title': _this2.data.title,
-          'quantity': 1,
-          'price': _this2.data.price
-        });
-
-        window.events.emit('removed');
+        window.events.emit('cartQtyUpdated');
         window.flash('Successfully added to Cart');
       })["catch"](function (err) {
         return console.log(err);
@@ -20492,7 +20462,7 @@ __webpack_require__.r(__webpack_exports__);
         return console.log(err);
       }).then(function () {
         _this2.isAdded = true;
-        window.events.emit('removed');
+        window.events.emit('cartQtyUpdated');
         window.flash('Successfully added to Cart');
       });
     }
@@ -20530,11 +20500,6 @@ __webpack_require__.r(__webpack_exports__);
       required: true
     }
   },
-  // data() {
-  //     return {
-  //         cart: this.$page.props.cart
-  //     }
-  // },
   computed: {
     cartQuantity: function cartQuantity() {
       var totalQty = 0;
@@ -20568,7 +20533,7 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_2___default()["delete"]("/books/".concat(item.id, "/cart")).then(function () {
         _this.cart.splice(index, 1);
 
-        window.events.emit('removed');
+        window.events.emit('cartQtyUpdated');
         window.flash('Successfully deleted from cart');
       });
     },
@@ -20580,12 +20545,13 @@ __webpack_require__.r(__webpack_exports__);
         qty: parseInt(event.target.value)
       }).then(function (res) {
         // this.$page.props.cart[index].quantity = parseInt(event.target.value)
-        window.events.emit('removed');
-        window.flash(res.data.message);
         cartItem.quantity = parseInt(event.target.value);
+        window.events.emit('cartQtyUpdated');
+        window.flash(res.data.message);
       })["catch"](function (err) {
+        // event.target.value = this.$page.props.cart[index].quantity
+        event.target.value = cartItem.quantity;
         flash(err.response.data.message, 'error');
-        event.target.value = cartItem.quantity; // event.target.value = this.$page.props.cart[index].quantity
       });
     }
   }
@@ -23223,23 +23189,19 @@ var _hoisted_15 = ["onClick"];
 
 var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
   "class": "col-span-2 p-4 font-bold"
-}, " Total Amount ", -1
+}, " Total ", -1
 /* HOISTED */
 );
 
 var _hoisted_17 = ["textContent"];
 
-var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-  "class": "w-10"
-}, null, -1
+var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, null, -1
 /* HOISTED */
 );
 
 var _hoisted_19 = ["textContent"];
 
-var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-  "class": "w-10"
-}, null, -1
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, null, -1
 /* HOISTED */
 );
 
@@ -23336,7 +23298,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 8
       /* PROPS */
       , _hoisted_17), _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-        "class": "p-4 font-bold",
+        "class": "p-4 font-bold text-right",
         textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.cartTotal)
       }, null, 8
       /* PROPS */

@@ -35,13 +35,20 @@ class MoveCartSessionToDatabase
             // if there any cart session move to cart database
             foreach (session('cart') as $cartItem) {
                 // dd($cartItem['title']);
-                Cart::create([
-                    'user_id' => $event->user->id,
-                    'book_id' => $cartItem['id'],
-                    'title' => $cartItem['title'],
-                    'quantity' => $cartItem['quantity'],
-                    'price' => $cartItem['price']
-                ]);
+                if ($cart = Cart::where('user_id', $event->user->id)->where('book_id', $cartItem['id'])->first()) {
+                    // sum & update quantity
+                    // dd($cart, $cart->quantity);
+                    $cart->quantity += $cartItem['quantity'];
+                    $cart->update(['quantity' => $cart->quantity]);
+                } else {
+                    Cart::create([
+                        'user_id' => $event->user->id,
+                        'book_id' => $cartItem['id'],
+                        'title' => $cartItem['title'],
+                        'quantity' => $cartItem['quantity'],
+                        'price' => $cartItem['price']
+                    ]);
+                }
             }
             // $cartItem = session('cart');
             // $cartItem['user_id'] = $event->user->id;
