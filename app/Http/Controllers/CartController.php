@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Cart;
 use App\Models\Book;
-use App\Models\Cart as ModelsCart;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,16 +12,7 @@ class CartController extends Controller
     public function index()
     {
         // give user's all cart data from inertia shared props
-        // $cartFromDB = ModelsCart::query()
-        // ->addSelect(
-        //     ['book_title' => Book::select('title')
-        //     ->whereColumn('id', 'carts.book_id')
-        //     ->get()]
-        // )->where('user_id', auth()->id())->get();
-
-        return Inertia::render('Cart', [
-            'cartFromDB' => ModelsCart::where('user_id', auth()->id())->get()
-        ]);
+        return Inertia::render('Cart');
     }
 
     public function update(Book $book, Cart $cart, Request $request)

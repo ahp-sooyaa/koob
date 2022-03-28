@@ -25,6 +25,10 @@ class MoveCartSessionToDatabase
      */
     public function handle(Login $event)
     {
+        /**
+         * TODO: i need to check is there same item in cart session & database
+         * otherwise the same cart item will be display as two different items in cart page
+         */
         // dd(session('cart'));
         // check if there any cart session data
         if (session('cart')) {

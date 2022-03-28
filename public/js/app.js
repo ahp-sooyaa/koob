@@ -19356,6 +19356,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Components_NavLink__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Components/NavLink */ "./resources/js/Components/NavLink.vue");
 /* harmony import */ var _Components_ResponsiveNavLink_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Components/ResponsiveNavLink.vue */ "./resources/js/Components/ResponsiveNavLink.vue");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -19366,23 +19369,60 @@ __webpack_require__.r(__webpack_exports__);
   props: {
     responsive: {
       type: Boolean
-    }
+    } // cart: {
+    //     type: Array,
+    //     required: true
+    // }
+
   },
   data: function data() {
     return {
-      cartItemsCount: this.$page.props.cart ? Object.keys(this.$page.props.cart).length : 0,
+      // cartItems: this.$page.props.cart,
+      cartItemsCount: 0,
       component: this.responsive ? 'BreezeResponsiveNavLink' : 'BreezeNavLink'
     };
   },
+  // mounted() {
+  //     this.fetchCartItemsCount()
+  //     window.events.on('removed', () => this.fetchCartItemsCount())
+  // },
   created: function created() {
-    var _this = this;
+    this.fetchCartItemsCount(); // window.events.on('removed', () => this.fetchCartItemsCount())
 
-    window.events.on('added', function () {
-      return _this.cartItemsCount++;
-    });
-    window.events.on('removed', function () {
-      return _this.cartItemsCount--;
-    });
+    window.events.on('removed', this.fetchCartItemsCount);
+  },
+  methods: {
+    fetchCartItemsCount: function fetchCartItemsCount() {
+      var _this = this;
+
+      // loop and sum the quantities count on every cart items
+      // let totalQty = 0 
+      // for(const key in this.$page.props.cart) {
+      //     console.log(this.$page.props.cart[key].quantity, totalQty)
+      //     totalQty += this.$page.props.cart[key].quantity
+      // }
+      // this.cartItemsCount = totalQty
+      // this.cartItemsCount = this.$page.props.cart ? Object.keys(this.$page.props.cart).length : 0
+      axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/cart').then(function (res) {
+        // let totalQty = 0 
+        // for(let key in res.data) {
+        //     totalQty += res.data[key].quantity
+        // }
+        // this.cartItemsCount = totalQty
+        _this.calculateCartTotalQuantity(res.data); // this.cartItemsCount = res.data
+        // console.log(res.data)
+
+      });
+    },
+    calculateCartTotalQuantity: function calculateCartTotalQuantity(cart) {
+      var totalQty = 0;
+
+      for (var key in cart) {
+        totalQty += cart[key].quantity;
+      }
+
+      this.cartItemsCount = totalQty;
+    }
   }
 });
 
@@ -20351,7 +20391,15 @@ __webpack_require__.r(__webpack_exports__);
       if (this.isAdded) return;
       axios.post("/books/".concat(this.data.id, "/cart")).then(function () {
         _this2.isAdded = true;
-        window.events.emit('added');
+
+        _this2.$page.props.cart.push({
+          'id': _this2.data.id,
+          'title': _this2.data.title,
+          'quantity': 1,
+          'price': _this2.data.price
+        });
+
+        window.events.emit('removed');
         window.flash('Successfully added to Cart');
       })["catch"](function (err) {
         return console.log(err);
@@ -20444,7 +20492,7 @@ __webpack_require__.r(__webpack_exports__);
         return console.log(err);
       }).then(function () {
         _this2.isAdded = true;
-        window.events.emit('added');
+        window.events.emit('removed');
         window.flash('Successfully added to Cart');
       });
     }
@@ -20482,6 +20530,11 @@ __webpack_require__.r(__webpack_exports__);
       required: true
     }
   },
+  // data() {
+  //     return {
+  //         cart: this.$page.props.cart
+  //     }
+  // },
   computed: {
     cartQuantity: function cartQuantity() {
       var totalQty = 0;
@@ -20526,12 +20579,13 @@ __webpack_require__.r(__webpack_exports__);
       axios__WEBPACK_IMPORTED_MODULE_2___default().patch("/books/".concat(item.id, "/cart"), {
         qty: parseInt(event.target.value)
       }).then(function (res) {
-        flash(res.data.message); // window.events.emit('added')
-
+        // this.$page.props.cart[index].quantity = parseInt(event.target.value)
+        window.events.emit('removed');
+        window.flash(res.data.message);
         cartItem.quantity = parseInt(event.target.value);
       })["catch"](function (err) {
         flash(err.response.data.message, 'error');
-        event.target.value = cartItem.quantity;
+        event.target.value = cartItem.quantity; // event.target.value = this.$page.props.cart[index].quantity
       });
     }
   }

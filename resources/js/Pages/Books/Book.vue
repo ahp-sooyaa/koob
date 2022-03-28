@@ -128,7 +128,7 @@ export default {
             axios.post(`/books/${this.data.id}/cart`)
                 .then(() => {
                     this.isAdded = true
-                    window.events.emit('added')
+                    window.events.emit('cartQtyUpdated')
                     window.flash('Successfully added to Cart')
                 })
                 .catch(err => console.log(err))

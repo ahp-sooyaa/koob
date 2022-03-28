@@ -172,7 +172,7 @@ export default {
                 .then(() => {
                     _this.cart.splice(index, 1)
 
-                    window.events.emit('removed')
+                    window.events.emit('cartQtyUpdated')
                     window.flash('Successfully deleted from cart')
                 })
         },
@@ -183,13 +183,15 @@ export default {
 
             axios.patch(`/books/${item.id}/cart`, {qty: parseInt(event.target.value)})
                 .then(res => {
-                    flash(res.data.message)
-                    // window.events.emit('added')
+                    // this.$page.props.cart[index].quantity = parseInt(event.target.value)
                     cartItem.quantity = parseInt(event.target.value)
+                    window.events.emit('cartQtyUpdated')
+                    window.flash(res.data.message)
                 })
                 .catch(err => {
-                    flash(err.response.data.message, 'error')
+                    // event.target.value = this.$page.props.cart[index].quantity
                     event.target.value = cartItem.quantity
+                    flash(err.response.data.message, 'error')
                 })
         }
     }

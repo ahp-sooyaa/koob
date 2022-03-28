@@ -29,6 +29,7 @@
 <script>
 import BreezeNavLink from '@/Components/NavLink'
 import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue'
+import axios from 'axios'
 export default {
     components: {
         BreezeNavLink,
@@ -43,14 +44,35 @@ export default {
 
     data(){
         return {
-            cartItemsCount: this.$page.props.cart ? Object.keys(this.$page.props.cart).length : 0,
+            cartItemsCount: 0,
             component: this.responsive ? 'BreezeResponsiveNavLink' : 'BreezeNavLink'
         }
     },
 
     created() {
-        window.events.on('added', () => this.cartItemsCount++)
-        window.events.on('removed', () => this.cartItemsCount--)
+        this.fetchCartItemsCount()
+        // window.events.on('cartQtyUpdated', () => this.fetchCartItemsCount())
+        window.events.on('cartQtyUpdated', this.fetchCartItemsCount)
+    },
+
+    methods: {
+        fetchCartItemsCount() {
+            //* fetch cart data from web route
+            axios.get('/api/cart')
+                .then((res) => {
+                    this.calculateCartTotalQuantity(res.data)
+                })
+        },
+
+        calculateCartTotalQuantity(cart){
+            //* loop and sum the quantities count on every cart items
+            let totalQty = 0 
+            for(let key in cart) {
+                totalQty += cart[key].quantity
+            }
+
+            this.cartItemsCount = totalQty
+        }
     }
 }
 </script>

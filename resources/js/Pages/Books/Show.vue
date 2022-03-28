@@ -87,7 +87,7 @@ export default {
                 .catch((err) => console.log(err))
                 .then(() => {
                     this.isAdded = true
-                    window.events.emit('added')
+                    window.events.emit('cartQtyUpdated')
                     window.flash('Successfully added to Cart')
                 })
         },

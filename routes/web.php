@@ -4,6 +4,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
+use App\Models\Cart;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -34,8 +35,9 @@ Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.s
 Route::get('/thankyou/{order}', [CheckoutController::class, 'thankyou'])->name('checkout.thankyou');
 
 Route::get('/api/cart', function () {
-    return session()->get('cart');
+    // return session()->get('cart');
     // return session()->pull('cart.1');
+    return auth()->check() ? Cart::where('user_id', auth()->id())->get() : (request()->session()->get('cart') ? array_values(request()->session()->get('cart')) : []);
 });
 
 require __DIR__ . '/auth.php';
