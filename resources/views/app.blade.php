@@ -14,6 +14,11 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+        <style>
+            [v-cloak] {
+                display: none
+            }
+        </style>
 
         <!-- Scripts -->
         @routes
@@ -22,8 +27,9 @@
     <body class="font-inter antialiased">
         @inertia
 
-        @env ('local')
+        {{-- @env ('local')
             <script src="http://localhost:8080/js/bundle.js"></script>
-        @endenv
+        @endenv --}}
+        <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js" ></script>
     </body>
 </html>

@@ -94,7 +94,7 @@
                   <Link
                     :href="route('register')"
                     :active="route().current('register')"
-                    class="flex items-center text-sm hover:text-gray-700 text-gray-500"
+                    class="flex items-center text-sm hover:text-gray-700 text-gray-500 border my-3 px-3 rounded-2xl hover:border-gray-500"
                   >
                     Create an account
                   </Link>
@@ -204,7 +204,7 @@
       <!-- Page Heading -->
       <header
         v-if="$slots.header"
-        class="bg-white shadow sticky top-0"
+        class="bg-white shadow sticky top-0 z-10"
       >
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 mt-16">
           <slot name="header" />

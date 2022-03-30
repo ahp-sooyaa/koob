@@ -1,24 +1,18 @@
 <template>
+  <Head title="Cart" />
   <Flash />
 
   <BreezeNavBarLayout>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 my-16 pt-7">
+    <template #header>
+      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        Shopping Cart
+      </h2>
+    </template>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-16 pt-7 min-h-96">
       <div
         v-if="cart.length"
         class="overflow-x-auto"
       >
-        <Link
-          :href="$page.props.urlPrev"
-          class="ml-3"
-        >
-          Back
-        </Link>
-        <Link
-          :href="route('checkout.index')"
-          class="ml-3"
-        >
-          Checkout
-        </Link>
         <table class="table-auto w-full whitespace-no-wrap">
           <thead>
             <tr>
@@ -65,6 +59,7 @@
                 > -->
                 <select
                   @change="updateCartQuantity(index, item.user_id ? item.book : item, $event)"
+                  class="rounded-2xl shadow-md cursor-pointer"
                 >
                   <option
                     v-for="qty in 10"
@@ -87,7 +82,7 @@
               <td class="w-10">
                 <button
                   @click="removeFromCart(index, item.user_id ? item.book : item)"
-                  class="flex ml-auto text-sm text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded"
+                  class="flex ml-auto text-sm text-gray-500 hover:text-gray-800 border-0 py-2 px-6 focus:outline-none rounded"
                 >
                   Remove
                 </button>
@@ -111,11 +106,42 @@
             </tr>
           </tbody>
         </table>
+        <div class="flex items-center justify-end mt-5">
+          <Link
+            :href="$page.props.urlPrev"
+            class="ml-3"
+          >
+            Go Back
+          </Link>
+          <Link
+            :href="route('checkout.index')"
+            class="ml-3 bg-blue-500 px-3 py-1.5 rounded-md text-white shadow"
+          >
+            Process to Checkout
+          </Link>
+        </div>
       </div>
 
-      <div v-else>
-        <p>There is no items in cart!</p>
-        <Link :href="route('books.index')">
+      <div
+        v-else
+        class="text-center"
+      >
+        <lottie-player
+          src="https://assets6.lottiefiles.com/packages/lf20_0s6tfbuc.json"
+          background="transparent"
+          speed="1"
+          style="width: 200px; height: 200px;"
+          loop
+          autoplay
+          class="mx-auto"
+        />
+        <p class="mb-3 text-gray-700">
+          There is no items in cart!
+        </p>
+        <Link
+          :href="route('books.index')"
+          class="bg-blue-500 px-3 py-1.5 rounded-md text-white shadow"
+        >
           Continue Shopping
         </Link>
       </div>
@@ -124,13 +150,14 @@
 </template>
 
 <script>
-import { Link } from '@inertiajs/inertia-vue3'
+import { Head, Link } from '@inertiajs/inertia-vue3'
 import BreezeNavBarLayout from '@/Layouts/NavBar'
 import axios from 'axios'
 
 export default {
     components: {
         Link,
+        Head,
         BreezeNavBarLayout,
     },
 

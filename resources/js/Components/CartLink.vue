@@ -1,6 +1,7 @@
 <template>
   <component
     :is="component"
+    v-cloak
     :href="route('cart.index')"
     :active="route().current('cart.index')"
   >
@@ -19,7 +20,7 @@
       />
     </svg>
     <span
-      class="bg-blue-500 flex font-bold items-center ml-2 px-2 py-1 rounded-full shadow text-white text-xs"
+      class="bg-blue-500 flex font-bold items-center px-2 py-1 rounded-full shadow text-white text-xs"
     >
       {{ cartItemsCount }}
     </span>
@@ -49,7 +50,7 @@ export default {
         }
     },
 
-    created() {
+    created() { 
         this.fetchCartItemsCount()
         // window.events.on('cartQtyUpdated', () => this.fetchCartItemsCount())
         window.events.on('cartQtyUpdated', this.fetchCartItemsCount)
@@ -77,6 +78,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

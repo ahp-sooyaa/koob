@@ -3,7 +3,7 @@
     <div>
       <Link
         :href="route('welcome')"
-        class="uppercase font-extrabold"
+        class="uppercase font-extrabold text-xl"
       >
         Koob
       </Link>

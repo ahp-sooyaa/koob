@@ -1,10 +1,15 @@
 <template>
   <BreezeNavBarLayout>
+    <template #header>
+      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        Shop
+      </h2>
+    </template>
     <Flash />
     <section class="max-w-7xl mx-auto px-6 lg:px-10 my-16 pt-7">
-      <h1 class="font-bold mb-3 text-gray-500 text-xl">
+      <!-- <h1 class="font-bold mb-3 text-gray-500 text-xl">
         All Books
-      </h1>
+      </h1> -->
       <div
         v-if="books.length"
         class="grid grid-cols-1 gap-y-5 md:grid-cols-3 lg:grid-cols-5 md:gap-10"
@@ -12,7 +17,7 @@
         <div
           v-for="book in books"
           :key="book.id"
-          class="bg-white flex flex-col h-full pb-5 rounded-xl shadow"
+          class="flex flex-col h-full pb-5 rounded-xl cursor-pointer"
         >
           <Book :data="book" />
         </div>

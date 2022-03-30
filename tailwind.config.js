@@ -14,6 +14,9 @@ module.exports = {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
                 inter: ['Inter']
             },
+            minHeight: {
+                '96': '24rem',
+            },
             backgroundImage: {
                 'hero-image': 'url("/images/hero_image.jpg")',
             }

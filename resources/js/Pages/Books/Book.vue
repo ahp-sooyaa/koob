@@ -1,10 +1,11 @@
 <template>
+  <Head title="Shop" />
   <img
     :src="data.cover"
     alt="cover"
     class="h-96 md:h-72 lg:h-60 w-full mb-3 object-cover rounded-xl"
   >
-  <div class="flex flex-1 flex-col px-5">
+  <div class="flex flex-1 flex-col px-1">
     <Link
       :href="'books/' + data.id"
       class="font-semibold line-clamp-2 mb-auto text-lg lg:text-sm"
@@ -79,6 +80,7 @@
           />
         </svg>
         <svg
+          v-if="!isAdded"
           xmlns="http://www.w3.org/2000/svg"
           class="absolute bg-white right-1.5 top-1.5 rounded-full shadow text-gray-600 h-5 w-5 lg:h-4 lg:w-4"
           fill="none"
@@ -92,15 +94,45 @@
             d="M12 6v6m0 0v6m0-6h6m-6 0H6"
           />
         </svg>
+        <svg
+          v-else
+          xmlns="http://www.w3.org/2000/svg"
+          class="absolute bg-white right-1.5 top-1.5 rounded-full shadow text-gray-600 h-5 w-5 lg:h-4 lg:w-4"
+          viewBox="0 0 20 20"
+          fill="currentColor"
+          stroke="none"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+            clip-rule="evenodd"
+          />
+        </svg>
+        <!-- <svg
+          v-else
+          xmlns="http://www.w3.org/2000/svg"
+          class="absolute bg-white right-1.5 top-1.5 rounded-full shadow text-gray-600 h-5 w-5 lg:h-4 lg:w-4"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+          stroke="none"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { Link } from '@inertiajs/inertia-vue3'
+import { Head, Link } from '@inertiajs/inertia-vue3'
 export default {
     components: {
+        Head,
         Link
     },
     
@@ -123,7 +155,7 @@ export default {
         },
 
         addToCart() {
-            if(this.isAdded) return
+            // if(this.isAdded) return
 
             axios.post(`/books/${this.data.id}/cart`)
                 .then(() => {
