@@ -18,13 +18,13 @@
 
               <!-- Navigation Links -->
               <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                <BreezeNavLink 
+                <!-- <BreezeNavLink 
                   v-if="$page.props.auth.user" 
                   :href="route('dashboard')" 
                   :active="route().current('dashboard')"
                 >
                   Dashboard
-                </BreezeNavLink>
+                </BreezeNavLink> -->
                 <BreezeNavLink 
                   :href="route('books.index')" 
                   :active="route().current('books.index')"
@@ -70,6 +70,12 @@
                   </template>
 
                   <template #content>
+                    <BreezeDropdownLink
+                      :href="route('profile.index')"
+                      as="button"
+                    >
+                      My Profile
+                    </BreezeDropdownLink>
                     <BreezeDropdownLink
                       :href="route('logout')"
                       method="post"
@@ -140,13 +146,14 @@
           class="sm:hidden"
         >
           <div class="pt-2 pb-3 space-y-1">
-            <BreezeResponsiveNavLink
+            <!-- currently comment out this link, instead of dashboard profile page will be used -->
+            <!-- <BreezeResponsiveNavLink
               v-if="$page.props.auth.user"
               :href="route('dashboard')"
               :active="route().current('dashboard')"
             >
               Dashboard
-            </BreezeResponsiveNavLink>
+            </BreezeResponsiveNavLink> -->
             <BreezeResponsiveNavLink
               :href="route('books.index')"
               :active="route().current('books.index')"

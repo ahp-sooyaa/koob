@@ -154,20 +154,6 @@
             </h1>
             <span class="text-sm">$ 29.99</span>
           </div>
-          <div class="flex flex-col items-center">
-            <img
-              src="images/cover.png"
-              alt="cover image"
-              class="h-full lg:h-72 w-full mb-5"
-            >
-            <p class="text-gray-500">
-              John Doe
-            </p>
-            <h1 class="font-bold text-lg">
-              Title of book
-            </h1>
-            <span class="text-sm">$ 29.99</span>
-          </div>
         </div>
       </div>
     </section>

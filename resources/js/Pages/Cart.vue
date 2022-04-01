@@ -8,8 +8,8 @@
         Shopping Cart
       </h2>
     </template>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-16 pt-7 min-h-96">
-      <div
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12 min-h-96">
+      <!-- <div
         v-if="cart.length"
         class="overflow-x-auto"
       >
@@ -49,14 +49,6 @@
               <td
                 class="p-4"
               >
-                <!-- <input
-                  ref="input"
-                  v-model="item.quantity"
-                  @change="updateCartQuantity(item.quantity, item.id)"
-                  class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                  type="number"
-                  min="1"
-                > -->
                 <select
                   @change="updateCartQuantity(index, item.user_id ? item.book : item, $event)"
                   class="rounded-2xl shadow-md cursor-pointer"
@@ -120,34 +112,12 @@
             Process to Checkout
           </Link>
         </div>
-      </div>
+      </div> -->
 
       <div
-        v-else
-        class="text-center"
+        v-if="cart.length"
+        class="flex items-start space-x-10"
       >
-        <lottie-player
-          src="https://assets6.lottiefiles.com/packages/lf20_0s6tfbuc.json"
-          background="transparent"
-          speed="1"
-          style="width: 200px; height: 200px;"
-          loop
-          autoplay
-          class="mx-auto"
-        />
-        <p class="mb-3 text-gray-700">
-          There is no items in cart!
-        </p>
-        <Link
-          :href="route('books.index')"
-          class="bg-blue-500 px-3 py-1.5 rounded-md text-white shadow"
-        >
-          Continue Shopping
-        </Link>
-      </div>
-      <!-- </div> -->
-
-      <!-- <div class="flex space-x-10">
         <div class="bg-white rounded-2xl p-8 shadow-lg w-2/3">
           <ul class="space-y-10">
             <li
@@ -223,19 +193,43 @@
           <div class="flex items-center justify-end mt-5">
             <Link
               :href="route('books.index')"
-              class="ml-3"
+              class="text-gray-500 hover:text-gray-900"
             >
               Continue Shopping
             </Link>
             <Link
               :href="route('checkout.index')"
-              class="ml-3 bg-blue-500 px-3 py-1.5 rounded-md text-white shadow"
+              class="ml-5 bg-blue-500 px-3 py-1.5 rounded-md text-white shadow"
             >
               Checkout
             </Link>
           </div>
         </div>
-      </div> -->
+      </div>
+
+      <div
+        v-else
+        class="text-center"
+      >
+        <lottie-player
+          src="https://assets6.lottiefiles.com/packages/lf20_0s6tfbuc.json"
+          background="transparent"
+          speed="1"
+          style="width: 200px; height: 200px;"
+          loop
+          autoplay
+          class="mx-auto"
+        />
+        <p class="mb-3 text-gray-700">
+          There is no items in cart!
+        </p>
+        <Link
+          :href="route('books.index')"
+          class="bg-blue-500 px-3 py-2.5 rounded-2xl text-white shadow"
+        >
+          Continue Shopping
+        </Link>
+      </div>
     </div>
   </BreezeNavBarLayout>
 </template>

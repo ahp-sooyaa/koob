@@ -28,7 +28,7 @@
 
       <!-- dashboard stats -->
       <div class="flex justify-center mt-16 space-x-10">
-        <div class="relative w-40 text-center border flex flex-col p-5 rounded-lg">
+        <div class="relative w-40 text-center border flex flex-col p-5 rounded-3xl">
           <svg
             class="fill-current text-gray-500 h-16 w-16 mx-auto absolute -top-8 left-1/2 transform -translate-x-1/2 bg-white border rounded-full p-3"
             xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +44,7 @@
             Total Purchased <br> Books
           </p>
         </div>
-        <div class="relative w-40 text-center border flex flex-col p-5 rounded-lg">
+        <div class="relative w-40 text-center border flex flex-col p-5 rounded-3xl">
           <svg
             class="fill-current text-gray-500 h-16 w-16 mx-auto absolute -top-8 left-1/2 transform -translate-x-1/2 bg-white border rounded-full p-3"
             xmlns="http://www.w3.org/2000/svg"
@@ -64,7 +64,7 @@
             Total Spent <br> Amount
           </p>
         </div>
-        <div class="relative w-40 text-center border flex flex-col p-5 rounded-lg">
+        <div class="relative w-40 text-center border flex flex-col p-5 rounded-3xl">
           <svg
             class="fill-current text-gray-500 h-16 w-16 mx-auto absolute -top-8 left-1/2 transform -translate-x-1/2 bg-white border rounded-full p-3"
             xmlns="http://www.w3.org/2000/svg"
@@ -85,7 +85,7 @@
             Total <br> Orders
           </p>
         </div>
-        <div class="relative w-40 text-center border flex flex-col p-5 rounded-lg">
+        <div class="relative w-40 text-center border flex flex-col p-5 rounded-3xl">
           <svg
             class="fill-current text-gray-500 h-16 w-16 mx-auto absolute -top-8 left-1/2 transform -translate-x-1/2 bg-white border rounded-full p-3"
             xmlns="http://www.w3.org/2000/svg"
@@ -110,7 +110,7 @@
   </div>
 
   <!-- links -->
-  <div class="z-20 shadow bg-white border-b border-black flex justify-center pt-6 rounded-b-2xl space-x-10 sticky top-16 mb-16">
+  <div class="z-10 shadow bg-white border-b border-black flex justify-center pt-6 rounded-b-2xl space-x-10 sticky top-16 mb-16">
     <Link
       :href="route('books.index')"
       class="border-b-2 border-blue-500 px-3 py-1.5"

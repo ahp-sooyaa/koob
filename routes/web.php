@@ -31,8 +31,13 @@ Route::post('/books/{book}/cart', [CartController::class, 'store'])->name('cart.
 Route::patch('/books/{book}/cart', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/books/{book}/cart', [CartController::class, 'destroy'])->name('cart.destroy');
 
-Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
+
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+});
+
 Route::get('/thankyou/{order}', [CheckoutController::class, 'thankyou'])->name('checkout.thankyou');
 
 Route::get('/api/cart', function () {
@@ -40,8 +45,6 @@ Route::get('/api/cart', function () {
     // return session()->pull('cart.1');
     return auth()->check() ? Cart::where('user_id', auth()->id())->get() : (request()->session()->get('cart') ? array_values(request()->session()->get('cart')) : []);
 });
-
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
