@@ -4,6 +4,7 @@ use App\Http\Controllers\BookController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
 use App\Models\Cart;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -39,6 +40,8 @@ Route::get('/api/cart', function () {
     // return session()->pull('cart.1');
     return auth()->check() ? Cart::where('user_id', auth()->id())->get() : (request()->session()->get('cart') ? array_values(request()->session()->get('cart')) : []);
 });
+
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
