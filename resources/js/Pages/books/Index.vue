@@ -17,14 +17,18 @@
         <div
           v-for="book in books"
           :key="book.id"
-          class="flex flex-col h-full pb-5 rounded-xl cursor-pointer"
+          class="flex flex-col h-full pb-5 rounded-xl"
         >
           <Book :data="book" />
         </div>
       </div>
 
-      <div v-else>
-        No books
+      <div
+        v-else
+        class="text-center"
+      >
+        Woah Woah, someone forgot to add books data to database? <br>
+        Check database please.
       </div>
     </section>
   </BreezeNavBarLayout>

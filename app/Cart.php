@@ -11,11 +11,11 @@ class Cart
 {
     public function update($book, $qty)
     {
+        $cartItem = $this->cartItem($book);
+
         if (auth()->user()) {
-            $cartItem = $this->cartItem($book);
             $cartItem->update(['quantity' => $qty]);
         } else {
-            $cartItem = $this->cartItem($book);
             $cartItem['quantity'] = $qty;
             session()->put($this->cartKey($book->id), $cartItem);
         }
@@ -41,7 +41,6 @@ class Cart
             // session()->increment($this->cartKey($book->id));
         } else {
             // otherwise use cart table to persist cart data
-            // Cart::create($book);
             $cartItem = ModelsCart::where('book_id', $book->id)->first();
             if (! $cartItem) {
                 ModelsCart::create([

@@ -17,7 +17,7 @@ class CartController extends Controller
 
     public function update(Book $book, Cart $cart, Request $request)
     {
-        // update cart product quantity when in view cart page
+        // update cart product quantity when qty that user want to buy is not exceed over stock_count
         if ($book->stock_count < $request->input('qty')) {
             return response()->json([
                 'message' => "Quantity is exceeding over stock. Available quantity($book->stock_count)"

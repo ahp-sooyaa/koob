@@ -118,7 +118,7 @@
         v-if="cart.length"
         class="flex items-start space-x-10"
       >
-        <div class="bg-white rounded-2xl p-8 shadow-lg w-2/3">
+        <div class="bg-white rounded-2xl p-8 shadow-md w-2/3">
           <ul class="space-y-10">
             <li
               v-for="(item, index) in cart"
@@ -146,7 +146,7 @@
                       {{ qty }}
                     </option>
                   </select>
-                  <span>{{ formatPrice(item.price) }}</span>
+                  <span class="font-semibold">{{ formatPrice(item.price) }}</span>
                 </div>
               </div>
               <button
@@ -161,7 +161,7 @@
                 >
                   <path
                     fill-rule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
                     clip-rule="evenodd"
                   />
                 </svg>
@@ -170,7 +170,7 @@
           </ul>
         </div>
 
-        <div class="bg-white w-1/3 p-8 rounded-2xl shadow-lg">
+        <div class="bg-white w-1/3 p-8 rounded-2xl shadow-md">
           <h1 class="capitalize text-xl font-semibold mb-5">
             cart summary
           </h1>
@@ -178,16 +178,16 @@
             <div class="space-y-3">
               <div class="flex justify-between">
                 <span class="text-gray-500">SubTotal</span>
-                <span>$10.00</span>
+                <span>{{ cartTotal }}</span>
               </div>
               <div class="flex justify-between">
                 <span class="text-gray-500">Delivery Fee</span>
-                <span>$10.00</span>
+                <span>Free</span>
               </div>
             </div>
             <div class="flex justify-between pt-5">
               <span class="text-gray-500">Total</span>
-              <span>$20.00</span>
+              <span>{{ cartTotal }}</span>
             </div>
           </div>
           <div class="flex items-center justify-end mt-5">
@@ -263,6 +263,7 @@ export default {
             return totalQty
         },
         cartTotal() {
+            // right now cart total amount doesn't include delivery fee, later it will add to total
             let amount = 0
             for (const key in this.cart) {
                 amount += this.cart[key].quantity * this.cart[key].price

@@ -10,7 +10,7 @@ class BookController extends Controller
     public function index()
     {
         return Inertia::render('Books/Index', [
-            'books' => Book::query()->select('id', 'title', 'price', 'cover')->get()
+            'books' => Book::query()->select('id', 'title', 'price', 'cover', 'stock_count')->get()
         ]);
     }
 

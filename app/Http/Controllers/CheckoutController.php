@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
+use App\Models\Cart;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,7 +16,7 @@ class CheckoutController extends Controller
 {
     public function index()
     {
-        if (session('cart')) {
+        if (auth()->check() && Cart::where('user_id', auth()->id())->get()->isNotEmpty()) {
             return Inertia::render('Checkout');
         }
 
@@ -23,6 +25,16 @@ class CheckoutController extends Controller
 
     public function store(Request $request)
     {
+        $request->validate([
+            'first_name' => ['required', 'string'],
+            'last_name' => ['required', 'string'],
+            'email' => ['required', 'email'],
+            'address' => ['required', 'string'],
+            'city' => ['required', 'string'],
+            'state' => ['required', 'string'],
+            'zip_code' => ['required'],
+        ]);
+
         // check order quantity are more than avaliable stock here
         // or check this in addToCart before add to cart
         $user = User::firstOrCreate(
@@ -55,13 +67,16 @@ class CheckoutController extends Controller
 
             foreach (json_decode($request->input('cart'), true) as $item) {
                 $order->books()
-                    ->attach($item['id'], ['quantity' => $item['quantity']]);
+                    ->attach($item['book_id'], ['quantity' => $item['quantity']]);
+
+                // product or book stock quantities should decrease here
+                $book = Book::find($item['book_id']);
+                $book->update(['stock_count' => $book->stock_count - $item['quantity']]);
             }
 
-            // after order store destroy cart session
-            session()->forget('cart');
-
-            // product or book stock quantities should decrease here
+            // after order store destroy cart data from database
+            // session()->forget('cart');  we don't need this anymore bcuz user must login before checkout
+            Cart::where('user_id', auth()->id())->delete();
 
             /**
              * mail send or notify

@@ -41,9 +41,9 @@ Route::group(['middleware' => 'auth'], function () {
 Route::get('/thankyou/{order}', [CheckoutController::class, 'thankyou'])->name('checkout.thankyou');
 
 Route::get('/api/cart', function () {
-    // return session()->get('cart');
-    // return session()->pull('cart.1');
-    return auth()->check() ? Cart::where('user_id', auth()->id())->get() : (request()->session()->get('cart') ? array_values(request()->session()->get('cart')) : []);
+    return auth()->check()
+        ? Cart::where('user_id', auth()->id())->get()
+        : (session('cart') ? array_values(session('cart')) : []);
 });
 
 require __DIR__ . '/auth.php';
