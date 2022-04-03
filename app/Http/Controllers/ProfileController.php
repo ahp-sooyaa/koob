@@ -15,8 +15,9 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $orders = Order::where('user_id', auth()->id())->latest()->get();
-        return Inertia::render('Profile', compact('orders'));
+        return Inertia::render('Profile', [
+            'totalOrderCount' => count(auth()->user()->orders)
+        ]);
     }
 
     /**
@@ -46,7 +47,7 @@ class ProfileController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Order $order)
     {
         //
     }

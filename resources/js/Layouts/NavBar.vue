@@ -77,6 +77,12 @@
                       My Profile
                     </BreezeDropdownLink>
                     <BreezeDropdownLink
+                      :href="route('orders.index')"
+                      as="button"
+                    >
+                      My Orders
+                    </BreezeDropdownLink>
+                    <BreezeDropdownLink
                       :href="route('logout')"
                       method="post"
                       as="button"
