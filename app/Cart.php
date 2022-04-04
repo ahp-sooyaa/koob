@@ -21,7 +21,7 @@ class Cart
         }
     }
 
-    public function add($book, $qty)
+    public function add($book)
     {
         // check user is logged in or not
         // if user is not logged in use session
@@ -31,14 +31,13 @@ class Cart
                 session()->put($this->cartKey($book->id), [
                     'id' => $book->id,
                     'title' => $book->title,
-                    'quantity' => $qty,
+                    'quantity' => 1,
                     'price' => $book->price,
                 ]);
             } else {
                 $cartItem['quantity']++;
                 session()->put($this->cartKey($book->id), $cartItem);
             }
-            // session()->increment($this->cartKey($book->id));
         } else {
             // otherwise use cart table to persist cart data
             $cartItem = ModelsCart::where('book_id', $book->id)->first();
@@ -47,7 +46,7 @@ class Cart
                     'user_id' => auth()->id(),
                     'book_id' => $book->id,
                     'title' => $book->title,
-                    'quantity' => $qty,
+                    'quantity' => 1,
                     'price' => $book->price
                 ]);
             } else {

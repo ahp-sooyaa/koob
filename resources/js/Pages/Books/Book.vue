@@ -12,7 +12,7 @@
     >
       {{ data.title }}
     </Link>
-    <div class="flex justify-between items-center mt-3">
+    <div class="flex justify-between items-baseline mt-3">
       <span class="text-gray-500 mr-3 text-lg lg:text-sm">{{ formatPrice(data.price) }}</span>
       <div
         v-if="data.stock_count"
@@ -86,7 +86,9 @@ export default {
 
     data() {
         return {
-            isAdded: this.$page.props.cart.some( item => item['book_id'] === this.data.id ) 
+            isAdded: this.$page.props.cart.some( item => {
+                return (this.$page.props.auth.user ? item['book_id'] : item['id']) === this.data.id 
+            }) 
         }
     },
 
@@ -104,7 +106,7 @@ export default {
                     window.events.emit('cartQtyUpdated')
                     window.flash('Successfully added to Cart')
                 })
-                .catch(err => console.log(err))
+                .catch(err => flash(err.response.data.message, 'error'))
         }
     }
 }

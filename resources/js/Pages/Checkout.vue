@@ -1,4 +1,6 @@
 <template>
+  <Flash />
+
   <BreezeNavBarLayout>
     <Head title="Checkout" />
 
@@ -185,8 +187,8 @@
               px-8 py-2 rounded flex justify-center text-lg text-white w-full
             "
             dusk="paynow"
-            :class="paymentProcessing ? 'cursor-not-allowed bg-indigo-600' : ''"
-            :disabled="paymentProcessing || !cart.length"
+            :class="paymentProcessing || !cart.length || isThereAnyOverStockCount ? 'cursor-not-allowed bg-indigo-600' : ''"
+            :disabled="paymentProcessing || !cart.length || isThereAnyOverStockCount"
           >
             <span v-if="!paymentProcessing">Pay Now</span>
             <svg
@@ -204,6 +206,12 @@
 
         <!-- order summary -->
         <div class="bg-white rounded-2xl p-8 shadow-md w-full lg:w-1/2">
+          <div
+            v-if="message"
+            class="bg-gray-100 px-4 py-2 rounded-lg mb-5"
+          >
+            {{ message }}
+          </div>
           <h1 class="capitalize text-xl font-semibold mb-5">
             Order Summary
           </h1>
@@ -211,16 +219,16 @@
             <li
               v-for="(item, index) in cart"
               :key="item.id"
-              class="flex space-x-5 items-start"
+              class="flex space-x-5"
             >
               <img
                 src="/images/cover.png"
                 :alt="item.title + '\'s cover image'"
                 class="h-40"
               >
-              <div class="flex-1 space-y-3">
+              <div class="flex-1 flex flex-col space-y-3">
                 <h1>{{ item.title }}</h1>
-                <div class="space-x-5">
+                <div class="flex-1 space-x-5">
                   <select
                     @change="
                       updateCartQuantity(
@@ -230,6 +238,7 @@
                       )
                     "
                     class="rounded-2xl shadow-md cursor-pointer"
+                    :class="item.quantity > item.book.stock_count ? 'border-red-500 text-red-500' : ''"
                   >
                     <option
                       v-for="qty in 10"
@@ -244,18 +253,15 @@
                     formatPrice(item.price)
                   }}</span>
                 </div>
+                <div class="text-gray-400">
+                  {{ item.quantity > item.book.stock_count ? "This is exceeding over stock count" : '' }}
+                </div>
               </div>
               <button
                 @click="removeFromCart(index, item.user_id ? item.book : item)"
                 class="
-                  flex
-                  ml-auto
-                  text-sm text-gray-500
-                  hover:text-gray-800
-                  border-0
-                  pt-0.5
-                  focus:outline-none
-                  rounded
+                  ml-auto text-sm text-gray-500 hover:text-gray-800 
+                  border-0 pt-0.5 focus:outline-none rounded self-start
                 "
               >
                 <svg
@@ -308,6 +314,8 @@ export default {
         BreezeInput,
     },
 
+    props: ['message'],
+
     data() {
         return {
             errors: [],
@@ -323,6 +331,7 @@ export default {
                 zip_code: '',
             },
             paymentProcessing: false,
+            // disableCheckout: this.paymentProcessing || !Object.keys(this.cart).length || this.isThereAnyOverStockCount
         }
     },
 
@@ -346,6 +355,10 @@ export default {
             }
             return amount // don't format this with formatPrice(), it will cause error with stripe 'invalid interger $10.00'
         },
+
+        isThereAnyOverStockCount() {
+            return this.cart.some((item) => item.quantity > item.book.stock_count)
+        }
     },
 
     async mounted() {
@@ -420,7 +433,7 @@ export default {
                 this.customer.amount = this.cartTotal
                 this.customer.cart = JSON.stringify(this.$page.props.cart)
                 axios
-                    .post('/checkout', this.customer)
+                    .post(route('orders.store', this.customer))
                     .then((response) => {
                         this.paymentProcessing = false
                         this.$inertia.get('/thankyou/' + response.data.id)

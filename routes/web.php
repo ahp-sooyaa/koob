@@ -19,26 +19,23 @@ Route::get('/', function () {
 
 Route::get('/home', HomeController::class)->name('home'); // give conditional redirect path
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
 Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
 
-/** cart url is little werid **/
+/** cart url is little strange **/
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/books/{book}/cart', [CartController::class, 'store'])->name('cart.store');
 Route::patch('/books/{book}/cart', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/books/{book}/cart', [CartController::class, 'destroy'])->name('cart.destroy');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
-
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
+
+    Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
 });
 
 Route::get('/thankyou/{order}', [CheckoutController::class, 'thankyou'])->name('checkout.thankyou');

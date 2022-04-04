@@ -16,22 +16,30 @@
 
 <script>
 export default {
+    props: ['message'],
+  
     data(){
         return {
-            body: '',
+            body: this.message,
             status: 'success',
             show: false
         }
     },
 
     created(){
+        if(this.message){
+            this.flash()
+        }
+
         window.events.on('flash' , data => this.flash(data) )
     },
 
     methods: {
         flash(data){
-            this.body = data.message
-            this.status = data.status
+            if(data) {
+                this.body = data.message
+                this.status = data.status
+            }
 
             this.show = true
 

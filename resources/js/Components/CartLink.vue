@@ -52,7 +52,6 @@ export default {
 
     created() { 
         this.fetchCartItemsCount()
-        // window.events.on('cartQtyUpdated', () => this.fetchCartItemsCount())
         window.events.on('cartQtyUpdated', this.fetchCartItemsCount)
     },
 
