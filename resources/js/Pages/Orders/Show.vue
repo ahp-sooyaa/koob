@@ -26,9 +26,12 @@
     </template>
 
     <div class="container mx-auto divide-y-2 lg:w-1/2 mt-12 mb-16">
-      <h1 class="text-2xl font-semibold mb-5">
-        Order #{{ order.id }}
-      </h1>
+      <div class="flex items-baseline space-x-3">
+        <h1 class="text-2xl font-semibold mb-5">
+          Order #{{ order.id }}
+        </h1>
+        <span>{{ order.status == 0 ? 'Shipping' : 'Delivered on ' + formatDate(order.updated_at) }}</span>
+      </div>
       <div
         v-for="book in order.books"
         :key="book.id"
@@ -120,6 +123,7 @@
 <script>
 import { Head, Link } from '@inertiajs/inertia-vue3'
 import BreezeNavBarLayout from '@/Layouts/NavBar'
+import moment from 'moment'
 export default {
     components: {
         Head,
@@ -132,6 +136,9 @@ export default {
     methods: {
         formatPrice(price) {
             return (price / 100).toLocaleString('en-US', {style: 'currency', currency: 'USD'})
+        },
+        formatDate(value) {
+            return moment(value).format('MMM D, Y')
         }
     }
 }

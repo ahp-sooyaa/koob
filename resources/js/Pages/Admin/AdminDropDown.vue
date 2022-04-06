@@ -1,5 +1,5 @@
 <template>
-  <div class="relative">
+  <div class="py-2 relative">
     <div @click="open = ! open">
       <slot name="trigger" />
     </div>
@@ -14,8 +14,8 @@
     >
       <div
         v-show="open"
-        class="absolute z-50 mt-2 shadow-lg"
-        :class="[widthClass, alignmentClasses]"
+        class="ml-8 z-50 mt-2 shadow-lg"
+        :class="[widthClass]"
         style="display: none;"
       >
         <div
@@ -34,10 +34,6 @@ import { onMounted, onUnmounted, ref } from 'vue'
 
 export default {
     props: {
-        align: {
-            type: String,
-            default: 'right'
-        },
         width: {
             type: String,
             default: '48'
@@ -70,16 +66,6 @@ export default {
             return {
                 '48': 'w-44',
             }[this.width.toString()]
-        },
-
-        alignmentClasses() {
-            if (this.align === 'left') {
-                return 'origin-top-left left-0'
-            } else if (this.align === 'right') {
-                return 'origin-top-right right-0'
-            } else {
-                return 'origin-top'
-            }
         },
     }
 }

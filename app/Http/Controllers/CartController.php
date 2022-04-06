@@ -6,6 +6,7 @@ use App\Cart;
 use App\Models\Book;
 use App\Models\Cart as ModelsCart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class CartController extends Controller
@@ -41,6 +42,8 @@ class CartController extends Controller
         }
 
         $cart->add($book);
+
+        // return Redirect::back()->with('cart', ModelsCart::where('user_id', auth()->id())->get());
     }
 
     public function destroy(Book $book, Cart $cart)

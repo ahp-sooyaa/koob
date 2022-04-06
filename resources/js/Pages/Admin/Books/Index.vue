@@ -7,7 +7,7 @@
     </h2>
   </div>
 
-  <div class="mt-10 mx-5">
+  <div class="my-12 mx-5">
     <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-gray-50">
@@ -94,6 +94,7 @@ export default {
     components: {
         Head
     },
+
     layout: AdminLayout,
 
     props: ['books']
