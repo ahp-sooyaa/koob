@@ -28,7 +28,7 @@ Route::post('/books/{book}/cart', [CartController::class, 'store'])->name('cart.
 Route::patch('/books/{book}/cart', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/books/{book}/cart', [CartController::class, 'destroy'])->name('cart.destroy');
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
@@ -44,6 +44,12 @@ Route::get('/api/cart', function () {
     return auth()->check()
         ? Cart::where('user_id', auth()->id())->get()
         : (session('cart') ? array_values(session('cart')) : []);
+});
+
+Route::get('/mailable', function () {
+    $order = App\Models\Order::find(1);
+
+    return new App\Mail\OrderStatusUpdated($order);
 });
 
 require __DIR__ . '/auth.php';

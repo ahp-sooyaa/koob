@@ -34,7 +34,7 @@
   </div>
   <div
     v-if="$page.props.flash.message"
-    class="bg-white w-1/2 mx-auto p-5 rounded-2xl mt-5 shadow ring ring-green-100"
+    class="bg-white border border-black mt-5 mx-auto px-5 py-3 rounded-2xl shadow-md w-1/2"
   >
     {{ $page.props.flash.message }}
   </div>
