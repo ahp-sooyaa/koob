@@ -306,6 +306,8 @@ import { loadStripe } from '@stripe/stripe-js'
 import BreezeNavBarLayout from '@/Layouts/NavBar'
 import BreezeInputError from '@/Components/InputError'
 import BreezeInput from '@/Components/Input'
+import format from '@/mixins/format'
+
 export default {
     components: {
         Head,
@@ -313,6 +315,8 @@ export default {
         BreezeInputError,
         BreezeInput,
     },
+
+    mixins: [ format ],
 
     props: ['message'],
 
@@ -373,13 +377,6 @@ export default {
     },
 
     methods: {
-        formatPrice(price) {
-            return (price / 100).toLocaleString('en-US', {
-                style: 'currency',
-                currency: 'USD',
-            })
-        },
-      
         updateCartQuantity(index, item, event){
             let _this = this
             let cartItem = _this.cart[index]

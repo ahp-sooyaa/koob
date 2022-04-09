@@ -146,6 +146,7 @@
 import { Head, Link } from '@inertiajs/inertia-vue3'
 import BreezeNavBarLayout from '@/Layouts/NavBar'
 import axios from 'axios'
+import format from '@/mixins/format'
 
 export default {
     components: {
@@ -153,6 +154,8 @@ export default {
         Head,
         BreezeNavBarLayout,
     },
+
+    mixins: [ format ],
 
     props: {
         cart: {
@@ -182,10 +185,6 @@ export default {
     },
 
     methods: {
-        formatPrice(price) {
-            return (price / 100).toLocaleString('en-US', {style: 'currency', currency: 'USD'})
-        },
-        
         removeFromCart(index, item) {
             let _this = this
 

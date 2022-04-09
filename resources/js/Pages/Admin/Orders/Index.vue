@@ -111,7 +111,7 @@
 <script>
 import AdminLayout from '@/Layouts/Admin'
 import { Head, Link } from '@inertiajs/inertia-vue3'
-import moment from 'moment'
+import format from '@/mixins/format'
 
 export default {
     components: {
@@ -119,18 +119,11 @@ export default {
         Link
     },
 
+    mixins: [ format ],
+
     layout: AdminLayout,
 
     props: ['orders'],
-
-    methods: {
-        formatPrice(price) {
-            return (price / 100).toLocaleString('en-US', {style: 'currency', currency: 'USD'})
-        },
-        formatDate(value) {
-            return moment(value).format('MMM D, Y')
-        }
-    }
 }
 </script>
 

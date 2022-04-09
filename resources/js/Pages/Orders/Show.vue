@@ -123,7 +123,8 @@
 <script>
 import { Head, Link } from '@inertiajs/inertia-vue3'
 import BreezeNavBarLayout from '@/Layouts/NavBar'
-import moment from 'moment'
+import format from '@/mixins/format'
+
 export default {
     components: {
         Head,
@@ -131,16 +132,9 @@ export default {
         BreezeNavBarLayout
     },
 
-    props: ['order'],
+    mixins: [ format ],
 
-    methods: {
-        formatPrice(price) {
-            return (price / 100).toLocaleString('en-US', {style: 'currency', currency: 'USD'})
-        },
-        formatDate(value) {
-            return moment(value).format('MMM D, Y')
-        }
-    }
+    props: ['order'],
 }
 </script>
 

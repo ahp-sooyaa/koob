@@ -71,12 +71,16 @@
 
 <script>
 import { Head, Link } from '@inertiajs/inertia-vue3'
+import format from '@/mixins/format'
+
 export default {
     components: {
         Head,
         Link
     },
     
+    mixins: [ format ],
+
     props: {
         data: {
             type: Object,
@@ -93,10 +97,6 @@ export default {
     },
 
     methods: {
-        formatPrice(price){
-            return (price / 100).toLocaleString('en-us', {style: 'currency', currency: 'USD'})
-        },
-
         addToCart() {
             // if(this.isAdded) return
 

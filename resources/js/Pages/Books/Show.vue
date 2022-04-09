@@ -51,11 +51,15 @@
 <script>
 import Flash from '@/Components/FlashNoti'
 import BreezeNavBarLayout from '@/Layouts/NavBar'
+import format from '@/mixins/format'
+
 export default {
     components: {
         Flash,
         BreezeNavBarLayout,
     },
+    
+    mixins: [ format ],
 
     props: {
         book: {
@@ -74,13 +78,6 @@ export default {
     },
 
     methods: {
-        formatPrice(price) {
-            return (price / 100).toLocaleString('en-US', {
-                style: 'currency',
-                currency: 'USD',
-            })
-        },
-
         addToCart() {
             axios
                 .post(`/books/${this.book.id}/cart`, { qty: this.quantity })
