@@ -1,5 +1,12 @@
 <template>
-  <Head title="Admin - Manage Books list" />
+  <Head>
+    <title>Admin book detail</title>
+    <meta
+      head-key="description"
+      name="description"
+      content="This is the book detail page of admin"
+    >
+  </Head>
 
   {{ book.title }}
   <img
@@ -10,13 +17,10 @@
 
 <script>
 import AdminLayout from '@/Layouts/Admin'
-import { Head } from '@inertiajs/inertia-vue3'
 
 export default {
-    components: {
-        Head
-    },
     layout: AdminLayout,
+    
     props: ['book']
 }
 </script>

@@ -1,5 +1,13 @@
 <template>
-  <Head title="Order Detail" />
+  <Head>
+    <title>Order Detail</title>
+    <meta
+      head-key="description"
+      name="description"
+      content="This is the order detail page."
+    >
+  </Head>
+
   <BreezeNavBarLayout>
     <template #header>
       <h2 class="flex items-center space-x-2 font-semibold text-xl text-gray-800 leading-tight">
@@ -121,14 +129,11 @@
 </template>
 
 <script>
-import { Head, Link } from '@inertiajs/inertia-vue3'
 import BreezeNavBarLayout from '@/Layouts/NavBar'
 import format from '@/mixins/format'
 
 export default {
     components: {
-        Head,
-        Link,
         BreezeNavBarLayout
     },
 

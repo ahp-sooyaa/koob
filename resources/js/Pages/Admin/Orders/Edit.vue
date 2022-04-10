@@ -1,5 +1,12 @@
 <template>
-  <Head title="Admin - Manage Books create" />
+  <Head>
+    <title>Admin Order Edit</title>
+    <meta
+      head-key="description"
+      name="description"
+      content="This is the order edit page of admin"
+    >
+  </Head>
 
   <div class="bg-white p-5 shadow">
     <h2 class="flex items-center space-x-2 font-semibold text-xl text-gray-800 leading-tight">

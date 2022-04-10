@@ -1,5 +1,12 @@
 <template>
-  <Head title="Admin - Manage Books" />
+  <Head>
+    <title>Admin Orders List</title>
+    <meta
+      head-key="description"
+      name="description"
+      content="This is the orders list page of admin"
+    >
+  </Head>
 
   <div class="bg-white p-5 shadow">
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -110,15 +117,9 @@
 
 <script>
 import AdminLayout from '@/Layouts/Admin'
-import { Head, Link } from '@inertiajs/inertia-vue3'
 import format from '@/mixins/format'
 
 export default {
-    components: {
-        Head,
-        Link
-    },
-
     mixins: [ format ],
 
     layout: AdminLayout,

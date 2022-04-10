@@ -1,5 +1,12 @@
 <template>
-  <Head title="Admin Dashboard" />
+  <Head>
+    <title>Admin dashboard</title>
+    <meta
+      head-key="description"
+      name="description"
+      content="This is admin dashboard of koob!"
+    >
+  </Head>
 
   <div class="bg-white p-5 shadow">
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -13,13 +20,9 @@
 </template>
 
 <script>
-import { Head } from '@inertiajs/inertia-vue3'
 import AdminLayout from '@/Layouts/Admin'
 
 export default {
-    components: {
-        Head
-    },
     layout: AdminLayout
 }
 </script>

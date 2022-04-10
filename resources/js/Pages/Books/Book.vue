@@ -1,5 +1,4 @@
 <template>
-  <Head title="Shop" />
   <img
     :src="data.cover"
     alt="cover"
@@ -70,15 +69,9 @@
 </template>
 
 <script>
-import { Head, Link } from '@inertiajs/inertia-vue3'
 import format from '@/mixins/format'
 
 export default {
-    components: {
-        Head,
-        Link
-    },
-    
     mixins: [ format ],
 
     props: {

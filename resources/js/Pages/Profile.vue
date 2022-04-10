@@ -1,5 +1,13 @@
 <template>
-  <Head title="profile" />
+  <Head>
+    <title>Profile</title>
+    <meta
+      head-key="description"
+      name="description"
+      content="This is your profile page"
+    >
+  </Head>
+
   <div class="bg-white mt-16 pb-10 pt-12 shadow">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-center space-x-5">
@@ -123,19 +131,15 @@
     </Link>
   </div>
 
-  //
+  <p class="text-center mb-12 text-2xl text-gray-400">
+    Coming Soon
+  </p>
 </template>
 
 <script>
-import { Head, Link } from '@inertiajs/inertia-vue3'
 import BreezeNavBarLayout from '@/Layouts/NavBar'
 
 export default {
-    components: {
-        Link,
-        Head
-    },
-
     layout: BreezeNavBarLayout,
 
     props: ['totalOrderCount']

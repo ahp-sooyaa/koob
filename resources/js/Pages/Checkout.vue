@@ -301,7 +301,6 @@
   </BreezeNavBarLayout>
 </template>
 <script>
-import { Head } from '@inertiajs/inertia-vue3'
 import { loadStripe } from '@stripe/stripe-js'
 import BreezeNavBarLayout from '@/Layouts/NavBar'
 import BreezeInputError from '@/Components/InputError'
@@ -310,7 +309,6 @@ import format from '@/mixins/format'
 
 export default {
     components: {
-        Head,
         BreezeNavBarLayout,
         BreezeInputError,
         BreezeInput,

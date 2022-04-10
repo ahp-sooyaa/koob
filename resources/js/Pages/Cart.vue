@@ -1,5 +1,12 @@
 <template>
-  <Head title="Cart" />
+  <Head>
+    <title>Cart</title>
+    <meta
+      head-key="description"
+      name="description"
+      content="This is cart page where all of your cart items can be seen here."
+    >
+  </Head>
   <Flash />
 
   <BreezeNavBarLayout>
@@ -143,15 +150,12 @@
 </template>
 
 <script>
-import { Head, Link } from '@inertiajs/inertia-vue3'
 import BreezeNavBarLayout from '@/Layouts/NavBar'
 import axios from 'axios'
 import format from '@/mixins/format'
 
 export default {
     components: {
-        Link,
-        Head,
         BreezeNavBarLayout,
     },
 

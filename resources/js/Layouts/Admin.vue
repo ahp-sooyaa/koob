@@ -1,4 +1,12 @@
 <template>
+  <Head>
+    <title>Admin</title>
+    <meta
+      head-key="description"
+      name="description"
+      content="This is the default description"
+    >
+  </Head>
   <div class="flex flex-row min-h-screen">
     <div class="flex-none bg-gray-900 w-64 text-white">
       <div class="h-full flex flex-col p-6">
@@ -143,11 +151,9 @@
 
 <script>
 import AdminDropDown from '@/Pages/Admin/AdminDropDown'
-import { Link } from '@inertiajs/inertia-vue3'
 export default {
     components: {
         AdminDropDown,
-        Link
     }
 }
 </script>

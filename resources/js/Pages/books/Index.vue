@@ -1,4 +1,13 @@
 <template>
+  <Head>
+    <title>Shop</title>
+    <meta
+      head-key="description"
+      name="description"
+      content="This is the shop page"
+    >
+  </Head>
+
   <BreezeNavBarLayout>
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">

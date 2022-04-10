@@ -1,5 +1,12 @@
 <template>
-  <Head title="Admin - Manage Books create" />
+  <Head>
+    <title>Admin book create</title>
+    <meta
+      head-key="description"
+      name="description"
+      content="This is the book create page of admin"
+    >
+  </Head>
 
   <div class="bg-white p-5 shadow">
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -129,7 +136,6 @@
 
 <script>
 import AdminLayout from '@/Layouts/Admin'
-import { Head } from '@inertiajs/inertia-vue3'
 import BreezeButton from '@/Components/Button'
 import BreezeInput from '@/Components/Input'
 import BreezeLabel from '@/Components/Label'
@@ -140,7 +146,6 @@ export default {
         BreezeButton,
         BreezeInput,
         BreezeLabel,
-        Head,
         BreezeValidationErrors,
     },
     layout: AdminLayout,

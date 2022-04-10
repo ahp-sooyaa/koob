@@ -1,5 +1,12 @@
 <template>
-  <Head title="Admin - Manage Books" />
+  <Head>
+    <title>Admin books list</title>
+    <meta
+      head-key="description"
+      name="description"
+      content="This is the book list page of admin"
+    >
+  </Head>
 
   <div class="bg-white p-5 shadow">
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -88,13 +95,8 @@
 
 <script>
 import AdminLayout from '@/Layouts/Admin'
-import { Head } from '@inertiajs/inertia-vue3'
 
 export default {
-    components: {
-        Head
-    },
-
     layout: AdminLayout,
 
     props: ['books']
