@@ -13,6 +13,7 @@ class CheckoutController extends Controller
     public function index()
     {
         $cart = Cart::where('user_id', auth()->id())->get();
+
         if (auth()->check() && $cart->isNotEmpty()) {
             // decrease available count when user click checkout
             // return $cart->map(function ($item) {
