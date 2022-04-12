@@ -4,8 +4,9 @@
     <Component
       :is="prevPage.url ? 'Link' : 'span'"
       :href="prevPage.url"
+      :class="prevPage.url ? 'cursor-pointer hover:border-gray-700' : 'text-gray-500'"
       preserve-scroll
-      class="border px-2 rounded hover:border-gray-700"
+      class="border px-2 rounded text-sm flex items-center rounded-l-2xl"
     >
       Prev
     </Component>
@@ -16,6 +17,7 @@
       :key="link.label"
       :href="link.url"
       class="border px-2 rounded hover:border-gray-700"
+      :class="link.active ? 'border-gray-700' : ''"
       preserve-scroll
       v-text="link.label"
     />
@@ -24,8 +26,9 @@
     <Component
       :is="nextPage.url ? 'Link' : 'span'"
       :href="nextPage.url"
+      :class="nextPage.url ? 'cursor-pointer hover:border-gray-700' : 'text-gray-500'"
       preserve-scroll
-      class="border px-2 rounded hover:border-gray-700"
+      class="border px-2 rounded text-sm flex items-center rounded-r-2xl"
     >
       Next
     </Component>

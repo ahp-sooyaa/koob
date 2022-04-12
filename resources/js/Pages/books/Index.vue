@@ -20,7 +20,7 @@
       <div v-if="booksCount">
         <div v-if="Object.keys(books.data).length">
           <div
-            class="grid grid-cols-1 gap-y-5 md:grid-cols-3 lg:grid-cols-5 md:gap-10"
+            class="grid grid-cols-1 gap-y-5 md:grid-cols-3 lg:grid-cols-5 md:gap-10 my-5"
           >
             <div
               v-for="book in books.data"
@@ -36,7 +36,8 @@
         </div>
 
         <div v-else>
-          NO search found
+          <p>No results found for "{{ searchQuery }}"</p>
+          <p>Try different keywords or check spelling.</p>
         </div>
       </div>
 
@@ -79,5 +80,11 @@ export default {
         //     required: true
         // }
     },
+
+    computed: {
+        searchQuery() {
+            return location.search.match(/search=(\w+)/)[1]
+        }
+    }
 }
 </script>

@@ -47,7 +47,7 @@ class HandleInertiaRequests extends Middleware
                 ),
             'urlPrev' => url()->previous(),
             'flash' => [
-                'message' => fn () => $request->session()->get('message')
+                'message' => $request->session()->get('message')
             ],
         ]);
     }

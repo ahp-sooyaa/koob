@@ -27,7 +27,9 @@ class CartController extends Controller
         }
 
         $cart->update($book, $request->input('qty'));
+
         return response()->json(['message' => 'Successfully updated']);
+        // return back()->with('message', 'success');
     }
 
     public function store(Book $book, Cart $cart)

@@ -215,6 +215,7 @@ export default {
                     event.target.value = cartItem.quantity
                     flash(err.response.data.message, 'error')
                 })
+            // this.$inertia.patch(`/books/${item.id}/cart`, {qty: parseInt(event.target.value)})
         }
     }
 }
