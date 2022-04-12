@@ -7,6 +7,7 @@
       content="This is the shop page"
     >
   </Head>
+  <Flash />
 
   <BreezeNavBarLayout>
     <template #header>
@@ -14,21 +15,28 @@
         Shop
       </h2>
     </template>
-    <Flash />
     <section class="max-w-7xl mx-auto px-6 lg:px-10 my-16 pt-7">
-      <!-- <h1 class="font-bold mb-3 text-gray-500 text-xl">
-        All Books
-      </h1> -->
-      <div
-        v-if="books.length"
-        class="grid grid-cols-1 gap-y-5 md:grid-cols-3 lg:grid-cols-5 md:gap-10"
-      >
-        <div
-          v-for="book in books"
-          :key="book.id"
-          class="flex flex-col h-full pb-5 rounded-xl"
-        >
-          <Book :data="book" />
+      <search-box />
+      <div v-if="booksCount">
+        <div v-if="Object.keys(books.data).length">
+          <div
+            class="grid grid-cols-1 gap-y-5 md:grid-cols-3 lg:grid-cols-5 md:gap-10"
+          >
+            <div
+              v-for="book in books.data"
+              :key="book.id"
+              class="flex flex-col h-full pb-5 rounded-xl"
+            >
+              <Book :data="book" />
+            </div>
+          </div>
+
+          <!-- paginator -->
+          <paginator :links="books.links" />
+        </div>
+
+        <div v-else>
+          NO search found
         </div>
       </div>
 
@@ -46,17 +54,30 @@
 <script>
 import BreezeNavBarLayout from '@/Layouts/NavBar'
 import Book from './Book'
+import SearchBox from '@/Components/SearchBox.vue'
+import Paginator from '@/Components/Paginator.vue'
+
 export default {
     components: { 
         BreezeNavBarLayout,
         Book,
+        SearchBox,
+        Paginator,
     },
 
     props: {
         books: {
             type: Object,
             required: true
+        },
+        booksCount: {
+            type: Number,
+            required: true
         }
-    }
+        // filters: {
+        //     type: Object,
+        //     required: true
+        // }
+    },
 }
 </script>

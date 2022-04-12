@@ -12,7 +12,10 @@
                   :href="route('welcome')"
                   class="uppercase font-bold text-xl"
                 >
-                  Koob
+                  <img
+                    src="/images/logo.svg"
+                    alt="logo"
+                  >
                 </Link>
               </div>
 
@@ -35,6 +38,7 @@
             </div>
 
             <div class="hidden sm:flex sm:ml-6">
+              <!-- <SearchBox /> -->
               <!-- Settings Dropdown -->
               <div
                 v-if="$page.props.auth.user"
@@ -309,8 +313,8 @@ import BreezeDropdown from '@/Components/Dropdown.vue'
 import BreezeDropdownLink from '@/Components/DropdownLink.vue'
 import BreezeNavLink from '@/Components/NavLink.vue'
 import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue'
-import { Link } from '@inertiajs/inertia-vue3'
 import CartLink from '@/Components/CartLink'
+// import SearchBox from '@/Components/SearchBox'
 
 export default {
     components: {
@@ -318,8 +322,8 @@ export default {
         BreezeDropdownLink,
         BreezeNavLink,
         BreezeResponsiveNavLink,
-        Link,
-        CartLink
+        CartLink,
+        // SearchBox
     },
 
     data() {
