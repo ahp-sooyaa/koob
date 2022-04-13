@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex items-center mb-5">
+  <div class="relative flex items-center max-w-min">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 20 20"
@@ -17,12 +17,18 @@
       type="text"
       placeholder="search"
       class="
-        pl-10
+        px-10
         border-gray-300
         hover:shadow hover:border-transparent
         focus:border-transparent focus:shadow focus:ring-0
         rounded-full
       "
+    >
+    <img
+      v-if="loading"
+      src="/images/tail-spin.svg"
+      alt="loading svg"
+      class="absolute h-5 right-3 w-5"
     >
   </div>
 </template>
@@ -35,7 +41,7 @@ export default {
             search: location.search.match(/search=(\w+)/)
                 ? location.search.match(/search=(\w+)/)[1]
                 : '',
-            progress: false,
+            loading: false,
         }
     },
 
@@ -48,6 +54,14 @@ export default {
                 .get(this.$page.url.split('?')[0], data, {
                     preserveState: true,
                     replace: true,
+                    onStart: visit => {
+                        console.log(`Starting a visit to ${visit.url}`)
+                        this.loading = true
+                    },
+                    onFinish: visit => {
+                        console.log(`Finished a visit to ${visit.url}`)
+                        this.loading = false
+                    },
                 })
         }, 300),
     },

@@ -14,6 +14,13 @@ class BookController extends Controller
                 ->when(request('search'), function ($query, $search) {
                     $query->where('title', 'like', "%{$search}%");
                 })
+                ->when(request('sorting'), function ($query, $sorting) {
+                    foreach ($sorting as $column => $direction) {
+                        $query->orderBy($column, $direction);
+                    }
+                    // $query->orderBy('created_at', 'desc')
+                    //     ->orderBy('price', 'desc');
+                })
                 ->paginate(5)
                 ->withQueryString()
                 ->through(fn ($book) => [

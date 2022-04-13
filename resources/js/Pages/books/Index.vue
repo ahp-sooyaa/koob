@@ -16,11 +16,90 @@
       </h2>
     </template>
     <section class="max-w-7xl mx-auto px-6 lg:px-10 my-16 pt-7">
-      <search-box />
+      <div class="flex items-center justify-between mb-10">
+        <search-box />
+        <dropdown align="right">
+          <template #trigger>
+            <span class="inline-flex rounded-md">
+              <button
+                type="button"
+                class="
+                  inline-flex items-center px-3 py-2 border border-transparent text-sm
+                  leading-4 font-medium rounded-md text-gray-500 bg-white
+                  hover:text-gray-700 focus:outline-none transition ease-in-out
+                  duration-150
+                "
+              >
+                <!-- {{ $page.props.auth.user.name }} -->
+                Sort by
+
+                <svg
+                  class="ml-2 -mr-0.5 h-4 w-4"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+              </button>
+            </span>
+          </template>
+
+          <template #content>
+            <div
+              @click="sorting = { price: 'asc' }"
+              class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out cursor-pointer"
+            >
+              price low to high
+            </div>
+            <div
+              @click="sorting = { price: 'desc' }"
+              class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out cursor-pointer"
+            >
+              price high to low
+            </div>
+            <div
+              @click="sorting = { created_at: 'asc' }"
+              class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out cursor-pointer"
+            >
+              newest
+            </div>
+            <div
+              @click="sorting = { created_at: 'desc' }"
+              class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out cursor-pointer"
+            >
+              oldest
+            </div>
+            <!-- <div @click="sorting = {created_at: 1}">
+              newest
+            </div>
+            <div @click="sorting = {created_at: -1}">
+              oldest
+            </div> -->
+            <!-- <div @click="sorting = 'price,1'">
+              price low to high
+            </div>
+            <div @click="sorting = 'price,-1'">
+              price high to low
+            </div> -->
+          </template>
+        </dropdown>
+      </div>
       <div v-if="booksCount">
         <div v-if="Object.keys(books.data).length">
           <div
-            class="grid grid-cols-1 gap-y-5 md:grid-cols-3 lg:grid-cols-5 md:gap-10 my-5"
+            class="
+              grid grid-cols-1
+              gap-y-5
+              md:grid-cols-3
+              lg:grid-cols-5
+              md:gap-10
+              my-5
+            "
           >
             <div
               v-for="book in books.data"
@@ -57,34 +136,54 @@ import BreezeNavBarLayout from '@/Layouts/NavBar'
 import Book from './Book'
 import SearchBox from '@/Components/SearchBox.vue'
 import Paginator from '@/Components/Paginator.vue'
+import Dropdown from '@/Components/Dropdown.vue'
 
 export default {
-    components: { 
+    components: {
         BreezeNavBarLayout,
         Book,
         SearchBox,
         Paginator,
+        Dropdown,
     },
 
     props: {
         books: {
             type: Object,
-            required: true
+            required: true,
         },
         booksCount: {
             type: Number,
-            required: true
+            required: true,
+        },
+    // filters: {
+    //     type: Object,
+    //     required: true
+    // }
+    },
+
+    data() {
+        return {
+            loading: false,
+            sorting: '',
+            filters: ''
         }
-        // filters: {
-        //     type: Object,
-        //     required: true
-        // }
     },
 
     computed: {
         searchQuery() {
             return location.search.match(/search=(\w+)/)[1]
-        }
-    }
+        },
+    },
+
+    watch: {
+        sorting(value) {
+            let data = value ? { sorting: value } : {}
+            this.$inertia
+                .get(this.$page.url, data, {
+                    preserveState: true,
+                })
+        },
+    },
 }
 </script>
