@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Category;
 use Inertia\Inertia;
 
 class BookController extends Controller
@@ -14,12 +15,17 @@ class BookController extends Controller
                 ->when(request('search'), function ($query, $search) {
                     $query->where('title', 'like', "%{$search}%");
                 })
-                ->when(request('sorting'), function ($query, $sorting) {
-                    foreach ($sorting as $column => $direction) {
+                ->when(request('sort'), function ($query, $sort) {
+                    foreach ($sort as $column => $direction) {
                         $query->orderBy($column, $direction);
                     }
                     // $query->orderBy('created_at', 'desc')
                     //     ->orderBy('price', 'desc');
+                })
+                ->when(request('filter'), function ($query, $filter) {
+                    foreach ($filter as $column => $value) {
+                        $query->where($column, $value);
+                    }
                 })
                 ->paginate(5)
                 ->withQueryString()
@@ -30,7 +36,10 @@ class BookController extends Controller
                     'cover' => $book->cover,
                     'stock_count' => $book->stock_count
                 ]),
-            'booksCount' => count(Book::all())
+            'booksCount' => count(Book::all()),
+            'categories' => Category::all(),
+            'sorting' => request('sort'),
+            'filters' => request('filter')
             // 'filters' => [
             //     'search' => request('search')
             // ]

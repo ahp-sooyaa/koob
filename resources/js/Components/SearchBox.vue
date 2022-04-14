@@ -51,7 +51,7 @@ export default {
             let data = value ? { search: value } : {}
 
             this.$inertia
-                .get(this.$page.url.split('?')[0], data, {
+                .get(this.$page.url.replace(/&?(page=\w+)/, ''), data, {
                     preserveState: true,
                     replace: true,
                     onStart: visit => {
