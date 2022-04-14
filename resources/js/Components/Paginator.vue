@@ -6,7 +6,7 @@
       :href="prevPage.url"
       :class="prevPage.url ? 'cursor-pointer hover:border-gray-700' : 'text-gray-500'"
       preserve-scroll
-      class="border px-2 rounded text-sm flex items-center rounded-l-2xl"
+      class="border flex items-center pl-4 pr-3 py-2 rounded rounded-l-full text-gray-500 text-sm"
     >
       Prev
     </Component>
@@ -16,7 +16,7 @@
       v-for="link in pageLinks"
       :key="link.label"
       :href="link.url"
-      class="border px-2 rounded hover:border-gray-700"
+      class="border px-2 rounded hover:border-gray-700 flex items-center"
       :class="link.active ? 'border-gray-700' : ''"
       preserve-scroll
       v-text="link.label"
@@ -28,7 +28,7 @@
       :href="nextPage.url"
       :class="nextPage.url ? 'cursor-pointer hover:border-gray-700' : 'text-gray-500'"
       preserve-scroll
-      class="border px-2 rounded text-sm flex items-center rounded-r-2xl"
+      class="border flex items-center pl-3 pr-4 py-2 rounded rounded-r-full text-gray-500 text-sm"
     >
       Next
     </Component>

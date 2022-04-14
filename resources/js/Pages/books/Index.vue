@@ -17,8 +17,8 @@
     </template>
     <section class="flex space-x-10 max-w-7xl mx-auto px-6 lg:px-10 my-16 pt-7">
       <div class="w-1/5">
-        <div class="flex justify-between items-baseline">
-          <h1 class="block mb-5">
+        <div class="flex justify-between items-baseline mb-4">
+          <h1 class="block">
             Filters by categories
           </h1>
           <span
@@ -42,101 +42,12 @@
       <div class="w-4/5">
         <div class="flex items-center justify-between mb-10">
           <search-box />
-          <div class="flex items-baseline space-x-3">
-            <span
-              @click="resetSorting"
-              class="hover:underline text-gray-500 text-sm cursor-pointer"
-            >reset</span>
-            <dropdown align="right">
-              <template #trigger>
-                <span class="inline-flex rounded-md">
-                  <button
-                    type="button"
-                    class="
-                      inline-flex items-center px-3 py-2 border border-transparent text-sm
-                      leading-4 font-medium rounded-md text-gray-500 bg-white
-                      hover:text-gray-700 focus:outline-none transition ease-in-out
-                      duration-150
-                    "
-                  >
-                    <span
-                      v-if="sorting ? Object.keys(sorting).length : 0"
-                      class="bg-gray-100 px-1 rounded mr-2"
-                    >{{ sorting ? Object.keys(sorting).length : 0 }}</span>
-                    Sort by
-
-                    <svg
-                      class="ml-2 -mr-0.5 h-4 w-4"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 20 20"
-                      fill="currentColor"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                        clip-rule="evenodd"
-                      />
-                    </svg>
-                  </button>
-                </span>
-              </template>
-
-              <template #content>
-                <div
-                  @click="sort = { price: 'asc' }"
-                  class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out cursor-pointer"
-                  :class="isSorted('price', 'asc') ? 'text-blue-500': ''"
-                >
-                  price low to high
-                </div>
-                <div
-                  @click="sort = { price: 'desc' }"
-                  :class="isSorted('price', 'desc') ? 'text-blue-500': ''"
-                  class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out cursor-pointer"
-                >
-                  price high to low
-                </div>
-                <div
-                  @click="sort = { created_at: 'asc' }"
-                  :class="isSorted('created_at', 'asc') ? 'text-blue-500': ''"
-                  class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out cursor-pointer"
-                >
-                  newest
-                </div>
-                <div
-                  @click="sort = { created_at: 'desc' }"
-                  class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out cursor-pointer"
-                  :class="isSorted('created_at', 'desc') ? 'text-blue-500': ''"
-                >
-                  oldest
-                </div>
-                <!-- <div @click="sorting = {created_at: 1}">
-                  newest
-                </div>
-                <div @click="sorting = {created_at: -1}">
-                  oldest
-                </div> -->
-                <!-- <div @click="sorting = 'price,1'">
-                  price low to high
-                </div>
-                <div @click="sorting = 'price,-1'">
-                  price high to low
-                </div> -->
-              </template>
-            </dropdown>
-          </div>
+          <sorting :sorting="sorting" />
         </div>
         <div v-if="booksCount">
           <div v-if="Object.keys(books.data).length">
             <div
-              class="
-                grid grid-cols-1
-                gap-y-5
-                md:grid-cols-3
-                lg:grid-cols-4
-                md:gap-10
-                my-5
-              "
+              class="grid grid-cols-1 gap-y-5 md:grid-cols-3 lg:grid-cols-4 md:gap-10 my-5"
             >
               <div
                 v-for="book in books.data"
@@ -172,9 +83,9 @@
 <script>
 import BreezeNavBarLayout from '@/Layouts/NavBar'
 import Book from './Book'
-import SearchBox from '@/Components/SearchBox.vue'
-import Paginator from '@/Components/Paginator.vue'
-import Dropdown from '@/Components/Dropdown.vue'
+import SearchBox from '@/Components/SearchBox'
+import Paginator from '@/Components/Paginator'
+import Sorting from '@/Components/Sort'
 
 export default {
     components: {
@@ -182,7 +93,7 @@ export default {
         Book,
         SearchBox,
         Paginator,
-        Dropdown,
+        Sorting,
     },
 
     props: {
@@ -211,7 +122,6 @@ export default {
     data() {
         return {
             loading: false,
-            sort: '',
             filter: '',
         }
     },
@@ -223,19 +133,9 @@ export default {
     },
 
     watch: {
-        sort(value) {
-            let url = this.isSorted(Object.keys(value), Object.values(value))
-                ? this.$page.url.replace(/&?(sort\[\w+\]=\w+)&?/, '') 
-                : this.$page.url
-            let data = (value && !this.isSorted(Object.keys(value), Object.values(value))) ? { sort: value } : {}
-            this.$inertia
-                .get(url, data, {
-                    preserveState: true,
-                })
-        },
         filter(value) {
             let url = this.isFiltered(Object.keys(value), Object.values(value))
-                ? this.$page.url.replace(/&?(filter\[\w+\]=\w+)&?/, '') 
+                ? this.$page.url.replace(/&?(filter\[\w+\]=\w+)/, '') 
                 : this.$page.url
             let data = (value && !this.isFiltered(Object.keys(value), Object.values(value))) ? { filter: value } : {}
             this.$inertia
@@ -246,22 +146,12 @@ export default {
     },
 
     methods: {
-        isSorted(column, direction) {
-            return this.sorting ? this.sorting[column] == direction : false
-            // return column in this.sorting (this is so cool when checking key exist in array)
-        },
         isFiltered(column, value) {
             return this.filters ? this.filters[column] == value : false
         },
         resetFilter() {
             this.$inertia
                 .get(this.$page.url.replace(/&?(filter\[\w+\]=\w+)+/g, '') , {}, {
-                    preserveState: true,
-                })
-        },
-        resetSorting() {
-            this.$inertia
-                .get(this.$page.url.replace(/&?(sort\[\w+\]=\w+)+/g, '') , {}, {
                     preserveState: true,
                 })
         },

@@ -48,10 +48,10 @@ export default {
     watch: {
         // wait 300milliseconds after user stop typing to search the result
         search: debounce(function (value) {
-            let data = value ? { search: value } : {}
+            let data = value ? { search: value, page: '' } : {}
 
             this.$inertia
-                .get(this.$page.url.replace(/&?(page=\w+)/, ''), data, {
+                .get(this.$page.url.split('?')[0], data, {
                     preserveState: true,
                     replace: true,
                     onStart: visit => {
