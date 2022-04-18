@@ -15,17 +15,18 @@ class BookController extends Controller
                 ->when(request('search'), function ($query, $search) {
                     $query->where('title', 'like', "%{$search}%");
                 })
+                ->when(request('filter'), function ($query, $filter) {
+                    // equal filter is only available now
+                    foreach ($filter as $column => $value) {
+                        $query->where($column, $value);
+                    }
+                })
                 ->when(request('sort'), function ($query, $sort) {
                     foreach ($sort as $column => $direction) {
                         $query->orderBy($column, $direction);
                     }
                     // $query->orderBy('created_at', 'desc')
                     //     ->orderBy('price', 'desc');
-                })
-                ->when(request('filter'), function ($query, $filter) {
-                    foreach ($filter as $column => $value) {
-                        $query->where($column, $value);
-                    }
                 })
                 ->paginate(5)
                 ->withQueryString()

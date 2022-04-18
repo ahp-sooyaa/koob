@@ -1,5 +1,5 @@
 <template>
-  <div class="flex space-x-3">
+  <div class="flex justify-between lg:space-x-3">
     <!-- prev page link -->
     <Component
       :is="prevPage.url ? 'Link' : 'span'"
@@ -11,16 +11,18 @@
       Prev
     </Component>
 
-    <!-- pagination elements -->
-    <Link
-      v-for="link in pageLinks"
-      :key="link.label"
-      :href="link.url"
-      class="border px-2 rounded hover:border-gray-700 flex items-center"
-      :class="link.active ? 'border-gray-700' : ''"
-      preserve-scroll
-      v-text="link.label"
-    />
+    <div class="flex space-x-3">
+      <!-- pagination elements -->
+      <Link
+        v-for="link in pageLinks"
+        :key="link.label"
+        :href="link.url"
+        class="border px-2 rounded hover:border-gray-700 flex items-center"
+        :class="link.active ? 'border-gray-700' : ''"
+        preserve-scroll
+        v-text="link.label"
+      />
+    </div>
 
     <!-- next page link -->
     <Component

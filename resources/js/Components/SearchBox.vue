@@ -48,18 +48,21 @@ export default {
     watch: {
         // wait 300milliseconds after user stop typing to search the result
         search: debounce(function (value) {
-            let data = value ? { search: value, page: '' } : {}
+            let data = value ? { search: value } : {}
+            // let pageQuery = location.search.match(/page=(\w+)/) ?? ''
+            // let url = data ? this.$page.url.replace(/&?(search=\w+)/, '') : this.$page.url
+            // url = pageQuery ? url.replace(/&?(page=\w+)/, '') : url
 
             this.$inertia
-                .get(this.$page.url.split('?')[0], data, {
+                .get(location.pathname, data, {
                     preserveState: true,
                     replace: true,
-                    onStart: visit => {
-                        console.log(`Starting a visit to ${visit.url}`)
+                    onStart: () => {
+                        // console.log(`Starting a visit to ${visit.url}`)
                         this.loading = true
                     },
-                    onFinish: visit => {
-                        console.log(`Finished a visit to ${visit.url}`)
+                    onFinish: () => {
+                        // console.log(`Finished a visit to ${visit.url}`)
                         this.loading = false
                     },
                 })

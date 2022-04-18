@@ -1,10 +1,10 @@
 <template>
-  <div class="flex items-baseline space-x-3">
+  <div class="flex flex-row-reverse lg:flex-row justify-between w-full lg:w-auto items-baseline space-x-0 lg:space-x-3 mb-10 lg:mb-0">
     <span
       @click="resetSorting"
       class="hover:underline text-gray-500 text-sm cursor-pointer"
     >reset</span>
-    <dropdown align="right">
+    <dropdown align="left">
       <template #trigger>
         <span class="inline-flex rounded-md">
           <button

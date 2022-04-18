@@ -19764,18 +19764,20 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var data = value ? {
-        search: value,
-        page: ''
-      } : {};
-      this.$inertia.get(this.$page.url.split('?')[0], data, {
+        search: value
+      } : {}; // let pageQuery = location.search.match(/page=(\w+)/) ?? ''
+      // let url = data ? this.$page.url.replace(/&?(search=\w+)/, '') : this.$page.url
+      // url = pageQuery ? url.replace(/&?(page=\w+)/, '') : url
+
+      this.$inertia.get(location.pathname, data, {
         preserveState: true,
         replace: true,
-        onStart: function onStart(visit) {
-          console.log("Starting a visit to ".concat(visit.url));
+        onStart: function onStart() {
+          // console.log(`Starting a visit to ${visit.url}`)
           _this.loading = true;
         },
-        onFinish: function onFinish(visit) {
-          console.log("Finished a visit to ".concat(visit.url));
+        onFinish: function onFinish() {
+          // console.log(`Finished a visit to ${visit.url}`)
           _this.loading = false;
         }
       });
@@ -21538,12 +21540,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "flex space-x-3"
+  "class": "flex justify-between lg:space-x-3"
 };
 
 var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Prev ");
 
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Next ");
+var _hoisted_3 = {
+  "class": "flex space-x-3"
+};
+
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Next ");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Link");
@@ -21561,7 +21567,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["href", "class"])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" pagination elements "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.pageLinks, function (link) {
+  , ["href", "class"])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" pagination elements "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.pageLinks, function (link) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_Link, {
       key: link.label,
       href: link.url,
@@ -21573,13 +21579,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     , ["href", "class", "textContent"]);
   }), 128
   /* KEYED_FRAGMENT */
-  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" next page link "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)((0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDynamicComponent)($options.nextPage.url ? 'Link' : 'span'), {
+  ))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" next page link "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)((0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDynamicComponent)($options.nextPage.url ? 'Link' : 'span'), {
     href: $options.nextPage.url,
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.nextPage.url ? 'cursor-pointer hover:border-gray-700' : 'text-gray-500', "border flex items-center pl-3 pr-4 py-2 rounded rounded-r-full text-gray-500 text-sm"]),
     "preserve-scroll": ""
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_3];
+      return [_hoisted_4];
     }),
     _: 1
     /* STABLE */
@@ -21689,7 +21695,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 var _hoisted_1 = {
-  "class": "flex items-baseline space-x-3"
+  "class": "flex flex-row-reverse lg:flex-row justify-between w-full lg:w-auto items-baseline space-x-0 lg:space-x-3 mb-10 lg:mb-0"
 };
 var _hoisted_2 = {
   "class": "inline-flex rounded-md"
@@ -21727,7 +21733,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }),
     "class": "hover:underline text-gray-500 text-sm cursor-pointer"
   }, "reset"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_dropdown, {
-    align: "right"
+    align: "left"
   }, {
     trigger: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_3, [($props.sorting ? Object.keys($props.sorting).length : 0) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.sorting ? Object.keys($props.sorting).length : 0), 1
@@ -24233,10 +24239,10 @@ var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 );
 
 var _hoisted_4 = {
-  "class": "flex space-x-10 max-w-7xl mx-auto px-6 lg:px-10 my-16 pt-7"
+  "class": "flex flex-col lg:flex-row space-y-5 space-x-0 lg:space-y-0 lg:space-x-10 max-w-7xl mx-auto px-6 lg:px-10 my-16 pt-7"
 };
 var _hoisted_5 = {
-  "class": "w-1/5"
+  "class": "w-full lg:w-1/5"
 };
 var _hoisted_6 = {
   "class": "flex justify-between items-baseline mb-4"
@@ -24253,10 +24259,10 @@ var _hoisted_8 = {
 };
 var _hoisted_9 = ["onClick"];
 var _hoisted_10 = {
-  "class": "w-4/5"
+  "class": "w-full lg:w-4/5"
 };
 var _hoisted_11 = {
-  "class": "flex items-center justify-between mb-10"
+  "class": "flex flex-col-reverse lg:flex-row items-start lg:items-center justify-between mb-10"
 };
 var _hoisted_12 = {
   key: 0

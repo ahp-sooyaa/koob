@@ -15,8 +15,8 @@
         Shop
       </h2>
     </template>
-    <section class="flex space-x-10 max-w-7xl mx-auto px-6 lg:px-10 my-16 pt-7">
-      <div class="w-1/5">
+    <section class="flex flex-col lg:flex-row space-y-5 space-x-0 lg:space-y-0 lg:space-x-10 max-w-7xl mx-auto px-6 lg:px-10 my-16 pt-7">
+      <div class="w-full lg:w-1/5">
         <div class="flex justify-between items-baseline mb-4">
           <h1 class="block">
             Filters by categories
@@ -39,8 +39,8 @@
           </div>
         </div>
       </div>
-      <div class="w-4/5">
-        <div class="flex items-center justify-between mb-10">
+      <div class="w-full lg:w-4/5">
+        <div class="flex flex-col-reverse lg:flex-row items-start lg:items-center justify-between mb-10">
           <search-box />
           <sorting :sorting="sorting" />
         </div>
