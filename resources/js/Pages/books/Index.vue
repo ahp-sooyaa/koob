@@ -134,12 +134,13 @@ export default {
 
     watch: {
         filter(value) {
-            let url = this.isFiltered(Object.keys(value), Object.values(value))
-                ? this.$page.url.replace(/&?(filter\[\w+\]=\w+)/, '') 
-                : this.$page.url
-            let data = (value && !this.isFiltered(Object.keys(value), Object.values(value))) ? { filter: value } : {}
+            let data = (value && !this.isFiltered(Object.keys(value), Object.values(value))) 
+                ? { filter: value } 
+                : {  }
+            this.searchQuery ? data.search = this.searchQuery : data
+
             this.$inertia
-                .get(url, data, {
+                .get(location.pathname, data, {
                     preserveState: true,
                 })
         }
@@ -154,14 +155,7 @@ export default {
                 .get(this.$page.url.replace(/&?(filter\[\w+\]=\w+)+/g, '') , {}, {
                     preserveState: true,
                 })
-        },
-        // reset(type) {
-        //     let regex = '/&?(' + type + '\\[\\w+\\]=\\w+)+/g'
-        //     this.$inertia
-        //         .get(this.$page.url.replace(regex, '') , {}, {
-        //             preserveState: true,
-        //         })
-        // }
+        }
     },
 }
 </script>

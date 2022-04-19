@@ -49,9 +49,6 @@ export default {
         // wait 300milliseconds after user stop typing to search the result
         search: debounce(function (value) {
             let data = value ? { search: value } : {}
-            // let pageQuery = location.search.match(/page=(\w+)/) ?? ''
-            // let url = data ? this.$page.url.replace(/&?(search=\w+)/, '') : this.$page.url
-            // url = pageQuery ? url.replace(/&?(page=\w+)/, '') : url
 
             this.$inertia
                 .get(location.pathname, data, {

@@ -19765,10 +19765,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var data = value ? {
         search: value
-      } : {}; // let pageQuery = location.search.match(/page=(\w+)/) ?? ''
-      // let url = data ? this.$page.url.replace(/&?(search=\w+)/, '') : this.$page.url
-      // url = pageQuery ? url.replace(/&?(page=\w+)/, '') : url
-
+      } : {};
       this.$inertia.get(location.pathname, data, {
         preserveState: true,
         replace: true,
@@ -20650,11 +20647,11 @@ __webpack_require__.r(__webpack_exports__);
   },
   watch: {
     filter: function filter(value) {
-      var url = this.isFiltered(Object.keys(value), Object.values(value)) ? this.$page.url.replace(/&?(filter\[\w+\]=\w+)/, '') : this.$page.url;
       var data = value && !this.isFiltered(Object.keys(value), Object.values(value)) ? {
         filter: value
       } : {};
-      this.$inertia.get(url, data, {
+      this.searchQuery ? data.search = this.searchQuery : data;
+      this.$inertia.get(location.pathname, data, {
         preserveState: true
       });
     }
@@ -20667,14 +20664,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$inertia.get(this.$page.url.replace(/&?(filter\[\w+\]=\w+)+/g, ''), {}, {
         preserveState: true
       });
-    } // reset(type) {
-    //     let regex = '/&?(' + type + '\\[\\w+\\]=\\w+)+/g'
-    //     this.$inertia
-    //         .get(this.$page.url.replace(regex, '') , {}, {
-    //             preserveState: true,
-    //         })
-    // }
-
+    }
   }
 });
 
@@ -22443,7 +22433,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }, 8
   /* PROPS */
-  , ["href", "active"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Responsive Settings Options "), _ctx.$page.props.auth.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$page.props.auth.user.name), 1
+  , ["href", "active"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_CartLink, {
+    responsive: true
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Responsive Settings Options "), _ctx.$page.props.auth.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$page.props.auth.user.name), 1
   /* TEXT */
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$page.props.auth.user.email), 1
   /* TEXT */
