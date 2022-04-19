@@ -1,9 +1,5 @@
 <template>
   <div class="flex flex-row-reverse lg:flex-row justify-between w-full lg:w-auto items-baseline space-x-0 lg:space-x-3 mb-10 lg:mb-0">
-    <span
-      @click="resetSorting"
-      class="hover:underline text-gray-500 text-sm cursor-pointer"
-    >reset</span>
     <dropdown align="left">
       <template #trigger>
         <span class="inline-flex rounded-md">
@@ -16,10 +12,10 @@
                 duration-150
               "
           >
-            <span
+            <!-- <span
               v-if="sorting ? Object.keys(sorting).length : 0"
               class="bg-gray-100 px-1 rounded mr-2"
-            >{{ sorting ? Object.keys(sorting).length : 0 }}</span>
+            >{{ sorting ? Object.keys(sorting).length : 0 }}</span> -->
             Sort by
 
             <svg
@@ -63,7 +59,7 @@
         <div
           @click="sort = { created_at: 'desc' }"
           class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out cursor-pointer"
-          :class="isSorted('created_at', 'desc') ? 'text-blue-500': ''"
+          :class="isSorted('created_at', 'asc') ? 'text-blue-500': ''"
         >
           oldest
         </div>
@@ -102,12 +98,6 @@ export default {
         isSorted(column, direction) {
             return this.sorting ? this.sorting[column] == direction : false
             // return column in this.sorting (this is so cool when checking key exist in array)
-        },
-        resetSorting() {
-            this.$inertia
-                .get(this.$page.url.replace(/&?(sort\[\w+\]=\w+)+/g, '') , {}, {
-                    preserveState: true,
-                })
         },
     }
 }

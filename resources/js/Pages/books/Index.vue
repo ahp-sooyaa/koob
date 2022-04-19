@@ -22,12 +22,19 @@
             Filters by categories
           </h1>
           <span
-            @click="resetFilter"
+            @click="clearFilter"
             class="hover:underline text-gray-500 text-sm cursor-pointer"
-          >reset</span>
+          >clear</span>
         </div>
 
         <div class="space-y-2 -ml-1">
+          <div
+            @click="filter = {category_id: ''}"
+            class="cursor-pointer bg-white border inline-block px-4 py-1 rounded-2xl shadow text-sm mx-1"
+            :class="filters == null || isFiltered('category_id', null) ? 'text-blue-500': 'text-gray-600'"
+          >
+            all
+          </div>
           <div
             v-for="category in categories"
             :key="category.id"
@@ -135,12 +142,11 @@ export default {
     watch: {
         filter(value) {
             let data = (value && !this.isFiltered(Object.keys(value), Object.values(value))) 
-                ? { filter: value } 
+                ? { filter: value, page: '' } 
                 : {  }
-            this.searchQuery ? data.search = this.searchQuery : data
 
             this.$inertia
-                .get(location.pathname, data, {
+                .get(this.$page.url, data, {
                     preserveState: true,
                 })
         }
@@ -150,10 +156,16 @@ export default {
         isFiltered(column, value) {
             return this.filters ? this.filters[column] == value : false
         },
-        resetFilter() {
+        clearFilter() {
+            let url = this.$page.url.replace(/&?(filter\[\w+\]=\w+)+/g, '')
+            url = this.searchQuery ? url.replace(/&?(search=\w+)/, '') : url
+
             this.$inertia
-                .get(this.$page.url.replace(/&?(filter\[\w+\]=\w+)+/g, '') , {}, {
+                .get(url, {}, {
                     preserveState: true,
+                    onFinish: () => {
+                        window.events.emit('clearedFilters')
+                    },
                 })
         }
     },

@@ -42,22 +42,23 @@ export default {
     watch: {
         // wait 300milliseconds after user stop typing to search the result
         search: debounce(function (value) {
-            let data = value ? { search: value } : {}
-
+            console.log(value)
             this.$inertia
-                .get(location.pathname, data, {
+                .get(this.$page.url.replace(/search=(\w+)/, ''), { search: value, page: '' }, {
                     preserveState: true,
                     replace: true,
                     onStart: () => {
-                        // console.log(`Starting a visit to ${visit.url}`)
                         this.loading = true
                     },
                     onFinish: () => {
-                        // console.log(`Finished a visit to ${visit.url}`)
                         this.loading = false
                     },
                 })
         }, 300),
+    },
+
+    created() {
+        window.events.on('clearedFilters', () => this.search = '')
     },
 }
 </script>

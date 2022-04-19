@@ -18,15 +18,17 @@ class BookController extends Controller
                 ->when(request('filter'), function ($query, $filter) {
                     // equal filter is only available now
                     foreach ($filter as $column => $value) {
-                        $query->where($column, $value);
+                        if ($value != null) {
+                            $query->where($column, $value);
+                        }
                     }
                 })
                 ->when(request('sort'), function ($query, $sort) {
                     foreach ($sort as $column => $direction) {
-                        $query->orderBy($column, $direction);
+                        if ($direction != null) {
+                            $query->orderBy($column, $direction);
+                        }
                     }
-                    // $query->orderBy('created_at', 'desc')
-                    //     ->orderBy('price', 'desc');
                 })
                 ->paginate(5)
                 ->withQueryString()
@@ -41,9 +43,6 @@ class BookController extends Controller
             'categories' => Category::all(),
             'sorting' => request('sort'),
             'filters' => request('filter')
-            // 'filters' => [
-            //     'search' => request('search')
-            // ]
         ]);
     }
 
