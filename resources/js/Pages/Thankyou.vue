@@ -11,6 +11,19 @@
         Thank you for your purchase
       </h1>
     </div>
+    <Link
+      :href="route('books.index')"
+      class="underline"
+    >
+      Continue Shopping
+    </Link>
+    <span class="text-gray-500 my-2">Or</span>
+    <Link
+      :href="route('orders.show', order.id)"
+      class="underline"
+    >
+      See Order Detail
+    </Link>
   </div>
 </template>
 <script>

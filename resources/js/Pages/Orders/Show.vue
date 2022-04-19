@@ -33,7 +33,7 @@
       </h2>
     </template>
 
-    <div class="container mx-auto divide-y-2 lg:w-1/2 mt-12 mb-16">
+    <div class="container mx-auto divide-y-2 lg:w-1/2 mt-12 mb-16 p-4">
       <div class="flex items-baseline space-x-3">
         <h1 class="text-2xl font-semibold mb-5">
           Order #{{ order.id }}
@@ -45,11 +45,11 @@
         :key="book.id"
         class="w-full"
       >
-        <div class="flex my-8">
+        <div class="flex flex-col lg:flex-row space-y-5 my-8">
           <img
             :src="book.cover"
             alt="book cover"
-            class="mr-5 w-32"
+            class="mr-5 w-52 lg:w-32"
           >
           <div class="flex flex-col">
             <div class="flex-1">
@@ -72,7 +72,7 @@
         </div>
       </div>
       <div class="w-full">
-        <div class="flex w-2/3 ml-auto my-8">
+        <div class="flex w-full lg:w-2/3 ml-auto my-8">
           <div class="flex-1">
             <div class="font-semibold mb-2">
               Shipping address
@@ -96,7 +96,7 @@
           </div>
         </div>
       </div>
-      <div class="w-2/3 ml-auto">
+      <div class="w-full lg:w-2/3 ml-auto">
         <div class="flex flex-col my-8 space-y-4">
           <div class="flex justify-between">
             <div class="text-gray-700">

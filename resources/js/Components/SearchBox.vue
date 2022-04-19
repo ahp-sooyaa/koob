@@ -1,5 +1,5 @@
 <template>
-  <div class="relative flex items-center max-w-min">
+  <div class="relative flex items-center w-full lg:max-w-min">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 20 20"
@@ -16,13 +16,7 @@
       v-model="search"
       type="text"
       placeholder="search"
-      class="
-        px-10
-        border-gray-300
-        hover:shadow hover:border-transparent
-        focus:border-transparent focus:shadow focus:ring-0
-        rounded-full
-      "
+      class="w-full lg:w-auto px-10 border-gray-300 hover:shadow hover:border-transparent focus:border-transparent focus:shadow focus:ring-0 rounded-full"
     >
     <img
       v-if="loading"

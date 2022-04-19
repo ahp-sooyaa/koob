@@ -25,8 +25,8 @@
         :key="order.id"
         class="max-w-2xl mx-auto space-y-5"
       >
-        <div class="flex items-baseline justify-between mb-5 pt-10">
-          <div class="flex items-baseline space-x-3">
+        <div class="flex lg:items-baseline justify-between mb-5 pt-10">
+          <div class="flex flex-col lg:flex-row items-baseline lg:space-x-3">
             <h1 class="text-2xl">
               Order #{{ order.id }}
             </h1>
@@ -63,9 +63,19 @@
                 class="font-semibold"
                 v-text="formatPrice(book.price)"
               />
+
+              <!-- mobile buy again & shop similar button -->
+              <div class="block lg:hidden flex-shrink-0 space-y-3 mt-5">
+                <div class="bg-blue-500 border-0 capitalize cursor-pointer flex focus:outline-none hover:bg-blue-400 justify-center px-6 py-2 rounded text-sm text-white">
+                  buy again
+                </div>
+                <div class="border capitalize cursor-pointer flex focus:outline-none hover:border-gray-700 justify-center px-6 py-2 rounded text-sm">
+                  shop similar
+                </div>
+              </div>
             </div>
           </div>
-          <div class="flex-shrink-0 space-y-3">
+          <div class="hidden lg:block flex-shrink-0 space-y-3">
             <div class="bg-blue-500 border-0 capitalize cursor-pointer flex focus:outline-none hover:bg-blue-400 justify-center px-6 py-2 rounded text-sm text-white">
               buy again
             </div>

@@ -170,6 +170,7 @@
             >
               Shop
             </BreezeResponsiveNavLink>
+            <CartLink :responsive="true" />
           </div>
 
           <!-- Responsive Settings Options -->
@@ -185,6 +186,18 @@
                 {{ $page.props.auth.user.email }}
               </div>
             </div>
+            <BreezeResponsiveNavLink
+              :href="route('profile.index')"
+              :active="route().current('profile.index')"
+            >
+              Profile
+            </BreezeResponsiveNavLink>
+            <BreezeResponsiveNavLink
+              :href="route('orders.index')"
+              :active="route().current('orders.index')"
+            >
+              Orders
+            </BreezeResponsiveNavLink>
 
             <div class="mt-3 space-y-1">
               <BreezeResponsiveNavLink

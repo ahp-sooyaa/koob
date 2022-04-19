@@ -15,7 +15,7 @@
         Shop
       </h2>
     </template>
-    <section class="flex flex-col lg:flex-row space-y-5 space-x-0 lg:space-y-0 lg:space-x-10 max-w-7xl mx-auto px-6 lg:px-10 my-16 pt-7">
+    <section class="flex flex-col lg:flex-row space-y-5 space-x-0 lg:space-y-0 lg:space-x-10 max-w-7xl mx-auto px-6 lg:px-10 mb-14 lg:my-16 pt-7">
       <div class="w-full lg:w-1/5">
         <div class="flex justify-between items-baseline mb-4">
           <h1 class="block">

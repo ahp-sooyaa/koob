@@ -10,7 +10,7 @@
 
   <div class="bg-white mt-16 pb-10 pt-12 shadow">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-center space-x-5">
+      <div class="flex flex-col lg:flex-row items-center space-y-5 justify-center lg:space-x-5">
         <img
           src="/images/cover.png"
           alt="profile image"
@@ -33,8 +33,8 @@
       </div>
 
       <!-- dashboard stats -->
-      <div class="flex justify-center mt-16 space-x-10">
-        <div class="relative w-40 text-center border flex flex-col p-5 rounded-3xl">
+      <div class="flex justify-center mt-16 space-x-10 overflow-x-auto py-10 lg:py-0">
+        <div class="relative min-w-40 text-center border flex flex-col p-5 rounded-3xl">
           <svg
             class="fill-current text-gray-500 h-16 w-16 mx-auto absolute -top-8 left-1/2 transform -translate-x-1/2 bg-white border rounded-full p-3"
             xmlns="http://www.w3.org/2000/svg"
@@ -50,7 +50,7 @@
             Total Purchased <br> Books
           </p>
         </div>
-        <div class="relative w-40 text-center border flex flex-col p-5 rounded-3xl">
+        <div class="relative min-w-40 text-center border flex flex-col p-5 rounded-3xl">
           <svg
             class="fill-current text-gray-500 h-16 w-16 mx-auto absolute -top-8 left-1/2 transform -translate-x-1/2 bg-white border rounded-full p-3"
             xmlns="http://www.w3.org/2000/svg"
@@ -70,7 +70,7 @@
             Total Spent <br> Amount
           </p>
         </div>
-        <div class="relative w-40 text-center border flex flex-col p-5 rounded-3xl">
+        <div class="relative min-w-40 text-center border flex flex-col p-5 rounded-3xl">
           <svg
             class="fill-current text-gray-500 h-16 w-16 mx-auto absolute -top-8 left-1/2 transform -translate-x-1/2 bg-white border rounded-full p-3"
             xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +91,7 @@
             Total <br> Orders
           </p>
         </div>
-        <div class="relative w-40 text-center border flex flex-col p-5 rounded-3xl">
+        <div class="relative min-w-40 text-center border flex flex-col p-5 rounded-3xl">
           <svg
             class="fill-current text-gray-500 h-16 w-16 mx-auto absolute -top-8 left-1/2 transform -translate-x-1/2 bg-white border rounded-full p-3"
             xmlns="http://www.w3.org/2000/svg"

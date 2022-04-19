@@ -17,6 +17,9 @@ module.exports = {
             minHeight: {
                 '96': '24rem',
             },
+            minWidth: {
+                '40':'10rem',
+            },
             backgroundImage: {
                 'hero-image': 'url("/images/hero_image.jpg")',
             }

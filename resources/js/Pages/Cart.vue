@@ -18,9 +18,9 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12 min-h-96">
       <div
         v-if="cart.length"
-        class="flex items-start space-x-10"
+        class="flex flex-col lg:flex-row space-y-5 lg:items-start lg:space-y-0 lg:space-x-10"
       >
-        <div class="bg-white rounded-2xl p-8 shadow-md w-2/3">
+        <div class="bg-white rounded-2xl p-4 lg:p-8 shadow-md w-full lg:w-2/3">
           <!-- question mark svg -->
           <!-- <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -47,7 +47,7 @@
               >
               <div class="flex-1 space-y-3">
                 <h1>{{ item.title }}</h1>
-                <div class="space-x-5">
+                <div class="flex items-center space-x-5">
                   <select
                     @change="updateCartQuantity(index, item.user_id ? item.book : item, $event)"
                     class="rounded-2xl shadow-md cursor-pointer"
@@ -85,7 +85,7 @@
           </ul>
         </div>
 
-        <div class="bg-white w-1/3 p-8 rounded-2xl shadow-md">
+        <div class="bg-white w-full lg:w-1/3 p-4 lg:p-8 rounded-2xl shadow-md">
           <h1 class="capitalize text-xl font-semibold mb-5">
             cart summary
           </h1>

@@ -10,7 +10,7 @@
       </h2>
     </template>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 mb-16 mt-12">
-      <div class="flex space-x-16">
+      <div class="flex flex-col-reverse lg:flex-row lg:space-x-16">
         <div class="lg:w-1/2 w-full mx-auto">
           <h1 class="text-xl font-semibold">
             Contact Information
@@ -205,7 +205,7 @@
         </div>
 
         <!-- order summary -->
-        <div class="bg-white rounded-2xl p-8 shadow-md w-full lg:w-1/2">
+        <div class="bg-white rounded-2xl p-4 lg:p-8 shadow-md w-full lg:w-1/2 mb-12 lg:mb-0">
           <div
             v-if="message"
             class="bg-gray-100 px-4 py-2 rounded-lg mb-5"
@@ -228,7 +228,7 @@
               >
               <div class="flex-1 flex flex-col space-y-3">
                 <h1>{{ item.title }}</h1>
-                <div class="flex-1 space-x-5">
+                <div class="flex items-center flex-1 space-x-5">
                   <select
                     @change="
                       updateCartQuantity(
@@ -249,9 +249,9 @@
                       {{ qty }}
                     </option>
                   </select>
-                  <span class="font-semibold">{{
-                    formatPrice(item.price)
-                  }}</span>
+                  <span class="font-semibold">
+                    {{ formatPrice(item.price) }}
+                  </span>
                 </div>
                 <div class="text-gray-400">
                   {{ item.quantity > item.book.stock_count ? "This is exceeding over stock count" : '' }}
