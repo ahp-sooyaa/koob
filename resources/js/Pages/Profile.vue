@@ -33,7 +33,7 @@
       </div>
 
       <!-- dashboard stats -->
-      <div class="flex justify-center mt-16 space-x-10 overflow-x-auto py-10 lg:py-0">
+      <div class="flex justify-center mt-16 space-x-10 overflow-x-auto py-10">
         <div class="relative min-w-40 text-center border flex flex-col p-5 rounded-3xl">
           <svg
             class="fill-current text-gray-500 h-16 w-16 mx-auto absolute -top-8 left-1/2 transform -translate-x-1/2 bg-white border rounded-full p-3"

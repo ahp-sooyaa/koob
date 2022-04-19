@@ -1,6 +1,6 @@
 <template>
-  <div class="flex flex-row-reverse lg:flex-row justify-between w-full lg:w-auto items-baseline space-x-0 lg:space-x-3 mb-10 lg:mb-0">
-    <dropdown align="left">
+  <div class="flex lg:flex-row justify-between min-w-max lg:w-auto items-baseline space-x-0 lg:space-x-3">
+    <dropdown align="right">
       <template #trigger>
         <span class="inline-flex rounded-md">
           <button
@@ -12,10 +12,10 @@
                 duration-150
               "
           >
-            <!-- <span
+            <span
               v-if="sorting ? Object.keys(sorting).length : 0"
               class="bg-gray-100 px-1 rounded mr-2"
-            >{{ sorting ? Object.keys(sorting).length : 0 }}</span> -->
+            >{{ sorting ? Object.keys(sorting).length : 0 }}</span>
             Sort by
 
             <svg
@@ -77,7 +77,7 @@ export default {
 
     data() {
         return {
-            sort: ''
+            sort: '',
         }
     },
 

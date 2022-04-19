@@ -15,7 +15,7 @@
         Shop
       </h2>
     </template>
-    <section class="flex flex-col lg:flex-row space-y-5 space-x-0 lg:space-y-0 lg:space-x-10 max-w-7xl mx-auto px-6 lg:px-10 mb-14 lg:my-16 pt-7">
+    <section class="flex flex-col lg:flex-row space-y-5 space-x-0 lg:space-y-0 lg:space-x-10 max-w-7xl mx-auto px-4 lg:px-10 mb-14 lg:my-16 pt-7">
       <div class="w-full lg:w-1/5">
         <div class="flex justify-between items-baseline mb-4">
           <h1 class="block">
@@ -27,7 +27,7 @@
           >clear</span>
         </div>
 
-        <div class="space-y-2 -ml-1">
+        <div class="-ml-1 flex flex-nowrap lg:flex-wrap items-baseline overflow-x-auto pb-3 pt-1 lg:space-y-2">
           <div
             @click="filter = {category_id: ''}"
             class="cursor-pointer bg-white border inline-block px-4 py-1 rounded-2xl shadow text-sm mx-1"
@@ -47,7 +47,7 @@
         </div>
       </div>
       <div class="w-full lg:w-4/5">
-        <div class="flex flex-col-reverse lg:flex-row items-start lg:items-center justify-between mb-10">
+        <div class="flex items-center justify-between lg:flex-row lg:items-center space-x-3">
           <search-box />
           <sorting :sorting="sorting" />
         </div>
