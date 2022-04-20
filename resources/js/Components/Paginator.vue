@@ -6,7 +6,7 @@
       :href="prevPage.url"
       :class="prevPage.url ? 'cursor-pointer hover:border-gray-700' : 'text-gray-500'"
       preserve-scroll
-      class="border flex items-center pl-4 pr-3 py-2 rounded rounded-l-full text-gray-500 text-sm"
+      class="border flex items-center px-3 rounded-lg text-gray-500 text-sm"
     >
       Prev
     </Component>
@@ -30,7 +30,7 @@
       :href="nextPage.url"
       :class="nextPage.url ? 'cursor-pointer hover:border-gray-700' : 'text-gray-500'"
       preserve-scroll
-      class="border flex items-center pl-3 pr-4 py-2 rounded rounded-r-full text-gray-500 text-sm"
+      class="border flex items-center px-3 rounded-lg text-gray-500 text-sm"
     >
       Next
     </Component>
@@ -41,21 +41,6 @@
 export default {
     props: ['links'],
 
-    // data() {
-    //     return {
-    //         pageLinks: this.links.slice(1, -1),
-    //         prevPage: this.links[0],
-    //         nextPage: this.links[this.links.length - 1],
-    //     }
-    // },
-
-    // watch: {
-    //     links(value) {
-    //         this.pageLinks = value.slice(1, -1)
-    //         this.prevPage = value[0]
-    //         this.nextPage = value[value.length - 1]
-    //     }
-    // }
     computed: {
         pageLinks() {
             return this.links.slice(1, -1)

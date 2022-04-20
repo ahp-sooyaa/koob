@@ -14,12 +14,7 @@
     </h2>
   </div>
 
-  <div
-    v-if="Object.keys($page.props.errors).length > 0"
-    class="bg-red-100 border-2 border-red-200 mt-5 mx-5 px-10 py-5 rounded-2xl"
-  >
-    <BreezeValidationErrors />
-  </div>
+  <BreezeValidationErrors class="w-1/2 mx-auto bg-red-100 border-2 border-red-200 mt-5 px-10 py-5 rounded-2xl" />
 
   <form
     @submit.prevent="submit"
@@ -73,7 +68,6 @@
         v-model="form.title"
         type="text"
         class="mt-1 block w-full"
-        required
         autocomplete="title"
       />
     </div>
@@ -88,7 +82,6 @@
         v-model="form.excerpt"
         type="text"
         class="mt-1 block w-full"
-        required
         autocomplete="username"
       />
     </div>
@@ -103,7 +96,6 @@
         v-model="form.author"
         type="text"
         class="mt-1 block w-full"
-        required
         autocomplete="author"
       />
     </div>
@@ -118,7 +110,6 @@
         v-model="form.price"
         type="number"
         class="mt-1 block w-full"
-        required
         autocomplete="price"
       />
     </div>
@@ -148,8 +139,11 @@ export default {
         BreezeLabel,
         BreezeValidationErrors,
     },
+
     layout: AdminLayout,
+
     props: ['categories'],
+
     data() {
         return {
             form: this.$inertia.form({

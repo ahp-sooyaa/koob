@@ -436,7 +436,6 @@ export default {
                     .catch((error) => {
                         this.paymentProcessing = false
                         this.errors = error.response.data.errors
-                        console.log(error.response.data.errors)
                     })
             }
         },

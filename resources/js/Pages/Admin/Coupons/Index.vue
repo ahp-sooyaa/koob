@@ -1,16 +1,16 @@
 <template>
   <Head>
-    <title>Admin Orders List</title>
+    <title>Admin Coupons list</title>
     <meta
       head-key="description"
       name="description"
-      content="This is the orders list page of admin"
+      content="This is the coupon list page of admin"
     >
   </Head>
 
   <div class="bg-white p-5 shadow">
     <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-      Orders List
+      Coupons List
     </h2>
   </div>
 
@@ -23,90 +23,76 @@
               scope="col"
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              ID
+              Code
             </th>
             <th
               scope="col"
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Customer Name
+              Program Name
             </th>
             <th
               scope="col"
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Customer Email
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Total Amount
+              Type
             </th>
             <th
               scope="col"
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Status
+              Value
             </th>
             <th
               scope="col"
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Placed Order At
+              Quantity
+            </th>
+            <th
+              scope="col"
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Expired at
             </th>
             <th
               scope="col"
               class="relative px-6 py-3"
             >
-              <span class="sr-only">Action</span>
+              <span class="sr-only">Edit</span>
             </th>
           </tr>
         </thead>
-        <tbody
-          v-if="orders.length"
-          class="bg-white divide-y divide-gray-200"
-        >
+        <tbody class="bg-white divide-y divide-gray-200">
           <tr
-            v-for="order in orders"
-            :key="order.id"
+            v-for="coupon in coupons"
+            :key="coupon.id"
           >
             <td class="px-6 py-4 whitespace-nowrap">
               <div class="text-sm text-gray-900">
-                {{ order.id }}
+                {{ coupon.code }}
               </div>
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              {{ order.user.name }}
+              {{ coupon.program_name }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              {{ order.user.email }}
-            </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">
-              {{ formatPrice(order.total) }}
+              {{ coupon.type }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              {{ order.status == 0 ? 'shipping' : 'delivered' }}
+              {{ coupon.value }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-              {{ formatDate(order.created_at) }}
+              {{ coupon.quantity ?? 'Unlimited' }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              {{ coupon.expired_at }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-              <Link
-                :href="route('admin.orders.edit', order)"
+              <a
+                href="#"
                 class="text-indigo-600 hover:text-indigo-900"
-              >
-                Edit
-              </Link>
-            </td>
-          </tr>
-        </tbody>
-        <tbody v-else>
-          <tr
-            class="px-6 py-4 whitespace-nowrap"
-          >
-            <td colspan="7">
-              No orders to show
+              >Edit</a>
             </td>
           </tr>
         </tbody>
@@ -117,14 +103,10 @@
 
 <script>
 import AdminLayout from '@/Layouts/Admin'
-import format from '@/mixins/format'
-
 export default {
-    mixins: [ format ],
-
     layout: AdminLayout,
 
-    props: ['orders'],
+    props: ['coupons']
 }
 </script>
 
