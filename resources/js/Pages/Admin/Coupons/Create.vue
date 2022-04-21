@@ -91,6 +91,26 @@
       >
     </div>
 
+    <!-- <select
+      id="appliable_on"
+      v-model="form.appliable_on"
+      name="appliable_on"
+    >
+      <option
+        disabled
+        value=""
+        selected
+      >
+        Select appliable product
+      </option>
+      <option value="all">
+        all products
+      </option>
+      <option value="category">
+        category
+      </option>
+    </select> -->
+
     <div class="mt-4">
       <BreezeLabel
         for="value"
@@ -167,6 +187,7 @@ export default {
                 code: '',
                 program_name: '',
                 type: '',
+                // appliable_on: '',
                 value: '',
                 quantity: '',
                 expired_at: '',

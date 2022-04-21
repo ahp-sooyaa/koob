@@ -3,6 +3,7 @@
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
@@ -27,6 +28,8 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/books/{book}/cart', [CartController::class, 'store'])->name('cart.store');
 Route::patch('/books/{book}/cart', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/books/{book}/cart', [CartController::class, 'destroy'])->name('cart.destroy');
+Route::get('/coupon/check', [CouponController::class, 'checkCouponValid'])->name('coupon.check');
+Route::delete('/coupon', [CouponController::class, 'removeCoupon'])->name('coupon.delete');
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -44,6 +47,10 @@ Route::get('/api/cart', function () {
     return auth()->check()
         ? Cart::where('user_id', auth()->id())->get()
         : (session('cart') ? array_values(session('cart')) : []);
+});
+
+Route::get('/coupon', function () {
+    return session('coupon');
 });
 
 Route::get('/mailable', function () {

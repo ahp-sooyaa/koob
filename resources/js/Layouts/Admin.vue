@@ -8,8 +8,8 @@
     >
   </Head>
   <div class="flex flex-row min-h-screen">
-    <div class="flex-none bg-gray-900 w-64 text-white">
-      <div class="h-full flex flex-col p-6">
+    <div class="bg-gray-900 flex-shrink-0 self-start sticky text-white top-0 w-64">
+      <div class="flex flex-col min-h-screen p-6">
         <Link
           :href="route('welcome')"
           class="font-black uppercase mb-5 text-2xl text-white"
@@ -210,7 +210,7 @@
             :href="route('logout')"
             method="post"
             as="button"
-            class="py-2 block text-left"
+            class="self-start py-2 text-left text-gray-400 hover:text-white"
           >
             LogOut
           </Link>

@@ -93,11 +93,62 @@
             <div class="space-y-3">
               <div class="flex justify-between">
                 <span class="text-gray-500">SubTotal</span>
-                <span>{{ cartTotal }}</span>
+                <span> 
+                  <span
+                    v-if="coupon"
+                    class="text-gray-500"
+                  >
+                    <!-- {{ coupon != '' && coupon.type == "Percentage" ? `(-${coupon.value}%)` : (-coupon.value) }} -->
+                    {{ coupon.type == "Percentage" ? `(-${coupon.value}%)` : `(-$${coupon.value})` }}
+                  </span> 
+                  {{ cartTotal }}
+                </span>
               </div>
               <div class="flex justify-between">
                 <span class="text-gray-500">Delivery Fee</span>
                 <span>Free</span>
+              </div>
+              <div
+                v-if="!couponApplied"
+                class="flex items-center justify-between relative"
+              >
+                <input
+                  v-model="code"
+                  type="text"
+                  placeholder="coupon"
+                  class="rounded-2xl w-full focus:ring-0 focus:border-black"
+                >
+                <div
+                  @click="applyCoupon"
+                  class="cursor-pointer absolute bg-gray-800 px-3 py-2 right-0 rounded-2xl text-gray-100"
+                >
+                  Apply
+                </div>
+              </div>
+              <div
+                v-else
+                class="flex justify-between bg-gray-100 py-2 px-3 -mx-3 rounded-lg"
+              >
+                <div class="text-gray-500">
+                  Coupon <span class="font-semibold">({{ coupon.code }})</span>
+                </div>
+                <div
+                  @click="cancelCoupon()"
+                  class="cursor-pointer text-gray-500 hover:text-gray-700"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-5 w-5"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
               </div>
             </div>
             <div class="flex justify-between pt-5">
@@ -161,10 +212,13 @@ export default {
 
     mixins: [ format ],
 
-    props: {
-        cart: {
-            type: Array,
-            required: true
+    props: ['cart','appliedCoupon'],
+
+    data() {
+        return {
+            code: this.appliedCoupon?.code,
+            coupon: this.appliedCoupon,
+            couponApplied: this.appliedCoupon ? true : false,
         }
     },
 
@@ -182,6 +236,12 @@ export default {
             let amount = 0
             for (const key in this.cart) {
                 amount += this.cart[key].quantity * this.cart[key].price
+            }
+
+            if(this.coupon) {
+                amount = (this.coupon.type == 'Percentage') 
+                    ? amount - (amount * (this.coupon.value / 100)) 
+                    : 100 * ((amount / 100) - this.coupon.value)
             }
             
             return this.formatPrice(amount)
@@ -216,6 +276,29 @@ export default {
                     flash(err.response.data.message, 'error')
                 })
             // this.$inertia.patch(`/books/${item.id}/cart`, {qty: parseInt(event.target.value)})
+        },
+
+        applyCoupon() {
+            axios.get('/coupon/check?couponCode=' + this.code)
+                .then(res => {
+                    console.log(res.data.coupon)
+                    this.coupon = res.data.coupon
+                    this.couponApplied = true
+                    window.flash('successfully applied coupon')
+                })
+                .catch(err => {
+                    console.log(err)
+                    flash('not valid coupon code', 'error')
+                })
+        },
+
+        cancelCoupon() {
+            axios.delete('/coupon')
+                .then(res => {
+                    this.couponApplied = false
+                    this.coupon = ''
+                })
+
         }
     }
 }

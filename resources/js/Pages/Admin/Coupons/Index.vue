@@ -33,6 +33,12 @@
             </th>
             <th
               scope="col"
+              class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Amount
+            </th>
+            <!-- <th
+              scope="col"
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
               Type
@@ -42,12 +48,18 @@
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
               Value
-            </th>
+            </th> -->
             <th
               scope="col"
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
               Quantity
+            </th>
+            <th
+              scope="col"
+              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Appliable On
             </th>
             <th
               scope="col"
@@ -76,14 +88,20 @@
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
               {{ coupon.program_name }}
             </td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">
+              {{ coupon.type == 'Percentage' ? `${coupon.value}%` : formatPrice(coupon.value) }}
+            </td>
+            <!-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
               {{ coupon.type }}
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
               {{ coupon.value }}
-            </td>
+            </td> -->
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
               {{ coupon.quantity ?? 'Unlimited' }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              Coming soon
             </td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
               {{ coupon.expired_at }}
@@ -103,7 +121,10 @@
 
 <script>
 import AdminLayout from '@/Layouts/Admin'
+import format from '@/mixins/format'
 export default {
+    mixins: [format],
+
     layout: AdminLayout,
 
     props: ['coupons']
