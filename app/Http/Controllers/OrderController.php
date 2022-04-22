@@ -88,6 +88,10 @@ class OrderController extends Controller
              */
 
             // coupon here or not
+            if (session('coupon')) {
+                auth()->user()->coupons()->attach(session('coupon')->id);
+                session()->pull('coupon');
+            }
 
             return $order;
         } catch (\Exception $e) {

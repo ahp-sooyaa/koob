@@ -32,7 +32,8 @@ class CheckoutController extends Controller
 
             return Inertia::render('Checkout', [
                 // notify user about the cart session is sync with cart table
-                'message' => session('cart') ? 'Your cart session data are combined with cart data from database' : ''
+                'message' => session('cart') ? 'Your cart session data are combined with cart data from database' : '',
+                'appliedCoupon' => session('coupon')
             ]);
         }
 

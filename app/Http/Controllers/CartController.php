@@ -14,7 +14,7 @@ class CartController extends Controller
     public function index()
     {
         // give user's all cart data from inertia shared props
-        return Inertia::render('Cart', ['appliedCoupon' => session('coupon') ?? null]);
+        return Inertia::render('Cart');
     }
 
     public function update(Book $book, Cart $cart, Request $request)

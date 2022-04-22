@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Coupon;
+use Carbon\Carbon;
 
 class CouponController extends Controller
 {
@@ -10,10 +11,12 @@ class CouponController extends Controller
     {
         $coupon = Coupon::where('code', request('couponCode'))->firstOrFail();
 
-        // if (empty($coupon)) {
-        //     return response()->json(['message' => 'not valid coupon'], 404);
-        // }
-        session()->put('coupon', $coupon);
+        if ($coupon->expired_at >= Carbon::now() && ! $coupon->users()->where('user_id', auth()->id())->exists()) {
+            session()->put('coupon', $coupon);
+        } else {
+            return response()->json(['message' => 'Sorry you can\'t use this coupon anymore'], 422);
+        }
+
         return response()->json(['coupon' => $coupon]);
     }
 
