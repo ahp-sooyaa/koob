@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Listeners\MoveCartSessionToDatabase;
+use App\Listeners\MoveCartSessionToCartDatabase;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -21,8 +21,8 @@ class EventServiceProvider extends ServiceProvider
             SendEmailVerificationNotification::class,
         ],
         Login::class => [
-            MoveCartSessionToDatabase::class
-        ]
+            MoveCartSessionToCartDatabase::class
+        ],
     ];
 
     /**

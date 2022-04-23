@@ -49,10 +49,6 @@ Route::get('/api/cart', function () {
         : (session('cart') ? array_values(session('cart')) : []);
 });
 
-Route::get('/coupon', function () {
-    return session('coupon');
-});
-
 Route::get('/mailable', function () {
     $order = App\Models\Order::find(1);
 

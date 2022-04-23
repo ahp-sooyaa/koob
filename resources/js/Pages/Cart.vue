@@ -86,6 +86,12 @@
         </div>
 
         <div class="bg-white w-full lg:w-1/3 p-4 lg:p-8 rounded-2xl shadow-md">
+          <div
+            v-if="message"
+            class="bg-gray-100 px-4 py-2 rounded-lg mb-5"
+          >
+            {{ message }}
+          </div>
           <h1 class="capitalize text-xl font-semibold mb-5">
             cart summary
           </h1>
@@ -161,7 +167,7 @@ export default {
 
     mixins: [ format ],
 
-    props: ['cart'],
+    props: ['message', 'cart'],
 
     computed: {
         cartQuantity() {

@@ -5,7 +5,7 @@ namespace App\Listeners;
 use App\Models\Cart;
 use Illuminate\Auth\Events\Login;
 
-class MoveCartSessionToDatabase
+class MoveCartSessionToCartDatabase
 {
     /**
      * Create the event listener.
@@ -27,6 +27,10 @@ class MoveCartSessionToDatabase
     {
         // check if there any cart session data
         if (session('cart')) {
+            if (Cart::where('user_id', $event->user->id)->get()) {
+                session()->put('cartItemsCombined', 'Your cart items are combined with old cart items. So please check before continue the process');
+            }
+
             // if there any cart session move to cart database
             foreach (session('cart') as $cartItem) {
                 // i don't check stock_count before sum & update the quantity of cart item here
@@ -45,6 +49,8 @@ class MoveCartSessionToDatabase
                     ]);
                 }
             }
+
+            session()->forget('cart');
         }
     }
 }
