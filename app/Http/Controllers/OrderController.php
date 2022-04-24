@@ -89,8 +89,10 @@ class OrderController extends Controller
 
             // coupon here or not
             if (session('coupon')) {
-                auth()->user()->coupons()->attach(session('coupon')->id);
-                session()->pull('coupon');
+                // auth()->user()->coupons()->attach(session('coupon')->id);
+                auth()->user()->coupons()->where('code', session('coupon')->code)->first()->pivot->update(['isApplied' => true]);
+
+                session()->forget('coupon');
             }
 
             return $order;

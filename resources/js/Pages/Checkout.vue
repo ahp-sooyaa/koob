@@ -407,7 +407,6 @@ export default {
             for (const key in this.cart) {
                 amount += this.cart[key].quantity * this.cart[key].price
             }
-            // console.log(amount - (amount * (10 / 100)), amount)
             if(this.coupon) {
                 amount = (this.coupon.type == 'Percentage') 
                     ? amount - (amount * (this.coupon.value / 100)) 

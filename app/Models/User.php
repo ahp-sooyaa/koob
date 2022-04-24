@@ -50,7 +50,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function coupons()
     {
-        return $this->belongsToMany(Coupon::class);
+        return $this->belongsToMany(Coupon::class)->withPivot('isApplied');
     }
 
     public function carts()

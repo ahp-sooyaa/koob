@@ -131,18 +131,19 @@
     </Link>
   </div>
 
-  <p class="text-center mb-12 text-2xl text-gray-400">
-    Coming Soon
-  </p>
+  <couponslist />
 </template>
 
 <script>
 import BreezeNavBarLayout from '@/Layouts/NavBar'
+import couponslist from '@/Components/CouponsList'
 
 export default {
+    components: {couponslist},
+
     layout: BreezeNavBarLayout,
 
-    props: ['totalOrderCount']
+    props: ['totalOrderCount'],
 }
 </script>
 

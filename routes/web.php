@@ -28,8 +28,6 @@ Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/books/{book}/cart', [CartController::class, 'store'])->name('cart.store');
 Route::patch('/books/{book}/cart', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/books/{book}/cart', [CartController::class, 'destroy'])->name('cart.destroy');
-Route::get('/coupon/check', [CouponController::class, 'checkCouponValid'])->name('coupon.check');
-Route::delete('/coupon', [CouponController::class, 'removeCoupon'])->name('coupon.delete');
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -39,6 +37,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
+
+    Route::get('/coupon', [CouponController::class, 'index'])->name('coupon.index');
+    Route::get('/coupon/check', [CouponController::class, 'checkCouponValid'])->name('coupon.check');
+    Route::delete('/coupon', [CouponController::class, 'removeCoupon'])->name('coupon.delete');
 });
 
 Route::get('/thankyou/{order}', [CheckoutController::class, 'thankyou'])->name('checkout.thankyou');
