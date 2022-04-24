@@ -27,7 +27,7 @@ class MoveCartSessionToCartDatabase
     {
         // check if there any cart session data
         if (session('cart')) {
-            if (Cart::where('user_id', $event->user->id)->get()) {
+            if (Cart::where('user_id', $event->user->id)->exists()) {
                 session()->put('cartItemsCombined', 'Your cart items are combined with old cart items. So please check before continue the process');
             }
 

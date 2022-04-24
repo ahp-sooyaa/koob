@@ -455,9 +455,13 @@ export default {
             axios.delete(`/books/${item.id}/cart`)
                 .then(() => {
                     _this.cart.splice(index, 1)
-                    !Object.keys(_this.cart).length ? window.location.replace('/books') : ''
-                    window.events.emit('cartQtyUpdated')
-                    window.flash('Successfully deleted from cart')
+                    
+                    if(!Object.keys(_this.cart).length) {
+                        this.$inertia.visit('/books')
+                    } else {
+                        window.events.emit('cartQtyUpdated')
+                        window.flash('Successfully deleted from cart')
+                    }
                 })
         },
 

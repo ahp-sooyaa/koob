@@ -21079,59 +21079,64 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     removeFromCart: function removeFromCart(index, item) {
+      var _this3 = this;
+
       var _this = this;
 
       axios["delete"]("/books/".concat(item.id, "/cart")).then(function () {
         _this.cart.splice(index, 1);
 
-        !Object.keys(_this.cart).length ? window.location.replace('/books') : '';
-        window.events.emit('cartQtyUpdated');
-        window.flash('Successfully deleted from cart');
+        if (!Object.keys(_this.cart).length) {
+          _this3.$inertia.visit('/books');
+        } else {
+          window.events.emit('cartQtyUpdated');
+          window.flash('Successfully deleted from cart');
+        }
       });
     },
     processPayment: function processPayment() {
-      var _this3 = this;
+      var _this4 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var _yield$_this3$stripe$, paymentMethod, error;
+        var _yield$_this4$stripe$, paymentMethod, error;
 
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _this3.paymentProcessing = true;
+                _this4.paymentProcessing = true;
                 _context2.next = 3;
-                return _this3.stripe.createPaymentMethod('card', _this3.cardElement, {
+                return _this4.stripe.createPaymentMethod('card', _this4.cardElement, {
                   billing_details: {
-                    name: _this3.customer.first_name + ' ' + _this3.customer.last_name,
-                    email: _this3.customer.email,
+                    name: _this4.customer.first_name + ' ' + _this4.customer.last_name,
+                    email: _this4.customer.email,
                     address: {
-                      line1: _this3.customer.address,
-                      city: _this3.customer.city,
-                      state: _this3.customer.state,
-                      postal_code: _this3.customer.zip_code
+                      line1: _this4.customer.address,
+                      city: _this4.customer.city,
+                      state: _this4.customer.state,
+                      postal_code: _this4.customer.zip_code
                     }
                   }
                 });
 
               case 3:
-                _yield$_this3$stripe$ = _context2.sent;
-                paymentMethod = _yield$_this3$stripe$.paymentMethod;
-                error = _yield$_this3$stripe$.error;
+                _yield$_this4$stripe$ = _context2.sent;
+                paymentMethod = _yield$_this4$stripe$.paymentMethod;
+                error = _yield$_this4$stripe$.error;
 
                 if (error) {
-                  _this3.paymentProcessing = false;
+                  _this4.paymentProcessing = false;
                 } else {
-                  _this3.customer.payment_method_id = paymentMethod.id;
-                  _this3.customer.amount = _this3.cartTotal;
-                  _this3.customer.cart = JSON.stringify(_this3.$page.props.cart);
-                  axios.post(route('orders.store', _this3.customer)).then(function (response) {
-                    _this3.paymentProcessing = false;
+                  _this4.customer.payment_method_id = paymentMethod.id;
+                  _this4.customer.amount = _this4.cartTotal;
+                  _this4.customer.cart = JSON.stringify(_this4.$page.props.cart);
+                  axios.post(route('orders.store', _this4.customer)).then(function (response) {
+                    _this4.paymentProcessing = false;
 
-                    _this3.$inertia.get('/thankyou/' + response.data.id);
+                    _this4.$inertia.get('/thankyou/' + response.data.id);
                   })["catch"](function (error) {
-                    _this3.paymentProcessing = false;
-                    _this3.errors = error.response.data.errors;
+                    _this4.paymentProcessing = false;
+                    _this4.errors = error.response.data.errors;
                   });
                 }
 
@@ -21144,12 +21149,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     applyCoupon: function applyCoupon() {
-      var _this4 = this;
+      var _this5 = this;
 
       axios.get('/coupon/check?couponCode=' + this.code).then(function (res) {
         console.log(res.data.coupon);
-        _this4.coupon = res.data.coupon;
-        _this4.couponApplied = true;
+        _this5.coupon = res.data.coupon;
+        _this5.couponApplied = true;
         flash('Successfully applied coupon');
       })["catch"](function (err) {
         console.log(err.response.status);
