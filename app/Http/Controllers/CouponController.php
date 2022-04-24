@@ -9,7 +9,9 @@ class CouponController extends Controller
 {
     public function index()
     {
-        return auth()->user()->coupons;
+        return auth()->user()->coupons->filter(function ($coupon) {
+            return ! $coupon->pivot->isApplied && $coupon->expired_at >= Carbon::now();
+        });
     }
 
     public function checkCouponValid()

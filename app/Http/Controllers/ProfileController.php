@@ -14,8 +14,19 @@ class ProfileController extends Controller
      */
     public function index()
     {
+        $totalPurchasedBooks = 0;
+
+        foreach (auth()->user()->orders as $order) {
+            foreach ($order->books as $book) {
+                $totalPurchasedBooks += $book->pivot->quantity;
+            }
+        }
+
         return Inertia::render('Profile', [
-            'totalOrderCount' => count(auth()->user()->orders)
+            'totalOrderCount' => count(auth()->user()->orders),
+            'totalSpentAmount' => auth()->user()->orders->sum('total'),
+            'totalPurchasedBooks' => $totalPurchasedBooks,
+            'pendingOrders' => count(auth()->user()->orders()->where('status', 0)->get())
         ]);
     }
 

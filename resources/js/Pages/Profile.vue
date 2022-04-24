@@ -44,7 +44,7 @@
             <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
           </svg>
           <p class="text-2xl font-bold mb-2 mt-5">
-            0
+            {{ totalPurchasedBooks }}
           </p>
           <p class="leading-tight text-gray-700 text-sm">
             Total Purchased <br> Books
@@ -64,7 +64,7 @@
             />
           </svg>
           <p class="text-2xl font-bold mb-2 mt-5">
-            0
+            {{ formatPrice(totalSpentAmount) }}
           </p>
           <p class="leading-tight text-gray-700 text-sm">
             Total Spent <br> Amount
@@ -105,7 +105,7 @@
             />
           </svg>
           <p class="text-2xl font-bold mb-2 mt-5">
-            0
+            {{ pendingOrders }}
           </p>
           <p class="leading-tight text-gray-700 text-sm">
             Pending <br> Orders
@@ -137,13 +137,16 @@
 <script>
 import BreezeNavBarLayout from '@/Layouts/NavBar'
 import couponslist from '@/Components/CouponsList'
+import format from '@/mixins/format'
 
 export default {
     components: {couponslist},
 
+    mixins: [format],
+
     layout: BreezeNavBarLayout,
 
-    props: ['totalOrderCount'],
+    props: ['totalOrderCount', 'totalSpentAmount', 'totalPurchasedBooks', 'pendingOrders'],
 }
 </script>
 
