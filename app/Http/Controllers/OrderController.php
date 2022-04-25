@@ -27,9 +27,8 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'first_name' => ['required', 'string'],
-            'last_name' => ['required', 'string'],
-            'email' => ['required', 'email'],
+            'contact_name' => ['required', 'string'],
+            'contact_email' => ['required', 'email'],
             'address' => ['required', 'string'],
             'city' => ['required', 'string'],
             'state' => ['required', 'string'],
@@ -38,26 +37,27 @@ class OrderController extends Controller
 
         // check order quantity are more than avaliable stock here
         // or check this in addToCart before add to cart
-        $user = User::firstOrCreate(
-            [
-                'email' => $request->input('email')
-            ],
-            [
-                'password' => Hash::make(Str::random(12)),
-                'name' => $request->input('first_name') . ' ' . $request->input('last_name')
-            ]
-        );
+        // $user = User::firstOrCreate(
+        //     [
+        //         'email' => $request->input('email')
+        //     ],
+        //     [
+        //         'password' => Hash::make(Str::random(12)),
+        //         'name' => $request->input('first_name') . ' ' . $request->input('last_name')
+        //     ]
+        // );
 
         try {
-            $payment = $user->charge(
+            $payment = auth()->user()->charge(
                 $request->input('amount'),
                 $request->input('payment_method_id')
             );
 
             $payment = $payment->asStripePaymentIntent();
 
-            $order = $user->orders()
+            $order = auth()->user()->orders()
                 ->create([
+                    // 'email' => $request->input('email'), this should save because user can fill different email in contact information section and that email will be useless if we don't save and we can't send mail to that address and we can only send mail to user registered email
                     'transaction_id' => $payment->charges->data[0]->id,
                     'total' => $payment->charges->data[0]->amount,
                     'address' => $request->input('address'),

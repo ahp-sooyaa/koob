@@ -7,14 +7,24 @@
   <div class="flex flex-1 flex-col px-1">
     <Link
       :href="'books/' + data.id"
-      class="font-semibold line-clamp-2 mb-auto text-lg lg:text-sm"
+      class="font-semibold line-clamp-2 text-lg lg:text-sm"
     >
       {{ data.title }}
     </Link>
-    <div class="flex justify-between items-baseline mt-3">
-      <span class="text-gray-500 mr-3 text-lg lg:text-sm">{{ formatPrice(data.price) }}</span>
+    <div class="mt-2 mb-auto text-gray-500 mr-3 text-lg lg:text-sm">
+      {{ formatPrice(data.price) }}
+    </div>
+    <div
+      v-if="data.stock_count"
+      class="flex justify-between mt-3 space-x-3"
+    >
       <div
-        v-if="data.stock_count"
+        @click="buyNow"
+        class="bg-blue-500 border cursor-pointer flex flex-1 items-center justify-center px-5 py-3 rounded-xl text-white"
+      >
+        Buy Now
+      </div>
+      <div
         @click="addToCart"
         class="bg-gradient-to-bl border cursor-pointer flex from-indigo-500 items-center relative rounded-xl text-white to-red-500 h-14 w-14 lg:h-12 lg:w-12"
         dusk="addToCart"
@@ -63,7 +73,12 @@
           />
         </svg>
       </div>
-      <span v-else>Out of stock</span>
+    </div>
+    <div
+      v-else
+      class="py-3"
+    >
+      Out of stock
     </div>
   </div>
 </template>
@@ -98,6 +113,15 @@ export default {
                     this.isAdded = true
                     window.events.emit('cartQtyUpdated')
                     window.flash('Successfully added to Cart')
+                })
+                .catch(err => flash(err.response.data.message, 'error'))
+        },
+
+        buyNow() {
+            axios.post(`/books/${this.data.id}/cart`)
+                .then(() => {
+                    window.events.emit('cartQtyUpdated')
+                    this.$inertia.visit('/checkout')
                 })
                 .catch(err => flash(err.response.data.message, 'error'))
         }

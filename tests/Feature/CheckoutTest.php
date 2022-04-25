@@ -55,19 +55,14 @@ class CheckoutTest extends TestCase
      * test_thankyou_page_is_render_after_checkout_successful
      * test_user_cannot_checkout_if_there_is_exceeded_stock_count_cart_item
      */
-    public function test_order_requires_first_name()
+    public function test_order_requires_contact_name()
     {
-        $this->validate_checkout_form('first_name');
+        $this->validate_checkout_form('contact_name');
     }
 
-    public function test_order_requires_last_name()
+    public function test_order_requires_contact_email()
     {
-        $this->validate_checkout_form('last_name');
-    }
-
-    public function test_order_requires_email()
-    {
-        $this->validate_checkout_form('email');
+        $this->validate_checkout_form('contact_email');
     }
 
     public function test_order_requires_address()
@@ -95,9 +90,8 @@ class CheckoutTest extends TestCase
         $this->actingAs(User::factory()->create());
 
         $checkoutForm = [
-            'first_name' => 'first name',
-            'last_name' => 'last name',
-            'email' => 'email@email.com',
+            'contact_name' => 'last name',
+            'contact_email' => 'email@email.com',
             'address' => 'address',
             'city' => 'city',
             'state' => 'state',

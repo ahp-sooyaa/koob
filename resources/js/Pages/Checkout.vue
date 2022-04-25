@@ -16,64 +16,43 @@
             Contact Information
           </h1>
           <div class="lg:flex flex-wrap -mx-2">
-            <div class="p-2 lg:w-1/3">
+            <div class="p-2 lg:w-1/2">
               <div class="relative">
                 <label
-                  for="first_name"
+                  for="contact_name"
                   class="leading-7 text-sm text-gray-600"
-                >First Name</label>
+                >Name</label>
                 <BreezeInput
-                  id="first_name"
-                  v-model="customer.first_name"
+                  id="contact_name"
+                  v-model="customer.contact_name"
                   type="text"
                   class="mt-1 block w-full"
                   required
-                  autofocus
-                  autocomplete="first_name"
+                  autocomplete="contact_name"
                   :disabled="paymentProcessing"
                 />
                 <BreezeInputError
-                  :message="errors.first_name ? errors.first_name[0] : ''"
+                  :message="errors.contact_name ? errors.contact_name[0] : ''"
                 />
               </div>
             </div>
-            <div class="p-2 lg:w-1/3">
+            <div class="p-2 lg:w-1/2">
               <div class="relative">
                 <label
-                  for="last_name"
-                  class="leading-7 text-sm text-gray-600"
-                >Last Name</label>
-                <BreezeInput
-                  id="last_name"
-                  v-model="customer.last_name"
-                  type="text"
-                  class="mt-1 block w-full"
-                  required
-                  autocomplete="last_name"
-                  :disabled="paymentProcessing"
-                />
-                <BreezeInputError
-                  :message="errors.last_name ? errors.last_name[0] : ''"
-                />
-              </div>
-            </div>
-            <div class="p-2 lg:w-1/3">
-              <div class="relative">
-                <label
-                  for="email"
+                  for="contact_email"
                   class="leading-7 text-sm text-gray-600"
                 >Email Address</label>
                 <BreezeInput
-                  id="email"
-                  v-model="customer.email"
+                  id="contact_email"
+                  v-model="customer.contact_email"
                   type="email"
                   class="mt-1 block w-full"
                   required
-                  autocomplete="email"
+                  autocomplete="contact_email"
                   :disabled="paymentProcessing"
                 />
                 <BreezeInputError
-                  :message="errors.email ? errors.email[0] : ''"
+                  :message="errors.contact_email ? errors.contact_email[0] : ''"
                 />
               </div>
             </div>
@@ -374,9 +353,8 @@ export default {
             stripe: {},
             cardElement: {},
             customer: {
-                first_name: '',
-                last_name: '',
-                email: '',
+                contact_name: this.$page.props.auth.user?.name,
+                contact_email: this.$page.props.auth.user?.email,
                 address: '',
                 city: '',
                 state: '',
@@ -472,8 +450,8 @@ export default {
                 this.cardElement,
                 {
                     billing_details: {
-                        name: this.customer.first_name + ' ' + this.customer.last_name,
-                        email: this.customer.email,
+                        name: this.customer.contact_name,
+                        email: this.customer.contact_email,
                         address: {
                             line1: this.customer.address,
                             city: this.customer.city,
