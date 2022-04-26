@@ -21,7 +21,7 @@ class Cart
         }
     }
 
-    public function add($book)
+    public function add($book, $qty = 1)
     {
         // check user is logged in or not
         // if user is not logged in use session
@@ -31,11 +31,11 @@ class Cart
                 session()->put($this->cartKey($book->id), [
                     'id' => $book->id,
                     'title' => $book->title,
-                    'quantity' => 1,
+                    'quantity' => $qty,
                     'price' => $book->price,
                 ]);
             } else {
-                $cartItem['quantity']++;
+                $cartItem['quantity'] += $qty;
                 session()->put($this->cartKey($book->id), $cartItem);
             }
         } else {
@@ -46,11 +46,11 @@ class Cart
                     'user_id' => auth()->id(),
                     'book_id' => $book->id,
                     'title' => $book->title,
-                    'quantity' => 1,
+                    'quantity' => $qty,
                     'price' => $book->price
                 ]);
             } else {
-                $cartItem->increment('quantity');
+                $cartItem->quantity += $qty;
             }
         }
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use App\Models\Category;
+use App\Models\Order;
 use Inertia\Inertia;
 
 class BookController extends Controller
@@ -48,6 +49,11 @@ class BookController extends Controller
 
     public function show(Book $book)
     {
-        return Inertia::render('Books/Show', compact('book'));
+        $previousPurchasedOrder = Order::where('user_id', auth()->id())
+            ->whereHas('books', function ($query) use ($book) {
+                $query->where('books.id', $book->id);
+            })->latest()->first();
+
+        return Inertia::render('Books/Show', compact('book', 'previousPurchasedOrder'));
     }
 }

@@ -15,7 +15,21 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::where('user_id', auth()->id())->latest()->get();
+        $orders = Order::query()
+            ->where('user_id', auth()->id())
+            // ->when(request('search'), function ($query, $search) {
+            //     $query->where(function ($query) use ($search) {
+            //         $query->where('id', 'like', "%{$search}%")
+            //             ->orWhereHas('books.id', function ($query, $search) {
+            //                 $query->where('name', 'like', "%{$search}%");
+            //             });
+            //     });
+            // })
+            ->when(request('search'), function ($query, $search) {
+                $query->where('id', 'like', "%{$search}%");
+            })
+            ->latest()
+            ->paginate(5);
         return Inertia::render('Orders/Index', compact('orders'));
     }
 

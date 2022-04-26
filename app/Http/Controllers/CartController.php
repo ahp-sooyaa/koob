@@ -34,18 +34,19 @@ class CartController extends Controller
         // return back()->with('message', 'success');
     }
 
-    public function store(Book $book, Cart $cart)
+    public function store(Book $book, Cart $cart, Request $request)
     {
         // add to cart session or table
+        $qty = $request->input('qty') ?: 1;
         $cartItem = auth()->check() ? ModelsCart::where('book_id', $book->id)->first() : session("cart.{$book->id}");
-
-        if ($book->stock_count < (is_null($cartItem) ? 0 : $cartItem['quantity']) + 1) {
+        
+        if ($book->stock_count < (is_null($cartItem) ? 0 : $cartItem['quantity']) + $qty) {
             return response()->json([
                 'message' => "Quantity is exceeding over stock. Available quantity($book->stock_count)"
             ], 422);
         }
 
-        $cart->add($book);
+        $cart->add($book, $qty);
 
         // return Redirect::back()->with('cart', ModelsCart::where('user_id', auth()->id())->get());
     }

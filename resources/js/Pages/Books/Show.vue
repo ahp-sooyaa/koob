@@ -10,7 +10,21 @@
   <Flash />
 
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 my-16 pt-7">
-    <div class="flex justify-center">
+    <div
+      v-if="previousPurchasedOrder"
+      class="bg-white inline-block mb-5 px-5 py-3 rounded-2xl shadow"
+    >
+      <h1>
+        You have previously purchased this book. See 
+        <Link
+          :href="route('orders.show', previousPurchasedOrder.id)"
+          class="hover:text-gray-800 underline"
+        >
+          order detail
+        </Link>
+      </h1>
+    </div>
+    <div class="flex justify-start">
       <img
         :src="book.cover"
         alt="book_cover"
@@ -29,8 +43,9 @@
           <select
             id="qty"
             v-model="quantity"
+            @change="updateCartQuantity(book, $event)"
             name="qty"
-            class="mr-3"
+            class="mr-3 rounded-2xl"
           >
             <option
               v-for="qty in 10"
@@ -64,16 +79,12 @@ export default {
 
     layout: BreezeNavBarLayout,
 
-    props: {
-        book: {
-            type: Object,
-            required: true,
-        },
-    },
+    props: ['book', 'previousPurchasedOrder'],
 
     data() {
         return {
             quantity: 1,
+            initialQuantity: 1,
             isAdded: this.$page.props.cart.some(
                 (item) => item['id'] === this.book.id
             ),
@@ -84,12 +95,23 @@ export default {
         addToCart() {
             axios
                 .post(`/books/${this.book.id}/cart`, { qty: this.quantity })
-                .catch((err) => console.log(err))
                 .then(() => {
                     this.isAdded = true
                     window.events.emit('cartQtyUpdated')
                     window.flash('Successfully added to Cart')
                 })
+                .catch((err) => console.log(err))
+        },
+
+        updateCartQuantity(book, event){
+            if (book.stock_count < parseInt(event.target.value)) {
+                this.quantity = this.initialQuantity
+                window.flash(`Quantity is exceeding over stock. Available quantity(${book.stock_count})`, 'error')
+            } else {
+                this.initialQuantity = this.quantity
+                window.events.emit('cartQtyUpdated')
+                window.flash('Successfully Updated')
+            }
         },
     },
 }

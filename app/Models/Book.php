@@ -11,7 +11,7 @@ class Book extends Model
 
     protected $guarded = [];
 
-    public function order()
+    public function orders()
     {
         return $this->belongsToMany(Order::class);
     }
