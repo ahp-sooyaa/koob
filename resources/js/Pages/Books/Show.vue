@@ -104,9 +104,9 @@ export default {
         },
 
         updateCartQuantity(book, event){
-            if (book.stock_count < parseInt(event.target.value)) {
+            if (book.available_stock_count < parseInt(event.target.value)) {
                 this.quantity = this.initialQuantity
-                window.flash(`Quantity is exceeding over stock. Available quantity(${book.stock_count})`, 'error')
+                window.flash(`Quantity is exceeding over stock. Available quantity(${book.available_stock_count})`, 'error')
             } else {
                 this.initialQuantity = this.quantity
                 window.events.emit('cartQtyUpdated')

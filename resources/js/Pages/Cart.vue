@@ -16,9 +16,23 @@
       </h2>
     </template>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12 min-h-96">
+      <div v-if="overStockItems.length">
+        Some items in your cart are not available right now.
+        <div
+          v-for="overStockItem in overStockItems"
+          :key="overStockItem.id"
+        >
+          {{ overStockItem.title }}
+        </div>
+      </div>
       <div
         v-if="cart.length"
-        class="flex flex-col lg:flex-row space-y-5 lg:items-start lg:space-y-0 lg:space-x-10"
+        class="
+          flex flex-col
+          lg:flex-row
+          space-y-5
+          lg:items-start lg:space-y-0 lg:space-x-10
+        "
       >
         <div class="bg-white rounded-2xl p-4 lg:p-8 shadow-md w-full lg:w-2/3">
           <!-- question mark svg -->
@@ -49,7 +63,13 @@
                 <h1>{{ item.title }}</h1>
                 <div class="flex items-center space-x-5">
                   <select
-                    @change="updateCartQuantity(index, item.user_id ? item.book : item, $event)"
+                    @change="
+                      updateCartQuantity(
+                        index,
+                        item.user_id ? item.book : item,
+                        $event
+                      )
+                    "
                     class="rounded-2xl shadow-md cursor-pointer"
                   >
                     <option
@@ -61,12 +81,23 @@
                       {{ qty }}
                     </option>
                   </select>
-                  <span class="font-semibold">{{ formatPrice(item.price) }}</span>
+                  <span class="font-semibold">{{
+                    formatPrice(item.price)
+                  }}</span>
                 </div>
               </div>
               <button
                 @click="removeFromCart(index, item.user_id ? item.book : item)"
-                class="flex ml-auto text-sm text-gray-500 hover:text-gray-800 border-0 pt-0.5 focus:outline-none rounded"
+                class="
+                  flex
+                  ml-auto
+                  text-sm text-gray-500
+                  hover:text-gray-800
+                  border-0
+                  pt-0.5
+                  focus:outline-none
+                  rounded
+                "
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -118,12 +149,18 @@
             >
               Continue Shopping
             </Link>
-            <Link
+            <!-- <Link
               :href="route('checkout.index')"
               class="ml-5 bg-blue-500 px-3 py-1.5 rounded-md text-white shadow"
             >
               Checkout
-            </Link>
+            </Link> -->
+            <div
+              @click="checkStockForCheckout"
+              class="ml-5 bg-blue-500 px-3 py-1.5 rounded-md text-white shadow cursor-pointer"
+            >
+              Checkout
+            </div>
           </div>
         </div>
       </div>
@@ -136,7 +173,7 @@
           src="https://assets6.lottiefiles.com/packages/lf20_0s6tfbuc.json"
           background="transparent"
           speed="1"
-          style="width: 200px; height: 200px;"
+          style="width: 200px; height: 200px"
           loop
           autoplay
           class="mx-auto"
@@ -165,9 +202,15 @@ export default {
         BreezeNavBarLayout,
     },
 
-    mixins: [ format ],
+    mixins: [format],
 
     props: ['message', 'cart'],
+
+    data() {
+        return {
+            overStockItems: ''
+        }
+    },
 
     computed: {
         cartQuantity() {
@@ -184,7 +227,7 @@ export default {
             for (const key in this.cart) {
                 amount += this.cart[key].quantity * this.cart[key].price
             }
-            
+
             return this.formatPrice(amount)
         },
     },
@@ -193,31 +236,40 @@ export default {
         removeFromCart(index, item) {
             let _this = this
 
-            axios.delete(`/books/${item.id}/cart`)
-                .then(() => {
-                    _this.cart.splice(index, 1)
+            axios.delete(`/books/${item.id}/cart`).then(() => {
+                _this.cart.splice(index, 1)
 
-                    window.events.emit('cartQtyUpdated')
-                    window.flash('Successfully deleted from cart')
-                })
+                window.events.emit('cartQtyUpdated')
+                window.flash('Successfully deleted from cart')
+            })
         },
 
-        updateCartQuantity(index, item, event){
+        updateCartQuantity(index, item, event) {
             let _this = this
             let cartItem = _this.cart[index]
 
-            axios.patch(`/books/${item.id}/cart`, {qty: parseInt(event.target.value)})
-                .then(res => {
+            axios
+                .patch(`/books/${item.id}/cart`, { qty: parseInt(event.target.value) })
+                .then((res) => {
                     cartItem.quantity = parseInt(event.target.value)
                     window.events.emit('cartQtyUpdated')
                     window.flash(res.data.message)
                 })
-                .catch(err => {
+                .catch((err) => {
                     event.target.value = cartItem.quantity
                     flash(err.response.data.message, 'error')
                 })
             // this.$inertia.patch(`/books/${item.id}/cart`, {qty: parseInt(event.target.value)})
         },
-    }
+
+        checkStockForCheckout() {
+            axios.get('cart/check')
+                .then(() => this.$inertia.visit('/checkout'))
+                .catch(err => {
+                    console.log(err.response.data.overstockitems)
+                    this.overStockItems = err.response.data.overstockitems
+                })
+        }
+    },
 }
 </script>

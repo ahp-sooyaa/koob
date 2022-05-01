@@ -15,20 +15,15 @@ class CheckoutController extends Controller
         $cart = Cart::where('user_id', auth()->id())->get();
 
         if (auth()->check() && $cart->isNotEmpty()) {
-            // decrease available count when user click checkout
-            // return $cart->map(function ($item) {
-            //     $book = Book::find($item->id);
+            if (! session('checkoutProcess')) {
+                // decrease available count when user click checkout
+                foreach ($cart as $cartItem) {
+                    $book = Book::find($cartItem->book_id);
+                    $book->update(['available_stock_count' => $book->available_stock_count - $cartItem->quantity]);
+                }
 
-            //     if ($book->available_stock_count != 0) {
-            //         $book->update([
-            //             'available_stock_count' => $book->available_stock_count - $item->quantity
-            //         ]);
-            //     } else {
-            //         return response()->json([
-            //             'message' => 'Sorry, your cart item ' . $book->title . ' is not available to checkout. All items are in reserved.'
-            //         ], 422);
-            //     }
-            // });
+                session()->put('checkoutProcess', true);
+            }
 
             return Inertia::render('Checkout', [
                 // notify user about the cart session is sync with cart table

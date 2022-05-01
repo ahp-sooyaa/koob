@@ -25,9 +25,13 @@ Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show')
 
 /** cart url is little strange **/
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::get('/cart/check', [CartController::class, 'checkStockForCheckout'])->name('cart.check');
 Route::post('/books/{book}/cart', [CartController::class, 'store'])->name('cart.store');
 Route::patch('/books/{book}/cart', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/books/{book}/cart', [CartController::class, 'destroy'])->name('cart.destroy');
+
+Route::patch('/cancelCheckoutProcess', [CartController::class, 'cancelCheckoutProcess'])->name('cart.cancelCheckoutProcess');
+Route::patch('/timeoutCheckoutProcess', [CartController::class, 'timeoutCheckoutProcess'])->name('cart.timeoutCheckoutProcess');
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');

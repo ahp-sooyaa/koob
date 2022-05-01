@@ -15,7 +15,7 @@
       {{ formatPrice(data.price) }}
     </div>
     <div
-      v-if="data.stock_count"
+      v-if="data.available_stock_count && data.stock_count"
       class="flex justify-between mt-3 space-x-3"
     >
       <div
@@ -75,10 +75,16 @@
       </div>
     </div>
     <div
-      v-else
+      v-if="!data.available_stock_count && data.stock_count"
       class="py-3"
     >
-      Out of stock
+      Not available right now
+    </div>
+    <div
+      v-if="!data.available_stock_count && !data.stock_count"
+      class="py-3"
+    >
+      Out of Stock
     </div>
   </div>
 </template>

@@ -6,7 +6,7 @@
 
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Checkout
+        Checkout {{ isInactive }}
       </h2>
     </template>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 mb-16 mt-12">
@@ -217,7 +217,6 @@
                       )
                     "
                     class="rounded-2xl shadow-md cursor-pointer"
-                    :class="item.quantity > item.book.stock_count ? 'border-red-500 text-red-500' : ''"
                   >
                     <option
                       v-for="qty in 10"
@@ -231,9 +230,6 @@
                   <span class="font-semibold">
                     {{ formatPrice(item.price) }}
                   </span>
-                </div>
-                <div class="text-gray-400">
-                  {{ item.quantity > item.book.stock_count ? "This is exceeding over stock count" : '' }}
                 </div>
               </div>
               <button
@@ -324,6 +320,9 @@
               <span class="font-semibold">{{ formatPrice(cartTotal) }}</span>
             </div>
           </div>
+          <div @click="cancelCheckoutProcess">
+            cancel
+          </div>
         </div>
       </div>
     </div>
@@ -335,6 +334,7 @@ import BreezeNavBarLayout from '@/Layouts/NavBar'
 import BreezeInputError from '@/Components/InputError'
 import BreezeInput from '@/Components/Input'
 import format from '@/mixins/format'
+import throttle from 'lodash/throttle'
 
 export default {
     components: {
@@ -349,6 +349,9 @@ export default {
 
     data() {
         return {
+            userActivityTimeout: null,
+            isInactive: false,
+            time: '',
             errors: [],
             stripe: {},
             cardElement: {},
@@ -395,8 +398,19 @@ export default {
         },
 
         isThereAnyOverStockCount() {
-            return this.cart.some((item) => item.quantity > item.book.stock_count)
+            return this.cart.some((item) => item.quantity > item.book.available_stock_count)
         }
+    },
+
+    created() {
+        // if (!this.time) {
+        //     this.time = setTimeout(() => {
+        //         axios.patch('/restoreStock')
+        //             .then(() => this.$inertia.get('/cart'))
+        //             .catch()
+        //     }, (1000 * 60))
+        // }
+        this.activateActivityTracker()
     },
 
     async mounted() {
@@ -435,6 +449,7 @@ export default {
                     _this.cart.splice(index, 1)
                     
                     if(!Object.keys(_this.cart).length) {
+                        clearTimeout(this.userActivityTimeout)
                         this.$inertia.visit('/books')
                     } else {
                         window.events.emit('cartQtyUpdated')
@@ -444,6 +459,7 @@ export default {
         },
 
         async processPayment() {
+            clearTimeout(this.userActivityTimeout)
             this.paymentProcessing = true
             const { paymentMethod, error } = await this.stripe.createPaymentMethod(
                 'card',
@@ -501,7 +517,44 @@ export default {
                     this.couponApplied = false, 
                     this.coupon = ''
                 )
+        },
+        
+        cancelCheckoutProcess(){
+            clearTimeout(this.userActivityTimeout)
+            window.removeEventListener('mousemove', this.resetUserActivityTimeout())
+            window.removeEventListener('scroll', this.resetUserActivityTimeout())
+            window.removeEventListener('keydown', this.resetUserActivityTimeout())
+            axios.patch('/cancelCheckoutProcess')
+                .then(() => this.$inertia.get('/cart'))
+                .catch()
+        },
 
+        activateActivityTracker() {
+            window.addEventListener('mousemove', throttle(() => {this.resetUserActivityTimeout()}, (1000 * 60) * 5))
+            window.addEventListener('scroll', throttle(() => {this.resetUserActivityTimeout()}, (1000 * 60) * 5))
+            window.addEventListener('keydown', throttle(() => {this.resetUserActivityTimeout()}, (1000 * 60) * 5))
+        },
+
+        resetUserActivityTimeout() {
+            console.log('hit')
+            clearTimeout(this.userActivityTimeout)
+            this.userActivityTimeout = setTimeout(() => {
+                axios.patch('/timeoutCheckoutProcess')
+                    .then(() => {
+                        this.$inertia.get('/')
+                        clearTimeout(this.userActivityTimeout)
+                    })
+                    .catch()
+            }, (1000 * 60) * 30)
+        },
+
+        checkStockForCheckout() {
+            axios.get('cart/check')
+                .then(() => this.$inertia.visit('/checkout'))
+                .catch(err => {
+                    console.log(err.response.data.overstockitems)
+                    this.overStockItems = err.response.data.overstockitems
+                })
         }
     },
 }

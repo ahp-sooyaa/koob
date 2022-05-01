@@ -109,6 +109,8 @@ class OrderController extends Controller
                 session()->forget('coupon');
             }
 
+            session()->forget('checkoutProcess');
+
             return $order;
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);

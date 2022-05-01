@@ -38,7 +38,8 @@ class BookController extends Controller
                     'title' => $book->title,
                     'price' => $book->price,
                     'cover' => $book->cover,
-                    'stock_count' => $book->stock_count
+                    'stock_count' => $book->stock_count,
+                    'available_stock_count' => $book->available_stock_count
                 ]),
             'booksCount' => count(Book::all()),
             'categories' => Category::all(),

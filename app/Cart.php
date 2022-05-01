@@ -14,6 +14,10 @@ class Cart
         $cartItem = $this->cartItem($book);
 
         if (auth()->user()) {
+            if (session('checkoutProcess')) {
+                $book->update(['available_stock_count' => $book->available_stock_count - ($qty - $cartItem->quantity)]);
+            }
+
             $cartItem->update(['quantity' => $qty]);
         } else {
             $cartItem['quantity'] = $qty;
@@ -50,7 +54,7 @@ class Cart
                     'price' => $book->price
                 ]);
             } else {
-                $cartItem->quantity += $qty;
+                $cartItem->update(['quantity' => $cartItem->quantity + $qty]);
             }
         }
     }
@@ -59,6 +63,10 @@ class Cart
     {
         if (auth()->user()) {
             ModelsCart::where('book_id', $book->id)->delete();
+
+            if (! ModelsCart::where('user_id', auth()->id())->exists() && session('checkoutProcess')) {
+                session()->put('checkoutProcess', false);
+            }
         } else {
             session()->pull($this->cartKey($book->id));
         }
