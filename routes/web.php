@@ -32,6 +32,8 @@ Route::delete('/books/{book}/cart', [CartController::class, 'destroy'])->name('c
 
 Route::patch('/cancelCheckoutProcess', [CartController::class, 'cancelCheckoutProcess'])->name('cart.cancelCheckoutProcess');
 Route::patch('/timeoutCheckoutProcess', [CartController::class, 'timeoutCheckoutProcess'])->name('cart.timeoutCheckoutProcess');
+Route::post('/{id}/saveforlater', [CartController::class, 'saveforlater'])->name('saveforlater');
+Route::post('/{id}/movetocart', [CartController::class, 'movetocart'])->name('movetocart');
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
@@ -53,6 +55,10 @@ Route::get('/api/cart', function () {
     return auth()->check()
         ? Cart::where('user_id', auth()->id())->get()
         : (session('cart') ? array_values(session('cart')) : []);
+});
+
+Route::get('saveforlater', function () {
+    return session('saveforlater');
 });
 
 Route::get('/mailable', function () {

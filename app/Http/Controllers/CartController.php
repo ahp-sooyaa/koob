@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Cart;
 use App\Models\Book;
 use App\Models\Cart as ModelsCart;
+use App\Models\Saveforlater;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class CartController extends Controller
@@ -17,11 +17,12 @@ class CartController extends Controller
         if (! session('checkoutProcess')) {
             // give user's all cart data from inertia shared props
             return Inertia::render('Cart', [
-                'message' => session('cartItemsCombined') ? session()->pull('cartItemsCombined') : ''
+                'message' => session('cartItemsCombined') ? session()->pull('cartItemsCombined') : '',
+                'saveforlaterItems' => auth()->check() ? Saveforlater::all() : session('saveforlater')
             ]);
         }
 
-        return Redirect::route('checkout.index');
+        return Inertia::render('Checkout');
     }
 
     public function update(Book $book, Cart $cart, Request $request)
@@ -80,6 +81,17 @@ class CartController extends Controller
                 // ->where('carts.quantity', '>', 'books.available_stock_count')
                 ->whereRaw('carts.quantity > books.available_stock_count')
                 ->get();
+        // foreach ($overstockitems as $cartItem) {
+            //     Saveforlater::create([
+            //         'user_id' => auth()->id(),
+            //         'book_id' => $cartItem['id'],
+            //         'title' => $cartItem['title'],
+            //         'quantity' => $cartItem['quantity'],
+            //         'price' => $cartItem['price']
+            //     ]);
+
+            //     $cartItem->delete();
+            // }
         } else {
             $overstockitems = [];
             foreach (session('cart') as $cartItem) {
@@ -91,6 +103,15 @@ class CartController extends Controller
                         'quantity' => $cartItem['quantity'],
                         'available_stock_count' => $book->available_stock_count,
                     ];
+
+                    // session()->put("saveforlater.{$cartItem['id']}", [
+                    //     'id' => $cartItem['id'],
+                    //     'title' => $cartItem['title'],
+                    //     'quantity' => $cartItem['quantity'],
+                    //     'price' => $cartItem['price'],
+                    // ]);
+
+                    // session()->pull("cart.{$cartItem['id']}");
                 }
             }
         }
@@ -131,6 +152,46 @@ class CartController extends Controller
                 $book = Book::find($cartItem->book_id);
                 $book->update(['available_stock_count' => $book->available_stock_count + $cartItem->quantity]);
             }
+        }
+    }
+
+    public function saveforlater($id)
+    {
+        if (auth()->check()) {
+            $cartItem = ModelsCart::where('user_id', auth()->id())->where('book_id', $id)->first();
+
+            Saveforlater::create([
+                'user_id' => auth()->id(),
+                'book_id' => $cartItem['book_id'],
+                'title' => $cartItem['title'],
+                'quantity' => $cartItem['quantity'],
+                'price' => $cartItem['price']
+            ]);
+            $cartItem->delete();
+        } else {
+            $cartItem = session()->pull("cart.{$id}");
+
+            session()->put("saveforlater.{$id}", $cartItem);
+        }
+    }
+
+    public function movetocart($id)
+    {
+        if (auth()->check()) {
+            $cartItem = Saveforlater::where('user_id', auth()->id())->where('book_id', $id)->first();
+
+            ModelsCart::create([
+                'user_id' => auth()->id(),
+                'book_id' => $cartItem['book_id'],
+                'title' => $cartItem['title'],
+                'quantity' => $cartItem['quantity'],
+                'price' => $cartItem['price']
+            ]);
+            $cartItem->delete();
+        } else {
+            $cartItem = session()->pull("saveforlater.{$id}");
+
+            session()->put("cart.{$id}", $cartItem);
         }
     }
 }
