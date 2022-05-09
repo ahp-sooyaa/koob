@@ -16,25 +16,26 @@
       </h2>
     </template>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12 min-h-96">
-      <div v-if="overStockItems.length">
+      <div
+        v-if="overStockItems.length"
+        class="mb-5 text-gray-900"
+      >
         Some items in your cart are not available right now.
         <div
           v-for="overStockItem in overStockItems"
           :key="overStockItem.id"
+          class="font-semibold text-sm"
         >
           {{ overStockItem.title }}
         </div>
       </div>
       <div
         v-if="cart.length"
-        class="
-          flex flex-col
-          lg:flex-row
-          space-y-5
-          lg:items-start lg:space-y-0 lg:space-x-10
-        "
+        class="bg-white divide-x flex flex-col lg:flex-row lg:items-start lg:space-x-10 lg:space-y-0 rounded-2xl shadow-md space-y-5"
       >
-        <div class="bg-white rounded-2xl p-4 lg:p-8 shadow-md w-full lg:w-2/3">
+        <div
+          class="lg:p-8 lg:w-2/3 p-4 w-full"
+        >
           <!-- question mark svg -->
           <!-- <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -87,33 +88,26 @@
                 </div>
 
                 <div
-                  @click="saveforlater(item.user_id ? item.book_id : item.id)"
-                  class="
-                    ml-5
-                    bg-blue-500
-                    px-3
-                    py-1.5
-                    rounded-md
-                    text-white
-                    shadow
-                    cursor-pointer
+                  @click="
+                    saveforlater(
+                      item.user_id
+                        ? item.book_id
+                        : item.id
+                    )
                   "
+                  class="bg-blue-500 cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-white text-xs"
                 >
                   Save for later
                 </div>
               </div>
               <button
-                @click="removeFromCart(index, item.user_id ? item.book : item)"
-                class="
-                  flex
-                  ml-auto
-                  text-sm text-gray-500
-                  hover:text-gray-800
-                  border-0
-                  pt-0.5
-                  focus:outline-none
-                  rounded
+                @click="
+                  removeFromCart(
+                    index,
+                    item.user_id ? item.book : item
+                  )
                 "
+                class="flex ml-auto text-sm text-gray-500 hover:text-gray-800 border-0 pt-0.5 focus:outline-none rounded"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -132,7 +126,9 @@
           </ul>
         </div>
 
-        <div class="bg-white w-full lg:w-1/3 p-4 lg:p-8 rounded-2xl shadow-md">
+        <div
+          class="lg:p-8 lg:w-1/3 p-4 w-full"
+        >
           <div
             v-if="message"
             class="bg-gray-100 px-4 py-2 rounded-lg mb-5"
@@ -173,16 +169,7 @@
             </Link> -->
             <div
               @click="checkStockForCheckout"
-              class="
-                ml-5
-                bg-blue-500
-                px-3
-                py-1.5
-                rounded-md
-                text-white
-                shadow
-                cursor-pointer
-              "
+              class="ml-5 bg-blue-500 px-3 py-1.5 rounded-md text-white shadow cursor-pointer"
             >
               Checkout
             </div>
@@ -213,20 +200,15 @@
           Continue Shopping
         </Link>
       </div>
-      <div class="bg-white rounded-2xl p-4 lg:p-8 shadow-md w-full lg:w-2/3">
-        <!-- question mark svg -->
-        <!-- <svg
-          xmlns="http://www.w3.org/2000/svg"
-          class="h-10 mb-5 text-gray-500 w-10"
-          viewBox="0 0 20 20"
-          fill="currentColor"
-        >
-          <path
-            fill-rule="evenodd"
-            d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
-            clip-rule="evenodd"
-          />
-        </svg> -->
+
+      <!-- save for later section -->
+      <div
+        v-if="saveforlaterItems.length"
+        class="mt-10 bg-white rounded-2xl p-4 lg:p-8 shadow-md w-full"
+      >
+        <h1 class="font-semibold leading-tight mb-5 text-gray-800 text-xl">
+          Save for later
+        </h1>
         <ul class="space-y-10">
           <li
             v-for="(item, index) in saveforlaterItems"
@@ -266,17 +248,12 @@
               </div>
 
               <div
-                @click="movetocart(item.user_id ? item.book_id : item.id)"
-                class="
-                  ml-5
-                  bg-blue-500
-                  px-3
-                  py-1.5
-                  rounded-md
-                  text-white
-                  shadow
-                  cursor-pointer
+                @click="
+                  movetocart(
+                    item.user_id ? item.book_id : item.id
+                  )
                 "
+                class="bg-blue-500 cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-white text-xs"
               >
                 Move to cart
               </div>
@@ -371,7 +348,9 @@ export default {
             let cartItem = _this.cart[index]
 
             axios
-                .patch(`/books/${item.id}/cart`, { qty: parseInt(event.target.value) })
+                .patch(`/books/${item.id}/cart`, {
+                    qty: parseInt(event.target.value),
+                })
                 .then((res) => {
                     cartItem.quantity = parseInt(event.target.value)
                     window.events.emit('cartQtyUpdated')
@@ -396,21 +375,17 @@ export default {
         },
 
         saveforlater(id) {
-            axios
-                .post(`/${id}/saveforlater`)
-                .then(() => {
-                    flash('successfully moved to save for later.')
-                    this.$inertia.get('/cart')
-                })
+            axios.post(`/${id}/saveforlater`).then(() => {
+                flash('successfully moved to save for later.')
+                this.$inertia.get('/cart')
+            })
         },
 
         movetocart(id) {
-            axios
-                .post(`/${id}/movetocart`)
-                .then(() => {
-                    flash('successfully moved to cart.')
-                    this.$inertia.get('/cart')
-                })
+            axios.post(`/${id}/movetocart`).then(() => {
+                flash('successfully moved to cart.')
+                this.$inertia.get('/cart')
+            })
         },
     },
 }

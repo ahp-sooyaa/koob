@@ -25440,17 +25440,18 @@ var _hoisted_4 = {
   "class": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12 min-h-96"
 };
 var _hoisted_5 = {
-  key: 0
+  key: 0,
+  "class": "mb-5 text-gray-900"
 };
 
 var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Some items in your cart are not available right now. ");
 
 var _hoisted_7 = {
   key: 1,
-  "class": "flex flex-col lg:flex-row space-y-5 lg:items-start lg:space-y-0 lg:space-x-10"
+  "class": "bg-white divide-x flex flex-col lg:flex-row lg:items-start lg:space-x-10 lg:space-y-0 rounded-2xl shadow-md space-y-5"
 };
 var _hoisted_8 = {
-  "class": "bg-white rounded-2xl p-4 lg:p-8 shadow-md w-full lg:w-2/3"
+  "class": "lg:p-8 lg:w-2/3 p-4 w-full"
 };
 var _hoisted_9 = {
   "class": "space-y-10"
@@ -25485,7 +25486,7 @@ var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 
 var _hoisted_19 = [_hoisted_18];
 var _hoisted_20 = {
-  "class": "bg-white w-full lg:w-1/3 p-4 lg:p-8 rounded-2xl shadow-md"
+  "class": "lg:p-8 lg:w-1/3 p-4 w-full"
 };
 var _hoisted_21 = {
   key: 0,
@@ -25567,24 +25568,32 @@ var _hoisted_34 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Continue Shopping ");
 
 var _hoisted_36 = {
-  "class": "bg-white rounded-2xl p-4 lg:p-8 shadow-md w-full lg:w-2/3"
+  key: 3,
+  "class": "mt-10 bg-white rounded-2xl p-4 lg:p-8 shadow-md w-full"
 };
-var _hoisted_37 = {
+
+var _hoisted_37 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  "class": "font-semibold leading-tight mb-5 text-gray-800 text-xl"
+}, " Save for later ", -1
+/* HOISTED */
+);
+
+var _hoisted_38 = {
   "class": "space-y-10"
 };
-var _hoisted_38 = ["alt"];
-var _hoisted_39 = {
+var _hoisted_39 = ["alt"];
+var _hoisted_40 = {
   "class": "flex-1 space-y-3"
 };
-var _hoisted_40 = {
+var _hoisted_41 = {
   "class": "flex items-center space-x-5"
 };
-var _hoisted_41 = ["onChange"];
-var _hoisted_42 = ["value", "selected"];
-var _hoisted_43 = {
+var _hoisted_42 = ["onChange"];
+var _hoisted_43 = ["value", "selected"];
+var _hoisted_44 = {
   "class": "font-semibold"
 };
-var _hoisted_44 = ["onClick"];
+var _hoisted_45 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Head = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Head");
 
@@ -25608,7 +25617,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [$data.overStockItems.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [_hoisted_6, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.overStockItems, function (overStockItem) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-          key: overStockItem.id
+          key: overStockItem.id,
+          "class": "font-semibold text-sm"
         }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(overStockItem.title), 1
         /* TEXT */
         );
@@ -25649,7 +25659,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           onClick: function onClick($event) {
             return $options.saveforlater(item.user_id ? item.book_id : item.id);
           },
-          "class": "ml-5 bg-blue-500 px-3 py-1.5 rounded-md text-white shadow cursor-pointer"
+          "class": "bg-blue-500 cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-white text-xs"
         }, " Save for later ", 8
         /* PROPS */
         , _hoisted_16)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -25697,7 +25707,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
       }, 8
       /* PROPS */
-      , ["href"])])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" question mark svg "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <svg\n          xmlns=\"http://www.w3.org/2000/svg\"\n          class=\"h-10 mb-5 text-gray-500 w-10\"\n          viewBox=\"0 0 20 20\"\n          fill=\"currentColor\"\n        >\n          <path\n            fill-rule=\"evenodd\"\n            d=\"M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z\"\n            clip-rule=\"evenodd\"\n          />\n        </svg> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_37, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.saveforlaterItems, function (item, index) {
+      , ["href"])])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" save for later section "), $props.saveforlaterItems.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_36, [_hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_38, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.saveforlaterItems, function (item, index) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
           key: item.id,
           "class": "flex space-x-5 items-start"
@@ -25707,9 +25717,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "class": "h-40"
         }, null, 8
         /* PROPS */
-        , _hoisted_38), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title), 1
+        , _hoisted_39), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title), 1
         /* TEXT */
-        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+        ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
           onChange: function onChange($event) {
             return $options.updateCartQuantity(index, item.user_id ? item.book : item, $event);
           },
@@ -25721,24 +25731,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             selected: item.quantity == qty
           }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(qty), 9
           /* TEXT, PROPS */
-          , _hoisted_42);
+          , _hoisted_43);
         }), 64
         /* STABLE_FRAGMENT */
         ))], 40
         /* PROPS, HYDRATE_EVENTS */
-        , _hoisted_41), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.formatPrice(item.price)), 1
+        , _hoisted_42), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.formatPrice(item.price)), 1
         /* TEXT */
         )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
           onClick: function onClick($event) {
             return $options.movetocart(item.user_id ? item.book_id : item.id);
           },
-          "class": "ml-5 bg-blue-500 px-3 py-1.5 rounded-md text-white shadow cursor-pointer"
+          "class": "bg-blue-500 cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-white text-xs"
         }, " Move to cart ", 8
         /* PROPS */
-        , _hoisted_44)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button\n              @click=\"removeFromCart(index, item.user_id ? item.book : item)\"\n              class=\"\n                flex\n                ml-auto\n                text-sm text-gray-500\n                hover:text-gray-800\n                border-0\n                pt-0.5\n                focus:outline-none\n                rounded\n              \"\n            >\n              <svg\n                xmlns=\"http://www.w3.org/2000/svg\"\n                class=\"h-5 w-5\"\n                viewBox=\"0 0 20 20\"\n                fill=\"currentColor\"\n              >\n                <path\n                  fill-rule=\"evenodd\"\n                  d=\"M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z\"\n                  clip-rule=\"evenodd\"\n                />\n              </svg>\n            </button> ")]);
+        , _hoisted_45)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button\n              @click=\"removeFromCart(index, item.user_id ? item.book : item)\"\n              class=\"\n                flex\n                ml-auto\n                text-sm text-gray-500\n                hover:text-gray-800\n                border-0\n                pt-0.5\n                focus:outline-none\n                rounded\n              \"\n            >\n              <svg\n                xmlns=\"http://www.w3.org/2000/svg\"\n                class=\"h-5 w-5\"\n                viewBox=\"0 0 20 20\"\n                fill=\"currentColor\"\n              >\n                <path\n                  fill-rule=\"evenodd\"\n                  d=\"M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z\"\n                  clip-rule=\"evenodd\"\n                />\n              </svg>\n            </button> ")]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))])])])];
+      ))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])];
     }),
     _: 1
     /* STABLE */

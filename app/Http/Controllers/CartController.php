@@ -18,7 +18,11 @@ class CartController extends Controller
             // give user's all cart data from inertia shared props
             return Inertia::render('Cart', [
                 'message' => session('cartItemsCombined') ? session()->pull('cartItemsCombined') : '',
-                'saveforlaterItems' => auth()->check() ? Saveforlater::all() : session('saveforlater')
+                'saveforlaterItems' => auth()->check() ? Saveforlater::all() : (
+                    session('saveforlater')
+                    ? array_values(session('saveforlater'))
+                    : []
+                )
             ]);
         }
 
