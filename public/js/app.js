@@ -21079,7 +21079,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         amount = this.coupon.type == 'Percentage' ? amount - amount * (this.coupon.value / 100) : 100 * (amount / 100 - this.coupon.value);
       }
 
-      return Math.round(amount); // don't format this with formatPrice(), it will cause error with stripe 'invalid interger $10.00'
+      return Math.round(amount); // don't format this with formatPrice(), it will cause error with stripe 'invalid integer $10.00'
     },
     isThereAnyOverStockCount: function isThereAnyOverStockCount() {
       return this.cart.some(function (item) {
@@ -21095,6 +21095,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     //             .catch()
     //     }, (1000 * 60))
     // }
+    console.log(this.cartTotal);
     this.activateActivityTracker();
   },
   mounted: function mounted() {
@@ -21261,7 +21262,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     resetUserActivityTimeout: function resetUserActivityTimeout() {
       var _this8 = this;
 
-      console.log('hit');
       clearTimeout(this.userActivityTimeout);
       this.userActivityTimeout = setTimeout(function () {
         axios.patch('/timeoutCheckoutProcess').then(function () {
@@ -24546,6 +24546,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.form.email = $event;
     }),
+    name: "email",
     type: "email",
     "class": "mt-1 block w-full",
     required: "",
@@ -24562,6 +24563,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
       return $data.form.password = $event;
     }),
+    name: "password",
     type: "password",
     "class": "mt-1 block w-full",
     required: "",
@@ -24593,7 +24595,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["ml-4", {
       'opacity-25': $data.form.processing
     }]),
-    disabled: $data.form.processing
+    disabled: $data.form.processing,
+    dusk: "login-button"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [_hoisted_8];
@@ -25773,9 +25776,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-var _hoisted_1 = {
+
+var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
   "class": "font-semibold text-xl text-gray-800 leading-tight"
-};
+}, " Checkout ", -1
+/* HOISTED */
+);
+
 var _hoisted_2 = {
   "class": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 mb-16 mt-12"
 };
@@ -26064,9 +26071,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Flash), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BreezeNavBarLayout, null, {
     header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_1, " Checkout " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.isInactive), 1
-      /* TEXT */
-      )];
+      return [_hoisted_1];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Head, {
@@ -26077,6 +26082,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
           return $data.customer.contact_name = $event;
         }),
+        name: "contact_name",
         type: "text",
         "class": "mt-1 block w-full",
         required: "",
@@ -26094,6 +26100,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "onUpdate:modelValue": _cache[1] || (_cache[1] = function ($event) {
           return $data.customer.contact_email = $event;
         }),
+        name: "contact_email",
         type: "email",
         "class": "mt-1 block w-full",
         required: "",
@@ -26111,6 +26118,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "onUpdate:modelValue": _cache[2] || (_cache[2] = function ($event) {
           return $data.customer.address = $event;
         }),
+        name: "address",
         type: "text",
         "class": "mt-1 block w-full",
         required: "",
@@ -26128,6 +26136,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
           return $data.customer.city = $event;
         }),
+        name: "city",
         type: "text",
         "class": "mt-1 block w-full",
         required: "",
@@ -26145,6 +26154,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
           return $data.customer.state = $event;
         }),
+        name: "state",
         type: "text",
         "class": "mt-1 block w-full",
         required: "",
@@ -26162,6 +26172,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
           return $data.customer.zip_code = $event;
         }),
+        name: "zip_code",
         type: "text",
         "class": "mt-1 block w-full",
         required: "",

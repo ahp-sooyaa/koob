@@ -6,7 +6,7 @@
 
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        Checkout {{ isInactive }}
+        Checkout
       </h2>
     </template>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 mb-16 mt-12">
@@ -25,6 +25,7 @@
                 <BreezeInput
                   id="contact_name"
                   v-model="customer.contact_name"
+                  name="contact_name"
                   type="text"
                   class="mt-1 block w-full"
                   required
@@ -45,6 +46,7 @@
                 <BreezeInput
                   id="contact_email"
                   v-model="customer.contact_email"
+                  name="contact_email"
                   type="email"
                   class="mt-1 block w-full"
                   required
@@ -71,6 +73,7 @@
                 <BreezeInput
                   id="address"
                   v-model="customer.address"
+                  name="address"
                   type="text"
                   class="mt-1 block w-full"
                   required
@@ -91,6 +94,7 @@
                 <BreezeInput
                   id="city"
                   v-model="customer.city"
+                  name="city"
                   type="text"
                   class="mt-1 block w-full"
                   required
@@ -111,6 +115,7 @@
                 <BreezeInput
                   id="state"
                   v-model="customer.state"
+                  name="state"
                   type="text"
                   class="mt-1 block w-full"
                   required
@@ -131,6 +136,7 @@
                 <BreezeInput
                   id="zip_code"
                   v-model="customer.zip_code"
+                  name="zip_code"
                   type="text"
                   class="mt-1 block w-full"
                   required
@@ -394,7 +400,7 @@ export default {
                     : 100 * ((amount / 100) - this.coupon.value)
             }
 
-            return Math.round(amount) // don't format this with formatPrice(), it will cause error with stripe 'invalid interger $10.00'
+            return Math.round(amount) // don't format this with formatPrice(), it will cause error with stripe 'invalid integer $10.00'
         },
 
         isThereAnyOverStockCount() {
@@ -410,6 +416,7 @@ export default {
         //             .catch()
         //     }, (1000 * 60))
         // }
+        console.log(this.cartTotal)
         this.activateActivityTracker()
     },
 
@@ -536,7 +543,6 @@ export default {
         },
 
         resetUserActivityTimeout() {
-            console.log('hit')
             clearTimeout(this.userActivityTimeout)
             this.userActivityTimeout = setTimeout(() => {
                 axios.patch('/timeoutCheckoutProcess')

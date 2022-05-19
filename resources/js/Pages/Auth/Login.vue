@@ -19,6 +19,7 @@
       <BreezeInput
         id="email"
         v-model="form.email"
+        name="email"
         type="email"
         class="mt-1 block w-full"
         required
@@ -35,6 +36,7 @@
       <BreezeInput
         id="password"
         v-model="form.password"
+        name="password"
         type="password"
         class="mt-1 block w-full"
         required
@@ -65,6 +67,7 @@
         class="ml-4"
         :class="{ 'opacity-25': form.processing }"
         :disabled="form.processing"
+        dusk="login-button"
       >
         Log in
       </BreezeButton>

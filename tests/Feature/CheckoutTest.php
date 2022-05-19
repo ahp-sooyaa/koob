@@ -104,21 +104,39 @@ class CheckoutTest extends TestCase
                         ->assertSessionHasErrors($column);
     }
 
-    // public function test_order_is_saved_after_checkout_successful()
-    // {
-    //     $this->actingAs(User::factory()->create());
+    public function test_deduct_stock_count_after_successfully_placed_order()
+    {
+        $this->actingAs($user = User::factory()->create(['id' => 1]));
+        $book = Book::factory()->create([
+            'id' => 1,
+        ]);
 
-    //     $checkoutForm = [
-    //         'first_name' => 'first name',
-    //         'last_name' => 'last name',
-    //         'email' => 'email@email.com',
-    //         'address' => 'address',
-    //         'city' => 'city',
-    //         'state' => 'state',
-    //         'zip_code' => '12345',
-    //     ];
+        $this->post(route('cart.store', $book->id))
+            ->assertSuccessful();
+        $this->assertEquals(
+            1,
+            Cart::where('user_id', $user->id)->where('book_id', $book->id)->value('quantity')
+        );
 
-    //     $this->post(route('orders.store', $checkoutForm))
-    //         ->assertSuccessful();
-    // }
+        $checkoutForm = [
+            'contact_name' => 'first name',
+            'contact_email' => 'email@email.com',
+            'address' => 'address',
+            'city' => 'city',
+            'state' => 'state',
+            'zip_code' => '12345',
+            'amount' => '1999',
+            'payment_method_id' => 'pm_card_visa',
+            'cart' => '[{"id":1,"user_id":1,"book_id":1,"title":"Nam repellat rerum repudiandae enim.","quantity":1,"price":4818,"created_at":"2022-05-19T14:37:43.000000Z","updated_at":"2022-05-19T14:37:43.000000Z","book":{"id":1,"category_id":1,"slug":"aut-architecto-nobis-autem-quod-accusantium-sint","title":"Nam repellat rerum repudiandae enim.","author":"Mrs. Elisa Raynor","excerpt":"Ratione hic natus veniam. Quasi cum harum reprehenderit voluptatum esse alias accusamus. Rem blanditiis rerum maxime omnis cupiditate ea eius animi. Possimus adipisci laudantium excepturi veritatis voluptatibus.","price":4818,"cover":"/images/cover.png","available_stock_count":4,"stock_count":8,"created_at":"2022-05-19T14:21:50.000000Z","updated_at":"2022-05-19T14:37:47.000000Z"}}]'
+        ];
+
+        $this->post(route('orders.store', $checkoutForm))
+            ->assertSuccessful();
+
+        $this->assertEquals(9, $book->fresh()->stock_count);
+        $this->assertDatabaseMissing('carts', [
+            'user_id' => $user->id,
+            'book_id' => $book->id
+        ]);
+    }
 }

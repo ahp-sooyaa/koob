@@ -88,7 +88,7 @@ class CartTest extends TestCase
     public function test_auth_user_cannot_select_more_than_stock_quantity()
     {
         $this->actingAs($user = User::factory()->create());
-        $book = Book::factory()->create(['stock_count' => 5]);
+        $book = Book::factory()->create(['available_stock_count' => 5]);
 
         $this->add_to_cart_table($book, $user);
 
@@ -105,7 +105,7 @@ class CartTest extends TestCase
 
     public function test_guest_cannot_select_more_than_stock_quantity()
     {
-        $book = Book::factory()->create(['stock_count' => 5]);
+        $book = Book::factory()->create(['available_stock_count' => 5]);
 
         $this->add_to_cart_session($book);
 
@@ -141,5 +141,48 @@ class CartTest extends TestCase
         $this->delete(route('cart.destroy', $book->id))
             ->assertSessionMissing("cart.{$book->id}");
         $this->assertCount(0, session('cart'));
+    }
+
+    public function test_guest_can_save_item_for_later()
+    {
+        $book = Book::factory()->create();
+
+        $this->add_to_cart_session($book);
+
+        $this->post(route('saveforlater', $book->id))
+            ->assertSessionHas("saveforlater.{$book->id}")
+            ->assertSessionMissing("cart.{$book->id}");
+    }
+
+    public function test_authenticated_user_can_save_item_for_later()
+    {
+        $this->actingAs($user = User::factory()->create());
+        $book = Book::factory()->create();
+
+        $this->add_to_cart_table($book, $user);
+
+        $this->post(route('saveforlater', $book->id));
+
+        $this->assertDatabaseHas('saveforlaters', [
+            'user_id' => $user->id,
+            'book_id' => $book->id
+        ]);
+        $this->assertDatabaseMissing('carts', [
+            'user_id' => $user->id,
+            'book_id' => $book->id
+        ]);
+    }
+
+    public function test_deduct_available_stock_count_when_click_checkout()
+    {
+        $this->actingAs($user = User::factory()->create());
+        $book = Book::factory()->create();
+
+        $this->add_to_cart_table($book, $user);
+        $this->assertEquals(10, $book->fresh()->available_stock_count);
+
+        $this->get(route('checkout.index'));
+        $this->assertTrue(session('checkoutProcess'));
+        $this->assertEquals(9, $book->fresh()->available_stock_count);
     }
 }

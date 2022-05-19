@@ -28,20 +28,26 @@ class CheckoutTest extends DuskTestCase
                     ->screenshot('cart')
                     ->pause(1000)
                     ->visitRoute('checkout.index')
+                    ->assertSee('LOG IN')
                     ->screenshot('checkout')
-                    ->type('first_name', 'aung')
-                    ->type('last_name', 'paing')
-                    ->type('email', 'newuser@email.com')
+                    ->type('email', 'aunghtetpaing.mtkn@gmail.com')
+                    ->type('password', 'password')
+                    ->press('@login-button')
+                    ->pause(1000)
+                    // ->type('contact_name', 'aung')
+                    // ->type('contact_email', 'newuser@email.com')
                     ->type('address', 'padauk')
                     ->type('city', 'yangon')
                     ->type('state', 'yangon')
                     ->type('zip_code', '12345')
+                    ->pause(3000)
                     ->withinFrame('.__PrivateStripeElement iframe', function ($browser) {
                         $browser
                         ->type('[placeholder="Card number"]', '4242424242424242')
                         ->type('[placeholder="MM / YY"]', '0923')
-                        ->type('[placeholder="CVC"]', '123')
-                        ->type('[placeholder="ZIP"]', '12345');
+                        ->type('[placeholder="CVC"]', '123');
+                        // ->pause(1000)
+                        // ->type('[placeholder="ZIP"]', '12345');
                     })
                     ->press('Pay Now')
                     ->waitForText('Thank you for your purchase')
