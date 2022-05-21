@@ -16,13 +16,11 @@
     </template>
 
     <!-- orders list -->
-    <div class="mt-12 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-      <search-box />
-    </div>
     <div
       v-if="orders.data.length"
-      class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-16"
+      class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-16"
     >
+      <search-box />
       <div class="divide-y space-y-10">
         <div
           v-for="order in orders.data"
