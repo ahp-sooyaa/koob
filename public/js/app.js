@@ -20706,7 +20706,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       // if(this.isAdded) return
-      axios.post("/books/".concat(this.data.id, "/cart")).then(function () {
+      axios.post("/carts/".concat(this.data.id)).then(function () {
         _this2.isAdded = true;
         window.events.emit('cartQtyUpdated');
         window.flash('Successfully added to Cart');
@@ -20717,7 +20717,7 @@ __webpack_require__.r(__webpack_exports__);
     buyNow: function buyNow() {
       var _this3 = this;
 
-      axios.post("/books/".concat(this.data.id, "/cart")).then(function () {
+      axios.post("/carts/".concat(this.data.id)).then(function () {
         window.events.emit('cartQtyUpdated');
 
         _this3.$inertia.visit('/checkout');
@@ -20856,7 +20856,7 @@ __webpack_require__.r(__webpack_exports__);
     addToCart: function addToCart() {
       var _this2 = this;
 
-      axios.post("/books/".concat(this.book.id, "/cart"), {
+      axios.post("/carts/".concat(this.book.id), {
         qty: this.quantity
       }).then(function () {
         _this2.isAdded = true;
@@ -20935,7 +20935,7 @@ __webpack_require__.r(__webpack_exports__);
     removeFromCart: function removeFromCart(index, item) {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default()["delete"]("/books/".concat(item.id, "/cart")).then(function () {
+      axios__WEBPACK_IMPORTED_MODULE_1___default()["delete"]("/carts/".concat(item.id)).then(function () {
         _this.cart.splice(index, 1);
 
         window.events.emit('cartQtyUpdated');
@@ -20946,7 +20946,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var cartItem = _this.cart[index];
-      axios__WEBPACK_IMPORTED_MODULE_1___default().patch("/books/".concat(item.id, "/cart"), {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().patch("/carts/".concat(item.id), {
         qty: parseInt(event.target.value)
       }).then(function (res) {
         cartItem.quantity = parseInt(event.target.value);
@@ -20955,13 +20955,13 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (err) {
         event.target.value = cartItem.quantity;
         flash(err.response.data.message, 'error');
-      }); // this.$inertia.patch(`/books/${item.id}/cart`, {qty: parseInt(event.target.value)})
+      }); // this.$inertia.patch(`/carts/${item.id}, {qty: parseInt(event.target.value)})
     },
     checkStockForCheckout: function checkStockForCheckout() {
       var _this2 = this;
 
       // this should do with inertia and return inertia::render('Cart') with session
-      axios__WEBPACK_IMPORTED_MODULE_1___default().get('cart/check').then(function () {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/carts/checkStockForCheckout').then(function () {
         return _this2.$inertia.visit('/checkout');
       })["catch"](function (err) {
         console.log(err.response.data.overstockitems);
@@ -21134,7 +21134,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       var cartItem = _this.cart[index];
-      axios.patch("/books/".concat(item.id, "/cart"), {
+      axios.patch("/carts/".concat(item.id), {
         qty: parseInt(event.target.value)
       }).then(function (res) {
         cartItem.quantity = parseInt(event.target.value);
@@ -21150,7 +21150,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       var _this = this;
 
-      axios["delete"]("/books/".concat(item.id, "/cart")).then(function () {
+      axios["delete"]("/carts/".concat(item.id)).then(function () {
         _this.cart.splice(index, 1);
 
         if (!Object.keys(_this.cart).length) {
@@ -21274,7 +21274,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     checkStockForCheckout: function checkStockForCheckout() {
       var _this9 = this;
 
-      axios.get('cart/check').then(function () {
+      axios.get('/carts/checkStockForCheckout').then(function () {
         return _this9.$inertia.visit('/checkout');
       })["catch"](function (err) {
         console.log(err.response.data.overstockitems);
@@ -21322,7 +21322,7 @@ __webpack_require__.r(__webpack_exports__);
     buyAgain: function buyAgain(id) {
       var _this = this;
 
-      axios.post("/books/".concat(id, "/cart")).then(function () {
+      axios.post("/carts/".concat(id)).then(function () {
         window.events.emit('cartQtyUpdated');
 
         _this.$inertia.visit('/checkout');

@@ -436,7 +436,7 @@ export default {
             let _this = this
             let cartItem = _this.cart[index]
 
-            axios.patch(`/books/${item.id}/cart`, {qty: parseInt(event.target.value)})
+            axios.patch(`/carts/${item.id}`, {qty: parseInt(event.target.value)})
                 .then(res => {
                     cartItem.quantity = parseInt(event.target.value)
                     window.events.emit('cartQtyUpdated')
@@ -451,7 +451,7 @@ export default {
         removeFromCart(index, item) {
             let _this = this
 
-            axios.delete(`/books/${item.id}/cart`)
+            axios.delete(`/carts/${item.id}`)
                 .then(() => {
                     _this.cart.splice(index, 1)
                     
@@ -555,7 +555,7 @@ export default {
         },
 
         checkStockForCheckout() {
-            axios.get('cart/check')
+            axios.get('/carts/checkStockForCheckout')
                 .then(() => this.$inertia.visit('/checkout'))
                 .catch(err => {
                     console.log(err.response.data.overstockitems)

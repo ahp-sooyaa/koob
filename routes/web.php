@@ -18,17 +18,17 @@ Route::get('/', function () {
     ]);
 })->name('welcome');
 
-Route::get('/home', HomeController::class)->name('home'); // give conditional redirect path
+/** give conditional redirect path after login successfully */
+Route::get('/home', HomeController::class)->name('home');
 
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
 Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');
 
-/** cart url is little strange **/
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::get('/cart/check', [CartController::class, 'checkStockForCheckout'])->name('cart.check');
-Route::post('/books/{book}/cart', [CartController::class, 'store'])->name('cart.store');
-Route::patch('/books/{book}/cart', [CartController::class, 'update'])->name('cart.update');
-Route::delete('/books/{book}/cart', [CartController::class, 'destroy'])->name('cart.destroy');
+Route::get('/carts', [CartController::class, 'index'])->name('cart.index');
+Route::post('/carts/{book}', [CartController::class, 'store'])->name('cart.store');
+Route::patch('/carts/{book}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/carts/{book}', [CartController::class, 'destroy'])->name('cart.destroy');
+Route::get('/carts/checkStockForCheckout', [CartController::class, 'checkStockForCheckout'])->name('cart.checkStockForCheckout');
 
 Route::patch('/cancelCheckoutProcess', [CartController::class, 'cancelCheckoutProcess'])->name('cart.cancelCheckoutProcess');
 Route::patch('/timeoutCheckoutProcess', [CartController::class, 'timeoutCheckoutProcess'])->name('cart.timeoutCheckoutProcess');

@@ -185,4 +185,9 @@ class CartTest extends TestCase
         $this->assertTrue(session('checkoutProcess'));
         $this->assertEquals(9, $book->fresh()->available_stock_count);
     }
+
+    public function test_check_stock_when_user_click_checkout_in_case_checkout_after_long_time()
+    {
+        //
+    }
 }

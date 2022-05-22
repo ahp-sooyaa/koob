@@ -153,7 +153,7 @@ export default {
 
     methods: {
         buyAgain(id) {
-            axios.post(`/books/${id}/cart`)
+            axios.post(`/carts/${id}`)
                 .then(() => {
                     window.events.emit('cartQtyUpdated')
                     this.$inertia.visit('/checkout')

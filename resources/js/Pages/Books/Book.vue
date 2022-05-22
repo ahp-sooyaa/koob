@@ -114,7 +114,7 @@ export default {
         addToCart() {
             // if(this.isAdded) return
 
-            axios.post(`/books/${this.data.id}/cart`)
+            axios.post(`/carts/${this.data.id}`)
                 .then(() => {
                     this.isAdded = true
                     window.events.emit('cartQtyUpdated')
@@ -124,7 +124,7 @@ export default {
         },
 
         buyNow() {
-            axios.post(`/books/${this.data.id}/cart`)
+            axios.post(`/carts/${this.data.id}`)
                 .then(() => {
                     window.events.emit('cartQtyUpdated')
                     this.$inertia.visit('/checkout')
