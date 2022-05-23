@@ -89,7 +89,7 @@
 
 <script>
 import BreezeNavBarLayout from '@/Layouts/NavBar'
-import Book from './Book'
+import Book from '@/Pages/Books/Book'
 import SearchBox from '@/Components/SearchBox'
 import Paginator from '@/Components/Paginator'
 import Sorting from '@/Components/Sort'

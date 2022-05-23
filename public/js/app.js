@@ -20742,7 +20742,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Layouts_NavBar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Layouts/NavBar */ "./resources/js/Layouts/NavBar.vue");
-/* harmony import */ var _Book__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Book */ "./resources/js/Pages/Books/Book.vue");
+/* harmony import */ var _Pages_Books_Book__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Pages/Books/Book */ "./resources/js/Pages/Books/Book.vue");
 /* harmony import */ var _Components_SearchBox__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/Components/SearchBox */ "./resources/js/Components/SearchBox.vue");
 /* harmony import */ var _Components_Paginator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Components/Paginator */ "./resources/js/Components/Paginator.vue");
 /* harmony import */ var _Components_Sort__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Components/Sort */ "./resources/js/Components/Sort.vue");
@@ -20754,7 +20754,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     BreezeNavBarLayout: _Layouts_NavBar__WEBPACK_IMPORTED_MODULE_0__["default"],
-    Book: _Book__WEBPACK_IMPORTED_MODULE_1__["default"],
+    Book: _Pages_Books_Book__WEBPACK_IMPORTED_MODULE_1__["default"],
     SearchBox: _Components_SearchBox__WEBPACK_IMPORTED_MODULE_2__["default"],
     Paginator: _Components_Paginator__WEBPACK_IMPORTED_MODULE_3__["default"],
     Sorting: _Components_Sort__WEBPACK_IMPORTED_MODULE_4__["default"]
