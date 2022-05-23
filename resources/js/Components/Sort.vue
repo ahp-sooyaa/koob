@@ -59,7 +59,7 @@
         <div
           @click="sort = { created_at: 'desc' }"
           class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out cursor-pointer"
-          :class="isSorted('created_at', 'asc') ? 'text-blue-500': ''"
+          :class="isSorted('created_at', 'desc') ? 'text-blue-500': ''"
         >
           oldest
         </div>

@@ -72,6 +72,7 @@
                       )
                     "
                     class="rounded-2xl shadow-md cursor-pointer"
+                    name="quantity"
                   >
                     <option
                       v-for="qty in 10"
@@ -170,6 +171,7 @@
             <div
               @click="checkStockForCheckout"
               class="ml-5 bg-blue-500 px-3 py-1.5 rounded-md text-white shadow cursor-pointer"
+              dusk="checkout"
             >
               Checkout
             </div>
@@ -346,7 +348,7 @@ export default {
         updateCartQuantity(index, item, event) {
             let _this = this
             let cartItem = _this.cart[index]
-
+            
             axios
                 .patch(`/carts/${item.id}`, {
                     qty: parseInt(event.target.value),

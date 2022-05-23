@@ -532,7 +532,7 @@ export default {
             window.removeEventListener('scroll', this.resetUserActivityTimeout())
             window.removeEventListener('keydown', this.resetUserActivityTimeout())
             axios.patch('/cancelCheckoutProcess')
-                .then(() => this.$inertia.get('/cart'))
+                .then(() => this.$inertia.get('/carts'))
                 .catch()
         },
 

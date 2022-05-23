@@ -21243,7 +21243,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       window.removeEventListener('scroll', this.resetUserActivityTimeout());
       window.removeEventListener('keydown', this.resetUserActivityTimeout());
       axios.patch('/cancelCheckoutProcess').then(function () {
-        return _this6.$inertia.get('/cart');
+        return _this6.$inertia.get('/carts');
       })["catch"]();
     },
     activateActivityTracker: function activateActivityTracker() {
@@ -22176,7 +22176,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
             created_at: 'desc'
           };
         }),
-        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out cursor-pointer", $options.isSorted('created_at', 'asc') ? 'text-blue-500' : ''])
+        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out cursor-pointer", $options.isSorted('created_at', 'desc') ? 'text-blue-500' : ''])
       }, " oldest ", 2
       /* CLASS */
       )];
@@ -25643,7 +25643,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           onChange: function onChange($event) {
             return $options.updateCartQuantity(index, item.user_id ? item.book : item, $event);
           },
-          "class": "rounded-2xl shadow-md cursor-pointer"
+          "class": "rounded-2xl shadow-md cursor-pointer",
+          name: "quantity"
         }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(10, function (qty) {
           return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
             key: qty,
@@ -25697,7 +25698,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[0] || (_cache[0] = function () {
           return $options.checkStockForCheckout && $options.checkStockForCheckout.apply($options, arguments);
         }),
-        "class": "ml-5 bg-blue-500 px-3 py-1.5 rounded-md text-white shadow cursor-pointer"
+        "class": "ml-5 bg-blue-500 px-3 py-1.5 rounded-md text-white shadow cursor-pointer",
+        dusk: "checkout"
       }, " Checkout ")])])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, [_hoisted_33, _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
         href: _ctx.route('books.index'),
         "class": "bg-blue-500 px-3 py-2.5 rounded-2xl text-white shadow"

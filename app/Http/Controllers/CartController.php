@@ -34,9 +34,11 @@ class CartController extends Controller
         // update cart product quantity when qty that user want to buy is not exceed over stock_count
         $cartItem = auth()->check() ? ModelsCart::where('book_id', $book->id)->first() : session("cart.{$book->id}");
 
-        if ($book->available_stock_count < ($request->input('qty') - $cartItem['quantity'])) {
+        $quantity = session('checkoutProcess') ? ($request->input('qty') - $cartItem['quantity']) : $request->input('qty');
+
+        if ($book->available_stock_count < $quantity) {
             return response()->json([
-                'message' => "Quantity is exceeding here over available stock. Available quantity($book->available_stock_count)"
+                'message' => "Quantity is exceeding over available stock. Available quantity($book->available_stock_count)"
             ], 422);
         }
 
