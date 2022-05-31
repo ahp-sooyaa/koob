@@ -17,14 +17,14 @@ class BookController extends Controller
         return Inertia::render('Admin/Books/Index', [
             'books' => Book::query()
                 ->paginate(10)
-                // ->through(fn ($book) => [
-                //     'id' => $book->id,
-                //     'title' => $book->title,
-                //     'author' => $book->author,
-                //     'price' => $book->price,
-                //     'cover' => $book->cover,
-                //     'stock_count' => $book->stock_count
-                // ])
+                ->through(fn ($book) => [
+                    'id' => $book->id,
+                    'title' => $book->title,
+                    'author' => $book->author,
+                    'price' => $book->price,
+                    'cover' => $book->cover,
+                    'stock_count' => $book->stock_count
+                ])
         ]);
     }
 

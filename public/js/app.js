@@ -20411,7 +20411,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  layout: _Layouts_FullPage_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
   components: {
     BreezeButton: _Components_Button_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     BreezeInput: _Components_Input_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -20419,6 +20418,7 @@ __webpack_require__.r(__webpack_exports__);
     BreezeValidationErrors: _Components_ValidationErrors_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
     Head: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_5__.Head
   },
+  layout: _Layouts_FullPage_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
   props: {
     status: String
   },
@@ -20706,7 +20706,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       // if(this.isAdded) return
-      axios.post("/carts/".concat(this.data.id)).then(function () {
+      axios.post(route('cart.store', this.data.id)).then(function () {
         _this2.isAdded = true;
         window.events.emit('cartQtyUpdated');
         window.flash('Successfully added to Cart');
@@ -20717,7 +20717,7 @@ __webpack_require__.r(__webpack_exports__);
     buyNow: function buyNow() {
       var _this3 = this;
 
-      axios.post("/carts/".concat(this.data.id)).then(function () {
+      axios.post(route('cart.store', this.data.id)).then(function () {
         window.events.emit('cartQtyUpdated');
 
         _this3.$inertia.visit('/checkout');
@@ -20856,7 +20856,7 @@ __webpack_require__.r(__webpack_exports__);
     addToCart: function addToCart() {
       var _this2 = this;
 
-      axios.post("/carts/".concat(this.book.id), {
+      axios.post(route('cart.store', this.book.id), {
         qty: this.quantity
       }).then(function () {
         _this2.isAdded = true;
@@ -20935,7 +20935,7 @@ __webpack_require__.r(__webpack_exports__);
     removeFromCart: function removeFromCart(index, item) {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default()["delete"]("/carts/".concat(item.id)).then(function () {
+      axios__WEBPACK_IMPORTED_MODULE_1___default()["delete"](route('cart.destroy', item.id)).then(function () {
         _this.cart.splice(index, 1);
 
         window.events.emit('cartQtyUpdated');
@@ -20946,7 +20946,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       var cartItem = _this.cart[index];
-      axios__WEBPACK_IMPORTED_MODULE_1___default().patch("/carts/".concat(item.id), {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().patch(route('cart.update', item.id), {
         qty: parseInt(event.target.value)
       }).then(function (res) {
         cartItem.quantity = parseInt(event.target.value);
@@ -20961,8 +20961,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this2 = this;
 
       // this should do with inertia and return inertia::render('Cart') with session
-      axios__WEBPACK_IMPORTED_MODULE_1___default().get('/carts/checkStockForCheckout').then(function () {
-        return _this2.$inertia.visit('/checkout');
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get(route('cart.checkStockForCheckout')).then(function () {
+        return _this2.$inertia.visit(route('checkout.index'));
       })["catch"](function (err) {
         console.log(err.response.data.overstockitems);
         _this2.overStockItems = err.response.data.overstockitems;
@@ -20971,19 +20971,19 @@ __webpack_require__.r(__webpack_exports__);
     saveforlater: function saveforlater(id) {
       var _this3 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post("/".concat(id, "/saveforlater")).then(function () {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post(route('saveforlater', id)).then(function () {
         flash('successfully moved to save for later.');
 
-        _this3.$inertia.get('/cart');
+        _this3.$inertia.get(route('cart.index'));
       });
     },
     movetocart: function movetocart(id) {
       var _this4 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post("/".concat(id, "/movetocart")).then(function () {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post(route('movetocart', id)).then(function () {
         flash('successfully moved to cart.');
 
-        _this4.$inertia.get('/cart');
+        _this4.$inertia.get(route('cart.index'));
       });
     }
   }
@@ -21088,14 +21088,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   created: function created() {
-    // if (!this.time) {
-    //     this.time = setTimeout(() => {
-    //         axios.patch('/restoreStock')
-    //             .then(() => this.$inertia.get('/cart'))
-    //             .catch()
-    //     }, (1000 * 60))
-    // }
-    console.log(this.cartTotal);
     this.activateActivityTracker();
   },
   mounted: function mounted() {
@@ -21134,7 +21126,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       var cartItem = _this.cart[index];
-      axios.patch("/carts/".concat(item.id), {
+      axios.patch(route('cart.update', item.id), {
         qty: parseInt(event.target.value)
       }).then(function (res) {
         cartItem.quantity = parseInt(event.target.value);
@@ -21150,13 +21142,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       var _this = this;
 
-      axios["delete"]("/carts/".concat(item.id)).then(function () {
+      axios["delete"](route('cart.destroy', item.id)).then(function () {
         _this.cart.splice(index, 1);
 
         if (!Object.keys(_this.cart).length) {
           clearTimeout(_this3.userActivityTimeout);
 
-          _this3.$inertia.visit('/books');
+          _this3.$inertia.visit(route('books.index'));
         } else {
           window.events.emit('cartQtyUpdated');
           window.flash('Successfully deleted from cart');
@@ -21203,7 +21195,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   axios.post(route('orders.store', _this4.customer)).then(function (response) {
                     _this4.paymentProcessing = false;
 
-                    _this4.$inertia.get('/thankyou/' + response.data.id);
+                    _this4.$inertia.get(route('checkout.thankyou', response.data.id));
                   })["catch"](function (error) {
                     _this4.paymentProcessing = false;
                     _this4.errors = error.response.data.errors;
@@ -21221,7 +21213,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     applyCoupon: function applyCoupon() {
       var _this5 = this;
 
-      axios.get('/coupon/check?couponCode=' + this.code).then(function (res) {
+      axios.get(route('coupon.check'), {
+        couponCode: this.code
+      }).then(function (res) {
         console.log(res.data.coupon);
         _this5.coupon = res.data.coupon;
         _this5.couponApplied = true;
@@ -21233,7 +21227,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     cancelCoupon: function cancelCoupon() {
-      axios["delete"]('/coupon').then(this.couponApplied = false, this.coupon = '');
+      axios["delete"](route('coupon.destroy')).then(this.couponApplied = false, this.coupon = '');
     },
     cancelCheckoutProcess: function cancelCheckoutProcess() {
       var _this6 = this;
@@ -21243,7 +21237,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       window.removeEventListener('scroll', this.resetUserActivityTimeout());
       window.removeEventListener('keydown', this.resetUserActivityTimeout());
       axios.patch('/cancelCheckoutProcess').then(function () {
-        return _this6.$inertia.get('/carts');
+        return _this6.$inertia.get(route('carts.index'));
       })["catch"]();
     },
     activateActivityTracker: function activateActivityTracker() {
@@ -21265,7 +21259,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       clearTimeout(this.userActivityTimeout);
       this.userActivityTimeout = setTimeout(function () {
         axios.patch('/timeoutCheckoutProcess').then(function () {
-          _this8.$inertia.get('/');
+          _this8.$inertia.get(route('welcome'));
 
           clearTimeout(_this8.userActivityTimeout);
         })["catch"]();
@@ -21275,7 +21269,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this9 = this;
 
       axios.get('/carts/checkStockForCheckout').then(function () {
-        return _this9.$inertia.visit('/checkout');
+        return _this9.$inertia.visit(route('checkout.index'));
       })["catch"](function (err) {
         console.log(err.response.data.overstockitems);
         _this9.overStockItems = err.response.data.overstockitems;
@@ -21322,7 +21316,7 @@ __webpack_require__.r(__webpack_exports__);
     buyAgain: function buyAgain(id) {
       var _this = this;
 
-      axios.post("/carts/".concat(id)).then(function () {
+      axios.post(route('cart.store', id)).then(function () {
         window.events.emit('cartQtyUpdated');
 
         _this.$inertia.visit('/checkout');
@@ -24413,12 +24407,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     value: "Email"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BreezeInput, {
     id: "email",
-    type: "email",
-    "class": "mt-1 block w-full",
     modelValue: $data.form.email,
     "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
       return $data.form.email = $event;
     }),
+    type: "email",
+    "class": "mt-1 block w-full",
     required: "",
     autofocus: "",
     autocomplete: "username"
@@ -27208,7 +27202,7 @@ var appName = ((_window$document$getE = window.document.getElementsByTagName('ti
         app = _ref.app,
         props = _ref.props,
         plugin = _ref.plugin;
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)({
+    var App = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)({
       render: function render() {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.h)(app, props);
       }
@@ -27216,7 +27210,13 @@ var appName = ((_window$document$getE = window.document.getElementsByTagName('ti
       methods: {
         route: route
       }
-    }).component('Flash', _Components_FlashNoti__WEBPACK_IMPORTED_MODULE_3__["default"]).component('Link', _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.Link).component('Head', _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.Head).mount(el);
+    }).component('Flash', _Components_FlashNoti__WEBPACK_IMPORTED_MODULE_3__["default"]).component('Link', _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.Link).component('Head', _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_1__.Head);
+
+    App.config.compilerOptions.isCustomElement = function (tag) {
+      return tag.includes('lottie-player');
+    };
+
+    App.mount(el);
   }
 });
 _inertiajs_progress__WEBPACK_IMPORTED_MODULE_2__.InertiaProgress.init({

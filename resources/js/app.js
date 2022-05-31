@@ -13,13 +13,16 @@ createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => require(`./Pages/${name}.vue`),
     setup({ el, app, props, plugin }) {
-        return createApp({ render: () => h(app, props) })
+        const App = createApp({ render: () => h(app, props) })
             .use(plugin)
             .mixin({ methods: { route } })
             .component('Flash', Flash)
             .component('Link', Link)
             .component('Head', Head)
-            .mount(el)
+        
+        App.config.compilerOptions.isCustomElement = (tag) => tag.includes('lottie-player')
+
+        App.mount(el)
     },
 })
 

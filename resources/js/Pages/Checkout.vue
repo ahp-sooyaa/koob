@@ -409,14 +409,6 @@ export default {
     },
 
     created() {
-        // if (!this.time) {
-        //     this.time = setTimeout(() => {
-        //         axios.patch('/restoreStock')
-        //             .then(() => this.$inertia.get('/cart'))
-        //             .catch()
-        //     }, (1000 * 60))
-        // }
-        console.log(this.cartTotal)
         this.activateActivityTracker()
     },
 
@@ -436,7 +428,7 @@ export default {
             let _this = this
             let cartItem = _this.cart[index]
 
-            axios.patch(`/carts/${item.id}`, {qty: parseInt(event.target.value)})
+            axios.patch(route('cart.update', item.id), {qty: parseInt(event.target.value)})
                 .then(res => {
                     cartItem.quantity = parseInt(event.target.value)
                     window.events.emit('cartQtyUpdated')
@@ -451,13 +443,13 @@ export default {
         removeFromCart(index, item) {
             let _this = this
 
-            axios.delete(`/carts/${item.id}`)
+            axios.delete(route('cart.destroy', item.id))
                 .then(() => {
                     _this.cart.splice(index, 1)
                     
                     if(!Object.keys(_this.cart).length) {
                         clearTimeout(this.userActivityTimeout)
-                        this.$inertia.visit('/books')
+                        this.$inertia.visit(route('books.index'))
                     } else {
                         window.events.emit('cartQtyUpdated')
                         window.flash('Successfully deleted from cart')
@@ -494,7 +486,7 @@ export default {
                     .post(route('orders.store', this.customer))
                     .then((response) => {
                         this.paymentProcessing = false
-                        this.$inertia.get('/thankyou/' + response.data.id)
+                        this.$inertia.get(route('checkout.thankyou', response.data.id))
                     })
                     .catch((error) => {
                         this.paymentProcessing = false
@@ -504,7 +496,7 @@ export default {
         },
 
         applyCoupon() {
-            axios.get('/coupon/check?couponCode=' + this.code)
+            axios.get(route('coupon.check'), { couponCode: this.code })
                 .then(res => {
                     console.log(res.data.coupon)
                     this.coupon = res.data.coupon
@@ -519,7 +511,7 @@ export default {
         },
 
         cancelCoupon() {
-            axios.delete('/coupon')
+            axios.delete(route('coupon.destroy'))
                 .then(
                     this.couponApplied = false, 
                     this.coupon = ''
@@ -532,7 +524,7 @@ export default {
             window.removeEventListener('scroll', this.resetUserActivityTimeout())
             window.removeEventListener('keydown', this.resetUserActivityTimeout())
             axios.patch('/cancelCheckoutProcess')
-                .then(() => this.$inertia.get('/carts'))
+                .then(() => this.$inertia.get(route('carts.index')))
                 .catch()
         },
 
@@ -547,7 +539,7 @@ export default {
             this.userActivityTimeout = setTimeout(() => {
                 axios.patch('/timeoutCheckoutProcess')
                     .then(() => {
-                        this.$inertia.get('/')
+                        this.$inertia.get(route('welcome'))
                         clearTimeout(this.userActivityTimeout)
                     })
                     .catch()
@@ -556,7 +548,7 @@ export default {
 
         checkStockForCheckout() {
             axios.get('/carts/checkStockForCheckout')
-                .then(() => this.$inertia.visit('/checkout'))
+                .then(() => this.$inertia.visit(route('checkout.index')))
                 .catch(err => {
                     console.log(err.response.data.overstockitems)
                     this.overStockItems = err.response.data.overstockitems

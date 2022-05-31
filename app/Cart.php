@@ -44,7 +44,7 @@ class Cart
             }
         } else {
             // otherwise use cart table to persist cart data
-            $cartItem = ModelsCart::where('book_id', $book->id)->first();
+            $cartItem = ModelsCart::where('book_id', $book->id)->where('user_id', auth()->id())->first();
             if (! $cartItem) {
                 ModelsCart::create([
                     'user_id' => auth()->id(),

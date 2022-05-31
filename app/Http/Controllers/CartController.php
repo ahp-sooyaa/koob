@@ -57,7 +57,7 @@ class CartController extends Controller
         }
 
         $qty = $request->input('qty') ?: 1;
-        $cartItem = auth()->check() ? ModelsCart::where('book_id', $book->id)->first() : session("cart.{$book->id}");
+        $cartItem = auth()->check() ? ModelsCart::where('book_id', $book->id)->where('user_id', auth()->id())->first() : session("cart.{$book->id}");
 
         if ($book->available_stock_count < (is_null($cartItem) ? 0 : $cartItem['quantity']) + $qty) {
             return response()->json([

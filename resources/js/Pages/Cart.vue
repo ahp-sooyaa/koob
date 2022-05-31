@@ -337,20 +337,21 @@ export default {
         removeFromCart(index, item) {
             let _this = this
 
-            axios.delete(`/carts/${item.id}`).then(() => {
-                _this.cart.splice(index, 1)
+            axios.delete(route('cart.destroy', item.id))
+                .then(() => {
+                    _this.cart.splice(index, 1)
 
-                window.events.emit('cartQtyUpdated')
-                window.flash('Successfully deleted from cart')
-            })
+                    window.events.emit('cartQtyUpdated')
+                    window.flash('Successfully deleted from cart')
+                })
         },
 
         updateCartQuantity(index, item, event) {
             let _this = this
             let cartItem = _this.cart[index]
-            
+
             axios
-                .patch(`/carts/${item.id}`, {
+                .patch(route('cart.update', item.id), {
                     qty: parseInt(event.target.value),
                 })
                 .then((res) => {
@@ -368,8 +369,8 @@ export default {
         checkStockForCheckout() {
             // this should do with inertia and return inertia::render('Cart') with session
             axios
-                .get('/carts/checkStockForCheckout')
-                .then(() => this.$inertia.visit('/checkout'))
+                .get(route('cart.checkStockForCheckout'))
+                .then(() => this.$inertia.visit(route('checkout.index')))
                 .catch((err) => {
                     console.log(err.response.data.overstockitems)
                     this.overStockItems = err.response.data.overstockitems
@@ -377,16 +378,16 @@ export default {
         },
 
         saveforlater(id) {
-            axios.post(`/${id}/saveforlater`).then(() => {
+            axios.post(route('saveforlater', id)).then(() => {
                 flash('successfully moved to save for later.')
-                this.$inertia.get('/cart')
+                this.$inertia.get(route('cart.index'))
             })
         },
 
         movetocart(id) {
-            axios.post(`/${id}/movetocart`).then(() => {
+            axios.post(route('movetocart', id)).then(() => {
                 flash('successfully moved to cart.')
-                this.$inertia.get('/cart')
+                this.$inertia.get(route('cart.index'))
             })
         },
     },

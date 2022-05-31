@@ -153,7 +153,7 @@ export default {
 
     methods: {
         buyAgain(id) {
-            axios.post(`/carts/${id}`)
+            axios.post(route('cart.store', id))
                 .then(() => {
                     window.events.emit('cartQtyUpdated')
                     this.$inertia.visit('/checkout')
