@@ -15,8 +15,8 @@ class CreateBookOrderTable extends Migration
     {
         Schema::create('book_order', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('book_id')->constrained();
-            $table->foreignId('order_id')->constrained();
+            $table->foreignId('book_id')->constrained()->onDelete('cascade');
+            $table->foreignId('order_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
             $table->timestamps();
         });
@@ -29,6 +29,6 @@ class CreateBookOrderTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('books_orders');
+        Schema::dropIfExists('book_order');
     }
 }

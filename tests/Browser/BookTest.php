@@ -9,7 +9,7 @@ use Tests\DuskTestCase;
 
 class BookTest extends DuskTestCase
 {
-    // use DatabaseMigrations;
+    use DatabaseMigrations;
 
     /**
      * A Dusk test example.
