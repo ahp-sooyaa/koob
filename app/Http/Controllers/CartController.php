@@ -8,6 +8,7 @@ use App\Models\Cart as ModelsCart;
 use App\Models\Saveforlater;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class CartController extends Controller
@@ -87,39 +88,12 @@ class CartController extends Controller
                 // ->where('carts.quantity', '>', 'books.available_stock_count')
                 ->whereRaw('carts.quantity > books.available_stock_count')
                 ->get();
-        // foreach ($overstockitems as $cartItem) {
-            //     Saveforlater::create([
-            //         'user_id' => auth()->id(),
-            //         'book_id' => $cartItem['id'],
-            //         'title' => $cartItem['title'],
-            //         'quantity' => $cartItem['quantity'],
-            //         'price' => $cartItem['price']
-            //     ]);
-
-            //     $cartItem->delete();
-            // }
         } else {
-            $overstockitems = [];
-            foreach (session('cart') as $cartItem) {
+            $overstockitems = array_filter(session('cart'), function ($cartItem) {
                 $book = Book::where('id', $cartItem['id'])->first();
-                if ($cartItem['quantity'] > $book->available_stock_count) {
-                    $overstockitems[] = [
-                        'id' => $cartItem['id'],
-                        'title' => $cartItem['title'],
-                        'quantity' => $cartItem['quantity'],
-                        'available_stock_count' => $book->available_stock_count,
-                    ];
 
-                    // session()->put("saveforlater.{$cartItem['id']}", [
-                    //     'id' => $cartItem['id'],
-                    //     'title' => $cartItem['title'],
-                    //     'quantity' => $cartItem['quantity'],
-                    //     'price' => $cartItem['price'],
-                    // ]);
-
-                    // session()->pull("cart.{$cartItem['id']}");
-                }
-            }
+                return $cartItem['quantity'] > $book->available_stock_count;
+            });
         }
 
         if (count($overstockitems)) {
@@ -179,6 +153,8 @@ class CartController extends Controller
 
             session()->put("saveforlater.{$id}", $cartItem);
         }
+
+        return Redirect::route('cart.index')->with('success', 'Successfully moved to save for later');
     }
 
     public function movetocart($id)
@@ -199,5 +175,7 @@ class CartController extends Controller
 
             session()->put("cart.{$id}", $cartItem);
         }
+
+        return Redirect::route('cart.index')->with('success', 'Successfully moved to cart');
     }
 }

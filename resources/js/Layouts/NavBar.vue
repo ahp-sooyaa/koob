@@ -243,6 +243,7 @@
 
       <!-- Page Content -->
       <main class="flex-1">
+        <flash-message />
         <slot />
       </main>
 
@@ -327,6 +328,7 @@ import BreezeDropdownLink from '@/Components/DropdownLink.vue'
 import BreezeNavLink from '@/Components/NavLink.vue'
 import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue'
 import CartLink from '@/Components/CartLink'
+import FlashMessage from '@/Components/FlashMessage.vue'
 // import SearchBox from '@/Components/SearchBox'
 
 export default {
@@ -336,6 +338,7 @@ export default {
         BreezeNavLink,
         BreezeResponsiveNavLink,
         CartLink,
+        FlashMessage
         // SearchBox
     },
 

@@ -17,7 +17,7 @@
     </template>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12 min-h-96">
       <div
-        v-if="overStockItems.length"
+        v-if="Object.keys(overStockItems).length"
         class="mb-5 text-gray-900"
       >
         Some items in your cart are not available right now.
@@ -88,7 +88,7 @@
                   </span>
                 </div>
 
-                <div
+                <!-- <div
                   @click="
                     saveforlater(
                       item.user_id
@@ -99,7 +99,17 @@
                   class="bg-blue-500 cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-white text-xs"
                 >
                   Save for later
-                </div>
+                </div> -->
+                <Link
+                  :href="route('saveforlater', item.user_id
+                    ? item.book_id
+                    : item.id)"
+                  method="post"
+                  as="button"
+                  class="bg-blue-500 cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-white text-xs"
+                >
+                  Save for later
+                </Link>
               </div>
               <button
                 @click="
@@ -249,7 +259,7 @@
                 </span>
               </div>
 
-              <div
+              <!-- <div
                 @click="
                   movetocart(
                     item.user_id ? item.book_id : item.id
@@ -258,7 +268,15 @@
                 class="bg-blue-500 cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-white text-xs"
               >
                 Move to cart
-              </div>
+              </div> -->
+              <Link
+                :href="route('movetocart', item.user_id ? item.book_id : item.id)"
+                method="post"
+                as="button"
+                class="bg-blue-500 cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-white text-xs"
+              >
+                Move to cart
+              </Link>
             </div>
             <!-- <button
               @click="removeFromCart(index, item.user_id ? item.book : item)"
@@ -377,19 +395,19 @@ export default {
                 })
         },
 
-        saveforlater(id) {
-            axios.post(route('saveforlater', id)).then(() => {
-                flash('successfully moved to save for later.')
-                this.$inertia.get(route('cart.index'))
-            })
-        },
+        // saveforlater(id) {
+        //     axios.post(route('saveforlater', id)).then(() => {
+        //         flash('successfully moved to save for later.')
+        //         this.$inertia.get(route('cart.index'))
+        //     })
+        // },
 
-        movetocart(id) {
-            axios.post(route('movetocart', id)).then(() => {
-                flash('successfully moved to cart.')
-                this.$inertia.get(route('cart.index'))
-            })
-        },
+        // movetocart(id) {
+        //     axios.post(route('movetocart', id)).then(() => {
+        //         flash('successfully moved to cart.')
+        //         this.$inertia.get(route('cart.index'))
+        //     })
+        // },
     },
 }
 </script>
