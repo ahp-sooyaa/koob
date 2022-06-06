@@ -1,88 +1,92 @@
 <template>
-  <div>
+  <transition name="slide-fade">
     <div
-      v-if="$page.props.flash.success && show"
-      class="-translate-x-1/2 bg-green-500 fixed flex items-center justify-between left-1/2 max-w-3xl mb-8 mt-8 mx-auto rounded space-x-5 top-0 transform z-50"
+      v-if="show"
+      :class="[status == 'error' ? 'bg-red-500' : 'bg-green-500']"
+      class="fixed flex items-center px-3 py-2 rounded-lg shadow-lg space-x-2 text-white top-5 right-5 z-50"
+      role="alert"
     >
-      <div class="flex items-center">
-        <svg
-          class="flex-shrink-0 ml-4 mr-2 w-4 h-4 fill-white"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-        ><polygon points="0 11 2 9 7 14 18 3 20 5 7 18" /></svg>
-        <div class="py-4 text-white text-sm font-medium">
-          {{ $page.props.flash.success }}
-        </div>
-      </div>
-      <button
-        @click="show = false"
-        type="button"
-        class="group mr-2 p-2"
+      <svg
+        v-if="status == 'success'"
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5"
+        viewBox="0 0 20 20"
+        fill="currentColor"
       >
-        <svg
-          class="block w-2 h-2 fill-green-800 group-hover:fill-white"
-          xmlns="http://www.w3.org/2000/svg"
-          width="235.908"
-          height="235.908"
-          viewBox="278.046 126.846 235.908 235.908"
-        ><path d="M506.784 134.017c-9.56-9.56-25.06-9.56-34.62 0L396 210.18l-76.164-76.164c-9.56-9.56-25.06-9.56-34.62 0-9.56 9.56-9.56 25.06 0 34.62L361.38 244.8l-76.164 76.165c-9.56 9.56-9.56 25.06 0 34.62 9.56 9.56 25.06 9.56 34.62 0L396 279.42l76.164 76.165c9.56 9.56 25.06 9.56 34.62 0 9.56-9.56 9.56-25.06 0-34.62L430.62 244.8l76.164-76.163c9.56-9.56 9.56-25.06 0-34.62z" /></svg>
-      </button>
-    </div>
-    <div
-      v-if="($page.props.flash.error || Object.keys($page.props.errors).length > 0) && show"
-      class="flex items-center justify-between mb-8 max-w-3xl bg-red-500 rounded"
-    >
-      <div class="flex items-center">
-        <svg
-          class="flex-shrink-0 ml-4 mr-2 w-4 h-4 fill-white"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 20 20"
-        ><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm1.41-1.41A8 8 0 1 0 15.66 4.34 8 8 0 0 0 4.34 15.66zm9.9-8.49L11.41 10l2.83 2.83-1.41 1.41L10 11.41l-2.83 2.83-1.41-1.41L8.59 10 5.76 7.17l1.41-1.41L10 8.59l2.83-2.83 1.41 1.41z" /></svg>
-        <div
-          v-if="$page.props.flash.error"
-          class="py-4 text-white text-sm font-medium"
-        >
-          {{ $page.props.flash.error }}
-        </div>
-        <div
-          v-else
-          class="py-4 text-white text-sm font-medium"
-        >
-          <span v-if="Object.keys($page.props.errors).length === 1">There is one form error.</span>
-          <span v-else>There are {{ Object.keys($page.props.errors).length }} form errors.</span>
-        </div>
-      </div>
-      <button
-        @click="show = false"
-        type="button"
-        class="group mr-2 p-2"
+        <path
+          fill-rule="evenodd"
+          d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      <svg
+        v-else
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-5 w-5"
+        viewBox="0 0 20 20"
+        fill="currentColor"
       >
-        <svg
-          class="block w-2 h-2 fill-red-800 group-hover:fill-white"
-          xmlns="http://www.w3.org/2000/svg"
-          width="235.908"
-          height="235.908"
-          viewBox="278.046 126.846 235.908 235.908"
-        ><path d="M506.784 134.017c-9.56-9.56-25.06-9.56-34.62 0L396 210.18l-76.164-76.164c-9.56-9.56-25.06-9.56-34.62 0-9.56 9.56-9.56 25.06 0 34.62L361.38 244.8l-76.164 76.165c-9.56 9.56-9.56 25.06 0 34.62 9.56 9.56 25.06 9.56 34.62 0L396 279.42l76.164 76.165c9.56 9.56 25.06 9.56 34.62 0 9.56-9.56 9.56-25.06 0-34.62L430.62 244.8l76.164-76.163c9.56-9.56 9.56-25.06 0-34.62z" /></svg>
-      </button>
+        <path
+          fill-rule="evenodd"
+          d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+          clip-rule="evenodd"
+        />
+      </svg>
+      <div
+        class="text-center transition ease-in-out duration-500 transform"
+      >
+        {{ body }}
+      </div>
+      <span
+        v-show="flashCount"
+        class="px-1 rounded text-sm"
+        :class="status == 'error' ? 'bg-red-400' : 'bg-green-400'"
+      >{{ flashCount }}</span>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
 export default {
-    data() {
+    data(){
         return {
-            show: true,
+            body: '',
+            status: 'success',
+            show: false,
+            flashCount: 0
         }
     },
-    watch: {
-        '$page.props.flash': {
-            handler() {
-                this.show = true
-            },
-            deep: true,
+
+    created(){
+        window.events.on('flash' , data => this.flash(data) )
+    },
+
+    methods: {
+        flash(data){
+            this.body = data.message
+            this.status = data.status
+
+            this.show = true
+            this.flashCount++
+
+            setTimeout(() => {
+                this.show = false
+                this.flashCount = 0
+            }, 3000)
         },
     },
 }
 </script>
+
+<style scoped>
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all .5s;
+}
+.slide-fade-enter,
+.slide-fade-leave-to {
+  /* transform: translateY(-100px); */
+  transform: translateX(50px);
+  opacity: 0;
+}
+</style>

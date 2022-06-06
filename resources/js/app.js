@@ -5,7 +5,6 @@ import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/inertia-vue3'
 import { InertiaProgress } from '@inertiajs/progress'
 import { Link, Head } from '@inertiajs/inertia-vue3'
-import Flash from '@/Components/FlashNoti'
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel'
 
@@ -16,12 +15,9 @@ createInertiaApp({
         const App = createApp({ render: () => h(app, props) })
             .use(plugin)
             .mixin({ methods: { route } })
-            .component('Flash', Flash)
             .component('Link', Link)
             .component('Head', Head)
         
-        App.config.compilerOptions.isCustomElement = (tag) => tag.includes('lottie-player')
-
         App.mount(el)
     },
 })

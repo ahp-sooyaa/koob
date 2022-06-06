@@ -1,5 +1,4 @@
 <template>
-  <Flash />
   <div class="max-w-2xl mx-auto mb-12">
     <h1 class="max-w-sm mx-auto text-gray-700 text-center mb-4">
       All of your <b>saved coupons</b> which are still valid and <b>gifted coupons</b> from us will appear here.

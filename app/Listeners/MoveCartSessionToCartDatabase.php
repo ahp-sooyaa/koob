@@ -47,7 +47,27 @@ class MoveCartSessionToCartDatabase
                 }
             }
 
-            session()->forget('cart');
+            foreach ($event->user->carts as $dbCartItem) {
+                // if ($sessionCartItem = session()->get("cart.{$dbCartItem->book_id}")) {
+                //     $sessionCartItem['quantity'] = $dbCartItem->quantity;
+                //     session()->put("cart.{$dbCartItem->book_id}", $sessionCartItem);
+                // } else {
+                //     session()->put("cart.{$dbCartItem->book_id}", [
+                //         'id' => $dbCartItem->book_id,
+                //         'title' => $dbCartItem->title,
+                //         'quantity' => $dbCartItem->quantity,
+                //         'price' => $dbCartItem->price,
+                //     ]);
+                // }
+                if (! session()->has("cart.{$dbCartItem->book_id}")) {
+                    session()->put("cart.{$dbCartItem->book_id}", [
+                        'id' => $dbCartItem->book_id,
+                        'title' => $dbCartItem->title,
+                        'quantity' => $dbCartItem->quantity,
+                        'price' => $dbCartItem->price,
+                    ]);
+                }
+            }
         }
     }
 }

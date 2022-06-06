@@ -105,31 +105,29 @@ export default {
     data() {
         return {
             isAdded: this.$page.props.cart.some( item => {
-                return (this.$page.props.auth.user ? item['book_id'] : item['id']) === this.data.id 
+                return item['id'] === this.data.id 
             }) 
         }
     },
 
     methods: {
         addToCart() {
-            // if(this.isAdded) return
-
             axios.post(route('cart.store', this.data.id))
                 .then(() => {
                     this.isAdded = true
                     window.events.emit('cartQtyUpdated')
                     window.flash('Successfully added to Cart')
                 })
-                .catch(err => flash(err.response.data.message, 'error'))
+                .catch(err => window.flash(err.response.data.message, 'error'))
         },
 
         buyNow() {
             axios.post(route('cart.store', this.data.id))
                 .then(() => {
                     window.events.emit('cartQtyUpdated')
-                    this.$inertia.visit('/checkout')
+                    this.$inertia.get('/checkout')
                 })
-                .catch(err => flash(err.response.data.message, 'error'))
+                .catch(err => window.flash(err.response.data.message, 'error'))
         }
     }
 }

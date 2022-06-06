@@ -1,6 +1,4 @@
 <template>
-  <Flash />
-
   <BreezeNavBarLayout>
     <Head title="Checkout" />
 
@@ -172,8 +170,8 @@
               px-8 py-2 rounded flex justify-center text-lg text-white w-full
             "
             dusk="paynow"
-            :class="paymentProcessing || !cart.length || isThereAnyOverStockCount ? 'cursor-not-allowed bg-indigo-600' : ''"
-            :disabled="paymentProcessing || !cart.length || isThereAnyOverStockCount"
+            :class="paymentProcessing || !cart.length ? 'cursor-not-allowed bg-indigo-600' : ''"
+            :disabled="paymentProcessing || !cart.length"
           >
             <span v-if="!paymentProcessing">Pay Now</span>
             <svg
@@ -215,13 +213,7 @@
                 <h1>{{ item.title }}</h1>
                 <div class="flex items-center flex-1 space-x-5">
                   <select
-                    @change="
-                      updateCartQuantity(
-                        index,
-                        item.user_id ? item.book : item,
-                        $event
-                      )
-                    "
+                    @change="updateCartQuantity(index, item, $event)"
                     class="rounded-2xl shadow-md cursor-pointer"
                   >
                     <option
@@ -239,7 +231,7 @@
                 </div>
               </div>
               <button
-                @click="removeFromCart(index, item.user_id ? item.book : item)"
+                @click="removeFromCart(index, item)"
                 class="
                   ml-auto text-sm text-gray-500 hover:text-gray-800 
                   border-0 pt-0.5 focus:outline-none rounded self-start
@@ -402,10 +394,6 @@ export default {
 
             return Math.round(amount) // don't format this with formatPrice(), it will cause error with stripe 'invalid integer $10.00'
         },
-
-        isThereAnyOverStockCount() {
-            return this.cart.some((item) => item.quantity > item.book.available_stock_count)
-        }
     },
 
     created() {
@@ -498,13 +486,11 @@ export default {
         applyCoupon() {
             axios.get(route('coupon.check'), { couponCode: this.code })
                 .then(res => {
-                    console.log(res.data.coupon)
                     this.coupon = res.data.coupon
                     this.couponApplied = true
                     flash('Successfully applied coupon')
                 })
                 .catch(err => {
-                    console.log(err.response.status)
                     let message = err.response.status == '404' ? 'Sorry, this code is not from us!' : err.response.data.message
                     flash(message, 'error')
                 })
@@ -545,15 +531,6 @@ export default {
                     .catch()
             }, (1000 * 60) * 30)
         },
-
-        checkStockForCheckout() {
-            axios.get('/carts/checkStockForCheckout')
-                .then(() => this.$inertia.visit(route('checkout.index')))
-                .catch(err => {
-                    console.log(err.response.data.overstockitems)
-                    this.overStockItems = err.response.data.overstockitems
-                })
-        }
     },
 }
 </script>

@@ -7,20 +7,17 @@
       content="This is cart page where all of your cart items can be seen here."
     >
   </Head>
-  <Flash />
 
   <BreezeNavBarLayout>
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
         Shopping Cart
       </h2>
-    </template>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12 min-h-96">
       <div
         v-if="Object.keys(overStockItems).length"
-        class="mb-5 text-gray-900"
+        class="bg-red-200 mt-2 px-5 py-3 rounded text-red-500"
       >
-        Some items in your cart are not available right now.
+        Some items in your cart are not available right now and automatically move to save for later.
         <div
           v-for="overStockItem in overStockItems"
           :key="overStockItem.id"
@@ -29,26 +26,13 @@
           {{ overStockItem.title }}
         </div>
       </div>
+    </template>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12 min-h-96">
       <div
         v-if="cart.length"
         class="bg-white divide-x flex flex-col lg:flex-row lg:items-start lg:space-x-10 lg:space-y-0 rounded-2xl shadow-md space-y-5"
       >
-        <div
-          class="lg:p-8 lg:w-2/3 p-4 w-full"
-        >
-          <!-- question mark svg -->
-          <!-- <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-10 mb-5 text-gray-500 w-10"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-          >
-            <path
-              fill-rule="evenodd"
-              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
-              clip-rule="evenodd"
-            />
-          </svg> -->
+        <div class="lg:p-8 lg:w-2/3 p-4 w-full">
           <ul class="space-y-10">
             <li
               v-for="(item, index) in cart"
@@ -64,13 +48,7 @@
                 <h1>{{ item.title }}</h1>
                 <div class="flex items-center space-x-5">
                   <select
-                    @change="
-                      updateCartQuantity(
-                        index,
-                        item.user_id ? item.book : item,
-                        $event
-                      )
-                    "
+                    @change="updateCartQuantity(index, item, $event)"
                     class="rounded-2xl shadow-md cursor-pointer"
                     name="quantity"
                   >
@@ -88,36 +66,16 @@
                   </span>
                 </div>
 
-                <!-- <div
-                  @click="
-                    saveforlater(
-                      item.user_id
-                        ? item.book_id
-                        : item.id
-                    )
-                  "
+                <div
+                  v-if="$page.props.auth.user"
+                  @click="saveforlater(item.id)"
                   class="bg-blue-500 cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-white text-xs"
                 >
                   Save for later
-                </div> -->
-                <Link
-                  :href="route('saveforlater', item.user_id
-                    ? item.book_id
-                    : item.id)"
-                  method="post"
-                  as="button"
-                  class="bg-blue-500 cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-white text-xs"
-                >
-                  Save for later
-                </Link>
+                </div>
               </div>
               <button
-                @click="
-                  removeFromCart(
-                    index,
-                    item.user_id ? item.book : item
-                  )
-                "
+                @click="removeFromCart(index, item)"
                 class="flex ml-auto text-sm text-gray-500 hover:text-gray-800 border-0 pt-0.5 focus:outline-none rounded"
               >
                 <svg
@@ -137,9 +95,7 @@
           </ul>
         </div>
 
-        <div
-          class="lg:p-8 lg:w-1/3 p-4 w-full"
-        >
+        <div class="lg:p-8 lg:w-1/3 p-4 w-full">
           <div
             v-if="message"
             class="bg-gray-100 px-4 py-2 rounded-lg mb-5"
@@ -172,12 +128,6 @@
             >
               Continue Shopping
             </Link>
-            <!-- <Link
-              :href="route('checkout.index')"
-              class="ml-5 bg-blue-500 px-3 py-1.5 rounded-md text-white shadow"
-            >
-              Checkout
-            </Link> -->
             <div
               @click="checkStockForCheckout"
               class="ml-5 bg-blue-500 px-3 py-1.5 rounded-md text-white shadow cursor-pointer"
@@ -236,13 +186,7 @@
               <h1>{{ item.title }}</h1>
               <div class="flex items-center space-x-5">
                 <select
-                  @change="
-                    updateCartQuantity(
-                      index,
-                      item.user_id ? item.book : item,
-                      $event
-                    )
-                  "
+                  @change="updateCartQuantity(index, item, $event)"
                   class="rounded-2xl shadow-md cursor-pointer"
                 >
                   <option
@@ -259,51 +203,13 @@
                 </span>
               </div>
 
-              <!-- <div
-                @click="
-                  movetocart(
-                    item.user_id ? item.book_id : item.id
-                  )
-                "
+              <div
+                @click="movetocart(item.id)"
                 class="bg-blue-500 cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-white text-xs"
               >
                 Move to cart
-              </div> -->
-              <Link
-                :href="route('movetocart', item.user_id ? item.book_id : item.id)"
-                method="post"
-                as="button"
-                class="bg-blue-500 cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-white text-xs"
-              >
-                Move to cart
-              </Link>
+              </div>
             </div>
-            <!-- <button
-              @click="removeFromCart(index, item.user_id ? item.book : item)"
-              class="
-                flex
-                ml-auto
-                text-sm text-gray-500
-                hover:text-gray-800
-                border-0
-                pt-0.5
-                focus:outline-none
-                rounded
-              "
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-5 w-5"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-            </button> -->
           </li>
         </ul>
       </div>
@@ -341,7 +247,6 @@ export default {
             return totalQty
         },
         cartTotal() {
-            // right now cart total amount doesn't include delivery fee, later it will add to total
             let amount = 0
             for (const key in this.cart) {
                 amount += this.cart[key].quantity * this.cart[key].price
@@ -372,42 +277,54 @@ export default {
                 .patch(route('cart.update', item.id), {
                     qty: parseInt(event.target.value),
                 })
-                .then((res) => {
+                .then(() => {
                     cartItem.quantity = parseInt(event.target.value)
+
                     window.events.emit('cartQtyUpdated')
-                    window.flash(res.data.message)
+                    // window.flash(res.data.message)
+                    window.flash('Successfully updated quantity.')
                 })
                 .catch((err) => {
                     event.target.value = cartItem.quantity
-                    flash(err.response.data.message, 'error')
+                    window.flash(err.response.data.message, 'error')
                 })
-            // this.$inertia.patch(`/carts/${item.id}, {qty: parseInt(event.target.value)})
         },
 
         checkStockForCheckout() {
-            // this should do with inertia and return inertia::render('Cart') with session
-            axios
-                .get(route('cart.checkStockForCheckout'))
-                .then(() => this.$inertia.visit(route('checkout.index')))
+            axios.get(route('cart.checkStockForCheckout'))
+                .then(() => this.$inertia.get(route('checkout.index')))
                 .catch((err) => {
-                    console.log(err.response.data.overstockitems)
-                    this.overStockItems = err.response.data.overstockitems
+                    this.$inertia.reload({
+                        onFinish: () => {
+                            this.overStockItems = err.response.data.overStockItems
+                        }
+                    })
                 })
         },
 
-        // saveforlater(id) {
-        //     axios.post(route('saveforlater', id)).then(() => {
-        //         flash('successfully moved to save for later.')
-        //         this.$inertia.get(route('cart.index'))
-        //     })
-        // },
+        saveforlater(id) {
+            axios.post(route('saveforlater', id))
+                .then(() => {
+                    this.$inertia.reload({
+                        onFinish: () => {
+                            window.events.emit('cartQtyUpdated')
+                            window.flash('Successfully moved to save for later.')
+                        }
+                    })
+                })
+        },
 
-        // movetocart(id) {
-        //     axios.post(route('movetocart', id)).then(() => {
-        //         flash('successfully moved to cart.')
-        //         this.$inertia.get(route('cart.index'))
-        //     })
-        // },
+        movetocart(id) {
+            axios.post(route('movetocart', id))
+                .then(() => {
+                    this.$inertia.reload({
+                        onFinish: () => {
+                            window.events.emit('cartQtyUpdated')
+                            window.flash('Successfully moved to cart.')
+                        }
+                    })
+                })
+        },
     },
 }
 </script>

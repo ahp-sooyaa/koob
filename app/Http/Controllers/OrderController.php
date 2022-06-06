@@ -82,11 +82,11 @@ class OrderController extends Controller
 
             foreach (json_decode($request->input('cart'), true) as $item) {
                 $order->books()
-                    ->attach($item['book_id'], ['quantity' => $item['quantity']]);
+                    ->attach($item['id'], ['quantity' => $item['quantity']]);
 
                 // product or book stock quantities should decrease here
                 // SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'stock_count' at row 1 (SQL: update `books` set `stock_count` = -1, `books`.`updated_at` = 2022-04-03 05:26:57 where `id` = 3)"
-                $book = Book::find($item['book_id']);
+                $book = Book::find($item['id']);
                 $book->update([
                     'stock_count' => $book->stock_count - $item['quantity']
                 ]);

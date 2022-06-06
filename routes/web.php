@@ -7,7 +7,6 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
-use App\Models\Cart;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -52,9 +51,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 Route::get('/thankyou/{order}', [CheckoutController::class, 'thankyou'])->name('checkout.thankyou');
 
 Route::get('/api/cart', function () {
-    return auth()->check()
-        ? Cart::where('user_id', auth()->id())->get()
-        : (session('cart') ? array_values(session('cart')) : []);
+    return session('cart') ? array_values(session('cart')) : [];
 });
 
 Route::get('saveforlater', function () {

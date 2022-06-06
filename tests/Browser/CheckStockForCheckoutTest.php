@@ -65,8 +65,8 @@ class CheckStockForCheckoutTest extends DuskTestCase
 
             $first->press('@checkout')
                 ->screenshot('checkout1')
-                ->waitForText('Some items in your cart are not available right now.')
-                ->assertSee('Some items in your cart are not available right now.');
+                ->waitForText('Some items in your cart are not available right now and automatically move to save for later.')
+                ->assertSee('Some items in your cart are not available right now and automatically move to save for later.');
         });
     }
 }

@@ -7,7 +7,6 @@
       content="This is the shop page"
     >
   </Head>
-  <Flash />
 
   <BreezeNavBarLayout>
     <template #header>

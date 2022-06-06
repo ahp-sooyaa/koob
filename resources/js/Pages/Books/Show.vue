@@ -7,7 +7,6 @@
       content="This is the book detail page"
     >
   </Head>
-  <Flash />
 
   <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 my-16 pt-7">
     <div

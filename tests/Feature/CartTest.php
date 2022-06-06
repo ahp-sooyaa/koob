@@ -44,7 +44,9 @@ class CartTest extends TestCase
 
     public function test_auth_user_can_update_book_quantity_in_cart_page()
     {
-        $this->actingAs($user = User::factory()->create());
+        /** @var \App\Models\User */
+        $user = User::factory()->create();
+        $this->actingAs($user);
         $book = Book::factory()->create();
 
         $this->add_to_cart_table($book, $user);
@@ -87,7 +89,9 @@ class CartTest extends TestCase
 
     public function test_auth_user_cannot_select_more_than_stock_quantity()
     {
-        $this->actingAs($user = User::factory()->create());
+        /** @var \App\Models\User */
+        $user = User::factory()->create();
+        $this->actingAs($user);
         $book = Book::factory()->create(['available_stock_count' => 5]);
 
         $this->add_to_cart_table($book, $user);
@@ -119,7 +123,9 @@ class CartTest extends TestCase
 
     public function test_auth_user_can_remove_item_from_cart()
     {
-        $this->actingAs($user = User::factory()->create());
+        /** @var \App\Models\User */
+        $user = User::factory()->create();
+        $this->actingAs($user);
         $book = Book::factory()->create(['stock_count' => 5]);
 
         $this->add_to_cart_table($book, $user);
@@ -156,7 +162,9 @@ class CartTest extends TestCase
 
     public function test_authenticated_user_can_save_item_for_later()
     {
-        $this->actingAs($user = User::factory()->create());
+        /** @var \App\Models\User */
+        $user = User::factory()->create();
+        $this->actingAs($user);
         $book = Book::factory()->create();
 
         $this->add_to_cart_table($book, $user);
@@ -175,7 +183,9 @@ class CartTest extends TestCase
 
     public function test_deduct_available_stock_count_when_click_checkout()
     {
-        $this->actingAs($user = User::factory()->create());
+        /** @var \App\Models\User */
+        $user = User::factory()->create();
+        $this->actingAs($user);
         $book = Book::factory()->create();
 
         $this->add_to_cart_table($book, $user);
@@ -184,10 +194,5 @@ class CartTest extends TestCase
         $this->get(route('checkout.index'));
         $this->assertTrue(session('checkoutProcess'));
         $this->assertEquals(9, $book->fresh()->available_stock_count);
-    }
-
-    public function test_check_stock_when_user_click_checkout_in_case_checkout_after_long_time()
-    {
-        //
     }
 }
