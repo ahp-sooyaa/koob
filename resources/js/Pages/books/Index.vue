@@ -16,13 +16,12 @@
     </template>
     <section class="max-w-7xl mx-auto px-4 lg:px-10 mb-14 lg:my-16 pt-7">
       <div
-        v-if="booksCount"
         class="flex flex-col lg:flex-row space-y-5 space-x-0 lg:space-y-0 lg:space-x-10"
       >
         <div class="w-full lg:w-1/5">
           <div class="flex justify-between items-baseline mb-4">
-            <h1 class="block">
-              Filters by categories
+            <h1>
+              Filters
             </h1>
             <span
               @click="clearFilter"
@@ -30,6 +29,7 @@
             >clear</span>
           </div>
 
+          <h1>Categories</h1>
           <div class="-ml-1 flex flex-nowrap lg:flex-wrap items-baseline overflow-x-auto pb-3 pt-1 lg:space-y-2">
             <div
               @click="filter = {category_id: ''}"
@@ -51,41 +51,34 @@
         </div>
         <div class="w-full lg:w-4/5">
           <div class="flex items-center justify-between lg:flex-row lg:items-center space-x-3">
-            <search-box />
+            <search-box :search-query="search" />
             <sorting :sorting="sorting" />
           </div>
-          <div>
-            <div v-if="Object.keys(books.data).length">
+          <div v-if="Object.keys(books.data).length">
+            <div
+              class="grid grid-cols-1 gap-y-5 md:grid-cols-3 lg:grid-cols-4 md:gap-10 my-5"
+            >
               <div
-                class="grid grid-cols-1 gap-y-5 md:grid-cols-3 lg:grid-cols-4 md:gap-10 my-5"
+                v-for="book in books.data"
+                :key="book.id"
+                class="flex flex-col h-full pb-5 rounded-xl"
               >
-                <div
-                  v-for="book in books.data"
-                  :key="book.id"
-                  class="flex flex-col h-full pb-5 rounded-xl"
-                >
-                  <Book :data="book" />
-                </div>
+                <Book :data="book" />
               </div>
-
-              <!-- paginator -->
-              <paginator :links="books.links" />
             </div>
 
-            <div v-else>
-              <p>No results found for "{{ searchQuery }}"</p>
-              <p>Try different keywords or check spelling.</p>
-            </div>
+            <!-- paginator -->
+            <paginator :links="books.links" />
+          </div>
+
+          <div
+            v-else
+            class="grid h-full place-content-center text-center"
+          >
+            <p>No results found for <span class="font-bold">"{{ search }}"</span></p>
+            <p>Try different keywords or check spelling.</p>
           </div>
         </div>
-      </div>
-
-      <div
-        v-else
-        class="text-center mx-auto"
-      >
-        Woah Woah, someone forgot to add books data to database? <br>
-        Check database please.
       </div>
     </section>
   </BreezeNavBarLayout>
@@ -112,10 +105,6 @@ export default {
             type: Object,
             required: true,
         },
-        booksCount: {
-            type: Number,
-            required: true,
-        },
         categories: {
             type: Object,
             required: true
@@ -127,7 +116,11 @@ export default {
         filters: {
             type: Object,
             default: null
-        }
+        },
+        search: {
+            type: Object,
+            default: null
+        },
     },
 
     data() {
@@ -135,12 +128,6 @@ export default {
             loading: false,
             filter: '',
         }
-    },
-
-    computed: {
-        searchQuery() {
-            return location.search.match(/search=(\w+)/) ? location.search.match(/search=(\w+)/)[1] : ''
-        },
     },
 
     watch: {
@@ -160,6 +147,7 @@ export default {
         isFiltered(column, value) {
             return this.filters ? this.filters[column] == value : false
         },
+        
         clearFilter() {
             let url = this.$page.url.replace(/&?(filter\[\w+\]=\w+)+/g, '')
             url = this.searchQuery ? url.replace(/&?(search=\w+)/, '') : url

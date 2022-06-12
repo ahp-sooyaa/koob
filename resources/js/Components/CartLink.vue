@@ -67,10 +67,12 @@ export default {
         calculateCartTotalQuantity(cart){
             //* loop and sum the quantities count on every cart items
             let totalQty = 0 
+
             for(let key in cart) {
+                // console.log(cart[key])
                 totalQty += cart[key].quantity
             }
-
+  
             this.cartItemsCount = totalQty
         }
     }

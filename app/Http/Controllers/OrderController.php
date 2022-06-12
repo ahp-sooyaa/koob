@@ -92,8 +92,8 @@ class OrderController extends Controller
                 ]);
             }
 
-            // after order store destroy cart data from database
-            // session()->forget('cart');  we don't need this anymore bcuz user must login before checkout
+            // after order store destroy cart data
+            session()->forget('cart');
             Cart::where('user_id', auth()->id())->delete();
 
             /**

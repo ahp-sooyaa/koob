@@ -15,28 +15,28 @@ class CartController extends Controller
 {
     public function index()
     {
-        if (! session('checkoutProcess')) {
-            // give user's all cart data from inertia shared props
-            return Inertia::render('Cart', [
-                'message' => session('cartItemsCombined') ? session()->pull('cartItemsCombined') : '',
-                'saveforlaterItems' => session('saveforlater') ? array_values(session('saveforlater')) : []
-            ]);
-        }
+        // if (! session('checkoutProcess')) {
+        // give user's all cart data from inertia shared props
+        return Inertia::render('Cart', [
+            // 'message' => session('cartItemsCombined') ? session()->pull('cartItemsCombined') : '',
+            'saveforlaterItems' => session('saveforlater') ? array_values(session('saveforlater')) : []
+        ]);
+        // }
 
-        return Inertia::render('Checkout');
+        // return Inertia::render('Checkout');
     }
 
     public function update(Book $book, Cart $cart, Request $request)
     {
         // update cart product quantity when qty that user want to buy is not exceed over stock_count
         // $cartItem = Auth::check() ? ModelsCart::where('book_id', $book->id)->first() : session("cart.{$book->id}");
-        $cartItem = session("cart.{$book->id}");
+        // $cartItem = session("cart.{$book->id}");
 
-        $quantity = session('checkoutProcess') ? ($request->input('qty') - $cartItem['quantity']) : $request->input('qty');
+        // $quantity = session('checkoutProcess') ? ($request->input('qty') - $cartItem['quantity']) : $request->input('qty');
 
-        if ($book->available_stock_count < $quantity) {
+        if ($book->stock_count < $request->input('qty')) {
             return response()->json([
-                'message' => "Quantity is exceeding over available stock. Available quantity($book->available_stock_count)"
+                'message' => "Quantity is exceeding over available stock. Available quantity($book->stock_count)"
             ], 422);
         }
 
@@ -47,18 +47,18 @@ class CartController extends Controller
 
     public function store(Book $book, Cart $cart, Request $request)
     {
-        if (session('checkoutProcess')) {
-            return response()->json([
-                'message' => 'Please cancel the checkout process to update cart items!'
-            ], 422);
-        }
+        // if (session('checkoutProcess')) {
+        //     return response()->json([
+        //         'message' => 'Please cancel the checkout process to update cart items!'
+        //     ], 422);
+        // }
 
         $qty = $request->input('qty') ?: 1;
         $cartItem = session("cart.{$book->id}");
 
-        if ($book->available_stock_count < (is_null($cartItem) ? 0 : $cartItem['quantity']) + $qty) {
+        if ($book->stock_count < (is_null($cartItem) ? 0 : $cartItem['quantity']) + $qty) {
             return response()->json([
-                'message' => "Quantity is exceeding over available stock. Available quantity($book->available_stock_count)"
+                'message' => "Quantity is exceeding over available stock. Available quantity($book->stock_count)"
             ], 422);
         }
 
@@ -69,13 +69,13 @@ class CartController extends Controller
     {
         // remove single cart data not clear the whole cart
         // i think clear cart don't need controller method
-        if (session('checkoutProcess')) {
-            // $cartItem = ModelsCart::where('user_id', Auth::id())->where('book_id', $book->id)->first();
-            $cartItem = session("cart.{$book->id}");
-            $book->update([
-                'available_stock_count' => $book->available_stock_count + $cartItem['quantity']
-            ]);
-        }
+        // if (session('checkoutProcess')) {
+        //     // $cartItem = ModelsCart::where('user_id', Auth::id())->where('book_id', $book->id)->first();
+        //     $cartItem = session("cart.{$book->id}");
+        //     $book->update([
+        //         'stock_count' => $book->stock_count + $cartItem['quantity']
+        //     ]);
+        // }
         $cart->remove($book);
     }
 
@@ -84,18 +84,19 @@ class CartController extends Controller
         // if (Auth::check()) {
         //     $overstockitems = Book::join('carts', 'books.id', '=', 'carts.book_id')
         //         ->where('carts.user_id', Auth::id())
-        //         ->whereRaw('carts.quantity > books.available_stock_count')
+        //         ->whereRaw('carts.quantity > books.stock_count')
         //         ->get();
         // } else {
-        $overstockitems = array_filter(session('cart'), function ($cartItem) {
-            $book = Book::where('id', $cartItem['id'])->first();
+        if (session()->has('cart')) {
+            $filterCart = array_filter(session('cart'), function ($cartItem) {
+                $book = Book::where('id', $cartItem['id'])->first();
 
-            return $cartItem['quantity'] > $book->available_stock_count;
-        });
-        // }
+                return $cartItem['quantity'] > $book->stock_count;
+            });
+        }
 
-        if (count($overstockitems)) {
-            foreach ($overstockitems as $overstockitem) {
+        if (count($filterCart)) {
+            foreach ($filterCart as $overstockitem) {
                 $cartItem = session()->pull("cart.{$overstockitem['id']}");
 
                 session()->put("saveforlater.{$overstockitem['id']}", $cartItem);
@@ -114,11 +115,26 @@ class CartController extends Controller
                 }
             }
             // return Redirect::back()->with('error', 'Some items in your cart are not available right now and automatically move to save for later.');
-            return response()->json(['overStockItems' => $overstockitems], 422);
         }
 
+        if (session()->has('saveforlater')) {
+            $filterSaveForLater = array_filter(session('saveforlater'), function ($cartItem) {
+                $book = Book::where('id', $cartItem['id'])->first();
+
+                return $cartItem['quantity'] > $book->stock_count;
+            });
+        }
+
+        // $overstockitems = array_merge($filterCart, $filterSaveForLater);
+        // if ($filterCart || $filterSaveForLater) {
+        return response()->json([
+            'overStockItems' => session('cart') ? array_values($filterCart) : [],
+            'filterSaveForLater' => session('saveforlater') ? array_values($filterSaveForLater) : []
+        ]);
+        // }
+
         // return Redirect::route('checkout.index');
-        return response()->json(['success' => true]);
+        // return response()->json(['overStockItems' => array_values($overstockitems)]);
     }
 
     public function cancelCheckoutProcess()
@@ -148,7 +164,7 @@ class CartController extends Controller
         foreach (session('cart') as $cartItem) {
             $book = Book::find($cartItem['id']);
             $book->update([
-                'available_stock_count' => $book->available_stock_count + $cartItem['quantity']
+                'stock_count' => $book->stock_count + $cartItem['quantity']
             ]);
         }
         // }

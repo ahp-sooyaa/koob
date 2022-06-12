@@ -166,8 +166,7 @@
           <button
             @click="processPayment"
             class="
-              bg-indigo-500 focus:outline-none hover:bg-indigo-600 mt-8
-              px-8 py-2 rounded flex justify-center text-lg text-white w-full
+              bg-gray-700 border cursor-pointer flex hover:shadow-none items-center justify-center mt-5 px-5 py-3 rounded-xl shadow-md text-sm text-white w-full
             "
             dusk="paynow"
             :class="paymentProcessing || !cart.length ? 'cursor-not-allowed bg-indigo-600' : ''"
@@ -318,9 +317,9 @@
               <span class="font-semibold">{{ formatPrice(cartTotal) }}</span>
             </div>
           </div>
-          <div @click="cancelCheckoutProcess">
+          <!-- <div @click="cancelCheckoutProcess">
             cancel
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -332,7 +331,7 @@ import BreezeNavBarLayout from '@/Layouts/NavBar'
 import BreezeInputError from '@/Components/InputError'
 import BreezeInput from '@/Components/Input'
 import format from '@/mixins/format'
-import throttle from 'lodash/throttle'
+// import throttle from 'lodash/throttle'
 
 export default {
     components: {
@@ -347,9 +346,9 @@ export default {
 
     data() {
         return {
-            userActivityTimeout: null,
-            isInactive: false,
-            time: '',
+            // userActivityTimeout: null,
+            // isInactive: false,
+            // time: '',
             errors: [],
             stripe: {},
             cardElement: {},
@@ -396,9 +395,9 @@ export default {
         },
     },
 
-    created() {
-        this.activateActivityTracker()
-    },
+    // created() {
+    //     this.activateActivityTracker()
+    // },
 
     async mounted() {
         this.stripe = await loadStripe(process.env.MIX_STRIPE_KEY)
@@ -417,10 +416,10 @@ export default {
             let cartItem = _this.cart[index]
 
             axios.patch(route('cart.update', item.id), {qty: parseInt(event.target.value)})
-                .then(res => {
+                .then(() => {
                     cartItem.quantity = parseInt(event.target.value)
                     window.events.emit('cartQtyUpdated')
-                    window.flash(res.data.message)
+                    window.flash('Successfully updated quantity.')
                 })
                 .catch(err => {
                     event.target.value = cartItem.quantity
@@ -484,16 +483,18 @@ export default {
         },
 
         applyCoupon() {
-            axios.get(route('coupon.check'), { couponCode: this.code })
-                .then(res => {
-                    this.coupon = res.data.coupon
-                    this.couponApplied = true
-                    flash('Successfully applied coupon')
-                })
-                .catch(err => {
-                    let message = err.response.status == '404' ? 'Sorry, this code is not from us!' : err.response.data.message
-                    flash(message, 'error')
-                })
+            axios.get(route('coupon.check'), {
+                params: {
+                    couponCode: this.code
+                }
+            }).then(res => {
+                this.coupon = res.data.coupon
+                this.couponApplied = true
+                flash('Successfully applied coupon')
+            }).catch(err => {
+                let message = err.response.status == '404' ? 'Sorry, this code is not from us!' : err.response.data.message
+                flash(message, 'error')
+            })
         },
 
         cancelCoupon() {
@@ -504,33 +505,33 @@ export default {
                 )
         },
         
-        cancelCheckoutProcess(){
-            clearTimeout(this.userActivityTimeout)
-            window.removeEventListener('mousemove', this.resetUserActivityTimeout())
-            window.removeEventListener('scroll', this.resetUserActivityTimeout())
-            window.removeEventListener('keydown', this.resetUserActivityTimeout())
-            axios.patch('/cancelCheckoutProcess')
-                .then(() => this.$inertia.get(route('cart.index')))
-                .catch()
-        },
+        // cancelCheckoutProcess(){
+        //     clearTimeout(this.userActivityTimeout)
+        //     window.removeEventListener('mousemove', this.resetUserActivityTimeout())
+        //     window.removeEventListener('scroll', this.resetUserActivityTimeout())
+        //     window.removeEventListener('keydown', this.resetUserActivityTimeout())
+        //     axios.patch('/cancelCheckoutProcess')
+        //         .then(() => this.$inertia.get(route('cart.index')))
+        //         .catch()
+        // },
 
-        activateActivityTracker() {
-            window.addEventListener('mousemove', throttle(() => {this.resetUserActivityTimeout()}, (1000 * 60) * 5))
-            window.addEventListener('scroll', throttle(() => {this.resetUserActivityTimeout()}, (1000 * 60) * 5))
-            window.addEventListener('keydown', throttle(() => {this.resetUserActivityTimeout()}, (1000 * 60) * 5))
-        },
+        // activateActivityTracker() {
+        //     window.addEventListener('mousemove', throttle(() => {this.resetUserActivityTimeout()}, (1000 * 60) * 5))
+        //     window.addEventListener('scroll', throttle(() => {this.resetUserActivityTimeout()}, (1000 * 60) * 5))
+        //     window.addEventListener('keydown', throttle(() => {this.resetUserActivityTimeout()}, (1000 * 60) * 5))
+        // },
 
-        resetUserActivityTimeout() {
-            clearTimeout(this.userActivityTimeout)
-            this.userActivityTimeout = setTimeout(() => {
-                axios.patch('/timeoutCheckoutProcess')
-                    .then(() => {
-                        this.$inertia.get(route('welcome'))
-                        clearTimeout(this.userActivityTimeout)
-                    })
-                    .catch()
-            }, (1000 * 60) * 30)
-        },
+        // resetUserActivityTimeout() {
+        //     clearTimeout(this.userActivityTimeout)
+        //     this.userActivityTimeout = setTimeout(() => {
+        //         axios.patch('/timeoutCheckoutProcess')
+        //             .then(() => {
+        //                 this.$inertia.get(route('welcome'))
+        //                 clearTimeout(this.userActivityTimeout)
+        //             })
+        //             .catch()
+        //     }, (1000 * 60) * 30)
+        // },
     },
 }
 </script>

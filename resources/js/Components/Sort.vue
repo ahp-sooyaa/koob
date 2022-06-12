@@ -17,7 +17,6 @@
               class="bg-gray-100 px-1 rounded mr-2"
             >{{ sorting ? Object.keys(sorting).length : 0 }}</span>
             Sort by
-
             <svg
               class="ml-2 -mr-0.5 h-4 w-4"
               xmlns="http://www.w3.org/2000/svg"
@@ -83,10 +82,11 @@ export default {
 
     watch: {
         sort(value) {
-            let url = this.isSorted(Object.keys(value), Object.values(value))
-                ? this.$page.url.replace(/&?(sort\[\w+\]=\w+)/, '') 
+            const regexString = `&?(sort\\[${Object.keys(value)}+\\]=${Object.values(value)}+)`
+            let url = this.$page.url.match(new RegExp(regexString, 'g'))
+                ? this.$page.url.replace(new RegExp(regexString, 'g'), '') 
                 : this.$page.url
-            let data = (value && !this.isSorted(Object.keys(value), Object.values(value))) ? { sort: value } : {}
+            let data = (value && !this.$page.url.match(new RegExp(regexString, 'g'))) ? { sort: value } : {}
             this.$inertia
                 .get(url, data, {
                     preserveState: true,
@@ -96,8 +96,9 @@ export default {
 
     methods: {
         isSorted(column, direction) {
-            return this.sorting ? this.sorting[column] == direction : false
-            // return column in this.sorting (this is so cool when checking key exist in array)
+            const regexString = `&?(sort\\[${column}+\\]=${direction}+)`
+            return this.$page.url.match(new RegExp(regexString, 'g'))
+            // return this.sorting ? this.sorting[column] == direction : false
         },
     }
 }

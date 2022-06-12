@@ -30,19 +30,17 @@
 <script>
 import debounce from 'lodash/debounce'
 export default {
+    props: ['searchQuery'],
+
     data() {
         return {
-            search: location.search.match(/search=(\w+)/)
-                ? location.search.match(/search=(\w+)/)[1]
-                : '',
+            search: this.searchQuery,
             loading: false,
         }
     },
 
     watch: {
-        // wait 300milliseconds after user stop typing to search the result
         search: debounce(function (value) {
-            console.log(value)
             this.$inertia
                 .get(this.$page.url.replace(/search=(\w+)/, ''), { search: value, page: '' }, {
                     preserveState: true,

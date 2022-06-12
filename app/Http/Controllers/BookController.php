@@ -41,10 +41,10 @@ class BookController extends Controller
                     'stock_count' => $book->stock_count,
                     'available_stock_count' => $book->available_stock_count
                 ]),
-            'booksCount' => count(Book::all()),
             'categories' => Category::all(),
             'sorting' => request('sort'),
-            'filters' => request('filter')
+            'filters' => request('filter'),
+            'search' => request('search')
         ]);
     }
 

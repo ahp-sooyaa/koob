@@ -26,12 +26,12 @@ class MoveCartSessionToCartDatabase
     public function handle(Login $event)
     {
         if (session('cart')) {
-            if (Cart::where('user_id', $event->user->id)->exists()) {
-                session()->put(
-                    'cartItemsCombined',
-                    'Your cart items are combined with old cart items. So please check before continue the process'
-                );
-            }
+            // if (Cart::where('user_id', $event->user->id)->exists()) {
+            //     session()->put(
+            //         'cartItemsCombined',
+            //         'Your cart items are combined with old cart items. So please check before continue the process'
+            //     );
+            // }
 
             foreach (session('cart') as $cartItem) {
                 if ($cart = Cart::where('user_id', $event->user->id)->where('book_id', $cartItem['id'])->first()) {

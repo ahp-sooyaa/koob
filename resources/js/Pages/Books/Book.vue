@@ -1,13 +1,15 @@
 <template>
-  <img
-    :src="data.cover"
-    alt="cover"
-    class="h-96 md:h-72 lg:h-60 w-full mb-3 object-cover rounded-xl"
-  >
+  <div class="bg-gray-200 mb-5 p-5 rounded-2xl">
+    <img
+      :src="data.cover"
+      alt="cover"
+      class="h-96 md:h-72 lg:h-56 w-full object-cover"
+    >
+  </div>
   <div class="flex flex-1 flex-col px-1">
     <Link
       :href="'books/' + data.id"
-      class="font-semibold line-clamp-2 text-lg lg:text-sm"
+      class="font-semibold line-clamp-2 text-lg lg:text-sm hover:underline"
     >
       {{ data.title }}
     </Link>
@@ -15,18 +17,18 @@
       {{ formatPrice(data.price) }}
     </div>
     <div
-      v-if="data.available_stock_count && data.stock_count"
+      v-if="data.stock_count"
       class="flex justify-between mt-3 space-x-3"
     >
       <div
         @click="buyNow"
-        class="bg-blue-500 border cursor-pointer flex flex-1 items-center justify-center px-5 py-3 rounded-xl text-white"
+        class="bg-gray-700 border cursor-pointer flex flex-1 hover:shadow-none items-center justify-center px-5 rounded-xl shadow-md text-sm text-white"
       >
         Buy Now
       </div>
       <div
         @click="addToCart"
-        class="bg-gradient-to-bl border cursor-pointer flex from-indigo-500 items-center relative rounded-xl text-white to-red-500 h-14 w-14 lg:h-12 lg:w-12"
+        class="bg-gray-200 border cursor-pointer flex h-14 hover:shadow-none items-center lg:h-11 lg:w-12 relative rounded-xl shadow w-14"
         dusk="addToCart"
       >
         <svg
@@ -75,17 +77,17 @@
       </div>
     </div>
     <div
+      v-else
+      class="bg-gray-200 py-3 rounded-xl text-center text-gray-400 text-sm"
+    >
+      Out of stock
+    </div>
+    <!-- <div
       v-if="!data.available_stock_count && data.stock_count"
-      class="py-3"
+      class="bg-gray-200 py-3 rounded-xl text-center text-gray-400 text-sm"
     >
-      Not available right now
-    </div>
-    <div
-      v-if="!data.available_stock_count && !data.stock_count"
-      class="py-3"
-    >
-      Out of Stock
-    </div>
+      Currently not available
+    </div> -->
   </div>
 </template>
 
@@ -122,6 +124,7 @@ export default {
         },
 
         buyNow() {
+            // Todo: check and fix buynow logic
             axios.post(route('cart.store', this.data.id))
                 .then(() => {
                     window.events.emit('cartQtyUpdated')

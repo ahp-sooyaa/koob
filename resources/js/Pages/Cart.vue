@@ -14,8 +14,8 @@
         Shopping Cart
       </h2>
       <div
-        v-if="Object.keys(overStockItems).length"
-        class="bg-red-200 mt-2 px-5 py-3 rounded text-red-500"
+        v-if="overStockItems.length"
+        class="border border-red-200 mt-2 px-5 py-3 ring ring-inset ring-red-50 rounded text-red-500"
       >
         Some items in your cart are not available right now and automatically move to save for later.
         <div
@@ -27,26 +27,28 @@
         </div>
       </div>
     </template>
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12 min-h-96">
+    <div
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12 min-h-96"
+    >
       <div
         v-if="cart.length"
-        class="bg-white divide-x flex flex-col lg:flex-row lg:items-start lg:space-x-10 lg:space-y-0 rounded-2xl shadow-md space-y-5"
+        class="bg-white flex flex-col lg:flex-row lg:space-y-0 rounded-2xl shadow-md space-y-5"
       >
-        <div class="lg:p-8 lg:w-2/3 p-4 w-full">
+        <div class="lg:p-8 lg:w-2/3 p-4 w-full border-r">
           <ul class="space-y-10">
             <li
               v-for="(item, index) in cart"
               :key="item.id"
-              class="flex space-x-5 items-start"
+              class="flex space-x-5"
             >
               <img
                 src="/images/cover.png"
                 :alt="item.title + '\'s cover image'"
                 class="h-40"
               >
-              <div class="flex-1 space-y-3">
+              <div class="flex-1 flex flex-col items-start">
                 <h1>{{ item.title }}</h1>
-                <div class="flex items-center space-x-5">
+                <div class="flex items-center space-x-5 mt-3">
                   <select
                     @change="updateCartQuantity(index, item, $event)"
                     class="rounded-2xl shadow-md cursor-pointer"
@@ -69,7 +71,7 @@
                 <div
                   v-if="$page.props.auth.user"
                   @click="saveforlater(item.id)"
-                  class="bg-blue-500 cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-white text-xs"
+                  class="mt-auto hover:bg-gray-50 hover:shadow-none border cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-xs"
                 >
                   Save for later
                 </div>
@@ -95,7 +97,7 @@
           </ul>
         </div>
 
-        <div class="lg:p-8 lg:w-1/3 p-4 w-full">
+        <div class="sticky self-start top-36 lg:p-8 lg:w-1/3 p-4 w-full">
           <div
             v-if="message"
             class="bg-gray-100 px-4 py-2 rounded-lg mb-5"
@@ -128,13 +130,18 @@
             >
               Continue Shopping
             </Link>
-            <div
-              @click="checkStockForCheckout"
-              class="ml-5 bg-blue-500 px-3 py-1.5 rounded-md text-white shadow cursor-pointer"
-              dusk="checkout"
+            <Link
+              :href="route('checkout.index')"
+              class="bg-gray-700 border cursor-pointer flex hover:shadow-none items-center justify-center ml-4 px-5 py-3 rounded-xl shadow-md text-sm text-white"
             >
               Checkout
-            </div>
+            </Link>
+            <!-- <div
+              @click="checkStockForCheckout"
+              class="bg-gray-700 border cursor-pointer flex hover:shadow-none items-center justify-center ml-4 px-5 py-3 rounded-xl shadow-md text-sm text-white"
+            >
+              Checkout
+            </div> -->
           </div>
         </div>
       </div>
@@ -157,7 +164,7 @@
         </p>
         <Link
           :href="route('books.index')"
-          class="bg-blue-500 px-3 py-2.5 rounded-2xl text-white shadow"
+          class="bg-gray-700 border cursor-pointer hover:shadow-none inline-block items-center max-w-max px-5 py-3 rounded-xl shadow-md text-sm text-white"
         >
           Continue Shopping
         </Link>
@@ -175,16 +182,16 @@
           <li
             v-for="(item, index) in saveforlaterItems"
             :key="item.id"
-            class="flex space-x-5 items-start"
+            class="flex space-x-5"
           >
             <img
               src="/images/cover.png"
               :alt="item.title + '\'s cover image'"
               class="h-40"
             >
-            <div class="flex-1 space-y-3">
+            <div class="flex-1 flex flex-col items-start">
               <h1>{{ item.title }}</h1>
-              <div class="flex items-center space-x-5">
+              <div class="flex items-center space-x-5 mt-3">
                 <select
                   @change="updateCartQuantity(index, item, $event)"
                   class="rounded-2xl shadow-md cursor-pointer"
@@ -204,10 +211,18 @@
               </div>
 
               <div
+                v-cloak
+                v-if="! isOverStockItem(item.id)"
                 @click="movetocart(item.id)"
-                class="bg-blue-500 cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-white text-xs"
+                class="mt-auto hover:bg-gray-50 hover:shadow-none border cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-xs"
               >
                 Move to cart
+              </div>
+              <div
+                v-else
+                class="text-sm text-gray-500 mt-3"
+              >
+                This item is no longer available.
               </div>
             </div>
           </li>
@@ -233,7 +248,8 @@ export default {
 
     data() {
         return {
-            overStockItems: '',
+            overStockItems: [],
+            filterSaveForLater: []
         }
     },
 
@@ -256,7 +272,21 @@ export default {
         },
     },
 
+    created() {
+        // if(Object.keys(this.cart).length || Object.keys(this.saveforlaterItems).length) {
+        this.checkStockForCheckout()
+        // }
+    },
+
     methods: {
+        isOverStockItem(id) {
+            if (this.filterSaveForLater) {
+                return this.filterSaveForLater.some( item => {
+                    return item.id === id 
+                })
+            }
+        },
+        
         removeFromCart(index, item) {
             let _this = this
 
@@ -281,7 +311,6 @@ export default {
                     cartItem.quantity = parseInt(event.target.value)
 
                     window.events.emit('cartQtyUpdated')
-                    // window.flash(res.data.message)
                     window.flash('Successfully updated quantity.')
                 })
                 .catch((err) => {
@@ -291,12 +320,16 @@ export default {
         },
 
         checkStockForCheckout() {
+            console.log('check')
             axios.get(route('cart.checkStockForCheckout'))
-                .then(() => this.$inertia.get(route('checkout.index')))
-                .catch((err) => {
+                // .then(() => this.$inertia.get(route('checkout.index')))
+                // .then((res) => console.log(res.data.overStockItems))
+                .then((res) => {
                     this.$inertia.reload({
                         onFinish: () => {
-                            this.overStockItems = err.response.data.overStockItems
+                            this.overStockItems = res.data.overStockItems,
+                            this.filterSaveForLater = res.data.filterSaveForLater
+                            window.events.emit('cartQtyUpdated')
                         }
                     })
                 })
@@ -317,6 +350,7 @@ export default {
         movetocart(id) {
             axios.post(route('movetocart', id))
                 .then(() => {
+                    // make array splice not reload
                     this.$inertia.reload({
                         onFinish: () => {
                             window.events.emit('cartQtyUpdated')

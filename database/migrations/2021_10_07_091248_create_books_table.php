@@ -22,7 +22,7 @@ class CreateBooksTable extends Migration
             $table->text('excerpt');
             $table->integer('price');
             $table->binary('cover');
-            $table->unsignedInteger('available_stock_count');
+            // $table->unsignedInteger('available_stock_count');
             $table->unsignedInteger('stock_count');
             $table->timestamps();
         });

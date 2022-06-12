@@ -32,7 +32,9 @@ class CheckoutTest extends TestCase
 
     public function test_auth_user_cannot_render_checkout_screen_without_cart_items()
     {
-        $this->actingAs(User::factory()->create(['id' => 2]));
+        /** @var \App\Models\User */
+        $user = User::factory()->create();
+        $this->actingAs($user);
 
         $this->get(route('checkout.index'))
             ->assertRedirect(route('books.index'));
@@ -40,9 +42,18 @@ class CheckoutTest extends TestCase
 
     public function test_auth_user_can_render_checkout_screen_with_cart_items()
     {
-        $this->actingAs($user = User::factory()->create(['id' => 2]));
+        /** @var \App\Models\User */
+        $user = User::factory()->create();
+        $this->actingAs($user);
 
-        Cart::factory()->create(['user_id' => $user->id]);
+        $book = Book::factory()->create();
+
+        session()->put("cart.{$book->id}", [
+            'id' => $book->id,
+            'title' => $book->title,
+            'quantity' => 1,
+            'price' => $book->price,
+        ]);
 
         $this->get(route('checkout.index'))
             ->assertSuccessful();
@@ -87,7 +98,9 @@ class CheckoutTest extends TestCase
 
     public function validate_checkout_form($column)
     {
-        $this->actingAs(User::factory()->create());
+        /** @var \App\Models\User */
+        $user = User::factory()->create();
+        $this->actingAs($user);
 
         $checkoutForm = [
             'contact_name' => 'last name',
@@ -106,10 +119,10 @@ class CheckoutTest extends TestCase
 
     public function test_deduct_stock_count_after_successfully_placed_order()
     {
-        $this->actingAs($user = User::factory()->create(['id' => 1]));
-        $book = Book::factory()->create([
-            'id' => 1,
-        ]);
+        /** @var \App\Models\User */
+        $user = User::factory()->create();
+        $this->actingAs($user);
+        $book = Book::factory()->create();
 
         $this->post(route('cart.store', $book->id))
             ->assertSuccessful();
