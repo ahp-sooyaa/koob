@@ -53,6 +53,10 @@ module.exports = {
                 ],
                 'alphabetical': false
             }
+        ],
+        'vue/html-indent': [
+            'error',
+            'tab'
         ]
     }
 }

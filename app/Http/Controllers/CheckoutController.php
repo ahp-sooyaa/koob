@@ -15,7 +15,9 @@ class CheckoutController extends Controller
     {
         // $cart = Cart::where('user_id', auth()->id())->get();
 
-        if (Auth::check() && session()->has('cart')) {
+        $hasItems = request('buynow') ? session()->has('buyNow') : session()->has('cart');
+        // allow if there is buy now session
+        if (Auth::check() && $hasItems) {
             // if (auth()->check() && $cart->isNotEmpty()) {
             // if (! session('checkoutProcess')) {
             //     // decrease available count when user click checkout
@@ -30,7 +32,8 @@ class CheckoutController extends Controller
             return Inertia::render('Checkout', [
                 // notify user about the cart session is sync with cart table
                 // 'message' => session('cartItemsCombined') ? session()->pull('cartItemsCombined') : '',
-                'appliedCoupon' => session('coupon')
+                'appliedCoupon' => session('coupon'),
+                'checkoutMode' => request('buynow') ? 'buynow' : 'cart'
             ]);
         }
 

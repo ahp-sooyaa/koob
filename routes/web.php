@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\BuyNowController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CouponController;
@@ -34,6 +35,10 @@ Route::patch('/timeoutCheckoutProcess', [CartController::class, 'timeoutCheckout
 Route::post('/{id}/saveforlater', [CartController::class, 'saveforlater'])->name('saveforlater');
 Route::post('/{id}/movetocart', [CartController::class, 'movetocart'])->name('movetocart');
 
+Route::post('/buyNow/{book}', [BuyNowController::class, 'store'])->name('buyNow.store');
+Route::patch('/buyNow/{book}', [BuyNowController::class, 'update'])->name('buyNow.update');
+Route::delete('/buyNow/{book}', [BuyNowController::class, 'destroy'])->name('buyNow.destroy');
+
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
 
@@ -52,7 +57,7 @@ Route::get('/thankyou/{order}', [CheckoutController::class, 'thankyou'])->name('
 
 Route::get('/api/cart', function () {
     return session('cart') ? array_values(session('cart')) : [];
-    // session()->has('cart');
+    // session('buyNow');
 });
 
 Route::get('saveforlater', function () {

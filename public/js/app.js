@@ -20713,11 +20713,12 @@ __webpack_require__.r(__webpack_exports__);
     buyNow: function buyNow() {
       var _this3 = this;
 
-      // Todo: check and fix buynow logic
-      axios.post(route('cart.store', this.data.id)).then(function () {
+      axios.post(route('buyNow.store', this.data.id)).then(function () {
         window.events.emit('cartQtyUpdated');
 
-        _this3.$inertia.get('/checkout');
+        _this3.$inertia.get(route('checkout.index'), {
+          buynow: 1
+        });
       })["catch"](function (err) {
         return window.flash(err.response.data.message, 'error');
       });
@@ -21042,7 +21043,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     BreezeInput: _Components_Input__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   mixins: [_mixins_format__WEBPACK_IMPORTED_MODULE_5__["default"]],
-  props: ['message', 'appliedCoupon'],
+  props: ['message', 'appliedCoupon', 'checkoutMode'],
   data: function data() {
     var _this$$page$props$aut, _this$$page$props$aut2, _this$appliedCoupon;
 
@@ -21050,6 +21051,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       // userActivityTimeout: null,
       // isInactive: false,
       // time: '',
+      products: [],
       errors: [],
       stripe: {},
       cardElement: {},
@@ -21071,11 +21073,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     cart: function cart() {
       return this.$page.props.cart;
     },
+    buyNow: function buyNow() {
+      return this.$page.props.buyNow;
+    },
     cartQuantity: function cartQuantity() {
       var totalQty = 0;
 
-      for (var key in this.cart) {
-        totalQty += this.cart[key].quantity;
+      for (var key in this.products) {
+        totalQty += this.products[key].quantity;
       }
 
       return totalQty;
@@ -21083,8 +21088,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     cartTotal: function cartTotal() {
       var amount = 0;
 
-      for (var key in this.cart) {
-        amount += this.cart[key].quantity * this.cart[key].price;
+      for (var key in this.products) {
+        amount += this.products[key].quantity * this.products[key].price;
       }
 
       if (this.coupon) {
@@ -21093,6 +21098,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       return Math.round(amount); // don't format this with formatPrice(), it will cause error with stripe 'invalid integer $10.00'
     }
+  },
+  created: function created() {
+    this.products = this.checkoutMode == 'cart' ? this.cart : this.buyNow;
   },
   // created() {
   //     this.activateActivityTracker()
@@ -21132,35 +21140,60 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     updateCartQuantity: function updateCartQuantity(index, item, event) {
       var _this = this;
 
-      var cartItem = _this.cart[index];
-      axios.patch(route('cart.update', item.id), {
-        qty: parseInt(event.target.value)
-      }).then(function () {
-        cartItem.quantity = parseInt(event.target.value);
-        window.events.emit('cartQtyUpdated');
-        window.flash('Successfully updated quantity.');
-      })["catch"](function (err) {
-        event.target.value = cartItem.quantity;
-        flash(err.response.data.message, 'error');
-      });
+      var cartItem = _this.products[index];
+
+      if (this.checkoutMode == 'cart') {
+        axios.patch(route('cart.update', item.id), {
+          qty: parseInt(event.target.value)
+        }).then(function () {
+          cartItem.quantity = parseInt(event.target.value);
+          window.events.emit('cartQtyUpdated');
+          window.flash('Successfully updated quantity.');
+        })["catch"](function (err) {
+          event.target.value = cartItem.quantity;
+          flash(err.response.data.message, 'error');
+        });
+      } else {
+        axios.patch(route('buyNow.update', item.id), {
+          qty: parseInt(event.target.value)
+        }).then(function () {
+          cartItem.quantity = parseInt(event.target.value);
+          window.events.emit('cartQtyUpdated');
+          window.flash('Successfully updated quantity.');
+        })["catch"](function (err) {
+          event.target.value = cartItem.quantity;
+          flash(err.response.data.message, 'error');
+        });
+      }
     },
     removeFromCart: function removeFromCart(index, item) {
       var _this3 = this;
 
       var _this = this;
 
-      axios["delete"](route('cart.destroy', item.id)).then(function () {
-        _this.cart.splice(index, 1);
+      if (this.checkoutMode == 'cart') {
+        axios["delete"](route('cart.destroy', item.id)).then(function () {
+          _this.products.splice(index, 1);
 
-        if (!Object.keys(_this.cart).length) {
-          clearTimeout(_this3.userActivityTimeout);
+          if (!Object.keys(_this.products).length) {
+            _this3.$inertia.visit(route('books.index'));
+          } else {
+            window.events.emit('cartQtyUpdated');
+            window.flash('Successfully deleted from cart');
+          }
+        });
+      } else {
+        axios["delete"](route('buyNow.destroy', item.id)).then(function () {
+          _this.products.splice(index, 1);
 
-          _this3.$inertia.visit(route('books.index'));
-        } else {
-          window.events.emit('cartQtyUpdated');
-          window.flash('Successfully deleted from cart');
-        }
-      });
+          if (!Object.keys(_this.products).length) {
+            _this3.$inertia.visit(route('books.index'));
+          } else {
+            window.events.emit('cartQtyUpdated');
+            window.flash('Successfully deleted from cart');
+          }
+        });
+      }
     },
     processPayment: function processPayment() {
       var _this4 = this;
@@ -21172,9 +21205,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                clearTimeout(_this4.userActivityTimeout);
+                // clearTimeout(this.userActivityTimeout)
                 _this4.paymentProcessing = true;
-                _context2.next = 4;
+                _context2.next = 3;
                 return _this4.stripe.createPaymentMethod('card', _this4.cardElement, {
                   billing_details: {
                     name: _this4.customer.contact_name,
@@ -21188,7 +21221,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   }
                 });
 
-              case 4:
+              case 3:
                 _yield$_this4$stripe$ = _context2.sent;
                 paymentMethod = _yield$_this4$stripe$.paymentMethod;
                 error = _yield$_this4$stripe$.error;
@@ -21198,7 +21231,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                 } else {
                   _this4.customer.payment_method_id = paymentMethod.id;
                   _this4.customer.amount = _this4.cartTotal;
-                  _this4.customer.cart = JSON.stringify(_this4.$page.props.cart);
+                  _this4.customer.cart = JSON.stringify(_this4.products);
                   axios.post(route('orders.store', _this4.customer)).then(function (response) {
                     _this4.paymentProcessing = false;
 
@@ -21209,7 +21242,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   });
                 }
 
-              case 8:
+              case 7:
               case "end":
                 return _context2.stop();
             }
@@ -26172,14 +26205,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[6] || (_cache[6] = function () {
           return $options.processPayment && $options.processPayment.apply($options, arguments);
         }),
-        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bg-gray-700 border cursor-pointer flex hover:shadow-none items-center justify-center mt-5 px-5 py-3 rounded-xl shadow-md text-sm text-white w-full", $data.paymentProcessing || !$options.cart.length ? 'cursor-not-allowed bg-indigo-600' : '']),
+        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bg-gray-700 border cursor-pointer flex hover:shadow-none items-center justify-center mt-5 px-5 py-3 rounded-xl shadow-md text-sm text-white w-full", $data.paymentProcessing || !$data.products.length ? 'cursor-not-allowed bg-gray-400' : '']),
         dusk: "paynow",
-        disabled: $data.paymentProcessing || !$options.cart.length
+        disabled: $data.paymentProcessing || !$data.products.length
       }, [!$data.paymentProcessing ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_30, "Pay Now")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("svg", _hoisted_31, _hoisted_33))], 10
       /* CLASS, PROPS */
       , _hoisted_29)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" order summary "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [$props.message ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.message), 1
       /* TEXT */
-      )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_37, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.cart, function (item, index) {
+      )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_37, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.products, function (item, index) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
           key: item.id,
           "class": "flex space-x-5"

@@ -93,28 +93,28 @@ class CartController extends Controller
 
                 return $cartItem['quantity'] > $book->stock_count;
             });
-        }
 
-        if (count($filterCart)) {
-            foreach ($filterCart as $overstockitem) {
-                $cartItem = session()->pull("cart.{$overstockitem['id']}");
+            if (count($filterCart)) {
+                foreach ($filterCart as $overstockitem) {
+                    $cartItem = session()->pull("cart.{$overstockitem['id']}");
 
-                session()->put("saveforlater.{$overstockitem['id']}", $cartItem);
+                    session()->put("saveforlater.{$overstockitem['id']}", $cartItem);
 
-                if (Auth::check()) {
-                    $cartItem = ModelsCart::where('user_id', Auth::id())->where('book_id', $overstockitem['id'])->first();
+                    if (Auth::check()) {
+                        $cartItem = ModelsCart::where('user_id', Auth::id())->where('book_id', $overstockitem['id'])->first();
 
-                    Saveforlater::create([
-                        'user_id' => Auth::id(),
-                        'book_id' => $cartItem['book_id'],
-                        'title' => $cartItem['title'],
-                        'quantity' => $cartItem['quantity'],
-                        'price' => $cartItem['price']
-                    ]);
-                    $cartItem->delete();
+                        Saveforlater::create([
+                            'user_id' => Auth::id(),
+                            'book_id' => $cartItem['book_id'],
+                            'title' => $cartItem['title'],
+                            'quantity' => $cartItem['quantity'],
+                            'price' => $cartItem['price']
+                        ]);
+                        $cartItem->delete();
+                    }
                 }
+                // return Redirect::back()->with('error', 'Some items in your cart are not available right now and automatically move to save for later.');
             }
-            // return Redirect::back()->with('error', 'Some items in your cart are not available right now and automatically move to save for later.');
         }
 
         if (session()->has('saveforlater')) {
