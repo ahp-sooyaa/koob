@@ -15,15 +15,7 @@
 			</h2>
 			<div
 				v-if="overStockItems.length"
-				class="
-                    border border-red-200
-                    mt-2
-                    px-5
-                    py-3
-                    ring ring-inset ring-red-50
-                    rounded
-                    text-red-500
-                "
+				class="border border-red-200 mt-2 px-5 py-3 ring ring-inset ring-red-50 rounded text-red-500"
 			>
 				Some items in your cart are not available right now and
 				automatically move to save for later.
@@ -39,14 +31,7 @@
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12 min-h-96">
 			<div
 				v-if="cart.length"
-				class="
-                    bg-white
-                    flex flex-col
-                    lg:flex-row lg:space-y-0
-                    rounded-2xl
-                    shadow-md
-                    space-y-5
-                "
+				class="bg-white flex flex-col lg:flex-row lg:space-y-0 rounded-2xl shadow-md space-y-5"
 			>
 				<div class="lg:p-8 lg:w-2/3 p-4 w-full border-r">
 					<ul class="space-y-10">
@@ -64,18 +49,8 @@
 								<h1>{{ item.title }}</h1>
 								<div class="flex items-center space-x-5 mt-3">
 									<select
-										@change="
-											updateCartQuantity(
-												index,
-												item,
-												$event
-											)
-										"
-										class="
-                                            rounded-2xl
-                                            shadow-md
-                                            cursor-pointer
-                                        "
+										@change="updateCartQuantity( index, item, $event )"
+										class="rounded-2xl shadow-md cursor-pointer"
 										name="quantity"
 									>
 										<option
@@ -94,35 +69,15 @@
 
 								<div
 									v-if="$page.props.auth.user"
-									@click="saveforlater(item.id)"
-									class="
-                                        mt-auto
-                                        hover:bg-gray-50 hover:shadow-none
-                                        border
-                                        cursor-pointer
-                                        inline-block
-                                        px-3
-                                        py-1.5
-                                        rounded-md
-                                        shadow
-                                        text-xs
-                                    "
+									@click="saveforlater(index, item)"
+									class="mt-auto hover:bg-gray-50 hover:shadow-none border cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-xs"
 								>
 									Save for later
 								</div>
 							</div>
 							<button
 								@click="removeFromCart(index, item)"
-								class="
-                                    flex
-                                    ml-auto
-                                    text-sm text-gray-500
-                                    hover:text-gray-800
-                                    border-0
-                                    pt-0.5
-                                    focus:outline-none
-                                    rounded
-                                "
+								class="flex ml-auto text-sm text-gray-500 hover:text-gray-800 border-0 pt-0.5 focus:outline-none rounded"
 							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -178,30 +133,10 @@
 						</Link>
 						<Link
 							:href="route('checkout.index')"
-							class="
-                                bg-gray-700
-                                border
-                                cursor-pointer
-                                flex
-                                hover:shadow-none
-                                items-center
-                                justify-center
-                                ml-4
-                                px-5
-                                py-3
-                                rounded-xl
-                                shadow-md
-                                text-sm text-white
-                            "
+							class="bg-gray-700 border cursor-pointer flex hover:shadow-none items-center justify-center ml-4 px-5 py-3 rounded-xl shadow-md text-sm text-white"
 						>
 							Checkout
 						</Link>
-						<!-- <div
-              @click="checkStockForCheckout"
-              class="bg-gray-700 border cursor-pointer flex hover:shadow-none items-center justify-center ml-4 px-5 py-3 rounded-xl shadow-md text-sm text-white"
-            >
-              Checkout
-            </div> -->
 					</div>
 				</div>
 			</div>
@@ -224,20 +159,7 @@
 				</p>
 				<Link
 					:href="route('books.index')"
-					class="
-                        bg-gray-700
-                        border
-                        cursor-pointer
-                        hover:shadow-none
-                        inline-block
-                        items-center
-                        max-w-max
-                        px-5
-                        py-3
-                        rounded-xl
-                        shadow-md
-                        text-sm text-white
-                    "
+					class="bg-gray-700 border cursor-pointer hover:shadow-none inline-block items-center max-w-max px-5 py-3 rounded-xl shadow-md text-sm text-white"
 				>
 					Continue Shopping
 				</Link>
@@ -249,12 +171,7 @@
 				class="mt-10 bg-white rounded-2xl p-4 lg:p-8 shadow-md w-full"
 			>
 				<h1
-					class="
-                        font-semibold
-                        leading-tight
-                        mb-5
-                        text-gray-800 text-xl
-                    "
+					class="text-gray-800 font-semibold leading-tight mb-5 text-xl"
 				>
 					Save for later
 				</h1>
@@ -273,9 +190,7 @@
 							<h1>{{ item.title }}</h1>
 							<div class="flex items-center space-x-5 mt-3">
 								<select
-									@change="
-										updateCartQuantity(index, item, $event)
-									"
+									@change="updateCartQuantity(index, item, $event)"
 									class="rounded-2xl shadow-md cursor-pointer"
 								>
 									<option
@@ -295,19 +210,8 @@
 							<div
 								v-cloak
 								v-if="!isOverStockItem(item.id)"
-								@click="movetocart(item.id)"
-								class="
-                                    mt-auto
-                                    hover:bg-gray-50 hover:shadow-none
-                                    border
-                                    cursor-pointer
-                                    inline-block
-                                    px-3
-                                    py-1.5
-                                    rounded-md
-                                    shadow
-                                    text-xs
-                                "
+								@click="movetocart(index, item)"
+								class="hover:bg-gray-50 hover:shadow-none mt-auto border cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-xs"
 							>
 								Move to cart
 							</div>
@@ -366,9 +270,7 @@ export default {
     },
 
     created() {
-        // if(Object.keys(this.cart).length || Object.keys(this.saveforlaterItems).length) {
         this.checkStockForCheckout()
-        // }
     },
 
     methods: {
@@ -395,10 +297,9 @@ export default {
             let _this = this
             let cartItem = _this.cart[index]
 
-            axios
-                .patch(route('cart.update', item.id), {
-                    qty: parseInt(event.target.value),
-                })
+            axios.patch(route('cart.update', item.id), {
+                qty: parseInt(event.target.value),
+            })
                 .then(() => {
                     cartItem.quantity = parseInt(event.target.value)
 
@@ -412,43 +313,39 @@ export default {
         },
 
         checkStockForCheckout() {
-            console.log('check')
-            axios
-                .get(route('cart.checkStockForCheckout'))
-                // .then(() => this.$inertia.get(route('checkout.index')))
-                // .then((res) => console.log(res.data.overStockItems))
+            axios.get(route('cart.checkStockForCheckout'))
                 .then((res) => {
                     this.$inertia.reload({
                         onFinish: () => {
-                            (this.overStockItems = res.data.overStockItems),
-                            (this.filterSaveForLater =
-                                    res.data.filterSaveForLater)
+                            this.overStockItems = res.data.overStockItems
+                            this.filterSaveForLater = res.data.filterSaveForLater
                             window.events.emit('cartQtyUpdated')
                         },
                     })
                 })
         },
 
-        saveforlater(id) {
-            axios.post(route('saveforlater', id)).then(() => {
-                this.$inertia.reload({
-                    onFinish: () => {
-                        window.events.emit('cartQtyUpdated')
-                        window.flash('Successfully moved to save for later.')
-                    },
-                })
+        saveforlater(index, item) {
+            let _this = this
+
+            axios.post(route('saveforlater', item.id)).then(() => {
+                _this.cart.splice(index, 1)
+                _this.saveforlaterItems.push(item)
+
+                window.events.emit('cartQtyUpdated')
+                window.flash('Successfully moved to save for later.')
             })
         },
 
-        movetocart(id) {
-            axios.post(route('movetocart', id)).then(() => {
-                // make array splice not reload
-                this.$inertia.reload({
-                    onFinish: () => {
-                        window.events.emit('cartQtyUpdated')
-                        window.flash('Successfully moved to cart.')
-                    },
-                })
+        movetocart(index, item) {
+            let _this = this
+
+            axios.post(route('movetocart', item.id)).then(() => {
+                _this.saveforlaterItems.splice(index, 1)
+                _this.cart.push(item)
+
+                window.events.emit('cartQtyUpdated')
+                window.flash('Successfully moved to cart.')
             })
         },
     },

@@ -10,6 +10,8 @@ class BuyNowController extends Controller
 {
     public function store(BuyNow $buyNow, Book $book)
     {
+        session()->forget('buyNow');
+
         $cartItem = session("buyNow.{$book->id}");
 
         if ($book->stock_count < (is_null($cartItem) ? 0 : $cartItem['quantity']) + 1) {

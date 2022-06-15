@@ -20925,8 +20925,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    // if(Object.keys(this.cart).length || Object.keys(this.saveforlaterItems).length) {
-    this.checkStockForCheckout(); // }
+    this.checkStockForCheckout();
   },
   methods: {
     isOverStockItem: function isOverStockItem(id) {
@@ -20964,10 +20963,7 @@ __webpack_require__.r(__webpack_exports__);
     checkStockForCheckout: function checkStockForCheckout() {
       var _this2 = this;
 
-      console.log('check');
-      axios__WEBPACK_IMPORTED_MODULE_1___default().get(route('cart.checkStockForCheckout')) // .then(() => this.$inertia.get(route('checkout.index')))
-      // .then((res) => console.log(res.data.overStockItems))
-      .then(function (res) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default().get(route('cart.checkStockForCheckout')).then(function (res) {
         _this2.$inertia.reload({
           onFinish: function onFinish() {
             _this2.overStockItems = res.data.overStockItems, _this2.filterSaveForLater = res.data.filterSaveForLater;
@@ -20976,29 +20972,28 @@ __webpack_require__.r(__webpack_exports__);
         });
       });
     },
-    saveforlater: function saveforlater(id) {
-      var _this3 = this;
+    saveforlater: function saveforlater(index, item) {
+      var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post(route('saveforlater', id)).then(function () {
-        _this3.$inertia.reload({
-          onFinish: function onFinish() {
-            window.events.emit('cartQtyUpdated');
-            window.flash('Successfully moved to save for later.');
-          }
-        });
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post(route('saveforlater', item.id)).then(function () {
+        _this.cart.splice(index, 1);
+
+        _this.saveforlaterItems.push(item);
+
+        window.events.emit('cartQtyUpdated');
+        window.flash('Successfully moved to save for later.');
       });
     },
-    movetocart: function movetocart(id) {
-      var _this4 = this;
+    movetocart: function movetocart(index, item) {
+      var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post(route('movetocart', id)).then(function () {
-        // make array splice not reload
-        _this4.$inertia.reload({
-          onFinish: function onFinish() {
-            window.events.emit('cartQtyUpdated');
-            window.flash('Successfully moved to cart.');
-          }
-        });
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post(route('movetocart', item.id)).then(function () {
+        _this.saveforlaterItems.splice(index, 1);
+
+        _this.cart.push(item);
+
+        window.events.emit('cartQtyUpdated');
+        window.flash('Successfully moved to cart.');
       });
     }
   }
@@ -25583,7 +25578,7 @@ var _hoisted_37 = {
 };
 
 var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-  "class": "font-semibold leading-tight mb-5 text-gray-800 text-xl"
+  "class": "text-gray-800 font-semibold leading-tight mb-5 text-xl"
 }, " Save for later ", -1
 /* HOISTED */
 );
@@ -25671,7 +25666,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         )]), _ctx.$page.props.auth.user ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           key: 0,
           onClick: function onClick($event) {
-            return $options.saveforlater(item.id);
+            return $options.saveforlater(index, item);
           },
           "class": "mt-auto hover:bg-gray-50 hover:shadow-none border cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-xs"
         }, " Save for later ", 8
@@ -25716,7 +25711,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
       }, 8
       /* PROPS */
-      , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div\n              @click=\"checkStockForCheckout\"\n              class=\"bg-gray-700 border cursor-pointer flex hover:shadow-none items-center justify-center ml-4 px-5 py-3 rounded-xl shadow-md text-sm text-white\"\n            >\n              Checkout\n            </div> ")])])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33, [_hoisted_34, _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
+      , ["href"])])])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33, [_hoisted_34, _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
         href: _ctx.route('books.index'),
         "class": "bg-gray-700 border cursor-pointer hover:shadow-none inline-block items-center max-w-max px-5 py-3 rounded-xl shadow-md text-sm text-white"
       }, {
@@ -25762,9 +25757,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         )]), !$options.isOverStockItem(item.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           key: 0,
           onClick: function onClick($event) {
-            return $options.movetocart(item.id);
+            return $options.movetocart(index, item);
           },
-          "class": "mt-auto hover:bg-gray-50 hover:shadow-none border cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-xs"
+          "class": "hover:bg-gray-50 hover:shadow-none mt-auto border cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-xs"
         }, " Move to cart ", 8
         /* PROPS */
         , _hoisted_46)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_47, " This item is no longer available. "))])]);
