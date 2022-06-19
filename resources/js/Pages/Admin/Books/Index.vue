@@ -8,11 +8,11 @@
 		>
 	</Head>
 
-	<div class="bg-white p-5 shadow">
+	<AdminHeader>
 		<h2 class="font-semibold text-xl text-gray-800 leading-tight">
 			Books List
 		</h2>
-	</div>
+	</AdminHeader>
 
 	<div class="my-12 mx-5">
 		<div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg mb-5">
@@ -104,10 +104,11 @@
 <script>
 import format from '@/mixins/format'
 import AdminLayout from '@/Layouts/Admin'
+import AdminHeader from '@/Components/AdminHeader'
 import Paginator from '@/Components/Paginator.vue'
 
 export default {
-    components: { Paginator },
+    components: { Paginator, AdminHeader },
 
     mixins: [ format ],
 

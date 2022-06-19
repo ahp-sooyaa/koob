@@ -1,171 +1,152 @@
 <template>
-  <Head>
-    <title>Admin Coupons Create</title>
-    <meta
-      head-key="description"
-      name="description"
-      content="This is the coupon create page of admin"
-    >
-  </Head>
+	<Head>
+		<title>Admin Coupons Create</title>
+		<meta
+			head-key="description"
+			name="description"
+			content="This is the coupon create page of admin"
+		>
+	</Head>
 
-  <div class="bg-white p-5 shadow">
-    <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-      Generate Coupons
-    </h2>
-  </div>
+	<AdminHeader>
+		<h2 class="font-semibold text-xl text-gray-800 leading-tight">
+			Generate Coupons
+		</h2>
+	</AdminHeader>
 
-  <!-- i need to change my flashnoti component to work with inertia shared data -->
-  <div
-    v-if="$page.props.flash.message"
-    class="bg-green-100 p-5 shadow-inner text-green-700 font-bold"
-  >
-    {{ $page.props.flash.message }}
-  </div>
+	<!-- i need to change my flashnoti component to work with inertia shared data -->
+	<!-- <div
+			v-if="$page.props.flash.message"
+			class="bg-green-100 p-5 shadow-inner text-green-700 font-bold"
+		>
+			{{ $page.props.flash.message }}
+		</div> -->
 
-  <BreezeValidationErrors class="w-1/2 mx-auto bg-red-100 border-2 border-red-200 mt-5 px-10 py-5 rounded-2xl" />
+	<BreezeValidationErrors class="w-1/2 mx-auto bg-red-100 border-2 border-red-200 mt-5 px-10 py-5 rounded-2xl" />
 
-  <form
-    @submit.prevent="submit"
-    class="w-1/2 mx-auto px-5 pt-10"
-  >
-    <div>
-      <BreezeLabel
-        for="code"
-        value="code"
-      />
-      <div class="flex space-x-3">
-        <BreezeInput
-          id="code"
-          v-model="form.code"
-          type="text"
-          class="mt-1 block w-full"
-          autocomplete="code"
-        />
-        <button
-          @click="generateCouponCode"
-          type="button"
-        >
-          Generate
-        </button>
-      </div>
-    </div>
+	<form
+		@submit.prevent="submit"
+		class="w-1/2 mx-auto px-5 pt-10"
+	>
+		<div>
+			<BreezeLabel
+				for="code"
+				value="code"
+			/>
+			<div class="flex space-x-3">
+				<BreezeInput
+					id="code"
+					v-model="form.code"
+					type="text"
+					class="mt-1 block w-full"
+					autocomplete="code"
+				/>
+				<button
+					@click="generateCouponCode"
+					type="button"
+				>
+					Generate
+				</button>
+			</div>
+		</div>
 
-    <div class="mt-4">
-      <BreezeLabel
-        for="program_name"
-        value="program name"
-      />
-      <BreezeInput
-        id="program_name"
-        v-model="form.program_name"
-        type="text"
-        class="mt-1 block w-full"
-        autocomplete="program_name"
-      />
-    </div>
+		<div class="mt-4">
+			<BreezeLabel
+				for="program_name"
+				value="program name"
+			/>
+			<BreezeInput
+				id="program_name"
+				v-model="form.program_name"
+				type="text"
+				class="mt-1 block w-full"
+				autocomplete="program_name"
+			/>
+		</div>
 
-    <div class="mt-4">
-      <div>Choose Coupon Type</div>
+		<div class="mt-4">
+			<div>Choose Coupon Type</div>
 
-      <label
-        for="percentage"
-        class="mr-1.5"
-      >Percentage</label>
-      <input
-        id="percentage"
-        v-model="form.type"
-        type="radio"
-        value="Percentage"
-        class="mr-3"
-      >
+			<label
+				for="percentage"
+				class="mr-1.5"
+			>Percentage</label>
+			<input
+				id="percentage"
+				v-model="form.type"
+				type="radio"
+				value="Percentage"
+				class="mr-3"
+			>
 
-      <label
-        for="fixed"
-        class="mr-1.5"
-      >Fixed</label>
-      <input
-        id="fixed"
-        v-model="form.type"
-        type="radio"
-        value="Fixed"
-      >
-    </div>
+			<label
+				for="fixed"
+				class="mr-1.5"
+			>Fixed</label>
+			<input
+				id="fixed"
+				v-model="form.type"
+				type="radio"
+				value="Fixed"
+			>
+		</div>
 
-    <!-- <select
-      id="appliable_on"
-      v-model="form.appliable_on"
-      name="appliable_on"
-    >
-      <option
-        disabled
-        value=""
-        selected
-      >
-        Select appliable product
-      </option>
-      <option value="all">
-        all products
-      </option>
-      <option value="category">
-        category
-      </option>
-    </select> -->
+		<div class="mt-4">
+			<BreezeLabel
+				for="value"
+				value="value"
+			/>
+			<BreezeInput
+				id="value"
+				v-model="form.value"
+				type="text"
+				class="mt-1 block w-full"
+				autocomplete="value"
+			/>
+		</div>
 
-    <div class="mt-4">
-      <BreezeLabel
-        for="value"
-        value="value"
-      />
-      <BreezeInput
-        id="value"
-        v-model="form.value"
-        type="text"
-        class="mt-1 block w-full"
-        autocomplete="value"
-      />
-    </div>
+		<div class="mt-4">
+			<BreezeLabel
+				for="quantity"
+				value="quantity"
+			/>
+			<BreezeInput
+				id="quantity"
+				v-model="form.quantity"
+				type="number"
+				class="mt-1 block w-full"
+				autocomplete="quantity"
+			/>
+		</div>
 
-    <div class="mt-4">
-      <BreezeLabel
-        for="quantity"
-        value="quantity"
-      />
-      <BreezeInput
-        id="quantity"
-        v-model="form.quantity"
-        type="number"
-        class="mt-1 block w-full"
-        autocomplete="quantity"
-      />
-    </div>
+		<div class="mt-4">
+			<BreezeLabel
+				for="expired_at"
+				value="expired_at"
+			/>
+			<BreezeInput
+				id="expired_at"
+				v-model="form.expired_at"
+				type="text"
+				class="mt-1 block w-full"
+				autocomplete="expired_at"
+			/>
+		</div>
 
-    <div class="mt-4">
-      <BreezeLabel
-        for="expired_at"
-        value="expired_at"
-      />
-      <BreezeInput
-        id="expired_at"
-        v-model="form.expired_at"
-        type="text"
-        class="mt-1 block w-full"
-        autocomplete="expired_at"
-      />
-    </div>
-
-    <div class="flex items-center justify-start mt-4">
-      <BreezeButton
-        :class="{ 'opacity-25': form.processing }"
-        :disabled="form.processing"
-      >
-        Create
-      </BreezeButton>
-    </div>
-  </form>
+		<div class="flex items-center justify-start mt-4">
+			<BreezeButton
+				:class="{ 'opacity-25': form.processing }"
+				:disabled="form.processing"
+			>
+				Create
+			</BreezeButton>
+		</div>
+	</form>
 </template>
 
 <script>
 import AdminLayout from '@/Layouts/Admin'
+import AdminHeader from '@/Components/AdminHeader'
 import BreezeButton from '@/Components/Button'
 import BreezeInput from '@/Components/Input'
 import BreezeLabel from '@/Components/Label'
@@ -173,6 +154,7 @@ import BreezeValidationErrors from '@/Components/ValidationErrors'
 
 export default {
     components: {
+        AdminHeader,
         BreezeButton,
         BreezeInput,
         BreezeLabel,
@@ -197,7 +179,7 @@ export default {
 
     methods: {
         submit() {
-            this.form.post('/admin/coupons', {
+            this.form.post(route('admin.coupons.store'), {
                 onSuccess: () => this.form.reset()
             })
         },

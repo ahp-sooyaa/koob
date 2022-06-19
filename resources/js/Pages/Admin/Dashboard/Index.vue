@@ -8,28 +8,23 @@
 		>
 	</Head>
 
-	<!-- <div class="bg-white p-5 shadow">
+	<AdminHeader>
 		<h2 class="font-semibold text-xl text-gray-800 leading-tight">
 			Dashboard
 		</h2>
-	</div> -->
-
-	<AdminLayout>
-		<template #header>
-			<h2 class="font-semibold text-xl text-gray-800 leading-tight">
-				Dashboard
-			</h2>
-		</template>
-		<div class="mt-10 mx-5">
-			main content from main branch
-		</div>
-	</AdminLayout>
+	</AdminHeader>
+    
+	<div class="mt-10 mx-5">
+		main content from main branch
+	</div>
 </template>
 
 <script>
 import AdminLayout from '@/Layouts/Admin'
-
+import AdminHeader from '@/Components/AdminHeader'
 export default {
-    components: { AdminLayout }
+    components: { AdminHeader },
+
+    layout: AdminLayout
 }
 </script>
