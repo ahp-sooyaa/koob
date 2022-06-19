@@ -59,7 +59,6 @@ Route::get('/thankyou/{order}', [CheckoutController::class, 'thankyou'])->name('
 
 Route::get('/api/cart', function () {
     return session('cart') ? array_values(session('cart')) : [];
-    // session('buyNow');
 });
 
 Route::get('saveforlater', function () {

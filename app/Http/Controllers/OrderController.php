@@ -6,8 +6,11 @@ use App\Models\Book;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\User;
+use App\Notifications\OrderPlaced;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -100,6 +103,8 @@ class OrderController extends Controller
              * mail send or notify
              * Mail::send(new OrderPlaced($order));
              */
+            $admins = User::where('role', 'admin')->get();
+            Notification::send($admins, new OrderPlaced($order));
 
             // coupon here or not
             if (session('coupon')) {

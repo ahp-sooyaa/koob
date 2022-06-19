@@ -1,40 +1,40 @@
 <template>
-  <div class="relative">
-    <div @click="open = ! open">
-      <slot name="trigger" />
-    </div>
+	<div class="relative">
+		<div @click="open = ! open">
+			<slot name="trigger" />
+		</div>
 
-    <!-- Full Screen Dropdown Overlay -->
-    <div
-      v-show="open"
-      @click="open = false"
-      class="fixed inset-0 z-40"
-    />
+		<!-- Full Screen Dropdown Overlay -->
+		<div
+			v-show="open"
+			@click="open = false"
+			class="fixed inset-0 z-40"
+		/>
 
-    <transition
-      enter-active-class="transition ease-out duration-200"
-      enter-from-class="transform opacity-0 scale-95"
-      enter-to-class="transform opacity-100 scale-100"
-      leave-active-class="transition ease-in duration-75"
-      leave-from-class="transform opacity-100 scale-100"
-      leave-to-class="transform opacity-0 scale-95"
-    >
-      <div
-        v-show="open"
-        @click="open = false"
-        class="absolute z-50 mt-2 rounded-md shadow-lg bg-white"
-        :class="[widthClass, alignmentClasses]"
-        style="display: none;"
-      >
-        <div
-          class="py-1 rounded-md ring-1 ring-black ring-opacity-5"
-          :class="contentClasses"
-        >
-          <slot name="content" />
-        </div>
-      </div>
-    </transition>
-  </div>
+		<transition
+			enter-active-class="transition ease-out duration-200"
+			enter-from-class="transform opacity-0 scale-95"
+			enter-to-class="transform opacity-100 scale-100"
+			leave-active-class="transition ease-in duration-75"
+			leave-from-class="transform opacity-100 scale-100"
+			leave-to-class="transform opacity-0 scale-95"
+		>
+			<div
+				v-show="open"
+				@click="open = false"
+				class="absolute z-50 mt-2 rounded-md shadow-lg bg-white"
+				:class="[widthClass, alignmentClasses]"
+				style="display: none;"
+			>
+				<div
+					class="py-1 rounded-md ring-1 ring-black ring-opacity-5"
+					:class="contentClasses"
+				>
+					<slot name="content" />
+				</div>
+			</div>
+		</transition>
+	</div>
 </template>
 
 <script>
@@ -77,6 +77,7 @@ export default {
         widthClass() {
             return {
                 '48': 'w-48',
+                '72': 'w-72'
             }[this.width.toString()]
         },
 

@@ -1,6 +1,6 @@
 <template>
 	<Head>
-		<title>Setting - <span v-text="$page.props.user.name"></span></title>
+		<title>{{ $page.props.user.name }} Setting</title>
 		<meta
 			head-key="description"
 			name="description"
