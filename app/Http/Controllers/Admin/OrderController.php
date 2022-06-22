@@ -19,6 +19,13 @@ class OrderController extends Controller
         ]);
     }
 
+    public function show(Order $order)
+    {
+        return Inertia::render('Admin/Orders/Show', [
+            'order' => $order->load('books')
+        ]);
+    }
+
     public function edit(Order $order)
     {
         return Inertia::render('Admin/Orders/Edit', [

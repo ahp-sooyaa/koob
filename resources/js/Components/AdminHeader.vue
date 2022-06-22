@@ -1,8 +1,6 @@
 <template>
 	<header class="flex justify-between bg-white p-5 shadow">
-		<!-- <h2 class="font-semibold text-xl text-gray-800 leading-tight"> -->
 		<slot />
-		<!-- </h2> -->
 
 		<BreezeDropdown
 			align="right"
@@ -26,10 +24,14 @@
 					</svg>
 					<span
 						v-if="$page.props.unreadNotifications.length"
-						class="absolute top-0 -right-0.5 flex h-3 w-3"
+						class="absolute top-0.5 right-0.5 flex h-2 w-2"
 					>
-						<span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-red-400 opacity-75" />
-						<span class="relative inline-flex rounded-full h-3 w-3 bg-red-500" />
+						<span
+							class="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-red-400 opacity-75"
+						/>
+						<span
+							class="relative inline-flex rounded-full h-2 w-2 bg-red-500"
+						/>
 					</span>
 				</div>
 			</template>
@@ -55,7 +57,9 @@
 								as="button"
 								class="rounded mt-3"
 							>
-								<span v-html="unreadNotification.data.message" />
+								<span
+									v-html="unreadNotification.data.message"
+								/>
 							</BreezeDropdownLink>
 						</div>
 					</div>
@@ -63,7 +67,7 @@
 						v-else
 						class="bg-gray-300 mt-3 py-2 rounded text-center text-gray-500 text-sm"
 					>
-						no unread notifications
+						No unread notifications
 					</div>
 				</div>
 			</template>
@@ -77,11 +81,10 @@ import BreezeDropdownLink from '@/Components/DropdownLink'
 export default {
     components: {
         BreezeDropdown,
-        BreezeDropdownLink
-    }
+        BreezeDropdownLink,
+    },
 }
 </script>
 
 <style lang="scss" scoped>
-
 </style>

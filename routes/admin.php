@@ -23,6 +23,7 @@ Route::group([
     // Route::get('/books/{book}', [BookController::class, 'show'])->name('admin.books.show');
 
     Route::get('/orders', [OrderController::class, 'index'])->name('admin.orders.index');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
     Route::get('/orders/{order}/edit', [OrderController::class, 'edit'])->name('admin.orders.edit');
     Route::patch('/orders/{order}', [OrderController::class, 'update'])->name('admin.orders.update');
 

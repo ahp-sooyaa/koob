@@ -16,7 +16,7 @@
 				class="text-gray-500 hover:text-gray-900"
 			>
 				Orders List
-			</Link> 
+			</Link>
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				class="h-6 w-6 text-gray-400"
@@ -175,7 +175,7 @@ export default {
         Link,
         BreezeValidationErrors,
     },
-    
+
     layout: AdminLayout,
 
     props: ['order', 'success'],

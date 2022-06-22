@@ -98,6 +98,12 @@
 							>
 								Edit
 							</Link>
+							<Link
+								:href="route('admin.orders.show', order)"
+								class="ml-2 text-indigo-600 hover:text-indigo-900"
+							>
+								View
+							</Link>
 						</td>
 					</tr>
 				</tbody>
