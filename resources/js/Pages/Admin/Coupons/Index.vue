@@ -59,7 +59,7 @@
 							scope="col"
 							class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 						>
-							Appliable On
+							Applicable On
 						</th>
 						<th
 							scope="col"
@@ -75,7 +75,10 @@
 						</th>
 					</tr>
 				</thead>
-				<tbody class="bg-white divide-y divide-gray-200">
+				<tbody
+					v-if="coupons.length"
+					class="bg-white divide-y divide-gray-200"
+				>
 					<tr
 						v-for="coupon in coupons"
 						:key="coupon.id"
@@ -111,6 +114,16 @@
 								href="#"
 								class="text-indigo-600 hover:text-indigo-900"
 							>Edit</a>
+						</td>
+					</tr>
+				</tbody>
+				<tbody v-else>
+					<tr>
+						<td
+							colspan="7"
+							class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center"
+						>
+							No Coupons
 						</td>
 					</tr>
 				</tbody>

@@ -171,8 +171,6 @@ export default {
         BreezeButton,
         BreezeInput,
         BreezeLabel,
-        Head,
-        Link,
         BreezeValidationErrors,
     },
 

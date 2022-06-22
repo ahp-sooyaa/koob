@@ -4,8 +4,8 @@
 			Notifications
 		</h2>
 	</AdminHeader>
-    
-	<div class="my-12 mx-5">
+
+	<div class="w-2/3 my-12 mx-5">
 		<div class="flex border-b-2">
 			<Link
 				:href="route('admin.notifications.index')"
