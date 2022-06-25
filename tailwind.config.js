@@ -22,6 +22,9 @@ module.exports = {
             },
             backgroundImage: {
                 'hero-image': 'url("/images/hero_image.jpg")',
+            },
+            width: {
+                '69': '4.3125rem'
             }
         },
     },

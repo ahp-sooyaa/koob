@@ -19,7 +19,10 @@ Route::group([
 
     Route::get('/books', [BookController::class, 'index'])->name('admin.books.index');
     Route::get('/books/create', [BookController::class, 'create'])->name('admin.books.create');
+    Route::get('/books/{book}/edit', [BookController::class, 'edit'])->name('admin.books.edit');
     Route::post('/books', [BookController::class, 'store'])->name('admin.books.store');
+    Route::patch('/books/{book}', [BookController::class, 'update'])->name('admin.books.update');
+    Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('admin.books.destroy');
     // Route::get('/books/{book}', [BookController::class, 'show'])->name('admin.books.show');
 
     Route::get('/orders', [OrderController::class, 'index'])->name('admin.orders.index');

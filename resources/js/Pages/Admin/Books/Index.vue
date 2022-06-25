@@ -15,37 +15,43 @@
 	</AdminHeader>
 
 	<div class="my-12 mx-5">
-		<div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg mb-5">
+		<div class="shadow overflow-x-auto border-b border-gray-200 sm:rounded-lg mb-5">
 			<table class="min-w-full divide-y divide-gray-200">
 				<thead class="bg-gray-50">
 					<tr>
 						<th
 							scope="col"
-							class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+							class="whitespace-nowrap px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 						>
 							Cover
 						</th>
 						<th
 							scope="col"
-							class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+							class="whitespace-nowrap px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 						>
 							Title
 						</th>
 						<th
 							scope="col"
-							class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+							class="whitespace-nowrap px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+						>
+							Excerpt
+						</th>
+						<th
+							scope="col"
+							class="whitespace-nowrap px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 						>
 							Author
 						</th>
 						<th
 							scope="col"
-							class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+							class="whitespace-nowrap px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
 						>
 							Price
 						</th>
 						<th
 							scope="col"
-							class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+							class="whitespace-nowrap px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
 						>
 							Stock Count
 						</th>
@@ -53,7 +59,7 @@
 							scope="col"
 							class="relative px-6 py-3"
 						>
-							<span class="sr-only">Edit</span>
+							<span class="sr-only">Action</span>
 						</th>
 					</tr>
 				</thead>
@@ -66,9 +72,9 @@
 							<div class="flex items-center">
 								<div class="flex-shrink-0 h-20 w-18">
 									<img
-										class="h-20 w-18 rounded-md"
+										class="h-20 w-69 rounded-md"
 										alt="book cover"
-										:src="book.cover"
+										:src="'/' + book.cover"
 									>
 								</div>
 							</div>
@@ -76,6 +82,11 @@
 						<td class="px-6 py-4 whitespace-nowrap">
 							<div class="text-sm text-gray-900">
 								{{ book.title }}
+							</div>
+						</td>
+						<td class="px-6 py-4 text-sm text-gray-500">
+							<div class="line-clamp-2">
+								{{ book.excerpt }}
 							</div>
 						</td>
 						<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
@@ -88,10 +99,20 @@
 							{{ book.stock_count }}
 						</td>
 						<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-							<a
-								href="#"
+							<Link
+								:href="route('admin.books.edit', book.id)"
 								class="text-indigo-600 hover:text-indigo-900"
-							>Edit</a>
+							>
+								Edit
+							</Link>
+							<Link
+								:href="route('admin.books.destroy', book.id)"
+								class="text-indigo-600 hover:text-indigo-900"
+								method="delete"
+								as="button"
+							>
+								Delete
+							</Link>
 						</td>
 					</tr>
 				</tbody>

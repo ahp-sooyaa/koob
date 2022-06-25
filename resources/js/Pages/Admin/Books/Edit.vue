@@ -1,16 +1,16 @@
 <template>
 	<Head>
-		<title>Admin book create</title>
+		<title>Admin book edit</title>
 		<meta
 			head-key="description"
 			name="description"
-			content="This is the book create page of admin"
+			content="This is the book edit page of admin"
 		>
 	</Head>
 
 	<AdminHeader>
 		<h2 class="font-semibold text-xl text-gray-800 leading-tight">
-			Create Book
+			Edit Book
 		</h2>
 	</AdminHeader>
 
@@ -130,10 +130,10 @@
 
 		<div class="flex items-center justify-start mt-4">
 			<BreezeButton
-				:class="{ 'opacity-25': form.processing }"
-				:disabled="form.processing"
+				:class="{ 'opacity-25 cursor-default': form.processing || !form.isDirty }"
+				:disabled="form.processing || !form.isDirty"
 			>
-				Create
+				Update
 			</BreezeButton>
 		</div>
 	</form>
@@ -158,34 +158,25 @@ export default {
 
     layout: AdminLayout,
 
-    props: ['categories'],
+    props: ['categories', 'book'],
 
     data() {
         return {
             form: this.$inertia.form({
-                cover: null,
-                title: '',
-                excerpt: '',
-                author: '',
-                price: '',
-                category_id: '',
-                stock_count: '',
+                cover: '',
+                title: this.book.title,
+                excerpt: this.book.excerpt,
+                author: this.book.author,
+                price: this.book.price,
+                stock_count: this.book.stock_count,
+                category_id: this.book.category_id,
             })
         }
     },
 
     methods: {
-        selectedImage(e) {
-            this.form.cover = e.target.files[0]
-            console.log(e.target.files[0])
-            // let reader = new FileReader()
-            // reader.readAsDataURL(this.featured_image)
-            // reader.onload = (e) => {
-            //     this.previewImage = e.target.result
-            // }
-        },
         submit() {
-            this.form.post(route('admin.books.store'))
+            this.form.post(route('admin.books.update', { book: this.book, _method: 'patch' }))
         }
     }
 }

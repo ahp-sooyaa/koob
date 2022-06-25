@@ -6867,6 +6867,10 @@ select {
   width: 16rem;
 }
 
+.w-69 {
+  width: 4.3125rem;
+}
+
 .w-72 {
   width: 18rem;
 }
@@ -38295,6 +38299,10 @@ select {
     width: 16rem;
   }
 
+  .sm\:w-69 {
+    width: 4.3125rem;
+  }
+
   .sm\:w-72 {
     width: 18rem;
   }
@@ -69643,6 +69651,10 @@ select {
 
   .md\:w-64 {
     width: 16rem;
+  }
+
+  .md\:w-69 {
+    width: 4.3125rem;
   }
 
   .md\:w-72 {
@@ -100995,6 +101007,10 @@ select {
     width: 16rem;
   }
 
+  .lg\:w-69 {
+    width: 4.3125rem;
+  }
+
   .lg\:w-72 {
     width: 18rem;
   }
@@ -132345,6 +132361,10 @@ select {
     width: 16rem;
   }
 
+  .xl\:w-69 {
+    width: 4.3125rem;
+  }
+
   .xl\:w-72 {
     width: 18rem;
   }
@@ -163693,6 +163713,10 @@ select {
 
   .\32xl\:w-64 {
     width: 16rem;
+  }
+
+  .\32xl\:w-69 {
+    width: 4.3125rem;
   }
 
   .\32xl\:w-72 {
