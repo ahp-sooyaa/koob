@@ -19847,11 +19847,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }, 300)
   },
   created: function created() {
+    var _this2 = this;
+
     this.fetchResults();
+    window.addEventListener('keydown', function (event) {
+      if (event.key === '/') {
+        event.preventDefault();
+
+        _this2.openModal();
+      }
+    });
   },
   methods: {
     fetchResults: function fetchResults() {
-      var _this2 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
@@ -19860,7 +19869,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 _context.next = 2;
                 return axios.get(route('search')).then(function (response) {
-                  _this2.result = response.data;
+                  _this3.result = response.data;
                 });
 
               case 2:
@@ -19872,11 +19881,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     openModal: function openModal() {
-      var _this3 = this;
+      var _this4 = this;
 
       this.showModal = true;
       this.$nextTick(function () {
-        return _this3.$refs.search.focus();
+        return _this4.$refs.search.focus();
       });
     }
   }
@@ -22598,7 +22607,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return $data.search = $event;
     }),
     type: "text",
-    placeholder: "search",
+    placeholder: "Press '/' anywhere to search",
     "class": "w-full px-10 border-gray-300 focus:border-gray-500 focus:ring-0 rounded-full"
   }, null, 512
   /* NEED_PATCH */

@@ -52,7 +52,7 @@
 				ref="search"
 				v-model="search"
 				type="text"
-				placeholder="search"
+				placeholder="Press '/' anywhere to search"
 				class="w-full px-10 border-gray-300 focus:border-gray-500 focus:ring-0 rounded-full"
 			>
 
@@ -143,6 +143,12 @@ export default {
 
     created() {
         this.fetchResults()
+        window.addEventListener('keydown', event => {
+            if (event.key === '/') {
+                event.preventDefault()
+                this.openModal()
+            }
+        })
     },
 
     methods: {
