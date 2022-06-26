@@ -8,6 +8,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -20,6 +21,7 @@ Route::get('/', function () {
 
 /** give conditional redirect path after login successfully */
 Route::get('/home', HomeController::class)->name('home');
+Route::get('/search', SearchController::class)->name('search');
 
 Route::get('/books', [BookController::class, 'index'])->name('books.index');
 Route::get('/books/{book}', [BookController::class, 'show'])->name('books.show');

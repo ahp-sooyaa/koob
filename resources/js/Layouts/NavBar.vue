@@ -21,15 +21,15 @@
 
 							<!-- Navigation Links -->
 							<div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-								<!-- <BreezeNavLink 
-                  v-if="$page.props.auth.user" 
-                  :href="route('dashboard')" 
+								<!-- <BreezeNavLink
+                  v-if="$page.props.auth.user"
+                  :href="route('dashboard')"
                   :active="route().current('dashboard')"
                 >
                   Dashboard
                 </BreezeNavLink> -->
-								<BreezeNavLink 
-									:href="route('books.index')" 
+								<BreezeNavLink
+									:href="route('books.index')"
 									:active="route().current('books.index')"
 								>
 									Shop
@@ -38,7 +38,7 @@
 						</div>
 
 						<div class="hidden sm:flex sm:ml-6">
-							<!-- <SearchBox /> -->
+							<Search />
 							<!-- Settings Dropdown -->
 							<div
 								v-if="$page.props.auth.user"
@@ -74,18 +74,28 @@
 									</template>
 
 									<template #content>
-										<BreezeDropdownLink
-											:href="route('profile.index')"
-											as="button"
-										>
-											My Profile
-										</BreezeDropdownLink>
-										<BreezeDropdownLink
-											:href="route('orders.index')"
-											as="button"
-										>
-											My Orders
-										</BreezeDropdownLink>
+										<div v-if="$page.props.auth.user.isAdmin">
+											<BreezeDropdownLink
+												:href="route('admin.dashboard')"
+												as="button"
+											>
+												Dashboard
+											</BreezeDropdownLink>
+										</div>
+										<div v-else>
+											<BreezeDropdownLink
+												:href="route('profile.index')"
+												as="button"
+											>
+												My Profile
+											</BreezeDropdownLink>
+											<BreezeDropdownLink
+												:href="route('orders.index')"
+												as="button"
+											>
+												My Orders
+											</BreezeDropdownLink>
+										</div>
 										<BreezeDropdownLink
 											:href="route('logout')"
 											method="post"
@@ -96,7 +106,7 @@
 									</template>
 								</BreezeDropdown>
 							</div>
-                        
+
 							<template v-else>
 								<div class="flex space-x-3">
 									<CartLink :responsive="false" />
@@ -329,7 +339,7 @@ import BreezeNavLink from '@/Components/NavLink.vue'
 import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue'
 import CartLink from '@/Components/CartLink'
 import FlashMessage from '@/Components/FlashMessage.vue'
-// import SearchBox from '@/Components/SearchBox'
+import Search from '@/Components/Search'
 
 export default {
     components: {
@@ -338,8 +348,8 @@ export default {
         BreezeNavLink,
         BreezeResponsiveNavLink,
         CartLink,
-        FlashMessage
-        // SearchBox
+        FlashMessage,
+        Search
     },
 
     data() {

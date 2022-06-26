@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
         <style>
             [v-cloak] {
-                display: none
+                display: none !important
             }
         </style>
 

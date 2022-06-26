@@ -43,6 +43,10 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
+    protected $appends = [
+        'isAdmin',
+    ];
+
     public function orders()
     {
         return $this->hasMany(Order::class);
@@ -61,5 +65,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function saveForLaters()
     {
         return $this->hasMany(Saveforlater::class);
+    }
+
+    public function getIsAdminAttribute()
+    {
+        return $this->role == 'admin';
     }
 }
