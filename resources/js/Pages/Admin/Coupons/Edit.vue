@@ -1,16 +1,16 @@
 <template>
 	<Head>
-		<title>Admin Coupons Create</title>
+		<title>Admin Coupons Edit</title>
 		<meta
 			head-key="description"
 			name="description"
-			content="This is the coupon create page of admin"
+			content="This is the coupon edit page of admin"
 		>
 	</Head>
 
 	<AdminHeader>
 		<h2 class="font-semibold text-xl text-gray-800 leading-tight">
-			Generate Coupons
+			Edit Coupons
 		</h2>
 	</AdminHeader>
 
@@ -127,10 +127,10 @@
 
 		<div class="flex items-center justify-start mt-4">
 			<BreezeButton
-				:class="{ 'opacity-25': form.processing }"
-				:disabled="form.processing"
+				:class="{ 'opacity-25 cursor-default': form.processing || !form.isDirty }"
+				:disabled="form.processing || !form.isDirty"
 			>
-				Create
+				Update
 			</BreezeButton>
 		</div>
 	</form>
@@ -155,35 +155,33 @@ export default {
 
     layout: AdminLayout,
 
+    props: ['coupon'],
+
     data() {
         return {
             form: this.$inertia.form({
-                code: '',
-                program_name: '',
-                type: '',
-                // appliable_on: '',
-                value: '',
-                quantity: '',
-                expired_at: '',
+                code: this.coupon.code,
+                program_name: this.coupon.program_name,
+                type: this.coupon.type,
+                value: this.coupon.value,
+                quantity: this.coupon.quantity,
+                expired_at: this.coupon.expired_at,
             })
         }
     },
 
     methods: {
         submit() {
-            this.form.post(route('admin.coupons.store'), {
-                onSuccess: () => this.form.reset()
-            })
+            this.form.post(route('admin.coupons.update', {coupon: this.coupon.id, _method: 'patch'}))
         },
 
         generateCouponCode() {
             this.form.code = Math.random().toString(36).substr(2, 9)
-            // Date.now().toString(36) + Math.random().toString(36).substr(2, 9)
         }
     }
 }
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
 
 </style>

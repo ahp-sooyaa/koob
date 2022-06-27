@@ -41,6 +41,12 @@ class HandleInertiaRequests extends Middleware
             'buyNow' => $request->session()->get('buyNow') ? array_values($request->session()->get('buyNow')) : [],
             'unreadNotifications' => $request->user() ? $request->user()->unreadNotifications : [],
             'urlPrev' => url()->previous(),
+            'flash' => function () use ($request) {
+                return [
+                    'success' => $request->session()->get('success'),
+                    'error' => $request->session()->get('error'),
+                ];
+            },
         ]);
     }
 }

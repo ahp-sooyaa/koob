@@ -1,6 +1,6 @@
 <template>
 	<transition name="slide-fade">
-		<div
+		<!--		<div
 			v-if="show"
 			:class="[status == 'error' ? 'bg-red-500' : 'bg-green-500']"
 			class="fixed flex items-center px-3 py-2 rounded-lg shadow-lg space-x-2 text-white top-5 right-5 z-50"
@@ -42,6 +42,61 @@
 				class="px-1 rounded text-sm"
 				:class="status == 'error' ? 'bg-red-400' : 'bg-green-400'"
 			>{{ flashCount }}</span>
+		</div>-->
+		<div class="bg-white border fixed right-5 rounded-lg shadow space-x-2 top-5 z-50">
+			<div
+				class="flex items-center justify-between max-w-3xl"
+			>
+				<div
+					v-if="success && show"
+					class="flex items-center mr-4"
+				>
+					<svg
+						class="bg-green-500 border fill-current flex-shrink-0 h-6 ml-4 mr-2 p-1.5 rounded-full text-white"
+						xmlns="http://www.w3.org/2000/svg"
+						viewBox="0 0 20 20"
+					>
+						<polygon points="0 11 2 9 7 14 18 3 20 5 7 18" />
+					</svg>
+					<div class="py-3 text-gray-700 text-sm font-medium">
+						{{ success }}
+					</div>
+				</div>
+				<div
+					v-if="(error || Object.keys($page.props.errors).length > 0) && show"
+					class="flex items-center mr-4"
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						class="bg-red-500 border fill-current flex-shrink-0 h-6 ml-4 mr-2 p-1.5 rounded-full text-white"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+						stroke-width="3"
+					>
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							d="M6 18L18 6M6 6l12 12"
+						/>
+					</svg>
+					<div
+						v-if="error"
+						class="py-3 text-gray-700 text-sm font-medium"
+					>
+						{{ error }}
+					</div>
+					<div
+						v-else
+						class="py-4 text-white text-sm font-medium"
+					>
+						<span v-if="Object.keys($page.props.errors).length === 1">
+							There is one form error.
+						</span>
+						<span v-else>There are {{ Object.keys($page.props.errors).length }} form errors.</span>
+					</div>
+				</div>
+			</div>
 		</div>
 	</transition>
 </template>
@@ -50,11 +105,24 @@
 export default {
     data(){
         return {
-            body: '',
-            status: 'success',
             show: false,
-            flashCount: 0
+            success: '',
+            error: '',
+            timeOut: '',
+            // flashCount: 0,
         }
+    },
+
+    watch: {
+        '$page.props.flash': {
+            handler() {
+                this.show = true
+                this.success = this.$page.props.flash.success
+                this.error = this.$page.props.flash.error
+                this.hide()
+            },
+            deep: true
+        },
     },
 
     created(){
@@ -63,17 +131,27 @@ export default {
 
     methods: {
         flash(data){
-            this.body = data.message
-            this.status = data.status
+            if (data.status === 'success') {
+                this.success = data.message
+            } else {
+                this.error = data.message
+            }
 
             this.show = true
-            this.flashCount++
+            // this.flashCount++
 
-            setTimeout(() => {
-                this.show = false
-                this.flashCount = 0
-            }, 3000)
+            if (this.timeOut) {
+                clearTimeout(this.timeOut)
+            }
+            this.hide()
         },
+
+        hide() {
+            this.timeOut = setTimeout(() => {
+                this.show = false
+                // this.flashCount = 0
+            }, 3000)
+        }
     },
 }
 </script>

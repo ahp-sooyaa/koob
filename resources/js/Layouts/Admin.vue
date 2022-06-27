@@ -51,7 +51,7 @@
 
 					<div class="text-sm text-gray-400">
 						{{ $page.props.auth.user.email }}
-					</div> 
+					</div>
 				</div>
 
 				<div class="flex-1 flex flex-col mt-8">
@@ -61,7 +61,23 @@
 							class="py-2 block hover:text-white"
 							:class="[route().current('admin.dashboard') ? 'text-white' : 'text-gray-400']"
 						>
-							Dashboard
+							<div class="flex items-center gap-2">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-6 w-6"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+									stroke-width="2"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+									/>
+								</svg>
+								Dashboard
+							</div>
 						</Link>
 
 						<Link
@@ -71,7 +87,7 @@
 						>
 							Notifications
 						</Link>
-            
+
 						<AdminDropDown
 							align="right"
 							width="48"
@@ -116,7 +132,7 @@
 								>
 									Create Books
 								</Link>
-                
+
 								<!-- <Link
                   :href="route('admin.books.show')"
                   class="block border-l-2 duration-150 ease-in-out focus:outline-none leading-5 px-4 py-2 text-left text-sm transition w-full"
@@ -214,14 +230,30 @@
 							</template>
 						</AdminDropDown>
 					</div>
-          
+
 					<Link
 						:href="route('logout')"
 						method="post"
 						as="button"
 						class="self-start py-2 text-left text-gray-400 hover:text-white"
 					>
-						LogOut
+						<div class="flex items-center gap-2">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-6 w-6"
+								fill="none"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+								stroke-width="2"
+							>
+								<path
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+								/>
+							</svg>
+							Log Out
+						</div>
 					</Link>
 				</div>
 			</div>
