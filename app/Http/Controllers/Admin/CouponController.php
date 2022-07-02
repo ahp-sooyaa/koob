@@ -54,6 +54,6 @@ class CouponController extends Controller
 
         $coupon->update($validated);
 
-        return back()->with('success', 'Coupon updated successfully.');
+        return Redirect::route('admin.coupons.index')->with('success', 'Coupon updated successfully.');
     }
 }

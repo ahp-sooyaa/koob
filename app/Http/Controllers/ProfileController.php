@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class ProfileController extends Controller
@@ -14,7 +16,7 @@ class ProfileController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function index()
     {
@@ -70,7 +72,7 @@ class ProfileController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
     public function edit()
     {
@@ -81,21 +83,27 @@ class ProfileController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . Auth::id(),
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'profile_photo_path' => 'nullable|image|max:1024',
         ]);
 
-        $validated['password'] = Hash::make($request->password);
+        if ($request->hasFile('profile_photo_path')) {
+            $validated['profile_photo_path'] = $request->file('profile_photo_path')->store('profile-photos');
 
-        Auth::user()->update($validated);
+            if(Auth::user()->profile_photo_path) {
+                Storage::delete(Auth::user()->profile_photo_path);
+            }
+        }
 
-        return Redirect::route('profile.index');
+        Auth::user()->forceFill($validated)->update();
+
+        return Redirect::route('profile.index')->with('success', 'Successfully updated here.');
     }
 
     /**
@@ -107,5 +115,21 @@ class ProfileController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function profilePasswordUpdate(Request $request)
+    {
+        $validator = Validator::make($request->input(), [
+            'current_password' => 'required',
+            'password' => 'required|confirmed',
+        ])->after(function ($validator) use ($request) {
+            if (! Hash::check($request->current_password, Auth::user()->password)) {
+                $validator->errors()->add('current_password', 'Current Password doesn\'t match');
+            }
+        })->validate();
+
+        Auth::user()->update(['password' => Hash::make($validator['new_password'])]);
+
+        return Redirect::back()->with('success', 'finished');
     }
 }

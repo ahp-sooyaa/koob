@@ -74,7 +74,7 @@
 									</template>
 
 									<template #content>
-										<div v-if="$page.props.auth.user.isAdmin">
+										<div v-if="$page.props.auth.user.is_admin">
 											<BreezeDropdownLink
 												:href="route('admin.dashboard')"
 												as="button"

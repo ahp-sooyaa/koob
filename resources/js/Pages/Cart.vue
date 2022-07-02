@@ -289,7 +289,7 @@ export default {
                 _this.cart.splice(index, 1)
 
                 window.events.emit('cartQtyUpdated')
-                window.flash('Successfully deleted from cart')
+                window.flash('Successfully removed from cart')
             })
         },
 

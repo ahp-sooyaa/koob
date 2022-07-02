@@ -45,6 +45,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile-password/update', [ProfileController::class, 'profilePasswordUpdate'])->name('profile-password.update');
 
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 

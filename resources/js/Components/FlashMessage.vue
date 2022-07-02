@@ -88,7 +88,7 @@
 					</div>
 					<div
 						v-else
-						class="py-4 text-white text-sm font-medium"
+						class="py-3 text-gray-700 text-sm font-medium"
 					>
 						<span v-if="Object.keys($page.props.errors).length === 1">
 							There is one form error.
@@ -109,7 +109,6 @@ export default {
             success: '',
             error: '',
             timeOut: '',
-            // flashCount: 0,
         }
     },
 
@@ -119,6 +118,9 @@ export default {
                 this.show = true
                 this.success = this.$page.props.flash.success
                 this.error = this.$page.props.flash.error
+                if (this.timeOut) {
+                    clearTimeout(this.timeOut)
+                }
                 this.hide()
             },
             deep: true
@@ -137,19 +139,16 @@ export default {
                 this.error = data.message
             }
 
-            this.show = true
-            // this.flashCount++
-
             if (this.timeOut) {
                 clearTimeout(this.timeOut)
             }
+            this.show = true
             this.hide()
         },
 
         hide() {
             this.timeOut = setTimeout(() => {
                 this.show = false
-                // this.flashCount = 0
             }, 3000)
         }
     },
