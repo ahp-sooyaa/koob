@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rules\Password;
 use Inertia\Inertia;
 
 class ProfileController extends Controller
@@ -87,23 +88,28 @@ class ProfileController extends Controller
      */
     public function update(Request $request)
     {
-        $validated = $request->validate([
+         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . Auth::id(),
-            'profile_photo_path' => 'nullable|image|max:1024',
+            'profile_photo' => 'nullable|image|max:1024',
         ]);
 
-        if ($request->hasFile('profile_photo_path')) {
-            $validated['profile_photo_path'] = $request->file('profile_photo_path')->store('profile-photos');
+        if ($request->hasFile('profile_photo')) {
+            $path = $request->file('profile_photo')->store('profile-photos');
 
             if(Auth::user()->profile_photo_path) {
                 Storage::delete(Auth::user()->profile_photo_path);
             }
+
+            Auth::user()->forceFill(['profile_photo_path' => $path])->update();
         }
 
-        Auth::user()->forceFill($validated)->update();
+        Auth::user()->update([
+            'name' => $request->name,
+            'email' => $request->email
+        ]);
 
-        return Redirect::route('profile.index')->with('success', 'Successfully updated here.');
+        return Redirect::back()->with('success', 'Successfully updated your profile.');
     }
 
     /**
@@ -119,17 +125,17 @@ class ProfileController extends Controller
 
     public function profilePasswordUpdate(Request $request)
     {
-        $validator = Validator::make($request->input(), [
+        Validator::make($request->input(), [
             'current_password' => 'required',
-            'password' => 'required|confirmed',
+            'password' => ['required', 'confirmed', Password::defaults()],
         ])->after(function ($validator) use ($request) {
             if (! Hash::check($request->current_password, Auth::user()->password)) {
                 $validator->errors()->add('current_password', 'Current Password doesn\'t match');
             }
         })->validate();
 
-        Auth::user()->update(['password' => Hash::make($validator['new_password'])]);
+        Auth::user()->update(['password' => Hash::make($request->password)]);
 
-        return Redirect::back()->with('success', 'finished');
+        return Redirect::back()->with('success', 'Successfully updated your password.');
     }
 }

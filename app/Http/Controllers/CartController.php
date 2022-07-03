@@ -88,14 +88,31 @@ class CartController extends Controller
         //         ->get();
         // } else {
         if (session()->has('cart')) {
-            $filterCart = array_filter(session('cart'), function ($cartItem) {
+            $overStockCart = array_filter(session('cart'), function ($cartItem) {
                 $book = Book::where('id', $cartItem['id'])->first();
 
                 return $cartItem['quantity'] > $book->stock_count;
             });
 
-            if (count($filterCart)) {
-                foreach ($filterCart as $overstockitem) {
+            if (count($overStockCart)) {
+                foreach ($overStockCart as $overstockitem) {
+                    $cartItem = session()->pull("cart.{$overstockitem['id']}");
+
+                    $cartItem['quantity'] = Book::find($overstockitem['id'])->stock_count;
+
+                    session()->put("cart.{$overstockitem['id']}", $cartItem);
+                }
+            }
+
+            $notAvailableCart = array_filter(session('cart'), function ($cartItem) {
+                $book = Book::where('id', $cartItem['id'])->first();
+
+                return $book->stock_count == 0;
+            });
+
+//          this is for not available condition move to save for later
+            if (count($notAvailableCart)) {
+                foreach ($notAvailableCart as $overstockitem) {
                     $cartItem = session()->pull("cart.{$overstockitem['id']}");
 
                     session()->put("saveforlater.{$overstockitem['id']}", $cartItem);
@@ -121,14 +138,14 @@ class CartController extends Controller
             $filterSaveForLater = array_filter(session('saveforlater'), function ($cartItem) {
                 $book = Book::where('id', $cartItem['id'])->first();
 
-                return $cartItem['quantity'] > $book->stock_count;
+                return $book->stock_count > 0;
             });
         }
 
         // $overstockitems = array_merge($filterCart, $filterSaveForLater);
         // if ($filterCart || $filterSaveForLater) {
         return response()->json([
-            'overStockItems' => session('cart') ? array_values($filterCart) : [],
+            'overStockItems' => session('cart') ? array_values($overStockCart) : [],
             'filterSaveForLater' => session('saveforlater') ? array_values($filterSaveForLater) : []
         ]);
         // }

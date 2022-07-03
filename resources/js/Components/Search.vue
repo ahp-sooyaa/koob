@@ -22,10 +22,13 @@
 		@click="showModal = false"
 		class="fixed inset-0 z-50 bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm"
 	/>
+	<!--	<div-->
+	<!--		v-show="showModal"-->
+	<!--		class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"-->
+	<!--	>-->
 	<div
 		v-show="showModal"
-		class="absolute z-50 left-1/2 transform -translate-x-1/2 top-10 bg-white p-5 rounded-2xl shadow"
-		style="width: 500px;"
+		class="w-full max-w-2xl absolute z-50 left-1/2 transform -translate-x-1/2 top-10 bg-white p-5 rounded-2xl shadow"
 	>
 		<div class="relative flex items-center">
 			<img
@@ -111,6 +114,7 @@
 			</div>
 		</div>
 	</div>
+<!--	</div>-->
 </template>
 
 <script>

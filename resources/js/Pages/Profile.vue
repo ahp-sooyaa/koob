@@ -12,7 +12,7 @@
 			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div class="flex flex-col lg:flex-row items-center space-y-5 justify-center lg:space-x-5">
 					<img
-						src="/images/cover.png"
+						:src="$page.props.auth.user.profile_photo_url"
 						alt="profile image"
 						class="rounded-3xl h-40 w-40"
 					>

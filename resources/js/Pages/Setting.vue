@@ -63,6 +63,10 @@
 					>
 						Edit
 					</button>
+					<BreezeInputError
+						v-if="profileForm.errors.profile_photo"
+						:message="profileForm.errors.profile_photo"
+					/>
 				</div>
 				<div class="py-2">
 					<div class="relative">
@@ -211,7 +215,7 @@ export default {
             profileForm: this.$inertia.form({
                 name: this.$page.props.auth.user.name,
                 email: this.$page.props.auth.user.email,
-                profile_photo_path: ''
+                profile_photo: ''
             }),
             passwordForm: this.$inertia.form({
                 current_password: '',
@@ -229,11 +233,14 @@ export default {
         },
 
         updatePassword() {
-            this.passwordForm.patch(route('profile-password.update'))
+            this.passwordForm.patch(route('profile-password.update'), {
+                preserveScroll: true,
+                onSuccess: () => this.passwordForm.reset()
+            })
         },
 
         changedProfilePhoto(e) {
-            this.profileForm.profile_photo_path = e.target.files[0]
+            this.profileForm.profile_photo = e.target.files[0]
             this.profilePhotoName = this.$refs.photo.files[0].name
             const reader = new FileReader()
             reader.onload = (e) => {

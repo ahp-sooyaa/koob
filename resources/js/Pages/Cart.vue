@@ -17,12 +17,16 @@
 				v-if="overStockItems.length"
 				class="border border-red-200 mt-2 px-5 py-3 ring ring-inset ring-red-50 rounded text-red-500"
 			>
-				Some items in your cart are not available right now and
-				automatically move to save for later.
+				<h1 class="font-semibold">
+					{{ overStockItems.length }} items in your cart has changed quantity to maximum available quantity.
+				</h1>
+				<p class="text-sm">
+					Items in your Shopping Cart will always reflect the most recent price and stock quantity.
+				</p>
 				<div
 					v-for="overStockItem in overStockItems"
 					:key="overStockItem.id"
-					class="font-semibold text-sm"
+					class="list-item text-sm"
 				>
 					{{ overStockItem.title }}
 				</div>
@@ -189,19 +193,19 @@
 						<div class="flex-1 flex flex-col items-start">
 							<h1>{{ item.title }}</h1>
 							<div class="flex items-center space-x-5 mt-3">
-								<select
-									@change="updateCartQuantity(index, item, $event)"
-									class="rounded-2xl shadow-md cursor-pointer"
-								>
-									<option
-										v-for="qty in 10"
-										:key="qty"
-										:value="qty"
-										:selected="item.quantity == qty"
-									>
-										{{ qty }}
-									</option>
-								</select>
+								<!--								<select-->
+								<!--									@change="updateCartQuantity(index, item, $event)"-->
+								<!--									class="rounded-2xl shadow-md cursor-pointer"-->
+								<!--								>-->
+								<!--									<option-->
+								<!--										v-for="qty in 10"-->
+								<!--										:key="qty"-->
+								<!--										:value="qty"-->
+								<!--										:selected="item.quantity == qty"-->
+								<!--									>-->
+								<!--										{{ qty }}-->
+								<!--									</option>-->
+								<!--								</select>-->
 								<span class="font-semibold">
 									{{ formatPrice(item.price) }}
 								</span>
@@ -209,7 +213,7 @@
 
 							<div
 								v-cloak
-								v-if="!isOverStockItem(item.id)"
+								v-if="isInStockItem(item.id)"
 								@click="movetocart(index, item)"
 								class="hover:bg-gray-50 hover:shadow-none mt-auto border cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-xs"
 							>
@@ -274,7 +278,7 @@ export default {
     },
 
     methods: {
-        isOverStockItem(id) {
+        isInStockItem(id) {
             if (this.filterSaveForLater) {
                 return this.filterSaveForLater.some((item) => {
                     return item.id === id

@@ -38,7 +38,7 @@
 						</div>
 
 						<div class="hidden sm:flex sm:ml-6">
-							<Search />
+							<Search class="mr-3" />
 							<!-- Settings Dropdown -->
 							<div
 								v-if="$page.props.auth.user"
@@ -140,7 +140,7 @@
 							</div>
 
 							<template v-else>
-								<div class="flex space-x-3">
+								<div class="flex space-x-3 ml-3">
 									<CartLink :responsive="false" />
 									<Link
 										:href="route('login')"
@@ -162,9 +162,10 @@
 
 						<!-- Hamburger -->
 						<div class="-mr-2 flex items-center sm:hidden">
+							<search />
 							<button
 								@click="showingNavigationDropdown = ! showingNavigationDropdown"
-								class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+								class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out ml-3"
 							>
 								<svg
 									class="h-6 w-6"
@@ -212,7 +213,7 @@
 						>
 							Shop
 						</BreezeResponsiveNavLink>
-						<CartLink :responsive="true" />
+						<!--						<CartLink :responsive="true" />-->
 					</div>
 
 					<!-- Responsive Settings Options -->
