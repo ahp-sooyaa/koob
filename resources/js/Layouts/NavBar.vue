@@ -38,7 +38,7 @@
 						</div>
 
 						<div class="hidden sm:flex sm:ml-6">
-							<Search class="mr-3" />
+							<Search />
 							<!-- Settings Dropdown -->
 							<div
 								v-if="$page.props.auth.user"

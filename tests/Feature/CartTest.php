@@ -14,18 +14,18 @@ class CartTest extends TestCase
 
     public function test_user_can_see_all_items_in_cart()
     {
-        $bookInCarts = Book::factory(2)->create();
+        $booksInCart = Book::factory(2)->create();
         $bookNotInCart = Book::factory()->create();
 
-        $this->post(route('cart.store', $bookInCarts[0]->id))
-            ->assertSessionHas("cart.{$bookInCarts[0]->id}");
-        $this->post(route('cart.store', $bookInCarts[1]->id))
-            ->assertSessionHas("cart.{$bookInCarts[1]->id}");
+        $this->post(route('cart.store', $booksInCart[0]->id))
+            ->assertSessionHas("cart.{$booksInCart[0]->id}");
+        $this->post(route('cart.store', $booksInCart[1]->id))
+            ->assertSessionHas("cart.{$booksInCart[1]->id}");
         $this->assertCount(2, session('cart'));
 
         $this->get(route('cart.index'))
-            ->assertSee($bookInCarts[0]->title)
-            ->assertSee($bookInCarts[1]->title)
+            ->assertSee($booksInCart[0]->title)
+            ->assertSee($booksInCart[1]->title)
             ->assertDontSee($bookNotInCart->title);
     }
 
@@ -44,7 +44,6 @@ class CartTest extends TestCase
 
     public function test_auth_user_can_update_book_quantity_in_cart_page()
     {
-        /** @var \App\Models\User */
         $user = User::factory()->create();
         $this->actingAs($user);
         $book = Book::factory()->create();
@@ -57,6 +56,7 @@ class CartTest extends TestCase
             4,
             Cart::where('user_id', $user->id)->where('book_id', $book->id)->value('quantity')
         );
+        $this->assertEquals(4, session('cart')[$book->id]['quantity']);
     }
 
     public function add_to_cart_session($book)
@@ -89,7 +89,6 @@ class CartTest extends TestCase
 
     public function test_auth_user_cannot_select_more_than_stock_quantity()
     {
-        /** @var \App\Models\User */
         $user = User::factory()->create();
         $this->actingAs($user);
         $book = Book::factory()->create(['stock_count' => 5]);
@@ -123,7 +122,6 @@ class CartTest extends TestCase
 
     public function test_auth_user_can_remove_item_from_cart()
     {
-        /** @var \App\Models\User */
         $user = User::factory()->create();
         $this->actingAs($user);
         $book = Book::factory()->create(['stock_count' => 5]);
@@ -149,20 +147,19 @@ class CartTest extends TestCase
         $this->assertCount(0, session('cart'));
     }
 
-    public function test_guest_can_save_item_for_later()
+    public function test_guest_cannot_save_item_for_later()
     {
         $book = Book::factory()->create();
 
         $this->add_to_cart_session($book);
 
         $this->post(route('saveforlater', $book->id))
-            ->assertSessionHas("saveforlater.{$book->id}")
-            ->assertSessionMissing("cart.{$book->id}");
+            ->assertSessionMissing("saveforlater.{$book->id}")
+            ->assertSessionHas("cart.{$book->id}");
     }
 
     public function test_authenticated_user_can_save_item_for_later()
     {
-        /** @var \App\Models\User */
         $user = User::factory()->create();
         $this->actingAs($user);
         $book = Book::factory()->create();
@@ -180,19 +177,4 @@ class CartTest extends TestCase
             'book_id' => $book->id
         ]);
     }
-
-    // public function test_deduct_stock_count_when_click_checkout()
-    // {
-    //     /** @var \App\Models\User */
-    //     $user = User::factory()->create();
-    //     $this->actingAs($user);
-    //     $book = Book::factory()->create();
-
-    //     $this->add_to_cart_table($book, $user);
-    //     $this->assertEquals(10, $book->fresh()->stock_count);
-
-    //     $this->get(route('checkout.index'));
-    //     $this->assertTrue(session('checkoutProcess'));
-    //     $this->assertEquals(9, $book->fresh()->stock_count);
-    // }
 }

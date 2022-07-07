@@ -18,22 +18,26 @@ class OrderController extends Controller
 {
     public function index()
     {
+        $ordersCount = Auth::user()->orders()->count();
         $orders = Order::query()
-            ->where('user_id', auth()->id())
-            // ->when(request('search'), function ($query, $search) {
-            //     $query->where(function ($query) use ($search) {
-            //         $query->where('id', 'like', "%{$search}%")
-            //             ->orWhereHas('books.id', function ($query, $search) {
-            //                 $query->where('name', 'like', "%{$search}%");
-            //             });
-            //     });
-            // })
+            ->where('user_id', Auth::id())
             ->when(request('search'), function ($query, $search) {
-                $query->where('id', 'like', "%{$search}%");
+                $query->where(function ($query) use ($search) {
+                    $query
+                        ->where('id', "%$search%")
+                        ->orWhereHas('books', function ($query) use ($search) {
+                        $query->where('name', 'like', "%{$search}%");
+                    });
+                });
             })
             ->latest()
             ->paginate(5);
-        return Inertia::render('Orders/Index', compact('orders'));
+
+        return Inertia::render('Orders/Index', [
+            'orders' => $orders,
+            'ordersCount' => $ordersCount,
+            'search' => request('search')
+        ]);
     }
 
     public function show(Order $order)

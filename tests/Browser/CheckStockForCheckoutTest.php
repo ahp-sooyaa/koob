@@ -19,7 +19,7 @@ class CheckStockForCheckoutTest extends DuskTestCase
      */
     public function testUserCanNotSelectMoreThanAvailableStock()
     {
-        $book = Book::factory()->create(['available_stock_count' => '5']);
+        $book = Book::factory()->create(['stock_count' => '5']);
 
         $this->browse(function (Browser $browser) {
             $browser->visitRoute('books.index')
@@ -39,7 +39,7 @@ class CheckStockForCheckoutTest extends DuskTestCase
 
     public function testCheckStockForCheckout()
     {
-        $book = Book::factory()->create(['available_stock_count' => '1']);
+        $book = Book::factory()->create(['stock_count' => '1']);
         User::factory(2)->create();
 
         $this->browse(function ($first, $second) use ($book) {

@@ -146,7 +146,6 @@ export default {
     },
 
     created() {
-        this.fetchResults()
         window.addEventListener('keydown', event => {
             if (event.key === '/') {
                 event.preventDefault()
@@ -164,6 +163,7 @@ export default {
         },
 
         openModal() {
+            this.fetchResults()
             this.showModal = true
             this.$nextTick(() => this.$refs.search.focus())
         }

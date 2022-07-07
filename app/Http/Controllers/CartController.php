@@ -189,11 +189,11 @@ class CartController extends Controller
 
     public function saveforlater($id)
     {
-        $cartItem = session()->pull("cart.{$id}");
-
-        session()->put("saveforlater.{$id}", $cartItem);
-
         if (Auth::check()) {
+            $cartItem = session()->pull("cart.{$id}");
+
+            session()->put("saveforlater.{$id}", $cartItem);
+
             $cartItem = ModelsCart::where('user_id', Auth::id())->where('book_id', $id)->first();
 
             Saveforlater::create([

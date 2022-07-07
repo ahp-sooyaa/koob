@@ -11,28 +11,28 @@ Route::group([
     'prefix' => 'admin',
     'middleware' => ['auth', 'admin']
 ], function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-    Route::get('/notifications', [NotificationController::class, 'index'])->name('admin.notifications.index');
-    Route::get('/unread-notifications', [NotificationController::class, 'unreadNotifications'])->name('admin.unread-notifications');
-    Route::get('/notifications/{notification}', [NotificationController::class, 'show'])->name('admin.notifications.show');
+    Route::get('notifications', [NotificationController::class, 'index'])->name('admin.notifications.index');
+    Route::get('unread-notifications', [NotificationController::class, 'unreadNotifications'])->name('admin.unread-notifications');
+    Route::get('notifications/{notification}', [NotificationController::class, 'show'])->name('admin.notifications.show');
 
-    Route::get('/books', [BookController::class, 'index'])->name('admin.books.index');
-    Route::get('/books/create', [BookController::class, 'create'])->name('admin.books.create');
-    Route::get('/books/{book}/edit', [BookController::class, 'edit'])->name('admin.books.edit');
-    Route::post('/books', [BookController::class, 'store'])->name('admin.books.store');
-    Route::patch('/books/{book}', [BookController::class, 'update'])->name('admin.books.update');
-    Route::delete('/books/{book}', [BookController::class, 'destroy'])->name('admin.books.destroy');
+    Route::get('books', [BookController::class, 'index'])->name('admin.books.index');
+    Route::get('books/create', [BookController::class, 'create'])->name('admin.books.create');
+    Route::get('books/{book}/edit', [BookController::class, 'edit'])->name('admin.books.edit');
+    Route::post('books', [BookController::class, 'store'])->name('admin.books.store');
+    Route::patch('books/{book}', [BookController::class, 'update'])->name('admin.books.update');
+    Route::delete('books/{book}', [BookController::class, 'destroy'])->name('admin.books.destroy');
     // Route::get('/books/{book}', [BookController::class, 'show'])->name('admin.books.show');
 
-    Route::get('/orders', [OrderController::class, 'index'])->name('admin.orders.index');
-    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
-    Route::get('/orders/{order}/edit', [OrderController::class, 'edit'])->name('admin.orders.edit');
-    Route::patch('/orders/{order}', [OrderController::class, 'update'])->name('admin.orders.update');
+    Route::get('orders', [OrderController::class, 'index'])->name('admin.orders.index');
+    Route::get('orders/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
+    Route::get('orders/{order}/edit', [OrderController::class, 'edit'])->name('admin.orders.edit');
+    Route::patch('orders/{order}', [OrderController::class, 'update'])->name('admin.orders.update');
 
-    Route::get('/coupons', [CouponController::class, 'index'])->name('admin.coupons.index');
-    Route::post('/coupons', [CouponController::class, 'store'])->name('admin.coupons.store');
-    Route::get('/coupons/create', [CouponController::class, 'create'])->name('admin.coupons.create');
-    Route::get('/coupons/{coupon}/edit', [CouponController::class, 'edit'])->name('admin.coupons.edit');
-    Route::patch('/coupons/{coupon}', [CouponController::class, 'update'])->name('admin.coupons.update');
+    Route::get('coupons', [CouponController::class, 'index'])->name('admin.coupons.index');
+    Route::post('coupons', [CouponController::class, 'store'])->name('admin.coupons.store');
+    Route::get('coupons/create', [CouponController::class, 'create'])->name('admin.coupons.create');
+    Route::get('coupons/{coupon}/edit', [CouponController::class, 'edit'])->name('admin.coupons.edit');
+    Route::patch('coupons/{coupon}', [CouponController::class, 'update'])->name('admin.coupons.update');
 });
