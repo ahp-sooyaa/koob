@@ -28,7 +28,7 @@ class BookController extends Controller
                     'excerpt' => $book->excerpt,
                     'author' => $book->author,
                     'price' => $book->price,
-                    'cover' => $book->cover,
+                    'cover_url' => $book->cover_url,
                     'stock_count' => $book->stock_count
                 ])
         ]);
@@ -46,11 +46,13 @@ class BookController extends Controller
 
     public function store(StoreBookRequest $request)
     {
-        $validated = $request->validated();
-        $validated['slug'] = Str::slug($request->title . '_' . uniqid());
-        $validated['cover'] = $request->file('cover')->store('covers');
+        $request->validated();
 
-        Book::create($validated);
+        $attributes = $request->except('cover_photo');
+        $attributes['slug'] = Str::slug($request->title . '-' . uniqid());
+        $attributes['cover_photo_path'] = $request->file('cover_photo')->store('cover-photos');
+
+        Book::create($attributes);
 
         return Redirect::route('admin.books.index');
     }

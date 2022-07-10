@@ -20220,7 +20220,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       form: this.$inertia.form({
-        cover: null,
+        cover_photo: '',
         title: '',
         excerpt: '',
         author: '',
@@ -20331,7 +20331,14 @@ __webpack_require__.r(__webpack_exports__);
   },
   mixins: [_mixins_format__WEBPACK_IMPORTED_MODULE_0__["default"]],
   layout: _Layouts_Admin__WEBPACK_IMPORTED_MODULE_1__["default"],
-  props: ['books']
+  props: ['books'],
+  methods: {
+    confirmDelete: function confirmDelete(id) {
+      if (confirm('Are you sure to delete this book?')) {
+        this.$inertia["delete"](route('admin.books.destroy', id));
+      }
+    }
+  }
 });
 
 /***/ }),
@@ -22702,17 +22709,18 @@ var _hoisted_14 = {
   key: 0,
   "class": "mt-3 space-y-3"
 };
-var _hoisted_15 = ["src", "alt"];
-var _hoisted_16 = {
+var _hoisted_15 = ["href"];
+var _hoisted_16 = ["src", "alt"];
+var _hoisted_17 = {
   "class": "ml-3"
 };
-var _hoisted_17 = {
+var _hoisted_18 = {
   "class": "line-clamp-1 tracking-wide"
 };
-var _hoisted_18 = {
+var _hoisted_19 = {
   "class": "text-gray-500 text-sm"
 };
-var _hoisted_19 = {
+var _hoisted_20 = {
   key: 1,
   "class": "mt-3 text-sm text-gray-500"
 };
@@ -22756,23 +22764,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     stroke: "currentColor",
     "stroke-width": "2"
   }, _hoisted_11)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_hoisted_13, $data.result.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.result, function (book) {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: book.id,
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
+      key: book.slug,
+      href: 'books/' + book.slug,
       "class": "flex items-center"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-      src: book.cover,
+      src: book.cover_url,
       alt: book.title + '\'s cover',
       "class": "flex-none h-20 w-16 rounded"
     }, null, 8
     /* PROPS */
-    , _hoisted_15), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.title), 1
+    , _hoisted_16), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.title), 1
     /* TEXT */
-    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.author), 1
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.author), 1
     /* TEXT */
-    )])]);
+    )])], 8
+    /* PROPS */
+    , _hoisted_15);
   }), 128
   /* KEYED_FRAGMENT */
-  ))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, " Sorry, we couldn't find any matching your search query! "))])], 512
+  ))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, " Sorry, we couldn't find any matching your search query! "))])], 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.showModal]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t</div>")], 64
   /* STABLE_FRAGMENT */
@@ -23160,7 +23171,7 @@ var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 var _hoisted_32 = {
-  "class": "flex-1 bg-gray-50"
+  "class": "flex-1 bg-gray-50 overflow-hidden"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Head = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Head");
@@ -24020,11 +24031,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   ))], 512
   /* NEED_PATCH */
   ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.form.category_id]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BreezeLabel, {
-    "for": "cover",
+    "for": "cover_photo",
     value: "cover"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     onInput: _cache[1] || (_cache[1] = function ($event) {
-      return $data.form.cover = $event.target.files[0];
+      return $data.form.cover_photo = $event.target.files[0];
     }),
     type: "file"
   }, null, 32
@@ -24462,8 +24473,7 @@ var _hoisted_20 = {
 
 var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Edit ");
 
-var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Delete ");
-
+var _hoisted_22 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Head = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Head");
 
@@ -24493,7 +24503,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       "class": "h-20 w-69 rounded-md",
       alt: "book cover",
-      src: '/' + book.cover
+      src: book.cover_url
     }, null, 8
     /* PROPS */
     , _hoisted_12)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(book.title), 1
@@ -24518,21 +24528,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
     }, 1032
     /* PROPS, DYNAMIC_SLOTS */
-    , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
-      href: _ctx.route('admin.books.destroy', book.id),
-      "class": "text-indigo-600 hover:text-indigo-900",
-      method: "delete",
-      as: "button"
-    }, {
-      "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-        return [_hoisted_22];
-      }),
-      _: 2
-      /* DYNAMIC */
-
-    }, 1032
-    /* PROPS, DYNAMIC_SLOTS */
-    , ["href"])])]);
+    , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t<Link"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t:href=\"route('admin.books.destroy', book.id)\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\tclass=\"text-indigo-600 hover:text-indigo-900\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\tmethod=\"delete\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\tas=\"button\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\tDelete"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t</Link>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      onClick: function onClick($event) {
+        return $options.confirmDelete(book.id);
+      }
+    }, " Delete ", 8
+    /* PROPS */
+    , _hoisted_22)])]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_paginator, {
@@ -26818,13 +26820,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Link");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: $props.data.cover,
+    src: $props.data.cover_url,
     alt: "cover",
     "class": "h-96 md:h-72 lg:h-56 w-full object-cover"
   }, null, 8
   /* PROPS */
   , _hoisted_2)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
-    href: 'books/' + $props.data.id,
+    href: 'books/' + $props.data.slug,
     "class": "font-semibold line-clamp-2 text-lg lg:text-sm hover:underline"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -29237,7 +29239,10 @@ var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 );
 
 var _hoisted_3 = {
-  "class": "bg-cover bg-hero-image flex flex-col items-center justify-center min-h-screen lg:mt-28 lg:mx-10 lg:overflow-hidden relative lg:rounded-3xl text-white"
+  "class": "bg-cover bg-hero-image flex flex-col items-center justify-center lg:mt-28 lg:mx-10 lg:overflow-hidden relative lg:rounded-3xl text-white",
+  style: {
+    "min-height": "calc(100vh - 180px)"
+  }
 };
 var _hoisted_4 = {
   "class": "absolute z-10 flex flex-col items-center space-y-5 w-full px-4 pt-16 lg:w-2/3 text-center"

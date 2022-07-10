@@ -24,7 +24,7 @@ Route::get('home', HomeController::class)->name('home');
 Route::get('search', SearchController::class)->name('search');
 
 Route::get('books', [BookController::class, 'index'])->name('books.index');
-Route::get('books/{book}', [BookController::class, 'show'])->name('books.show');
+Route::get('books/{book:slug}', [BookController::class, 'show'])->name('books.show');
 
 Route::get('carts', [CartController::class, 'index'])->name('cart.index');
 Route::post('carts/{book}', [CartController::class, 'store'])->name('cart.store');

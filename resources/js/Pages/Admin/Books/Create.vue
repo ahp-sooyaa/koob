@@ -42,11 +42,11 @@
 		</select>
 		<div>
 			<BreezeLabel
-				for="cover"
+				for="cover_photo"
 				value="cover"
 			/>
 			<input
-				@input="form.cover = $event.target.files[0]"
+				@input="form.cover_photo = $event.target.files[0]"
 				type="file"
 			>
 		</div>
@@ -163,7 +163,7 @@ export default {
     data() {
         return {
             form: this.$inertia.form({
-                cover: null,
+                cover_photo: '',
                 title: '',
                 excerpt: '',
                 author: '',

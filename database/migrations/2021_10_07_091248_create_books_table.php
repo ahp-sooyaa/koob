@@ -21,7 +21,7 @@ class CreateBooksTable extends Migration
             $table->string('author');
             $table->text('excerpt');
             $table->integer('price');
-            $table->binary('cover');
+            $table->string('cover_photo_path');
             // $table->unsignedInteger('available_stock_count');
             $table->unsignedInteger('stock_count');
             $table->timestamps();

@@ -74,7 +74,7 @@
 									<img
 										class="h-20 w-69 rounded-md"
 										alt="book cover"
-										:src="'/' + book.cover"
+										:src="book.cover_url"
 									>
 								</div>
 							</div>
@@ -105,19 +105,23 @@
 							>
 								Edit
 							</Link>
-							<Link
-								:href="route('admin.books.destroy', book.id)"
-								class="text-indigo-600 hover:text-indigo-900"
-								method="delete"
-								as="button"
-							>
+							<!--							<Link-->
+							<!--								:href="route('admin.books.destroy', book.id)"-->
+							<!--								class="text-indigo-600 hover:text-indigo-900"-->
+							<!--								method="delete"-->
+							<!--								as="button"-->
+							<!--							>-->
+							<!--								Delete-->
+							<!--							</Link>-->
+							<button @click="confirmDelete(book.id)">
 								Delete
-							</Link>
+							</button>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
+
 		<paginator :links="books.links" />
 	</div>
 </template>
@@ -135,7 +139,15 @@ export default {
 
     layout: AdminLayout,
 
-    props: ['books']
+    props: ['books'],
+
+    methods: {
+        confirmDelete(id) {
+            if (confirm('Are you sure to delete this book?')) {
+                this.$inertia.delete(route('admin.books.destroy', id))
+            }
+        },
+    }
 }
 </script>
 

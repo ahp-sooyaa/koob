@@ -29,7 +29,7 @@ class StoreBookRequest extends FormRequest
             'author' => 'required',
             'excerpt' => 'required',
             'price' => 'required|numeric',
-            'cover' => 'required',
+            'cover_photo' => 'required|image',
             'stock_count' => 'required'
         ];
     }

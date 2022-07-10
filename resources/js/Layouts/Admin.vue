@@ -258,7 +258,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="flex-1 bg-gray-50">
+		<div class="flex-1 bg-gray-50 overflow-hidden">
 			<slot />
 		</div>
 	</div>

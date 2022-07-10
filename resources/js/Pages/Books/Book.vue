@@ -1,14 +1,14 @@
 <template>
 	<div class="bg-gray-200 mb-5 p-5 rounded-2xl">
 		<img
-			:src="data.cover"
+			:src="data.cover_url"
 			alt="cover"
 			class="h-96 md:h-72 lg:h-56 w-full object-cover"
 		>
 	</div>
 	<div class="flex flex-1 flex-col px-1">
 		<Link
-			:href="'books/' + data.id"
+			:href="'books/' + data.slug"
 			class="font-semibold line-clamp-2 text-lg lg:text-sm hover:underline"
 		>
 			{{ data.title }}
@@ -107,8 +107,8 @@ export default {
     data() {
         return {
             isAdded: this.$page.props.cart.some( item => {
-                return item['id'] === this.data.id 
-            }) 
+                return item['id'] === this.data.id
+            })
         }
     },
 
@@ -128,7 +128,7 @@ export default {
                 .then(() => {
                     window.events.emit('cartQtyUpdated')
                     this.$inertia.get(route('checkout.index'), {
-                        buynow: 1 
+                        buynow: 1
                     })
                 })
                 .catch(err => window.flash(err.response.data.message, 'error'))

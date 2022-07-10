@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class Administrator
 {
@@ -16,10 +17,10 @@ class Administrator
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->role == 'admin') {
-            return $next($request);
+        if (auth()->user()->role !== 'admin') {
+            abort(Response::HTTP_FORBIDDEN);
         }
 
-        abort(403, "You don't have permission to enter admin backend");
+        return $next($request);
     }
 }

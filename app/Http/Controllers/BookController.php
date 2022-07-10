@@ -35,11 +35,12 @@ class BookController extends Controller
                 ->withQueryString()
                 ->through(fn ($book) => [
                     'id' => $book->id,
+                    'slug' => $book->slug,
                     'title' => $book->title,
                     'price' => $book->price,
-                    'cover' => $book->cover,
+                    'cover_url' => $book->cover_url,
                     'stock_count' => $book->stock_count,
-                    'available_stock_count' => $book->available_stock_count
+//                    'available_stock_count' => $book->available_stock_count
                 ]),
             'categories' => Category::all(),
             'sorting' => request('sort'),
@@ -55,6 +56,9 @@ class BookController extends Controller
                 $query->where('books.id', $book->id);
             })->latest()->first();
 
-        return Inertia::render('Books/Show', compact('book', 'previousPurchasedOrder'));
+        return Inertia::render('Books/Show', compact(
+            'book',
+            'previousPurchasedOrder'
+        ));
     }
 }

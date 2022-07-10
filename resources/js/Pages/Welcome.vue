@@ -8,7 +8,10 @@
 		>
 	</Head>
 
-	<header class="bg-cover bg-hero-image flex flex-col items-center justify-center min-h-screen lg:mt-28 lg:mx-10 lg:overflow-hidden relative lg:rounded-3xl text-white">
+	<header
+		class="bg-cover bg-hero-image flex flex-col items-center justify-center lg:mt-28 lg:mx-10 lg:overflow-hidden relative lg:rounded-3xl text-white"
+		style="min-height: calc(100vh - 180px)"
+	>
 		<div class="absolute z-10 flex flex-col items-center space-y-5 w-full px-4 pt-16 lg:w-2/3 text-center">
 			<h1 class="font-extrabold text-5xl">
 				Get your favorite book with best price

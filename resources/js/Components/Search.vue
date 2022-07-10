@@ -86,13 +86,14 @@
 				v-if="result.length"
 				class="mt-3 space-y-3"
 			>
-				<div
+				<a
 					v-for="book in result"
-					:key="book.id"
+					:key="book.slug"
+					:href="'books/' + book.slug"
 					class="flex items-center"
 				>
 					<img
-						:src="book.cover"
+						:src="book.cover_url"
 						:alt="book.title + '\'s cover'"
 						class="flex-none h-20 w-16 rounded"
 					>
@@ -104,7 +105,7 @@
 							{{ book.author }}
 						</p>
 					</div>
-				</div>
+				</a>
 			</div>
 			<div
 				v-else
