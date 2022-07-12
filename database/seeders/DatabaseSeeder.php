@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Book;
-use App\Models\Category;
+use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Saveforlater;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -18,7 +19,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(1)->create([
+        User::factory()->create([
             'name' => 'aung htet paing',
             'email' => 'aunghtetpaing.mtkn@gmail.com',
             'email_verified_at' => now(),
@@ -27,8 +28,8 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin',
         ]);
         Book::factory(10)->create();
-
-        // Category::factory(10)->create();
-        // Order::factory(10)->create();
+        Order::factory(10)->create();
+        Cart::factory(10)->create();
+        Saveforlater::factory(10)->create();
     }
 }

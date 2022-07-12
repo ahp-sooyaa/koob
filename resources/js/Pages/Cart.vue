@@ -136,6 +136,7 @@
 							Continue Shopping
 						</Link>
 						<Link
+							dusk="checkout"
 							:href="route('checkout.index')"
 							class="bg-gray-700 border cursor-pointer flex hover:shadow-none items-center justify-center ml-4 px-5 py-3 rounded-xl shadow-md text-sm text-white"
 						>

@@ -24,9 +24,9 @@ class OrderController extends Controller
             ->when(request('search'), function ($query, $search) {
                 $query->where(function ($query) use ($search) {
                     $query
-                        ->where('id', "%$search%")
+                        ->where('id', $search)
                         ->orWhereHas('books', function ($query) use ($search) {
-                        $query->where('name', 'like', "%{$search}%");
+                        $query->where('title', 'like', "%{$search}%");
                     });
                 });
             })

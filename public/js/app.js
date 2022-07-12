@@ -27117,8 +27117,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, 8
   /* PROPS */
   , ["href"])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: $props.book.cover,
-    alt: "book_cover"
+    src: $props.book.cover_url,
+    alt: "book_cover",
+    "class": "w-96 h-96"
   }, null, 8
   /* PROPS */
   , _hoisted_8), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.book.title), 1
@@ -27464,6 +27465,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, 8
       /* PROPS */
       , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
+        dusk: "checkout",
         href: _ctx.route('checkout.index'),
         "class": "bg-gray-700 border cursor-pointer flex hover:shadow-none items-center justify-center ml-4 px-5 py-3 rounded-xl shadow-md text-sm text-white"
       }, {
@@ -28220,9 +28222,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           }, {
             "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
               return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-                src: book.cover,
+                src: book.cover_url,
                 alt: "book cover",
-                "class": "h-36"
+                "class": "w-28 h-36"
               }, null, 8
               /* PROPS */
               , _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {

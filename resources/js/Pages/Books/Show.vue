@@ -25,8 +25,9 @@
 		</div>
 		<div class="flex justify-start">
 			<img
-				:src="book.cover"
+				:src="book.cover_url"
 				alt="book_cover"
+				class="w-96 h-96"
 			>
 			<div class="ml-8 w-1/2">
 				<h1 class="font-bold mb-1 text-4xl tracking-tight">

@@ -51,9 +51,9 @@
 						>
 							<div class="flex space-x-5">
 								<img
-									:src="book.cover"
+									:src="book.cover_url"
 									alt="book cover"
-									class="h-36"
+									class="w-28 h-36"
 								>
 								<div>
 									<div

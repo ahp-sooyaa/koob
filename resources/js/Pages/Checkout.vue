@@ -256,7 +256,7 @@
 										class="text-gray-500"
 									>
 										{{ coupon.type == "Percentage" ? `(-${coupon.value}%)` : `(-$${coupon.value})` }}
-									</span> 
+									</span>
 									{{ formatPrice(cartTotal) }}
 								</span>
 							</div>
@@ -386,8 +386,8 @@ export default {
                 amount += this.products[key].quantity * this.products[key].price
             }
             if(this.coupon) {
-                amount = (this.coupon.type == 'Percentage') 
-                    ? amount - (amount * (this.coupon.value / 100)) 
+                amount = (this.coupon.type == 'Percentage')
+                    ? amount - (amount * (this.coupon.value / 100))
                     : 100 * ((amount / 100) - this.coupon.value)
             }
 
@@ -451,7 +451,7 @@ export default {
                 axios.delete(route('cart.destroy', item.id))
                     .then(() => {
                         _this.products.splice(index, 1)
-                        
+
                         if(!Object.keys(_this.products).length) {
                             this.$inertia.visit(route('books.index'))
                         } else {
@@ -530,11 +530,11 @@ export default {
         cancelCoupon() {
             axios.delete(route('coupon.destroy'))
                 .then(
-                    this.couponApplied = false, 
+                    this.couponApplied = false,
                     this.coupon = ''
                 )
         },
-        
+
         // cancelCheckoutProcess(){
         //     clearTimeout(this.userActivityTimeout)
         //     window.removeEventListener('mousemove', this.resetUserActivityTimeout())

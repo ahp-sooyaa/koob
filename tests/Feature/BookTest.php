@@ -13,21 +13,23 @@ class BookTest extends TestCase
 
     public function test_user_can_see_all_books_list()
     {
-        $books = Book::factory(3)->create();
+        [$bookA, $bookB, $bookC] = Book::factory(3)->create();
 
-        $response = $this->get(route('books.index'));
-
-        $response->assertSuccessful()
-            ->assertSee($books[0]->title)
-            ->assertSee($books[1]->title)
-            ->assertSee($books[2]->title);
+        $this
+            ->get(route('books.index'))
+            ->assertSuccessful()
+            ->assertSee($bookA->title)
+            ->assertSee($bookB->title)
+            ->assertSee($bookC->title);
     }
 
     public function test_user_can_see_single_book()
     {
         $book = Book::factory()->create();
 
-        $this->get(route('books.show', $book->id))
+        $this
+            ->get(route('books.show', $book->slug))
+            ->assertSuccessful()
             ->assertSee($book->title);
     }
 
@@ -39,7 +41,8 @@ class BookTest extends TestCase
         ]);
         $bookNotInCategory = Book::factory()->create();
 
-        $this->get("/books?filter[category_id]={$category->id}&page=&search=")
+        $this
+            ->get("/books?filter[category_id]={$category->id}&page=&search=")
             ->assertSee($bookInCategory->title)
             ->assertDontSee($bookNotInCategory->title);
     }
@@ -49,7 +52,8 @@ class BookTest extends TestCase
         $bookOne = Book::factory()->create();
         $bookTwo = Book::factory()->create();
 
-        $this->get("books?search={$bookOne->title}&page=")
+        $this
+            ->get("books?search={$bookOne->title}&page=")
             ->assertSee($bookOne->title)
             ->assertDontSee($bookTwo->title);
     }
@@ -59,13 +63,15 @@ class BookTest extends TestCase
         $bookWithHigherPrice = Book::factory()->create(['price' => '2000']);
         $bookWithLowerPrice = Book::factory()->create(['price' => '1000']);
 
-        $this->get("books?sort[price]=asc")
+        $this
+            ->get("books?sort[price]=asc")
             ->assertSeeInOrder([
                 $bookWithLowerPrice->title,
                 $bookWithHigherPrice->title,
             ]);
 
-        $this->get("books?sort[price]=desc")
+        $this
+            ->get("books?sort[price]=desc")
             ->assertSeeInOrder([
                 $bookWithHigherPrice->title,
                 $bookWithLowerPrice->title,
