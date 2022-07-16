@@ -25,7 +25,8 @@ class NotificationsTest extends TestCase
 
         $this->assertCount(2, $admin->notifications);
 
-        $this->get(route('admin.notifications.index'))
+        $this
+            ->get(route('admin.notifications.index'))
             ->assertSee($unreadNotification->data['message'])
             ->assertSee($readNotification->data['message']);
     }
@@ -39,7 +40,8 @@ class NotificationsTest extends TestCase
 
         $this->assertCount(1, $admin->unreadNotifications);
 
-        $this->get(route('admin.notifications.show', $notification->id))
+        $this
+            ->get(route('admin.notifications.show', $notification->id))
             ->assertRedirect($notification->data['link']);
 
         $this->assertCount(0, $admin->fresh()->unreadNotifications);
@@ -56,7 +58,8 @@ class NotificationsTest extends TestCase
             'read_at' => now()
         ]);
 
-        $this->get(route('admin.unread-notifications'))
+        $this
+            ->get(route('admin.unread-notifications'))
             ->assertSee($unreadNotification->data['message'])
             ->assertDontSee($readNotification->data['message']);
     }
@@ -66,51 +69,26 @@ class NotificationsTest extends TestCase
         $admin = User::factory()->create(['role' => 'admin']);
         $notification = DatabaseNotificationFactory::new()->create(['notifiable_id' => $admin->id]);
 
-        $this->get(route('admin.notifications.index'))
+        $this
+            ->get(route('admin.notifications.index'))
             ->assertRedirect(route('login'));
-        $this->get(route('admin.notifications.show' , $notification->id))
+        $this
+            ->get(route('admin.notifications.show' , $notification->id))
             ->assertRedirect(route('login'));
-        $this->get(route('admin.unread-notifications'))
+        $this
+            ->get(route('admin.unread-notifications'))
             ->assertRedirect(route('login'));
 
         $this->actingAs($admin);
 
-        $this->get(route('admin.notifications.index'))
+        $this
+            ->get(route('admin.notifications.index'))
             ->assertSuccessful();
-        $this->get(route('admin.notifications.show' , $notification->id))
+        $this
+            ->get(route('admin.notifications.show' , $notification->id))
             ->assertRedirect($notification->data['link']);
-        $this->get(route('admin.unread-notifications'))
+        $this
+            ->get(route('admin.unread-notifications'))
             ->assertSuccessful();
     }
-
-//    public function test_notification_is_sent_after_order_placed()
-//    {
-//        Notification::fake();
-//
-//        $admin = User::factory()->create(['role' => 'admin']);
-//        $user = User::factory()->create();
-//        $order = Order::factory()->create(['user_id' => $user->id]);
-//
-//        $attributes = [
-//            'contact_name' => 'aung htet paing',
-//            'contact_email' => 'aunghtetpaing.mtkn@gmail.com',
-//            'address' => 'address',
-//            'city' => 'city',
-//            'state' => 'state',
-//            'zip_code' => '12345',
-//            'amount' => '1000',
-//            'payment_method_id' => 'pm_1LKcyZK3AEGA3BHpgeQkZ9Bo'
-//        ];
-//
-//        $this->post(route('orders.store'), $attributes)
-//            ->assertRedirect('/login');
-//
-//        $this->actingAs($user);
-//
-//        $this->post(route('orders.store'), $attributes)
-//            ->assertSuccessful();
-//        //$admin->notify(new OrderPlaced($order));
-//
-//        Notification::assertSentTo($admin, OrderPlaced::class);
-//    }
 }

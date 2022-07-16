@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Book;
 use App\Models\Category;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -11,7 +12,7 @@ class BookTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_user_can_see_all_books_list()
+    public function test_user_can_view_all_books()
     {
         [$bookA, $bookB, $bookC] = Book::factory(3)->create();
 
@@ -23,7 +24,7 @@ class BookTest extends TestCase
             ->assertSee($bookC->title);
     }
 
-    public function test_user_can_see_single_book()
+    public function test_user_can_view_book_detail()
     {
         $book = Book::factory()->create();
 
@@ -47,7 +48,7 @@ class BookTest extends TestCase
             ->assertDontSee($bookNotInCategory->title);
     }
 
-    public function test_user_can_search_book()
+    public function test_user_can_search_book_by_title()
     {
         $bookOne = Book::factory()->create();
         $bookTwo = Book::factory()->create();
@@ -77,4 +78,28 @@ class BookTest extends TestCase
                 $bookWithLowerPrice->title,
             ]);
     }
+
+    public function test_user_can_sort_books_by_date()
+    {
+        $newBook = Book::factory()->create(['created_at' => Carbon::today()]);
+        $oldBook = Book::factory()->create(['created_at' => Carbon::yesterday()]);
+
+        $this
+            ->get("books?sort[created_at]=asc")
+            ->assertSeeInOrder([
+                $oldBook->title,
+                $newBook->title
+            ]);
+
+        $this
+            ->get("books?sort[created_at]=desc")
+            ->assertSeeInOrder([
+                $newBook->title,
+                $oldBook->title
+            ]);
+    }
+
+    //Todo:
+    // test_user_can_add_review_and_rating
+    // test_user_can_view_related_book
 }

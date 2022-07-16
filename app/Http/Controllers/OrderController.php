@@ -73,7 +73,6 @@ class OrderController extends Controller
                 $request->input('amount'),
                 $request->input('payment_method_id')
             );
-
             $payment = $payment->asStripePaymentIntent();
 
             $order = auth()->user()->orders()
