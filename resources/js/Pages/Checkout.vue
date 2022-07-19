@@ -217,7 +217,7 @@
 											v-for="qty in 10"
 											:key="qty"
 											:value="qty"
-											:selected="item.quantity == qty"
+											:selected="item.quantity === qty"
 										>
 											{{ qty }}
 										</option>
@@ -255,7 +255,7 @@
 										v-if="coupon"
 										class="text-gray-500"
 									>
-										{{ coupon.type == "Percentage" ? `(-${coupon.value}%)` : `(-$${coupon.value})` }}
+										{{ coupon.type === "Percentage" ? `(-${coupon.value}%)` : `(-$${coupon.value})` }}
 									</span>
 									{{ formatPrice(cartTotal) }}
 								</span>
@@ -276,7 +276,8 @@
 								>
 								<div
 									@click="applyCoupon"
-									class="cursor-pointer absolute bg-gray-800 px-7 py-2 right-0 rounded-2xl text-gray-100"
+									class="absolute bg-gray-800 px-7 py-2 right-0 rounded-2xl text-gray-100"
+									:class="code ? 'cursor-pointer' : 'opacity-50 cursor-default'"
 								>
 									Apply
 								</div>
@@ -312,9 +313,6 @@
 							<span class="font-semibold">{{ formatPrice(cartTotal) }}</span>
 						</div>
 					</div>
-					<!-- <div @click="cancelCheckoutProcess">
-            cancel
-          </div> -->
 				</div>
 			</div>
 		</div>
@@ -326,7 +324,6 @@ import BreezeNavBarLayout from '@/Layouts/NavBar'
 import BreezeInputError from '@/Components/InputError'
 import BreezeInput from '@/Components/Input'
 import format from '@/mixins/format'
-// import throttle from 'lodash/throttle'
 
 export default {
     components: {
@@ -341,9 +338,6 @@ export default {
 
     data() {
         return {
-            // userActivityTimeout: null,
-            // isInactive: false,
-            // time: '',
             products: [],
             errors: [],
             stripe: {},
@@ -386,7 +380,7 @@ export default {
                 amount += this.products[key].quantity * this.products[key].price
             }
             if(this.coupon) {
-                amount = (this.coupon.type == 'Percentage')
+                amount = (this.coupon.type === 'Percentage')
                     ? amount - (amount * (this.coupon.value / 100))
                     : 100 * ((amount / 100) - this.coupon.value)
             }
@@ -396,12 +390,8 @@ export default {
     },
 
     created() {
-        this.products = (this.checkoutMode == 'cart' ? this.cart : this.buyNow)
+        this.products = (this.checkoutMode === 'cart' ? this.cart : this.buyNow)
     },
-
-    // created() {
-    //     this.activateActivityTracker()
-    // },
 
     async mounted() {
         this.stripe = await loadStripe(process.env.MIX_STRIPE_KEY)
@@ -416,66 +406,47 @@ export default {
 
     methods: {
         updateCartQuantity(index, item, event){
-            let _this = this
-            let cartItem = _this.products[index]
+            let cartItem = this.products[index]
+            let routeName = this.checkoutMode === 'cart' ? 'cart.update' : 'buyNow.update'
 
-            if(this.checkoutMode == 'cart') {
-                axios.patch(route('cart.update', item.id), {qty: parseInt(event.target.value)})
-                    .then(() => {
-                        cartItem.quantity = parseInt(event.target.value)
-                        window.events.emit('cartQtyUpdated')
-                        window.flash('Successfully updated quantity.')
-                    })
-                    .catch(err => {
-                        event.target.value = cartItem.quantity
-                        flash(err.response.data.message, 'error')
-                    })
-            } else {
-                axios.patch(route('buyNow.update', item.id), {qty: parseInt(event.target.value)})
-                    .then(() => {
-                        cartItem.quantity = parseInt(event.target.value)
-                        window.events.emit('cartQtyUpdated')
-                        window.flash('Successfully updated quantity.')
-                    })
-                    .catch(err => {
-                        event.target.value = cartItem.quantity
-                        flash(err.response.data.message, 'error')
-                    })
-            }
+            axios
+                .patch(route(routeName, item.id), {qty: parseInt(event.target.value)})
+                .then(res => {
+                    cartItem.quantity = parseInt(event.target.value)
+                    window.events.emit('cartQtyUpdated')
+                    window.flash(res.data.message)
+                })
+                .catch(err => {
+                    event.target.value = cartItem.quantity
+                    window.flash(err.response.data.message, 'error')
+                })
         },
 
         removeFromCart(index, item) {
-            let _this = this
-
-            if(this.checkoutMode == 'cart') {
-                axios.delete(route('cart.destroy', item.id))
+            if(this.checkoutMode === 'cart') {
+                axios
+                    .delete(route('cart.destroy', item.id))
                     .then(() => {
-                        _this.products.splice(index, 1)
-
-                        if(!Object.keys(_this.products).length) {
-                            this.$inertia.visit(route('books.index'))
+                        if (Object.keys(this.products).length === 1) {
+                            this.$inertia.get(route('books.index'), {}, {
+                                onSuccess: () => {
+                                    window.events.emit('cartQtyUpdated')
+                                    window.flash('Successfully deleted from cart')
+                                }
+                            })
                         } else {
+                            this.products.splice(index, 1)
+
                             window.events.emit('cartQtyUpdated')
                             window.flash('Successfully deleted from cart')
                         }
                     })
             } else {
-                axios.delete(route('buyNow.destroy', item.id))
-                    .then(() => {
-                        _this.products.splice(index, 1)
-
-                        if(!Object.keys(_this.products).length) {
-                            this.$inertia.visit(route('books.index'))
-                        } else {
-                            window.events.emit('cartQtyUpdated')
-                            window.flash('Successfully deleted from cart')
-                        }
-                    })
+                this.$inertia.delete(route('buyNow.destroy', item.id))
             }
         },
 
         async processPayment() {
-            // clearTimeout(this.userActivityTimeout)
             this.paymentProcessing = true
             const { paymentMethod, error } = await this.stripe.createPaymentMethod(
                 'card',
@@ -513,55 +484,31 @@ export default {
         },
 
         applyCoupon() {
-            axios.get(route('coupon.check'), {
-                params: {
-                    couponCode: this.code
-                }
-            }).then(res => {
-                this.coupon = res.data.coupon
-                this.couponApplied = true
-                flash('Successfully applied coupon')
-            }).catch(err => {
-                let message = err.response.status == '404' ? 'Sorry, this code is not from us!' : err.response.data.message
-                flash(message, 'error')
-            })
+            if (!this.code || this.code.trim() === null) return
+
+            axios
+                .get(route('coupon.check'), {
+                    params: {
+                        couponCode: this.code
+                    }
+                }).then(res => {
+                    this.coupon = res.data.coupon
+                    this.couponApplied = true
+                    window.flash(res.data.message)
+                }).catch(err => {
+                    let message = err.response.status === 404 ? 'Sorry, this code is not from us!' : err.response.data.message
+                    window.flash(message, 'error')
+                })
         },
 
         cancelCoupon() {
-            axios.delete(route('coupon.destroy'))
-                .then(
-                    this.couponApplied = false,
-                    this.coupon = ''
-                )
+            axios
+                .delete(route('coupon.destroy'))
+                .then(() => {
+                    this.couponApplied = false
+                    this.code = ''
+                })
         },
-
-        // cancelCheckoutProcess(){
-        //     clearTimeout(this.userActivityTimeout)
-        //     window.removeEventListener('mousemove', this.resetUserActivityTimeout())
-        //     window.removeEventListener('scroll', this.resetUserActivityTimeout())
-        //     window.removeEventListener('keydown', this.resetUserActivityTimeout())
-        //     axios.patch('/cancelCheckoutProcess')
-        //         .then(() => this.$inertia.get(route('cart.index')))
-        //         .catch()
-        // },
-
-        // activateActivityTracker() {
-        //     window.addEventListener('mousemove', throttle(() => {this.resetUserActivityTimeout()}, (1000 * 60) * 5))
-        //     window.addEventListener('scroll', throttle(() => {this.resetUserActivityTimeout()}, (1000 * 60) * 5))
-        //     window.addEventListener('keydown', throttle(() => {this.resetUserActivityTimeout()}, (1000 * 60) * 5))
-        // },
-
-        // resetUserActivityTimeout() {
-        //     clearTimeout(this.userActivityTimeout)
-        //     this.userActivityTimeout = setTimeout(() => {
-        //         axios.patch('/timeoutCheckoutProcess')
-        //             .then(() => {
-        //                 this.$inertia.get(route('welcome'))
-        //                 clearTimeout(this.userActivityTimeout)
-        //             })
-        //             .catch()
-        //     }, (1000 * 60) * 30)
-        // },
     },
 }
 </script>

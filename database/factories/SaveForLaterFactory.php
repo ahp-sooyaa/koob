@@ -3,18 +3,18 @@
 namespace Database\Factories;
 
 use App\Models\Book;
-use App\Models\Cart;
+use App\Models\SaveForLater;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class CartFactory extends Factory
+class SaveForLaterFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Cart::class;
+    protected $model = SaveForLater::class;
 
     /**
      * Define the model's default state.
@@ -24,9 +24,9 @@ class CartFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::factory()->create(),
-            'book_id' => Book::factory()->create(),
-            'title' => $this->faker->sentence(),
+            'user_id' => User::factory(),
+            'book_id' => Book::factory(),
+            'title' => $this->faker->title(),
             'quantity' => $this->faker->numberBetween(1, 10),
             'price' => $this->faker->numberBetween(10_00, 90_00)
         ];

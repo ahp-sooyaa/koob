@@ -82,12 +82,6 @@
 		>
 			Out of stock
 		</div>
-		<!-- <div
-      v-if="!data.available_stock_count && data.stock_count"
-      class="bg-gray-200 py-3 rounded-xl text-center text-gray-400 text-sm"
-    >
-      Currently not available
-    </div> -->
 	</div>
 </template>
 
@@ -115,23 +109,16 @@ export default {
     methods: {
         addToCart() {
             axios.post(route('cart.store', this.data.id))
-                .then(() => {
+                .then((res) => {
                     this.isAdded = true
                     window.events.emit('cartQtyUpdated')
-                    window.flash('Successfully added to Cart')
+                    window.flash(res.data.message)
                 })
                 .catch(err => window.flash(err.response.data.message, 'error'))
         },
 
         buyNow() {
-            axios.post(route('buyNow.store', this.data.id))
-                .then(() => {
-                    window.events.emit('cartQtyUpdated')
-                    this.$inertia.get(route('checkout.index'), {
-                        buynow: 1
-                    })
-                })
-                .catch(err => window.flash(err.response.data.message, 'error'))
+            this.$inertia.post(route('buyNow.store', this.data.id))
         }
     }
 }

@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\Book;
 use App\Models\Cart;
 use App\Models\Order;
-use App\Models\Saveforlater;
+use App\Models\SaveForLater;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -30,6 +30,6 @@ class DatabaseSeeder extends Seeder
         Book::factory(10)->create();
         Order::factory(10)->create();
         Cart::factory(10)->create();
-        Saveforlater::factory(10)->create();
+//        SaveForLater::factory(10)->create();
     }
 }

@@ -73,7 +73,7 @@
 
 								<div
 									v-if="$page.props.auth.user"
-									@click="saveforlater(index, item)"
+									@click="saveForLater(index, item)"
 									class="mt-auto hover:bg-gray-50 hover:shadow-none border cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-xs"
 								>
 									Save for later
@@ -103,12 +103,6 @@
 				<div
 					class="sticky self-start top-36 lg:p-8 lg:w-1/3 p-4 w-full"
 				>
-					<div
-						v-if="message"
-						class="bg-gray-100 px-4 py-2 rounded-lg mb-5"
-					>
-						{{ message }}
-					</div>
 					<h1 class="capitalize text-xl font-semibold mb-5">
 						cart summary
 					</h1>
@@ -172,7 +166,7 @@
 
 			<!-- save for later section -->
 			<div
-				v-if="saveforlaterItems.length"
+				v-if="saveForLaterItems.length"
 				class="mt-10 bg-white rounded-2xl p-4 lg:p-8 shadow-md w-full"
 			>
 				<h1
@@ -182,7 +176,7 @@
 				</h1>
 				<ul class="space-y-10">
 					<li
-						v-for="(item, index) in saveforlaterItems"
+						v-for="(item, index) in saveForLaterItems"
 						:key="item.id"
 						class="flex space-x-5"
 					>
@@ -246,7 +240,7 @@ export default {
 
     mixins: [format],
 
-    props: ['message', 'cart', 'saveforlaterItems'],
+    props: ['cart', 'saveForLaterItems'],
 
     data() {
         return {
@@ -290,26 +284,29 @@ export default {
         removeFromCart(index, item) {
             let _this = this
 
-            axios.delete(route('cart.destroy', item.id)).then(() => {
-                _this.cart.splice(index, 1)
+            axios
+                .delete(route('cart.destroy', item.id))
+                .then((res) => {
+                    _this.cart.splice(index, 1)
 
-                window.events.emit('cartQtyUpdated')
-                window.flash('Successfully removed from cart')
-            })
+                    window.events.emit('cartQtyUpdated')
+                    window.flash(res.data.message)
+                })
         },
 
         updateCartQuantity(index, item, event) {
             let _this = this
             let cartItem = _this.cart[index]
 
-            axios.patch(route('cart.update', item.id), {
-                qty: parseInt(event.target.value),
-            })
-                .then(() => {
+            axios
+                .patch(route('cart.update', item.id), {
+                    qty: parseInt(event.target.value),
+                })
+                .then((res) => {
                     cartItem.quantity = parseInt(event.target.value)
 
                     window.events.emit('cartQtyUpdated')
-                    window.flash('Successfully updated quantity.')
+                    window.flash(res.data.message)
                 })
                 .catch((err) => {
                     event.target.value = cartItem.quantity
@@ -318,7 +315,8 @@ export default {
         },
 
         checkStockForCheckout() {
-            axios.get(route('cart.checkStockForCheckout'))
+            axios
+                .get(route('cart.checkStockForCheckout'))
                 .then((res) => {
                     this.$inertia.reload({
                         onFinish: () => {
@@ -330,28 +328,33 @@ export default {
                 })
         },
 
-        saveforlater(index, item) {
+        saveForLater(index, item) {
             let _this = this
 
-            axios.post(route('saveforlater', item.id)).then(() => {
-                _this.cart.splice(index, 1)
-                _this.saveforlaterItems.push(item)
+            axios
+                .post(route('saveForLater.store', item.id))
+                .then((res) => {
+                    _this.cart.splice(index, 1)
+                    _this.saveForLaterItems.push(item)
+                    _this.filterSaveForLater.push(item)
 
-                window.events.emit('cartQtyUpdated')
-                window.flash('Successfully moved to save for later.')
-            })
+                    window.events.emit('cartQtyUpdated')
+                    window.flash(res.data.message)
+                })
         },
 
         movetocart(index, item) {
             let _this = this
 
-            axios.post(route('movetocart', item.id)).then(() => {
-                _this.saveforlaterItems.splice(index, 1)
-                _this.cart.push(item)
+            axios
+                .post(route('movetocart', item.id))
+                .then((res) => {
+                    _this.saveForLaterItems.splice(index, 1)
+                    _this.cart.push(item)
 
-                window.events.emit('cartQtyUpdated')
-                window.flash('Successfully moved to cart.')
-            })
+                    window.events.emit('cartQtyUpdated')
+                    window.flash(res.data.message)
+                })
         },
     },
 }

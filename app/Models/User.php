@@ -66,7 +66,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function saveForLaters()
     {
-        return $this->hasMany(Saveforlater::class);
+        return $this->hasMany(SaveForLater::class);
     }
 
     public function getIsAdminAttribute()

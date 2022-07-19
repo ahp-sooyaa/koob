@@ -229,7 +229,7 @@ class CartTest extends TestCase
         ]);
 
         $this
-            ->post(route('saveforlater', $book->id))
+            ->post(route('saveForLater.store', $book->id))
             ->assertSessionMissing("saveforlater.{$book->id}")
             ->assertSessionHas("cart.{$book->id}");
     }
@@ -242,9 +242,9 @@ class CartTest extends TestCase
 
         $this->actingAs($user);
 
-        $this->post(route('saveforlater', $book->id));
+        $this->post(route('saveForLater.store', $book->id));
 
-        $this->assertDatabaseHas('saveforlaters', [
+        $this->assertDatabaseHas('save_for_later_items', [
             'user_id' => $user->id,
             'book_id' => $book->id
         ]);

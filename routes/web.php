@@ -8,6 +8,7 @@ use App\Http\Controllers\CouponController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SaveForLaterController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -32,16 +33,14 @@ Route::patch('carts/{book}', [CartController::class, 'update'])->name('cart.upda
 Route::delete('carts/{book}', [CartController::class, 'destroy'])->name('cart.destroy');
 Route::get('carts/checkStockForCheckout', [CartController::class, 'checkStockForCheckout'])->name('cart.checkStockForCheckout');
 
-Route::patch('cancelCheckoutProcess', [CartController::class, 'cancelCheckoutProcess'])->name('cart.cancelCheckoutProcess');
-Route::patch('timeoutCheckoutProcess', [CartController::class, 'timeoutCheckoutProcess'])->name('cart.timeoutCheckoutProcess');
-Route::post('{id}/saveforlater', [CartController::class, 'saveforlater'])->name('saveforlater');
-Route::post('{id}/movetocart', [CartController::class, 'movetocart'])->name('movetocart');
-
 Route::post('buyNow/{book}', [BuyNowController::class, 'store'])->name('buyNow.store');
 Route::patch('buyNow/{book}', [BuyNowController::class, 'update'])->name('buyNow.update');
 Route::delete('buyNow/{book}', [BuyNowController::class, 'destroy'])->name('buyNow.destroy');
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::post('save-for-later/{id}', [SaveForLaterController::class, 'store'])->name('saveForLater.store');
+    Route::post('move-to-cart/{id}', [SaveForLaterController::class, 'moveToCart'])->name('movetocart');
+
     Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('profile/update', [ProfileController::class, 'update'])->name('profile.update');
@@ -61,11 +60,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 Route::get('thankyou/{order}', [CheckoutController::class, 'thankyou'])->name('checkout.thankyou');
 
 Route::get('api/cart', function () {
-    return session('cart') ? array_values(session('cart')) : [];
-});
-
-Route::get('saveforlater', function () {
-    return session('saveforlater');
+    // session()->has('cart') return 'true' if session is empty array '[]' which happen remove item after added to cart
+    // for first time session('cart') is null
+    return !empty(session('cart')) ? array_values(session('cart')) : [];
 });
 
 Route::get('mailable', function () {

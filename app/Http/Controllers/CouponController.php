@@ -31,7 +31,7 @@ class CouponController extends Controller
             return response()->json(['message' => 'Sorry you can\'t use this coupon anymore'], 422);
         }
 
-        return response()->json(['coupon' => $coupon]);
+        return response()->json(['message' => 'Successfully applied coupon.', 'coupon' => $coupon]);
     }
 
     public function removeCoupon()

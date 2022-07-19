@@ -37,10 +37,15 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'cart' => $request->session()->get('cart') ? array_values($request->session()->get('cart')) : [],
-            'buyNow' => $request->session()->get('buyNow') ? array_values($request->session()->get('buyNow')) : [],
-            'unreadNotifications' => $request->user() ? $request->user()->unreadNotifications : [],
-            'urlPrev' => url()->previous(),
+            'cart' => !empty($request->session()->get('cart'))
+                ? array_values($request->session()->get('cart'))
+                : [],
+            'buyNow' => !empty($request->session()->get('buyNow'))
+                ? array_values($request->session()->get('buyNow'))
+                : [],
+            'unreadNotifications' => $request->user()
+                ? $request->user()->unreadNotifications
+                : [],
             'flash' => function () use ($request) {
                 return [
                     'success' => $request->session()->get('success'),

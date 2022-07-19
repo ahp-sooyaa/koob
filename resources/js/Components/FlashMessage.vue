@@ -1,54 +1,12 @@
 <template>
-	<transition name="slide-fade">
-		<!--		<div
-			v-if="show"
-			:class="[status == 'error' ? 'bg-red-500' : 'bg-green-500']"
-			class="fixed flex items-center px-3 py-2 rounded-lg shadow-lg space-x-2 text-white top-5 right-5 z-50"
-			role="alert"
-		>
-			<svg
-				v-if="status == 'success'"
-				xmlns="http://www.w3.org/2000/svg"
-				class="h-5 w-5"
-				viewBox="0 0 20 20"
-				fill="currentColor"
-			>
-				<path
-					fill-rule="evenodd"
-					d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-					clip-rule="evenodd"
-				/>
-			</svg>
-			<svg
-				v-else
-				xmlns="http://www.w3.org/2000/svg"
-				class="h-5 w-5"
-				viewBox="0 0 20 20"
-				fill="currentColor"
-			>
-				<path
-					fill-rule="evenodd"
-					d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-					clip-rule="evenodd"
-				/>
-			</svg>
+	<div>
+		<Transition name="slide-fade">
 			<div
-				class="text-center transition ease-in-out duration-500 transform"
-			>
-				{{ body }}
-			</div>
-			<span
-				v-show="flashCount"
-				class="px-1 rounded text-sm"
-				:class="status == 'error' ? 'bg-red-400' : 'bg-green-400'"
-			>{{ flashCount }}</span>
-		</div>-->
-		<div class="bg-white border fixed right-5 rounded-lg shadow space-x-2 top-5 z-50">
-			<div
-				class="flex items-center justify-between max-w-3xl"
+				v-if="success && show"
+				class="bg-white border fixed right-5 rounded-lg shadow space-x-2 top-5 z-50"
 			>
 				<div
-					v-if="success && show"
+
 					class="flex items-center mr-4"
 				>
 					<svg
@@ -62,10 +20,14 @@
 						{{ success }}
 					</div>
 				</div>
-				<div
-					v-if="(error || Object.keys($page.props.errors).length > 0) && show"
-					class="flex items-center mr-4"
-				>
+			</div>
+		</Transition>
+		<Transition name="slide-fade">
+			<div
+				v-if="(error || Object.keys($page.props.errors).length > 0) && show"
+				class="bg-white border fixed right-5 rounded-lg shadow space-x-2 top-5 z-50"
+			>
+				<div class="flex items-center mr-4">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						class="bg-red-500 border fill-current flex-shrink-0 h-6 ml-4 mr-2 p-1.5 rounded-full text-white"
@@ -97,8 +59,8 @@
 					</div>
 				</div>
 			</div>
-		</div>
-	</transition>
+		</Transition>
+	</div>
 </template>
 
 <script>
@@ -115,12 +77,10 @@ export default {
     watch: {
         '$page.props.flash': {
             handler() {
-                this.show = true
                 this.success = this.$page.props.flash.success
                 this.error = this.$page.props.flash.error
-                if (this.timeOut) {
-                    clearTimeout(this.timeOut)
-                }
+
+                this.show = true
                 this.hide()
             },
             deep: true
@@ -135,18 +95,21 @@ export default {
         flash(data){
             if (data.status === 'success') {
                 this.success = data.message
+                this.error = ''
             } else {
                 this.error = data.message
+                this.success = ''
             }
 
-            if (this.timeOut) {
-                clearTimeout(this.timeOut)
-            }
             this.show = true
             this.hide()
         },
 
         hide() {
+            if (this.timeOut) {
+                clearTimeout(this.timeOut)
+            }
+
             this.timeOut = setTimeout(() => {
                 this.show = false
             }, 3000)
@@ -156,14 +119,17 @@ export default {
 </script>
 
 <style scoped>
-.slide-fade-enter-active,
-.slide-fade-leave-active {
-  transition: all .5s;
+.slide-fade-enter-active {
+    transition: all 0.3s ease-out;
 }
-.slide-fade-enter,
+
+.slide-fade-leave-active {
+    transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
 .slide-fade-leave-to {
-  /* transform: translateY(-100px); */
-  transform: translateX(50px);
-  opacity: 0;
+    transform: translateX(20px);
+    opacity: 0;
 }
 </style>

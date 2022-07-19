@@ -3,18 +3,18 @@
 namespace Tests\Feature;
 
 use App\Models\Book;
-use App\Models\Cart;
 use App\Models\User;
 use App\Notifications\OrderPlaced;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Testing\TestResponse;
 use Tests\TestCase;
 
 class CheckoutTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function validate_checkout_form($column)
+    protected function validate_checkout_form($column): TestResponse
     {
         $this->actingAs(User::factory()->create());
 
