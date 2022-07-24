@@ -19417,8 +19417,10 @@ __webpack_require__.r(__webpack_exports__);
     fetchCartItemsCount: function fetchCartItemsCount() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_2___default().get('/api/cart').then(function (res) {
-        _this.calculateCartTotalQuantity(res.data);
+      axios__WEBPACK_IMPORTED_MODULE_2___default().get(route('cart.index')).then(function (res) {
+        console.log(res);
+
+        _this.calculateCartTotalQuantity(res.data.cartItems);
       });
     },
     calculateCartTotalQuantity: function calculateCartTotalQuantity(cart) {
@@ -21249,19 +21251,13 @@ __webpack_require__.r(__webpack_exports__);
     BreezeNavBarLayout: _Layouts_NavBar__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   mixins: [_mixins_format__WEBPACK_IMPORTED_MODULE_2__["default"]],
-  props: ['cart', 'saveForLaterItems'],
-  data: function data() {
-    return {
-      overStockItems: [],
-      filterSaveForLater: []
-    };
-  },
+  props: ['cartItems', 'allSavedItems', 'overStockItems', 'availableSavedItems'],
   computed: {
     cartQuantity: function cartQuantity() {
       var totalQty = 0;
 
-      for (var key in this.cart) {
-        totalQty += this.cart[key].quantity;
+      for (var key in this.cartItems) {
+        totalQty += this.cartItems[key].quantity;
       }
 
       return totalQty;
@@ -21269,20 +21265,17 @@ __webpack_require__.r(__webpack_exports__);
     cartTotal: function cartTotal() {
       var amount = 0;
 
-      for (var key in this.cart) {
-        amount += this.cart[key].quantity * this.cart[key].price;
+      for (var key in this.cartItems) {
+        amount += this.cartItems[key].quantity * this.cartItems[key].price;
       }
 
       return this.formatPrice(amount);
     }
   },
-  created: function created() {
-    this.checkStockForCheckout();
-  },
   methods: {
     isInStockItem: function isInStockItem(id) {
-      if (this.filterSaveForLater) {
-        return this.filterSaveForLater.some(function (item) {
+      if (this.availableSavedItems) {
+        return this.availableSavedItems.some(function (item) {
           return item.id === id;
         });
       }
@@ -21291,7 +21284,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_1___default()["delete"](route('cart.destroy', item.id)).then(function (res) {
-        _this.cart.splice(index, 1);
+        _this.cartItems.splice(index, 1);
 
         window.events.emit('cartQtyUpdated');
         window.flash(res.data.message);
@@ -21300,7 +21293,7 @@ __webpack_require__.r(__webpack_exports__);
     updateCartQuantity: function updateCartQuantity(index, item, event) {
       var _this = this;
 
-      var cartItem = _this.cart[index];
+      var cartItem = _this.cartItems[index];
       axios__WEBPACK_IMPORTED_MODULE_1___default().patch(route('cart.update', item.id), {
         qty: parseInt(event.target.value)
       }).then(function (res) {
@@ -21312,40 +21305,27 @@ __webpack_require__.r(__webpack_exports__);
         window.flash(err.response.data.message, 'error');
       });
     },
-    checkStockForCheckout: function checkStockForCheckout() {
-      var _this2 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_1___default().get(route('cart.checkStockForCheckout')).then(function (res) {
-        _this2.$inertia.reload({
-          onFinish: function onFinish() {
-            _this2.overStockItems = res.data.overStockItems;
-            _this2.filterSaveForLater = res.data.filterSaveForLater;
-            window.events.emit('cartQtyUpdated');
-          }
-        });
-      });
-    },
     saveForLater: function saveForLater(index, item) {
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_1___default().post(route('saveForLater.store', item.id)).then(function (res) {
-        _this.cart.splice(index, 1);
+        _this.cartItems.splice(index, 1);
 
-        _this.saveForLaterItems.push(item);
+        _this.allSavedItems.push(item);
 
-        _this.filterSaveForLater.push(item);
+        _this.availableSavedItems.push(item);
 
         window.events.emit('cartQtyUpdated');
         window.flash(res.data.message);
       });
     },
-    movetocart: function movetocart(index, item) {
+    moveToCart: function moveToCart(index, item) {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default().post(route('movetocart', item.id)).then(function (res) {
-        _this.saveForLaterItems.splice(index, 1);
+      axios__WEBPACK_IMPORTED_MODULE_1___default().post(route('moveToCart', item.id)).then(function (res) {
+        _this.allSavedItems.splice(index, 1);
 
-        _this.cart.push(item);
+        _this.cartItems.push(item);
 
         window.events.emit('cartQtyUpdated');
         window.flash(res.data.message);
@@ -27360,9 +27340,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BreezeNavBarLayout, null, {
     header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_3, $data.overStockItems.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.overStockItems.length) + " items in your cart has changed quantity to maximum available quantity. ", 1
+      return [_hoisted_3, $props.overStockItems.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.overStockItems.length) + " items in your cart has changed quantity to maximum available quantity. ", 1
       /* TEXT */
-      ), _hoisted_6, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.overStockItems, function (overStockItem) {
+      ), _hoisted_6, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.overStockItems, function (overStockItem) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           key: overStockItem.id,
           "class": "list-item text-sm"
@@ -27374,7 +27354,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       ))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)];
     }),
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [$props.cart.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.cart, function (item, index) {
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [$props.cartItems.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.cartItems, function (item, index) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
           key: item.id,
           "class": "flex space-x-5"
@@ -27396,7 +27376,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
             key: qty,
             value: qty,
-            selected: item.quantity == qty
+            selected: item.quantity === qty
           }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(qty), 9
           /* TEXT, PROPS */
           , _hoisted_15);
@@ -27465,7 +27445,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
       }, 8
       /* PROPS */
-      , ["href"])])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" save for later section "), $props.saveForLaterItems.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_37, [_hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_39, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.saveForLaterItems, function (item, index) {
+      , ["href"])])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" save for later section "), $props.allSavedItems.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_37, [_hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_39, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.allSavedItems, function (item, index) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
           key: item.id,
           "class": "flex space-x-5"
@@ -27482,7 +27462,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         )]), $options.isInStockItem(item.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           key: 0,
           onClick: function onClick($event) {
-            return $options.movetocart(index, item);
+            return $options.moveToCart(index, item);
           },
           "class": "hover:bg-gray-50 hover:shadow-none mt-auto border cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-xs"
         }, " Move to cart ", 8

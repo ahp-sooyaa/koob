@@ -66,9 +66,11 @@ export default {
 
     methods: {
         fetchCartItemsCount() {
-            axios.get('/api/cart')
+            axios
+                .get(route('cart.index'))
                 .then((res) => {
-                    this.calculateCartTotalQuantity(res.data)
+                    console.log(res)
+                    this.calculateCartTotalQuantity(res.data.cartItems)
                 })
         },
 

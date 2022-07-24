@@ -34,13 +34,13 @@
 		</template>
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12 min-h-96">
 			<div
-				v-if="cart.length"
+				v-if="cartItems.length"
 				class="bg-white flex flex-col lg:flex-row lg:space-y-0 rounded-2xl shadow-md space-y-5"
 			>
 				<div class="lg:p-8 lg:w-2/3 p-4 w-full border-r">
 					<ul class="space-y-10">
 						<li
-							v-for="(item, index) in cart"
+							v-for="(item, index) in cartItems"
 							:key="item.id"
 							class="flex space-x-5"
 						>
@@ -61,7 +61,7 @@
 											v-for="qty in 10"
 											:key="qty"
 											:value="qty"
-											:selected="item.quantity == qty"
+											:selected="item.quantity === qty"
 										>
 											{{ qty }}
 										</option>
@@ -166,7 +166,7 @@
 
 			<!-- save for later section -->
 			<div
-				v-if="saveForLaterItems.length"
+				v-if="allSavedItems.length"
 				class="mt-10 bg-white rounded-2xl p-4 lg:p-8 shadow-md w-full"
 			>
 				<h1
@@ -176,7 +176,7 @@
 				</h1>
 				<ul class="space-y-10">
 					<li
-						v-for="(item, index) in saveForLaterItems"
+						v-for="(item, index) in allSavedItems"
 						:key="item.id"
 						class="flex space-x-5"
 					>
@@ -209,7 +209,7 @@
 							<div
 								v-cloak
 								v-if="isInStockItem(item.id)"
-								@click="movetocart(index, item)"
+								@click="moveToCart(index, item)"
 								class="hover:bg-gray-50 hover:shadow-none mt-auto border cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-xs"
 							>
 								Move to cart
@@ -240,42 +240,31 @@ export default {
 
     mixins: [format],
 
-    props: ['cart', 'saveForLaterItems'],
-
-    data() {
-        return {
-            overStockItems: [],
-            filterSaveForLater: [],
-        }
-    },
+    props: ['cartItems', 'allSavedItems', 'overStockItems', 'availableSavedItems'],
 
     computed: {
         cartQuantity() {
             let totalQty = 0
-            for (const key in this.cart) {
-                totalQty += this.cart[key].quantity
+            for (const key in this.cartItems) {
+                totalQty += this.cartItems[key].quantity
             }
 
             return totalQty
         },
         cartTotal() {
             let amount = 0
-            for (const key in this.cart) {
-                amount += this.cart[key].quantity * this.cart[key].price
+            for (const key in this.cartItems) {
+                amount += this.cartItems[key].quantity * this.cartItems[key].price
             }
 
             return this.formatPrice(amount)
         },
     },
 
-    created() {
-        this.checkStockForCheckout()
-    },
-
     methods: {
         isInStockItem(id) {
-            if (this.filterSaveForLater) {
-                return this.filterSaveForLater.some((item) => {
+            if (this.availableSavedItems) {
+                return this.availableSavedItems.some((item) => {
                     return item.id === id
                 })
             }
@@ -287,7 +276,7 @@ export default {
             axios
                 .delete(route('cart.destroy', item.id))
                 .then((res) => {
-                    _this.cart.splice(index, 1)
+                    _this.cartItems.splice(index, 1)
 
                     window.events.emit('cartQtyUpdated')
                     window.flash(res.data.message)
@@ -296,7 +285,7 @@ export default {
 
         updateCartQuantity(index, item, event) {
             let _this = this
-            let cartItem = _this.cart[index]
+            let cartItem = _this.cartItems[index]
 
             axios
                 .patch(route('cart.update', item.id), {
@@ -314,43 +303,29 @@ export default {
                 })
         },
 
-        checkStockForCheckout() {
-            axios
-                .get(route('cart.checkStockForCheckout'))
-                .then((res) => {
-                    this.$inertia.reload({
-                        onFinish: () => {
-                            this.overStockItems = res.data.overStockItems
-                            this.filterSaveForLater = res.data.filterSaveForLater
-                            window.events.emit('cartQtyUpdated')
-                        },
-                    })
-                })
-        },
-
         saveForLater(index, item) {
             let _this = this
 
             axios
                 .post(route('saveForLater.store', item.id))
                 .then((res) => {
-                    _this.cart.splice(index, 1)
-                    _this.saveForLaterItems.push(item)
-                    _this.filterSaveForLater.push(item)
+                    _this.cartItems.splice(index, 1)
+                    _this.allSavedItems.push(item)
+                    _this.availableSavedItems.push(item)
 
                     window.events.emit('cartQtyUpdated')
                     window.flash(res.data.message)
                 })
         },
 
-        movetocart(index, item) {
+        moveToCart(index, item) {
             let _this = this
 
             axios
-                .post(route('movetocart', item.id))
+                .post(route('moveToCart', item.id))
                 .then((res) => {
-                    _this.saveForLaterItems.splice(index, 1)
-                    _this.cart.push(item)
+                    _this.allSavedItems.splice(index, 1)
+                    _this.cartItems.push(item)
 
                     window.events.emit('cartQtyUpdated')
                     window.flash(res.data.message)

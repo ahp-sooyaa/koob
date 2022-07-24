@@ -39,7 +39,7 @@ Route::delete('buyNow/{book}', [BuyNowController::class, 'destroy'])->name('buyN
 
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('save-for-later/{id}', [SaveForLaterController::class, 'store'])->name('saveForLater.store');
-    Route::post('move-to-cart/{id}', [SaveForLaterController::class, 'moveToCart'])->name('movetocart');
+    Route::post('move-to-cart/{id}', [SaveForLaterController::class, 'moveToCart'])->name('moveToCart');
 
     Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -58,12 +58,6 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 });
 
 Route::get('thankyou/{order}', [CheckoutController::class, 'thankyou'])->name('checkout.thankyou');
-
-Route::get('api/cart', function () {
-    // session()->has('cart') return 'true' if session is empty array '[]' which happen remove item after added to cart
-    // for first time session('cart') is null
-    return !empty(session('cart')) ? array_values(session('cart')) : [];
-});
 
 Route::get('mailable', function () {
     $order = App\Models\Order::find(1);

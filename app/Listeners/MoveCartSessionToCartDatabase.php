@@ -53,6 +53,9 @@ class MoveCartSessionToCartDatabase
             }
         }
 
+        // should i move 'saveforlater' session to database which happen when visit cart page
+        // with not available item without login
+
         foreach ($event->user->saveForLaters as $dbSaveForLaterItem) {
             if (! session()->has("saveforlater.{$dbSaveForLaterItem->book_id}")) {
                 session()->put("saveforlater.{$dbSaveForLaterItem->book_id}", [
