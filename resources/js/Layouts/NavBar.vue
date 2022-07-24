@@ -388,7 +388,7 @@ import BreezeNavLink from '@/Components/NavLink.vue'
 import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue'
 import CartLink from '@/Components/CartLink'
 import FlashMessage from '@/Components/FlashMessage.vue'
-import Search from '@/Components/Search'
+import Search from '@/Components/SearchModal'
 
 export default {
     components: {

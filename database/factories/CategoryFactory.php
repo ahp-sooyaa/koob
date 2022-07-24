@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class CategoryFactory extends Factory
 {
@@ -21,8 +22,11 @@ class CategoryFactory extends Factory
      */
     public function definition()
     {
+        $name = $this->faker->words($this->faker->numberBetween(1, 3), true);
+
         return [
-            'name' => $this->faker->word()
+            'slug' => Str::slug($name),
+            'name' => $name,
         ];
     }
 }

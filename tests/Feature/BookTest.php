@@ -43,7 +43,7 @@ class BookTest extends TestCase
         $bookNotInCategory = Book::factory()->create();
 
         $this
-            ->get("/books?filter[category_id]={$category->id}&page=&search=")
+            ->get("/books?category=$category->slug&page=")
             ->assertSee($bookInCategory->title)
             ->assertDontSee($bookNotInCategory->title);
     }
@@ -65,14 +65,14 @@ class BookTest extends TestCase
         $bookWithLowerPrice = Book::factory()->create(['price' => '1000']);
 
         $this
-            ->get("books?sort[price]=asc")
+            ->get("books?sort=price,asc")
             ->assertSeeInOrder([
                 $bookWithLowerPrice->title,
                 $bookWithHigherPrice->title,
             ]);
 
         $this
-            ->get("books?sort[price]=desc")
+            ->get("books?sort=price,desc")
             ->assertSeeInOrder([
                 $bookWithHigherPrice->title,
                 $bookWithLowerPrice->title,
@@ -85,14 +85,14 @@ class BookTest extends TestCase
         $oldBook = Book::factory()->create(['created_at' => Carbon::yesterday()]);
 
         $this
-            ->get("books?sort[created_at]=asc")
+            ->get("books?sort=created_at,asc")
             ->assertSeeInOrder([
                 $oldBook->title,
                 $newBook->title
             ]);
 
         $this
-            ->get("books?sort[created_at]=desc")
+            ->get("books?sort=created_at,desc")
             ->assertSeeInOrder([
                 $newBook->title,
                 $oldBook->title

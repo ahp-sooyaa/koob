@@ -1,6 +1,13 @@
 <template>
 	<div class="relative flex items-center w-full lg:max-w-min">
+		<img
+			v-if="loading"
+			src="/images/tail-spin.svg"
+			alt="loading svg"
+			class="absolute h-5 left-3 w-5"
+		>
 		<svg
+			v-else
 			xmlns="http://www.w3.org/2000/svg"
 			viewBox="0 0 20 20"
 			fill="currentColor"
@@ -18,12 +25,22 @@
 			placeholder="search"
 			class="w-full lg:w-auto px-10 border-gray-300 hover:shadow hover:border-transparent focus:border-transparent focus:shadow focus:ring-0 rounded-full"
 		>
-		<img
-			v-if="loading"
-			src="/images/tail-spin.svg"
-			alt="loading svg"
-			class="absolute h-5 right-3 w-5"
+		<svg
+			v-if="search"
+			@click="search = ''"
+			xmlns="http://www.w3.org/2000/svg"
+			class="absolute h-5 right-3 text-gray-400 w-5 cursor-pointer hover:text-gray-700"
+			fill="none"
+			viewBox="0 0 24 24"
+			stroke="currentColor"
+			stroke-width="2"
 		>
+			<path
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				d="M6 18L18 6M6 6l12 12"
+			/>
+		</svg>
 	</div>
 </template>
 
@@ -36,20 +53,24 @@ export default {
         return {
             search: this.searchQuery,
             loading: false,
+            timeout: '',
         }
     },
 
     watch: {
         search: debounce(function (value) {
             this.$inertia
-                .get(this.$page.url.replace(/search=(\w+)/, ''), { search: value, page: '' }, {
+                .get(this.$page.url, { search: value, page: 1 }, {
                     preserveState: true,
                     replace: true,
                     onStart: () => {
-                        this.loading = true
+                        this.timeout = setTimeout(() => {
+                            this.loading = true
+                        }, 500)
                     },
                     onFinish: () => {
                         this.loading = false
+                        clearTimeout(this.timeout)
                     },
                 })
         }, 300),

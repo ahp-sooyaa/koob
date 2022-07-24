@@ -95,22 +95,20 @@ export default {
         addToCart() {
             axios
                 .post(route('cart.store', this.book.id), { qty: this.quantity })
-                .then(() => {
+                .then((res) => {
                     this.isAdded = true
                     window.events.emit('cartQtyUpdated')
-                    window.flash('Successfully added to Cart')
+                    window.flash(res.data.message)
                 })
-                .catch((err) => console.log(err))
+                .catch((err) => window.flash(err.response.data.message, 'error'))
         },
 
         updateCartQuantity(book, event){
-            if (book.available_stock_count < parseInt(event.target.value)) {
+            if (book.stock_count < parseInt(event.target.value)) {
                 this.quantity = this.initialQuantity
-                window.flash(`Quantity is exceeding over stock. Available quantity(${book.available_stock_count})`, 'error')
+                window.flash(`Quantity is exceeding over stock. Available quantity(${book.stock_count})`, 'error')
             } else {
                 this.initialQuantity = this.quantity
-                window.events.emit('cartQtyUpdated')
-                window.flash('Successfully Updated')
             }
         },
     },

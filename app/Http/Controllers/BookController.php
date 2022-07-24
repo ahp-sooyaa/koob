@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Category;
 use App\Models\Order;
+use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
 class BookController extends Controller
@@ -13,39 +14,21 @@ class BookController extends Controller
     {
         return Inertia::render('Books/Index', [
             'books' => Book::query()
-                ->when(request('search'), function ($query, $search) {
-                    $query->where('title', 'like', "%{$search}%");
-                })
-                ->when(request('filter'), function ($query, $filter) {
-                    // equal filter is only available now
-                    foreach ($filter as $column => $value) {
-                        if ($value != null) {
-                            $query->where($column, $value);
-                        }
-                    }
-                })
-                ->when(request('sort'), function ($query, $sort) {
-                    foreach ($sort as $column => $direction) {
-                        if ($direction != null) {
-                            $query->orderBy($column, $direction);
-                        }
-                    }
-                })
+                ->filter(Request::only(['search', 'category']))
+                ->sort(Request::query('sort', 'created_at,asc'))
                 ->paginate(5)
                 ->withQueryString()
-                ->through(fn ($book) => [
+                ->through(fn($book) => [
                     'id' => $book->id,
                     'slug' => $book->slug,
                     'title' => $book->title,
                     'price' => $book->price,
                     'cover_url' => $book->cover_url,
                     'stock_count' => $book->stock_count,
-//                    'available_stock_count' => $book->available_stock_count
                 ]),
-            'categories' => Category::all(),
-            'sorting' => request('sort'),
-            'filters' => request('filter'),
-            'search' => request('search')
+            'categories' => Category::select(['slug', 'name'])->get(),
+            'sorting' => Request::query('sort', 'created_at,asc'),
+            'filters' => Request::only(['search', 'category']),
         ]);
     }
 

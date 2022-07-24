@@ -25,6 +25,7 @@
 								Filters
 							</h1>
 							<span
+								v-show="filters.search || categoryFilter"
 								@click="clearFilter"
 								class="hover:underline text-gray-500 text-sm cursor-pointer"
 							>clear</span>
@@ -33,18 +34,18 @@
 						<h1>Categories</h1>
 						<div class="-ml-1 flex flex-nowrap lg:flex-wrap items-baseline overflow-x-auto pb-3 pt-1 lg:space-y-2">
 							<div
-								@click="filter = {category_id: ''}"
-								class="cursor-pointer bg-white border inline-block px-4 py-1 rounded-2xl shadow text-sm mx-1"
-								:class="filters == null || isFiltered('category_id', null) ? 'text-blue-500': 'text-gray-600'"
+								@click="categoryFilter = null"
+								class="capitalize cursor-pointer bg-white border inline-block px-4 py-1 rounded-2xl shadow text-sm mx-1"
+								:class="!categoryFilter ? 'border-blue-400 text-blue-500': 'text-gray-600'"
 							>
 								all
 							</div>
 							<div
 								v-for="category in categories"
-								:key="category.id"
-								@click="filter = {category_id: category.id}"
-								class="cursor-pointer bg-white border inline-block px-4 py-1 rounded-2xl shadow text-gray-600 text-sm mx-1"
-								:class="isFiltered('category_id', category.id) ? 'text-blue-500': ''"
+								:key="category.slug"
+								@click="categoryFilter = category.slug"
+								class="capitalize cursor-pointer bg-white border inline-block px-4 py-1 rounded-2xl shadow text-sm mx-1"
+								:class="categoryFilter === category.slug ? 'border-blue-400 text-blue-500': 'text-gray-600'"
 							>
 								{{ category.name }}
 							</div>
@@ -52,8 +53,14 @@
 					</div>
 					<div class="w-full lg:w-4/5">
 						<div class="flex items-center justify-between lg:flex-row lg:items-center space-x-3">
-							<search-box :search-query="search" />
+							<search-box :search-query="filters.search" />
 							<sorting :sorting="sorting" />
+						</div>
+						<div
+							v-show="books.total"
+							class="text-sm text-gray-600 mt-7"
+						>
+							Showing {{ books.from }}-{{ books.to }} of {{ books.total }}
 						</div>
 						<div v-if="Object.keys(books.data).length">
 							<div
@@ -69,14 +76,33 @@
 							</div>
 
 							<!-- paginator -->
-							<paginator :links="books.links" />
+							<paginator
+								v-show="books.total > books.per_page"
+								:links="books.links"
+							/>
 						</div>
 
 						<div
 							v-else
-							class="grid h-full place-content-center text-center"
+							class="grid mt-32 place-content-center text-center"
 						>
-							<p>No results found for <span class="font-bold">"{{ search }}"</span></p>
+							<lottie-player
+								src="https://assets6.lottiefiles.com/packages/lf20_0s6tfbuc.json"
+								background="transparent"
+								speed="1"
+								style="width: 200px; height: 200px"
+								loop
+								autoplay
+								class="mx-auto"
+							/>
+							<p>
+								No results found for
+								<span class="font-bold">{{ categoryFilter }}</span>
+								<span v-show="filters.search || categoryFilter"> books </span>
+								<span v-show="filters.search">matching </span>
+								<span class="font-bold">{{ filters.search }} </span>
+								.
+							</p>
 							<p>Try different keywords or check spelling.</p>
 						</div>
 					</div>
@@ -112,14 +138,10 @@ export default {
             required: true
         },
         sorting: {
-            type: Object,
+            type: String,
             default: null
         },
         filters: {
-            type: Object,
-            default: null
-        },
-        search: {
             type: Object,
             default: null
         },
@@ -127,35 +149,25 @@ export default {
 
     data() {
         return {
-            loading: false,
-            filter: '',
+            categoryFilter: this.filters.category,
         }
     },
 
     watch: {
-        filter(value) {
-            let data = (value && !this.isFiltered(Object.keys(value), Object.values(value)))
-                ? { filter: value, page: '' }
-                : {  }
-
+        categoryFilter(value) {
             this.$inertia
-                .get(this.$page.url, data, {
+                .get(this.$page.url, { category: value, page: 1 }, {
                     preserveState: true,
                 })
-        }
+        },
     },
 
     methods: {
-        isFiltered(column, value) {
-            return this.filters ? this.filters[column] == value : false
-        },
-
         clearFilter() {
-            let url = this.$page.url.replace(/&?(filter\[\w+\]=\w+)+/g, '')
-            url = this.searchQuery ? url.replace(/&?(search=\w+)/, '') : url
+            this.categoryFilter = null
 
             this.$inertia
-                .get(url, {}, {
+                .get(this.$page.url, {search: null, category: null}, {
                     preserveState: true,
                     onFinish: () => {
                         window.events.emit('clearedFilters')

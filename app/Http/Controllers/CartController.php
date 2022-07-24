@@ -15,8 +15,6 @@ class CartController extends Controller
 {
     public function index()
     {
-//        session()->forget('cart');
-//        dd(request()->session()->get('cart'));
         return Inertia::render('Cart', [
             'saveForLaterItems' => session()->has('saveforlater') ? array_values(session('saveforlater')) : []
         ]);
@@ -57,6 +55,15 @@ class CartController extends Controller
 
         return response()->json(['message' => 'Successfully removed from cart.']);
     }
+
+//    public function getFiltered($session)
+//    {
+//        return array_filter($session, function ($sessionItem) {
+//            $book = Book::where('id', $sessionItem['id'])->first();
+//
+//            return $sessionItem['quantity'] > $book->stock_count;
+//        });
+//    }
 
     public function checkStockForCheckout()
     {

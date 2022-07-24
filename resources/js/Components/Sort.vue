@@ -5,18 +5,12 @@
 				<span class="inline-flex rounded-md">
 					<button
 						type="button"
-						class="
-                inline-flex items-center px-3 py-2 border border-transparent text-sm
-                leading-4 font-medium rounded-md text-gray-500 bg-white
-                hover:text-gray-700 focus:outline-none transition ease-in-out
-                duration-150
-              "
+						class="inline-flex items-center px-3 py-2 border border-transparent text-sm
+                        leading-4 font-medium rounded-md text-gray-500 bg-white
+                        hover:text-gray-700 focus:outline-none transition ease-in-out
+                        duration-150"
 					>
-						<span
-							v-if="sorting ? Object.keys(sorting).length : 0"
-							class="bg-gray-100 px-1 rounded mr-2"
-						>{{ sorting ? Object.keys(sorting).length : 0 }}</span>
-						Sort by
+						Sort by {{ labels[sort] }}
 						<svg
 							class="ml-2 -mr-0.5 h-4 w-4"
 							xmlns="http://www.w3.org/2000/svg"
@@ -35,32 +29,32 @@
 
 			<template #content>
 				<div
-					@click="sort = { price: 'asc' }"
+					@click="sort = 'price,asc'"
 					class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out cursor-pointer"
-					:class="isSorted('price', 'asc') ? 'text-blue-500': ''"
+					:class="sort === 'price,asc' ? 'text-blue-500': ''"
 				>
-					price low to high
+					Price (Low to High)
 				</div>
 				<div
-					@click="sort = { price: 'desc' }"
-					:class="isSorted('price', 'desc') ? 'text-blue-500': ''"
+					@click="sort = 'price,desc'"
 					class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out cursor-pointer"
+					:class="sort === 'price,desc' ? 'text-blue-500': ''"
 				>
-					price high to low
+					Price (High to Low)
 				</div>
 				<div
-					@click="sort = { created_at: 'asc' }"
-					:class="isSorted('created_at', 'asc') ? 'text-blue-500': ''"
+					@click="sort = 'created_at,asc'"
 					class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out cursor-pointer"
+					:class="sort === 'created_at,asc' ? 'text-blue-500': ''"
 				>
-					newest
+					Newest Books
 				</div>
 				<div
-					@click="sort = { created_at: 'desc' }"
+					@click="sort = 'created_at,desc'"
 					class="block w-full px-4 py-2 text-left text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out cursor-pointer"
-					:class="isSorted('created_at', 'desc') ? 'text-blue-500': ''"
+					:class="sort === 'created_at,desc' ? 'text-blue-500': ''"
 				>
-					oldest
+					Oldest Books
 				</div>
 			</template>
 		</dropdown>
@@ -76,29 +70,22 @@ export default {
 
     data() {
         return {
-            sort: '',
+            sort: this.sorting,
+            labels: {
+                'price,asc': 'Price (Low to High)',
+                'price,desc': 'Price (High to Low)',
+                'created_at,asc': 'Newest Books',
+                'created_at,desc': 'Oldest Books',
+            },
         }
     },
 
     watch: {
         sort(value) {
-            const regexString = `&?(sort\\[${Object.keys(value)}+\\]=${Object.values(value)}+)`
-            let url = this.$page.url.match(new RegExp(regexString, 'g'))
-                ? this.$page.url.replace(new RegExp(regexString, 'g'), '')
-                : this.$page.url
-            let data = (value && !this.$page.url.match(new RegExp(regexString, 'g'))) ? { sort: value } : {}
             this.$inertia
-                .get(url, data, {
+                .get(this.$page.url, { sort: value }, {
                     preserveState: true,
                 })
-        },
-    },
-
-    methods: {
-        isSorted(column, direction) {
-            const regexString = `&?(sort\\[${column}+\\]=${direction}+)`
-            return this.$page.url.match(new RegExp(regexString, 'g'))
-            // return this.sorting ? this.sorting[column] == direction : false
         },
     }
 }

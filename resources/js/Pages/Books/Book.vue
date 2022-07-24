@@ -108,7 +108,8 @@ export default {
 
     methods: {
         addToCart() {
-            axios.post(route('cart.store', this.data.id))
+            axios
+                .post(route('cart.store', this.data.id))
                 .then((res) => {
                     this.isAdded = true
                     window.events.emit('cartQtyUpdated')

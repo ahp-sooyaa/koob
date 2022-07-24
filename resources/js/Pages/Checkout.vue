@@ -265,7 +265,7 @@
 								<span class="font-semibold">Free</span>
 							</div>
 							<div
-								v-if="!couponApplied"
+								v-if="!coupon"
 								class="flex items-center justify-between relative"
 							>
 								<input
@@ -290,7 +290,7 @@
 									Coupon <span class="font-semibold">({{ coupon.code }})</span>
 								</div>
 								<div
-									@click="cancelCoupon()"
+									@click="removeCoupon"
 									class="cursor-pointer text-gray-500 hover:text-gray-700"
 								>
 									<svg
@@ -351,9 +351,8 @@ export default {
                 zip_code: '',
             },
             paymentProcessing: false,
-            code: this.appliedCoupon?.code,
+            code: '',
             coupon: this.appliedCoupon,
-            couponApplied: this.appliedCoupon ? true : false,
         }
     },
 
@@ -471,7 +470,7 @@ export default {
                 this.customer.amount = this.cartTotal
                 this.customer.cart = JSON.stringify(this.products)
                 axios
-                    .post(route('orders.store', this.customer))
+                    .post(route('orders.store'), this.customer)
                     .then((response) => {
                         this.paymentProcessing = false
                         this.$inertia.get(route('checkout.thankyou', response.data.id))
@@ -487,26 +486,20 @@ export default {
             if (!this.code || this.code.trim() === null) return
 
             axios
-                .get(route('coupon.check'), {
-                    params: {
-                        couponCode: this.code
-                    }
-                }).then(res => {
+                .post(route('coupons.store'), {code: this.code})
+                .then(res => {
                     this.coupon = res.data.coupon
-                    this.couponApplied = true
                     window.flash(res.data.message)
-                }).catch(err => {
-                    let message = err.response.status === 404 ? 'Sorry, this code is not from us!' : err.response.data.message
-                    window.flash(message, 'error')
                 })
+                .catch(err => window.flash(err.response.data.message, 'error'))
         },
 
-        cancelCoupon() {
+        removeCoupon() {
             axios
-                .delete(route('coupon.destroy'))
+                .delete(route('coupons.destroy'))
                 .then(() => {
-                    this.couponApplied = false
                     this.code = ''
+                    this.coupon = ''
                 })
         },
     },

@@ -52,9 +52,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('orders/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::post('orders', [OrderController::class, 'store'])->name('orders.store');
 
-    Route::get('coupon', [CouponController::class, 'index'])->name('coupon.index');
-    Route::get('coupon/check', [CouponController::class, 'checkCouponValid'])->name('coupon.check');
-    Route::delete('coupon', [CouponController::class, 'removeCoupon'])->name('coupon.destroy');
+    Route::get('coupons', [CouponController::class, 'index'])->name('coupons.index');
+    Route::post('coupons', [CouponController::class, 'store'])->name('coupons.store');
+    Route::delete('coupons', [CouponController::class, 'destroy'])->name('coupons.destroy');
 });
 
 Route::get('thankyou/{order}', [CheckoutController::class, 'thankyou'])->name('checkout.thankyou');

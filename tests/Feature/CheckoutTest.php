@@ -137,7 +137,7 @@ class CheckoutTest extends TestCase
             'cart' => '[{"id": 1, "title": "test", "quantity": 1, "price": 1000}]',
         ];
 
-        $this->post(route('orders.store', $checkoutForm))
+        $this->post(route('orders.store'), $checkoutForm)
             ->assertSuccessful();
 
         // deducted stock count of placed order book

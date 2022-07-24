@@ -123,10 +123,11 @@ import debounce from 'lodash/debounce'
 export default {
     data() {
         return {
+            timeout: '',
             showModal: false,
             loading: false,
             search: '',
-            result: []
+            result: [],
         }
     },
 
@@ -134,7 +135,10 @@ export default {
         search: debounce(function(value) {
             // if (value.trim() === '') return
 
-            this.loading = true
+            this.timeout = setTimeout(() => {
+                this.loading = true
+            }, 500)
+
             axios.get(route('search'), {
                 params: {
                     searchQuery: value
@@ -142,6 +146,7 @@ export default {
             }).then((response) => {
                 this.result = response.data
                 this.loading = false
+                clearTimeout(this.timeout)
             })
         }, 300)
     },

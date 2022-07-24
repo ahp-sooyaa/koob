@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Coupon;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class CouponController extends Controller
 {
@@ -14,27 +15,24 @@ class CouponController extends Controller
         });
     }
 
-    public function checkCouponValid()
+    public function store(Request $request)
     {
-        $coupon = Coupon::where('code', request('couponCode'))->firstOrFail();
+        $coupon = Coupon::where('code', $request->code)->first();
 
-        if ($coupon->users()->where('user_id', auth()->id())->exists()) {
-            $isApplied = $coupon->users()->where('user_id', auth()->id())->first()->pivot->isApplied;
-        } else {
-            $coupon->users()->attach(auth()->id(), ['isApplied' => false]);
-            $isApplied = false;
+        if (!$coupon) {
+            return response()->json(['message' => 'This code is not from us.'], 404);
         }
 
-        if ($coupon->expired_at >= Carbon::now() && ! $isApplied) {
-            session()->put('coupon', $coupon);
-        } else {
-            return response()->json(['message' => 'Sorry you can\'t use this coupon anymore'], 422);
+        if ($coupon->expired_at < Carbon::now() || $coupon->isApplied()) {
+            return response()->json(['message' => "You can't use this coupon anymore"], 422);
         }
+
+        session()->put('coupon', $coupon);
 
         return response()->json(['message' => 'Successfully applied coupon.', 'coupon' => $coupon]);
     }
 
-    public function removeCoupon()
+    public function destroy()
     {
         session()->pull('coupon');
     }
