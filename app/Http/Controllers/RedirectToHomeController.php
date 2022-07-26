@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-class HomeController extends Controller
+use Illuminate\Support\Facades\Auth;
+
+class RedirectToHomeController extends Controller
 {
     public function __invoke()
     {
-        if (auth()->user()->role == 'admin') {
+        if (Auth::user()->role == 'admin') {
             return redirect(route('admin.dashboard'));
         }
 
         // instead of user dashboard, i will redirect to profile page
-        return redirect(route('profile.index'));
+        return redirect(route('profile.show', Auth::user()->name));
     }
 }

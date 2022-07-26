@@ -40,7 +40,7 @@ class CartController extends Controller
 
     public function store(Book $book, Cart $cart, Request $request)
     {
-        $qty = $request->input('qty') ?: 1;
+        $qty = $request->input('qty', 1);
         $cartItem = session("cart.{$book->id}");
 
         if ($book->stock_count < (is_null($cartItem) ? 0 : $cartItem['quantity']) + $qty) {

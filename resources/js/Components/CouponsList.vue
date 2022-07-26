@@ -12,7 +12,8 @@
 			>
 			<div
 				@click="saveCoupon"
-				class="cursor-pointer absolute bg-gray-800 px-7 py-2 right-0 rounded-2xl text-gray-100"
+				class="absolute bg-gray-800 px-7 py-2 right-0 rounded-2xl"
+				:class="code ? 'cursor-pointer text-gray-100' : 'opacity-50 cursor-default text-gray-500'"
 			>
 				Save
 			</div>
@@ -25,7 +26,7 @@
 				<div class="bg-gray-700 flex justify-between px-10 py-5 rounded-2xl text-gray-100">
 					<div>
 						<h1 class="font-black text-4xl">
-							{{ coupon.type == 'Percentage' ? `${coupon.value}%` : `$${coupon.value}` }} 
+							{{ coupon.type === 'Percentage' ? `${coupon.value}%` : `$${coupon.value}` }}
 							<span class="uppercase">off</span>
 						</h1>
 						<div class="text-gray-400 mb-4">
@@ -74,27 +75,21 @@ export default {
 
     methods: {
         fetchCouponsData() {
-            axios.get(route('coupon.index'))
-                .then(res => {
-                    // console.log(res)
-                    this.coupons = res.data
-                })
+            axios.get(route('coupons.index'))
+                .then(res => this.coupons = res.data)
         },
 
         saveCoupon() {
-            axios.get('/coupon/check?couponCode=' + this.code)
+            if (!this.code || this.code.trim() === null) return
+
+            axios
+                .post(route('coupons.store'), {code: this.code})
                 .then(res => {
-                    console.log(res.data.coupon)
                     this.coupons.push(res.data.coupon)
-                    this.couponApplied = true
-                    this.coupon = ''
-                    flash('Successfully saved coupon')
+                    this.code = ''
+                    flash(res.data.message)
                 })
-                .catch(err => {
-                    console.log(err.response.status)
-                    let message = err.response.status == '404' ? 'Sorry, this code is not from us!' : err.response.data.message
-                    flash(message, 'error')
-                })
+                .catch(err => flash(err.response.data.message, 'error'))
         },
     }
 }

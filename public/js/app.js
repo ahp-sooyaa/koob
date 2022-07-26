@@ -19504,26 +19504,23 @@ __webpack_require__.r(__webpack_exports__);
     fetchCouponsData: function fetchCouponsData() {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get(route('coupon.index')).then(function (res) {
-        // console.log(res)
-        _this.coupons = res.data;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get(route('coupons.index')).then(function (res) {
+        return _this.coupons = res.data;
       });
     },
     saveCoupon: function saveCoupon() {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/coupon/check?couponCode=' + this.code).then(function (res) {
-        console.log(res.data.coupon);
-
+      if (!this.code || this.code.trim() === null) return;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().post(route('coupons.store'), {
+        code: this.code
+      }).then(function (res) {
         _this2.coupons.push(res.data.coupon);
 
-        _this2.couponApplied = true;
-        _this2.coupon = '';
-        flash('Successfully saved coupon');
+        _this2.code = '';
+        flash(res.data.message);
       })["catch"](function (err) {
-        console.log(err.response.status);
-        var message = err.response.status == '404' ? 'Sorry, this code is not from us!' : err.response.data.message;
-        flash(message, 'error');
+        return flash(err.response.data.message, 'error');
       });
     }
   }
@@ -21535,7 +21532,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
                   axios.post(route('orders.store'), _this3.customer).then(function (response) {
                     _this3.paymentProcessing = false;
 
-                    _this3.$inertia.get(route('checkout.thankyou', response.data.id));
+                    _this3.$inertia.get(route('checkout.thankYou', response.data.id));
                   })["catch"](function (error) {
                     _this3.paymentProcessing = false;
                     _this3.errors = error.response.data.errors;
@@ -22115,11 +22112,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[1] || (_cache[1] = function () {
       return $options.saveCoupon && $options.saveCoupon.apply($options, arguments);
     }),
-    "class": "cursor-pointer absolute bg-gray-800 px-7 py-2 right-0 rounded-2xl text-gray-100"
-  }, " Save ")]), Object.keys($data.coupons).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.coupons, function (coupon) {
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["absolute bg-gray-800 px-7 py-2 right-0 rounded-2xl", $data.code ? 'cursor-pointer text-gray-100' : 'opacity-50 cursor-default text-gray-500'])
+  }, " Save ", 2
+  /* CLASS */
+  )]), Object.keys($data.coupons).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.coupons, function (coupon) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: coupon.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(coupon.type == 'Percentage' ? "".concat(coupon.value, "%") : "$".concat(coupon.value)) + " ", 1
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(coupon.type === 'Percentage' ? "".concat(coupon.value, "%") : "$".concat(coupon.value)) + " ", 1
     /* TEXT */
     ), _hoisted_7]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.formatDate(coupon.expired_at)), 1
     /* TEXT */
@@ -23614,7 +23613,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, 8
       /* PROPS */
       , ["href"])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BreezeDropdownLink, {
-        href: _ctx.route('profile.index'),
+        href: _ctx.route('profile.show', _ctx.$page.props.auth.user.name),
         as: "button"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
@@ -23732,8 +23731,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.$page.props.auth.user.email), 1
   /* TEXT */
   )]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BreezeResponsiveNavLink, {
-    href: _ctx.route('profile.index'),
-    active: _ctx.route().current('profile.index')
+    href: _ctx.route('profile.show', _ctx.$page.props.auth.user.name),
+    active: _ctx.route().current('profile.show', _ctx.$page.props.auth.user.name)
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [_hoisted_32];
@@ -27970,7 +27969,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[8] || (_cache[8] = function () {
           return $options.applyCoupon && $options.applyCoupon.apply($options, arguments);
         }),
-        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["absolute bg-gray-800 px-7 py-2 right-0 rounded-2xl text-gray-100", $data.code ? 'cursor-pointer' : 'opacity-50 cursor-default'])
+        "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["absolute bg-gray-800 px-7 py-2 right-0 rounded-2xl", $data.code ? 'cursor-pointer text-gray-100' : 'opacity-50 cursor-default text-gray-500'])
       }, " Apply ", 2
       /* CLASS */
       )])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [_hoisted_57, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_58, "(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.coupon.code) + ")", 1
@@ -28911,7 +28910,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BreezeNavBarLayout, null, {
     header: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
-        href: _ctx.route('profile.index'),
+        href: _ctx.route('profile.show', _ctx.$page.props.auth.user.name),
         "class": "text-gray-500 hover:text-gray-900"
       }, {
         "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {

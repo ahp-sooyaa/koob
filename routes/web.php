@@ -5,7 +5,8 @@ use App\Http\Controllers\BuyNowController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CouponController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfilePasswordController;
+use App\Http\Controllers\RedirectToHomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SaveForLaterController;
@@ -21,7 +22,7 @@ Route::get('/', function () {
 })->name('welcome');
 
 /** give conditional redirect path after login successfully */
-Route::get('home', HomeController::class)->name('home');
+Route::get('home', RedirectToHomeController::class)->name('home');
 Route::get('search', SearchController::class)->name('search');
 
 Route::get('books', [BookController::class, 'index'])->name('books.index');
@@ -31,7 +32,6 @@ Route::get('carts', [CartController::class, 'index'])->name('cart.index');
 Route::post('carts/{book}', [CartController::class, 'store'])->name('cart.store');
 Route::patch('carts/{book}', [CartController::class, 'update'])->name('cart.update');
 Route::delete('carts/{book}', [CartController::class, 'destroy'])->name('cart.destroy');
-Route::get('carts/checkStockForCheckout', [CartController::class, 'checkStockForCheckout'])->name('cart.checkStockForCheckout');
 
 Route::post('buyNow/{book}', [BuyNowController::class, 'store'])->name('buyNow.store');
 Route::patch('buyNow/{book}', [BuyNowController::class, 'update'])->name('buyNow.update');
@@ -41,10 +41,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('save-for-later/{id}', [SaveForLaterController::class, 'store'])->name('saveForLater.store');
     Route::post('move-to-cart/{id}', [SaveForLaterController::class, 'moveToCart'])->name('moveToCart');
 
-    Route::get('profile', [ProfileController::class, 'index'])->name('profile.index');
-    Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('profile/update', [ProfileController::class, 'update'])->name('profile.update');
-    Route::patch('profile-password/update', [ProfileController::class, 'profilePasswordUpdate'])->name('profile-password.update');
+    Route::get('profile/{user:name}', [ProfileController::class, 'show'])->name('profile.show');
+    Route::get('settings/account', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('settings/account', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::patch('profile-password', [ProfilePasswordController::class, 'update'])->name('profile-password.update');
 
     Route::get('checkout', [CheckoutController::class, 'index'])->name('checkout.index');
 
@@ -57,7 +58,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::delete('coupons', [CouponController::class, 'destroy'])->name('coupons.destroy');
 });
 
-Route::get('thankyou/{order}', [CheckoutController::class, 'thankyou'])->name('checkout.thankyou');
+Route::get('thank-you/{order}', [CheckoutController::class, 'thankYou'])->name('checkout.thankYou');
 
 Route::get('mailable', function () {
     $order = App\Models\Order::find(1);

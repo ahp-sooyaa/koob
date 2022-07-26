@@ -100,7 +100,7 @@
 										</div>
 										<div v-else>
 											<BreezeDropdownLink
-												:href="route('profile.index')"
+												:href="route('profile.show', $page.props.auth.user.name)"
 												as="button"
 											>
 												My Profile
@@ -230,8 +230,8 @@
 							</div>
 						</div>
 						<BreezeResponsiveNavLink
-							:href="route('profile.index')"
-							:active="route().current('profile.index')"
+							:href="route('profile.show', $page.props.auth.user.name)"
+							:active="route().current('profile.show', $page.props.auth.user.name)"
 						>
 							Profile
 						</BreezeResponsiveNavLink>

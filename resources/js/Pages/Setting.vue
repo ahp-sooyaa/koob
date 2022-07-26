@@ -12,7 +12,7 @@
 		<template #header>
 			<h2 class="flex font-semibold text-xl text-gray-800 leading-tight">
 				<Link
-					:href="route('profile.index')"
+					:href="route('profile.show', $page.props.auth.user.name)"
 					class="text-gray-500 hover:text-gray-900"
 				>
 					Profile

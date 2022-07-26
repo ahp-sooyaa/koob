@@ -19,13 +19,13 @@ class ProfileSettingTest extends TestCase
         $user = User::factory()->create();
 
         $this
-            ->get(route('profile.index'))
+            ->get(route('profile.show', $user->name))
             ->assertRedirect(route('login'));
 
         $this->actingAs($user);
 
         $this
-            ->get(route('profile.index'))
+            ->get(route('profile.show', $user->name))
             ->assertSuccessful();
     }
 

@@ -17,7 +17,7 @@ class CouponController extends Controller
 
     public function store(Request $request)
     {
-        $coupon = Coupon::where('code', $request->code)->first();
+        $coupon = Coupon::where('code', $request->input('code'))->first();
 
         if (!$coupon) {
             return response()->json(['message' => 'This code is not from us.'], 404);

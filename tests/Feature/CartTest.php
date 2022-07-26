@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Book;
 use App\Models\Cart;
+use App\Models\SaveForLater;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -266,7 +267,9 @@ class CartTest extends TestCase
 
         $this->actingAs($user);
 
-        $this->post(route('saveForLater.store', $book->id));
+        $this
+            ->post(route('saveForLater.store', $book->id))
+            ->assertSuccessful();
 
         $this->assertDatabaseHas('save_for_later_items', [
             'user_id' => $user->id,
@@ -274,6 +277,29 @@ class CartTest extends TestCase
         ]);
 
         $this->assertDatabaseMissing('carts', [
+            'user_id' => $user->id,
+            'book_id' => $book->id,
+        ]);
+    }
+
+    public function test_authenticated_user_can_move_saved_items_to_cart()
+    {
+        $user = User::factory()->create();
+        $book = Book::factory()->create();
+        SaveForLater::factory()->create(['book_id' => $book->id, 'user_id' => $user->id]);
+
+        $this->actingAs($user);
+
+        $this
+            ->post(route('moveToCart', $book->id))
+            ->assertSuccessful();
+
+        $this->assertDatabaseMissing('save_for_later_items', [
+            'user_id' => $user->id,
+            'book_id' => $book->id
+        ]);
+
+        $this->assertDatabaseHas('carts', [
             'user_id' => $user->id,
             'book_id' => $book->id,
         ]);

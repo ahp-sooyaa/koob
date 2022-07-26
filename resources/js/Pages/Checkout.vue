@@ -276,8 +276,8 @@
 								>
 								<div
 									@click="applyCoupon"
-									class="absolute bg-gray-800 px-7 py-2 right-0 rounded-2xl text-gray-100"
-									:class="code ? 'cursor-pointer' : 'opacity-50 cursor-default'"
+									class="absolute bg-gray-800 px-7 py-2 right-0 rounded-2xl"
+									:class="code ? 'cursor-pointer text-gray-100' : 'opacity-50 cursor-default text-gray-500'"
 								>
 									Apply
 								</div>
@@ -473,7 +473,7 @@ export default {
                     .post(route('orders.store'), this.customer)
                     .then((response) => {
                         this.paymentProcessing = false
-                        this.$inertia.get(route('checkout.thankyou', response.data.id))
+                        this.$inertia.get(route('checkout.thankYou', response.data.id))
                     })
                     .catch((error) => {
                         this.paymentProcessing = false

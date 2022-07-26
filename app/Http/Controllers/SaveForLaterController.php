@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart as ModelsCart;
-use App\Models\SaveForLater;
 use Illuminate\Support\Facades\Auth;
 
 class SaveForLaterController extends Controller
@@ -14,17 +12,13 @@ class SaveForLaterController extends Controller
 
         session()->put("saveforlater.{$id}", $sessionCartItem);
 
-        $dbCartItem = ModelsCart::where([
-            ['user_id', Auth::id()],
-            ['book_id', $id],
-        ])->first();
+        $dbCartItem = Auth::user()->carts()->where('book_id', $id)->first();
 
-        SaveForLater::create([
-            'user_id' => Auth::id(),
-            'book_id' => $dbCartItem['book_id'],
-            'title' => $dbCartItem['title'],
-            'quantity' => $dbCartItem['quantity'],
-            'price' => $dbCartItem['price']
+        Auth::user()->saveForLaters()->create([
+            'book_id' => $dbCartItem->book_id,
+            'title' => $dbCartItem->title,
+            'quantity' => $dbCartItem->quantity,
+            'price' => $dbCartItem->price,
         ]);
         $dbCartItem->delete();
 
@@ -37,17 +31,13 @@ class SaveForLaterController extends Controller
 
         session()->put("cart.{$id}", $sessionCartItem);
 
-        $dbCartItem = SaveForLater::where([
-            ['user_id', Auth::id()],
-            ['book_id', $id],
-        ])->first();
+        $dbCartItem = Auth::user()->saveForLaters()->where('book_id', $id)->first();
 
-        ModelsCart::create([
-            'user_id' => Auth::id(),
+        Auth::user()->carts()->create([
             'book_id' => $dbCartItem->book_id,
             'title' => $dbCartItem->title,
             'quantity' => $dbCartItem->quantity,
-            'price' => $dbCartItem->price
+            'price' => $dbCartItem->price,
         ]);
         $dbCartItem->delete();
 
