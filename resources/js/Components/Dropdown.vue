@@ -1,6 +1,9 @@
 <template>
 	<div class="relative">
-		<div @click="open = ! open">
+		<div
+			@click="open = ! open"
+			class="flex"
+		>
 			<slot name="trigger" />
 		</div>
 

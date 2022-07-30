@@ -69,7 +69,6 @@ export default {
             axios
                 .get(route('cart.index'))
                 .then((res) => {
-                    console.log(res)
                     this.calculateCartTotalQuantity(res.data.cartItems)
                 })
         },

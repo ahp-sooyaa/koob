@@ -29,7 +29,7 @@
 					clip-rule="evenodd"
 				/>
 			</svg>
-			<div>Order #{{ order.id }}</div>
+			Order #{{ order.id }}
 		</h2>
 	</AdminHeader>
 
@@ -44,25 +44,25 @@
 						<tr>
 							<th
 								scope="col"
-								class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+								class="whitespace-nowrap px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 							>
 								Item
 							</th>
 							<th
 								scope="col"
-								class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+								class="whitespace-nowrap px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
 							>
 								Qty
 							</th>
 							<th
 								scope="col"
-								class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+								class="whitespace-nowrap px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
 							>
 								Price
 							</th>
 							<th
 								scope="col"
-								class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+								class="whitespace-nowrap px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
 							>
 								SubTotal Amount
 							</th>
@@ -78,9 +78,9 @@
 							<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 								<div class="flex items-center gap-5">
 									<img
-										:src="book.cover"
-										alt="book cover image"
-										class="w-20"
+										:src="book.cover_url"
+										alt="book cover"
+										class="h-20 w-69 rounded-md"
 									>
 									{{ book.title }}
 								</div>

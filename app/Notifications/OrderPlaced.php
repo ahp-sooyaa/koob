@@ -56,7 +56,7 @@ class OrderPlaced extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => "<b>{$this->order->user->name}</b> placed order!",
+            'message' => "<b>{$this->order->user->name}</b> placed order <b>#{$this->order->id}!</b>",
             'link' => route('admin.orders.show', $this->order->id)
         ];
     }

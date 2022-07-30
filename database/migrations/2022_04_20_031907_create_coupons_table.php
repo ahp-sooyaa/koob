@@ -17,11 +17,10 @@ class CreateCouponsTable extends Migration
             $table->id();
             $table->string('code');
             $table->string('program_name');
-            $table->string('type'); // fixed price or percentage discount
-            $table->string('value'); // if coupon value is 10 & type is percentage discount, it will be 10% otherwise it may be 10ks
-            //$table->string('valid_duration'); // 30days or how long
+            $table->string('type');
+            $table->string('value');
             $table->string('quantity')->nullable();
-            $table->date('expired_at');
+            $table->timestamp('expired_at');
             $table->timestamps();
         });
     }

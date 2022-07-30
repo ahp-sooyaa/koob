@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\Book;
 use App\Models\Cart;
+use App\Models\Coupon;
 use App\Models\Order;
-use App\Models\SaveForLater;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -27,9 +27,15 @@ class DatabaseSeeder extends Seeder
             'remember_token' => Str::random(10),
             'role' => 'admin',
         ]);
-        Book::factory(10)->create();
-        Order::factory(10)->create();
+        $books = Book::factory(10)->create();
+        $orders = Order::factory(10)->create();
+
+        foreach ($orders as $order) {
+            foreach ($books as $book) {
+                $order->books()->attach($book->id, ['quantity' => rand(1, 10)]);
+            }
+        }
         Cart::factory(10)->create();
-//        SaveForLater::factory(10)->create();
+        Coupon::factory(10)->create();
     }
 }

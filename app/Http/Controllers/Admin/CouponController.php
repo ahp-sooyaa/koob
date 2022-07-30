@@ -34,7 +34,7 @@ class CouponController extends Controller
         ]);
         Coupon::create($validated);
 
-        return back()->with('message', 'Successfully created coupon');
+        return back()->with('success', 'Successfully created coupon');
     }
 
     public function edit(Coupon $coupon)

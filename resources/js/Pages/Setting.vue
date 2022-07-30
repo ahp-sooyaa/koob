@@ -1,6 +1,6 @@
 <template>
 	<Head>
-		<title>{{ $page.props.auth.user.name }} Setting</title>
+		<title>Account Setting</title>
 		<meta
 			head-key="description"
 			name="description"
@@ -29,7 +29,7 @@
 						clip-rule="evenodd"
 					/>
 				</svg>
-				<div>Setting</div>
+				Setting
 			</h2>
 		</template>
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -39,20 +39,20 @@
 			>
 				<div class="relative max-w-max mb-5">
 					<img
-						v-show="!profilePhotoPreview"
+						v-if="!profilePhotoPreview"
 						:src="$page.props.auth.user.profile_photo_url"
 						alt="avatar"
 						class="object-cover w-32 h-32 rounded-full"
 					>
 					<img
-						v-show="profilePhotoPreview"
+						v-else
 						:src="profilePhotoPreview"
 						alt="avatar"
 						class="object-cover w-32 h-32 rounded-full"
 					>
 					<input
 						ref="photo"
-						@change="changedProfilePhoto($event)"
+						@change="selectedProfilePhoto($event)"
 						type="file"
 						class="hidden"
 					>
@@ -63,11 +63,11 @@
 					>
 						Edit
 					</button>
-					<BreezeInputError
-						v-if="profileForm.errors.profile_photo"
-						:message="profileForm.errors.profile_photo"
-					/>
 				</div>
+				<BreezeInputError
+					v-if="profileForm.errors.profile_photo"
+					:message="profileForm.errors.profile_photo"
+				/>
 				<div class="py-2">
 					<div class="relative">
 						<label
@@ -223,7 +223,7 @@ export default {
                 password_confirmation: ''
             }),
             profilePhotoPreview: '',
-            profilePhotoName: ''
+            profilePhotoName: '',
         }
     },
 
@@ -239,7 +239,7 @@ export default {
             })
         },
 
-        changedProfilePhoto(e) {
+        selectedProfilePhoto(e) {
             this.profileForm.profile_photo = e.target.files[0]
             this.profilePhotoName = this.$refs.photo.files[0].name
             const reader = new FileReader()

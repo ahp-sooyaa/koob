@@ -29,7 +29,7 @@
 					clip-rule="evenodd"
 				/>
 			</svg>
-			<div>Edit Order #{{ order.id }}</div>
+			Edit Order #{{ order.id }}
 		</h2>
 	</AdminHeader>
 
@@ -133,11 +133,11 @@
 
 		<div class="mt-4">
 			<BreezeLabel
-				for="order placed at"
+				for="created_at"
 				value="order placed at"
 			/>
 			<BreezeInput
-				id="order placed at"
+				id="created_at"
 				v-model="form.created_at"
 				type="text"
 				class="mt-1 block w-full"
@@ -164,6 +164,7 @@ import BreezeButton from '@/Components/Button'
 import BreezeInput from '@/Components/Input'
 import BreezeLabel from '@/Components/Label'
 import BreezeValidationErrors from '@/Components/ValidationErrors'
+import flatpickr from 'flatpickr'
 
 export default {
     components: {
@@ -187,19 +188,22 @@ export default {
                 status: this.order.status,
                 created_at: this.order.created_at,
             }),
+            flatpickrConfig: {
+                enableSeconds: true,
+                enableTime: true,
+                altInput: true,
+                dateFormat: 'Y-m-d H:i:S',
+                altFormat: 'F j, Y h:i:s K',
+                minDate: 'today',
+            },
         }
     },
 
+    mounted() {
+        flatpickr('#created_at', this.flatpickrConfig)
+    },
+
     methods: {
-        selectedImage(e) {
-            this.form.cover = e.target.files[0]
-            console.log(e.target.files[0])
-            // let reader = new FileReader()
-            // reader.readAsDataURL(this.featured_image)
-            // reader.onload = (e) => {
-            //     this.previewImage = e.target.result
-            // }
-        },
         submit() {
             this.form.patch(route('admin.orders.update', this.order.id), {
                 onSuccess: () => window.flash('Successfully Updated')

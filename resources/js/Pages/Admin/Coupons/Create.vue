@@ -18,7 +18,7 @@
 
 	<form
 		@submit.prevent="submit"
-		class="w-1/2 mx-auto px-5 pt-10"
+		class="w-1/2 px-5 pt-10"
 	>
 		<div>
 			<BreezeLabel
@@ -57,33 +57,6 @@
 		</div>
 
 		<div class="mt-4">
-			<div>Choose Coupon Type</div>
-
-			<label
-				for="percentage"
-				class="mr-1.5"
-			>Percentage</label>
-			<input
-				id="percentage"
-				v-model="form.type"
-				type="radio"
-				value="Percentage"
-				class="mr-3"
-			>
-
-			<label
-				for="fixed"
-				class="mr-1.5"
-			>Fixed</label>
-			<input
-				id="fixed"
-				v-model="form.type"
-				type="radio"
-				value="Fixed"
-			>
-		</div>
-
-		<div class="mt-4">
 			<BreezeLabel
 				for="value"
 				value="value"
@@ -114,7 +87,7 @@
 		<div class="mt-4">
 			<BreezeLabel
 				for="expired_at"
-				value="expired_at"
+				value="expire date"
 			/>
 			<BreezeInput
 				id="expired_at"
@@ -123,6 +96,35 @@
 				class="mt-1 block w-full"
 				autocomplete="expired_at"
 			/>
+		</div>
+
+		<div class="mt-4">
+			<BreezeLabel
+				value="coupon type"
+			/>
+
+			<label
+				for="percentage"
+				class="font-medium text-sm text-gray-700 mr-1.5"
+			>Percentage</label>
+			<input
+				id="percentage"
+				v-model="form.type"
+				type="radio"
+				value="Percentage"
+				class="mr-3"
+			>
+
+			<label
+				for="fixed"
+				class="font-medium text-sm text-gray-700 mr-1.5"
+			>Fix</label>
+			<input
+				id="fixed"
+				v-model="form.type"
+				type="radio"
+				value="Fixed"
+			>
 		</div>
 
 		<div class="flex items-center justify-start mt-4">
@@ -143,6 +145,8 @@ import BreezeButton from '@/Components/Button'
 import BreezeInput from '@/Components/Input'
 import BreezeLabel from '@/Components/Label'
 import BreezeValidationErrors from '@/Components/ValidationErrors'
+import flatpickr from 'flatpickr'
+import 'flatpickr/dist/flatpickr.css'
 
 export default {
     components: {
@@ -160,19 +164,35 @@ export default {
             form: this.$inertia.form({
                 code: '',
                 program_name: '',
-                type: '',
+                type: 'Percentage',
                 // appliable_on: '',
                 value: '',
                 quantity: '',
                 expired_at: '',
-            })
+            }),
+            expireDatePicker: '',
+            flatpickrConfig: {
+                enableSeconds: true,
+                enableTime: true,
+                altInput: true,
+                dateFormat: 'Y-m-d H:i:S',
+                altFormat: 'F j, Y h:i K',
+                minDate: 'today',
+            },
         }
+    },
+
+    mounted() {
+        this.expireDatePicker = flatpickr('#expired_at', this.flatpickrConfig)
     },
 
     methods: {
         submit() {
             this.form.post(route('admin.coupons.store'), {
-                onSuccess: () => this.form.reset()
+                onSuccess: () => {
+                    this.form.reset()
+                    this.expireDatePicker.clear()
+                }
             })
         },
 

@@ -38,17 +38,17 @@
 							Amount
 						</th>
 						<!-- <th
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Type
-                </th>
-                <th
-                  scope="col"
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Value
-                </th> -->
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Type
+                        </th>
+                        <th
+                          scope="col"
+                          class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        >
+                          Value
+                        </th> -->
 						<th
 							scope="col"
 							class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -92,14 +92,14 @@
 							{{ coupon.program_name }}
 						</td>
 						<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-right">
-							{{ coupon.type == 'Percentage' ? `${coupon.value}%` : formatPrice(coupon.value) }}
+							{{ coupon.type === 'Percentage' ? `${coupon.value}%` : formatPrice(coupon.value) }}
 						</td>
 						<!-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{ coupon.type }}
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {{ coupon.value }}
-                </td> -->
+                          {{ coupon.type }}
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {{ coupon.value }}
+                        </td> -->
 						<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
 							{{ coupon.quantity ?? 'Unlimited' }}
 						</td>
@@ -107,7 +107,7 @@
 							Coming soon
 						</td>
 						<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-							{{ coupon.expired_at }}
+							{{ formatDate(coupon.expired_at) }}
 						</td>
 						<td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
 							<Link

@@ -18,7 +18,7 @@ class Order extends Model
 
     public function books()
     {
-        return $this->belongsToMany(Book::class)->withPivot('quantity');
+        return $this->belongsToMany(Book::class)->withPivot('quantity')->withTimestamps();
     }
 
     public function user()

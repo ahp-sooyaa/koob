@@ -18,12 +18,13 @@
 
 	<form
 		@submit.prevent="submit"
-		class="px-5 pt-10"
+		class="px-5 pt-10 w-1/2"
 	>
 		<select
 			id="category_id"
 			v-model="form.category_id"
 			name="category_id"
+			class="rounded-2xl text-sm"
 		>
 			<option
 				disabled
@@ -40,15 +41,64 @@
 				{{ category.name }}
 			</option>
 		</select>
-		<div>
+		<div class="mt-4">
 			<BreezeLabel
 				for="cover_photo"
 				value="cover"
+				class="mb-1"
 			/>
 			<input
-				@input="form.cover_photo = $event.target.files[0]"
+				ref="coverPhoto"
+				@change="selectedCoverPhoto($event)"
 				type="file"
+				class="hidden"
 			>
+			<button
+				v-if="!coverPhotoPreview"
+				@click="$refs.coverPhoto.click()"
+				type="button"
+				class="bg-gray-200 border border-dashed border-gray-500 rounded-lg h-64 w-52 grid place-content-center text-gray-500 hover:text-gray-700 cursor-pointer hover:border-gray-700"
+			>
+				<svg
+					xmlns="http://www.w3.org/2000/svg"
+					class="h-10 w-10"
+					viewBox="0 0 20 20"
+					fill="currentColor"
+				>
+					<path
+						fill-rule="evenodd"
+						d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+						clip-rule="evenodd"
+					/>
+				</svg>
+			</button>
+			<div
+				v-else
+				@mouseenter="showCoverPhotoEdit = true"
+				@mouseleave="showCoverPhotoEdit = false"
+				class="h-64 w-52 relative"
+			>
+				<img
+					:src="coverPhotoPreview"
+					alt="cover photo"
+					class="object-cover rounded-lg border shadow w-full h-full"
+				>
+				<button
+					v-show="showCoverPhotoEdit"
+					@click="$refs.coverPhoto.click()"
+					type="button"
+					class="absolute backdrop-blur bg-black bg-opacity-20 border border-dashed border-gray-900 cursor-pointer grid h-full place-content-center rounded-lg text-gray-900 top-0 w-full"
+				>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						class="h-10 w-10"
+						viewBox="0 0 20 20"
+						fill="currentColor"
+					>
+						<path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
+					</svg>
+				</button>
+			</div>
 		</div>
 		<progress
 			v-if="form.progress"
@@ -170,22 +220,26 @@ export default {
                 price: '',
                 category_id: '',
                 stock_count: '',
-            })
+            }),
+            coverPhotoPreview: '',
+            coverPhotoName: '',
+            showCoverPhotoEdit: false,
         }
     },
 
     methods: {
-        selectedImage(e) {
-            this.form.cover = e.target.files[0]
-            console.log(e.target.files[0])
-            // let reader = new FileReader()
-            // reader.readAsDataURL(this.featured_image)
-            // reader.onload = (e) => {
-            //     this.previewImage = e.target.result
-            // }
-        },
         submit() {
             this.form.post(route('admin.books.store'))
+        },
+
+        selectedCoverPhoto(e) {
+            this.form.cover_photo = e.target.files[0]
+            this.coverPhotoName = this.$refs.coverPhoto.files[0].name
+            const reader = new FileReader()
+            reader.onload = (e) => {
+                this.coverPhotoPreview = e.target.result
+            }
+            reader.readAsDataURL(this.$refs.coverPhoto.files[0])
         }
     }
 }

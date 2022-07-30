@@ -143,6 +143,8 @@ import BreezeButton from '@/Components/Button'
 import BreezeInput from '@/Components/Input'
 import BreezeLabel from '@/Components/Label'
 import BreezeValidationErrors from '@/Components/ValidationErrors'
+import flatpickr from 'flatpickr'
+import 'flatpickr/dist/flatpickr.css'
 
 export default {
     components: {
@@ -166,8 +168,20 @@ export default {
                 value: this.coupon.value,
                 quantity: this.coupon.quantity,
                 expired_at: this.coupon.expired_at,
-            })
+            }),
+            flatpickrConfig: {
+                enableSeconds: true,
+                enableTime: true,
+                altInput: true,
+                dateFormat: 'Y-m-d H:i:S',
+                altFormat: 'F j, Y h:i:s K',
+                minDate: 'today',
+            },
         }
+    },
+
+    mounted() {
+        flatpickr('#expired_at', this.flatpickrConfig)
     },
 
     methods: {

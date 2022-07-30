@@ -16,7 +16,7 @@
 					class="text-gray-500 hover:text-gray-900"
 				>
 					Order History
-				</Link> 
+				</Link>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					class="h-6 w-6 text-gray-400"
@@ -29,7 +29,7 @@
 						clip-rule="evenodd"
 					/>
 				</svg>
-				<div>Order Details</div>
+				Order Details
 			</h2>
 		</template>
 
@@ -38,7 +38,7 @@
 				<h1 class="text-2xl font-semibold mb-5">
 					Order #{{ order.id }}
 				</h1>
-				<span>{{ order.status == 0 ? 'Shipping' : 'Delivered on ' + formatDate(order.updated_at) }}</span>
+				<span>{{ order.status === 0 ? 'Shipping' : 'Delivered on ' + formatDate(order.updated_at) }}</span>
 			</div>
 			<div
 				v-for="book in order.books"
@@ -47,7 +47,7 @@
 			>
 				<div class="flex flex-col lg:flex-row space-y-5 my-8">
 					<img
-						:src="book.cover"
+						:src="book.cover_url"
 						alt="book cover"
 						class="mr-5 w-52 lg:w-32"
 					>
@@ -101,7 +101,7 @@
 					<div class="flex justify-between">
 						<div class="text-gray-700">
 							Subtotal
-						</div> 
+						</div>
 						<div class="font-semibold">
 							{{ formatPrice(order.total) }}
 						</div>
@@ -109,7 +109,7 @@
 					<div class="flex justify-between">
 						<div class="text-gray-700">
 							Delivery Fee
-						</div> 
+						</div>
 						<div class="font-semibold">
 							Free
 						</div>
@@ -117,7 +117,7 @@
 					<div class="flex justify-between">
 						<div class="text-gray-700">
 							Total
-						</div> 
+						</div>
 						<div class="font-semibold">
 							{{ formatPrice(order.total) }}
 						</div>

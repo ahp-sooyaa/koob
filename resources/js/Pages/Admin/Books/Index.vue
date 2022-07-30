@@ -75,6 +75,7 @@
 										class="h-20 w-69 rounded-md"
 										alt="book cover"
 										:src="book.cover_url"
+										loading="lazy"
 									>
 								</div>
 							</div>

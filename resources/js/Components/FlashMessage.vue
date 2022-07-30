@@ -2,11 +2,10 @@
 	<div>
 		<Transition name="slide-fade">
 			<div
-				v-if="success && show"
-				class="bg-white border fixed right-5 rounded-lg shadow space-x-2 top-5 z-50"
+				v-if="(success || $page.props.flash.success) && show"
+				class="bg-white border fixed right-5 rounded-lg shadow space-x-2 bottom-5 z-50"
 			>
 				<div
-
 					class="flex items-center mr-4"
 				>
 					<svg
@@ -17,15 +16,20 @@
 						<polygon points="0 11 2 9 7 14 18 3 20 5 7 18" />
 					</svg>
 					<div class="py-3 text-gray-700 text-sm font-medium">
-						{{ success }}
+						<span v-if="$page.props.flash.success">
+							{{ $page.props.flash.success }}
+						</span>
+						<span v-else>
+							{{ success }}
+						</span>
 					</div>
 				</div>
 			</div>
 		</Transition>
 		<Transition name="slide-fade">
 			<div
-				v-if="(error || Object.keys($page.props.errors).length > 0) && show"
-				class="bg-white border fixed right-5 rounded-lg shadow space-x-2 top-5 z-50"
+				v-if="(error || $page.props.flash.error || Object.keys($page.props.errors).length > 0) && show"
+				class="bg-white border fixed right-5 rounded-lg shadow space-x-2 bottom-5 z-50"
 			>
 				<div class="flex items-center mr-4">
 					<svg
@@ -43,19 +47,14 @@
 						/>
 					</svg>
 					<div
-						v-if="error"
 						class="py-3 text-gray-700 text-sm font-medium"
 					>
-						{{ error }}
-					</div>
-					<div
-						v-else
-						class="py-3 text-gray-700 text-sm font-medium"
-					>
-						<span v-if="Object.keys($page.props.errors).length === 1">
-							There is one form error.
+						<span v-if="$page.props.flash.error">
+							{{ $page.props.flash.error }}
 						</span>
-						<span v-else>There are {{ Object.keys($page.props.errors).length }} form errors.</span>
+						<span v-else>
+							{{ error }}
+						</span>
 					</div>
 				</div>
 			</div>
@@ -67,7 +66,7 @@
 export default {
     data(){
         return {
-            show: false,
+            show: true,
             success: '',
             error: '',
             timeOut: '',
@@ -77,11 +76,11 @@ export default {
     watch: {
         '$page.props.flash': {
             handler() {
-                this.success = this.$page.props.flash.success
-                this.error = this.$page.props.flash.error
-
                 this.show = true
-                this.hide()
+
+                if (this.$page.props.flash.success || this.$page.props.flash.error) {
+                    this.hide()
+                }
             },
             deep: true
         },
@@ -102,6 +101,7 @@ export default {
             }
 
             this.show = true
+
             this.hide()
         },
 
@@ -111,6 +111,8 @@ export default {
             }
 
             this.timeOut = setTimeout(() => {
+                this.success = ''
+                this.error = ''
                 this.show = false
             }, 3000)
         }

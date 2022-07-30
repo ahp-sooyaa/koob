@@ -22,12 +22,12 @@
 							<!-- Navigation Links -->
 							<div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
 								<!-- <BreezeNavLink
-                  v-if="$page.props.auth.user"
-                  :href="route('dashboard')"
-                  :active="route().current('dashboard')"
-                >
-                  Dashboard
-                </BreezeNavLink> -->
+                                  v-if="$page.props.auth.user"
+                                  :href="route('dashboard')"
+                                  :active="route().current('dashboard')"
+                                >
+                                  Dashboard
+                                </BreezeNavLink> -->
 								<BreezeNavLink
 									:href="route('books.index')"
 									:active="route().current('books.index')"
@@ -53,12 +53,16 @@
 										<span class="inline-flex rounded-md">
 											<button
 												type="button"
-												class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+												class="inline-flex items-center px-3 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
 											>
-												{{ $page.props.auth.user.name }}
+												<img
+													:src="$page.props.auth.user.profile_photo_url"
+													:alt="$page.props.auth.user.name + '\'s avatar'"
+													class="h-8 w-8"
+												>
 
 												<svg
-													class="ml-2 -mr-0.5 h-4 w-4"
+													class="ml-0.5 -mr-0.5 h-4 w-4"
 													xmlns="http://www.w3.org/2000/svg"
 													viewBox="0 0 20 20"
 													fill="currentColor"
@@ -200,20 +204,20 @@
 				>
 					<div class="pt-2 pb-3 space-y-1">
 						<!-- currently comment out this link, instead of dashboard profile page will be used -->
-						<!-- <BreezeResponsiveNavLink
-              v-if="$page.props.auth.user"
-              :href="route('dashboard')"
-              :active="route().current('dashboard')"
-            >
-              Dashboard
-            </BreezeResponsiveNavLink> -->
+						<!--<BreezeResponsiveNavLink
+							v-if="$page.props.auth.user"
+							:href="route('dashboard')"
+							:active="route().current('dashboard')"
+						>
+							Dashboard
+						</BreezeResponsiveNavLink>-->
 						<BreezeResponsiveNavLink
 							:href="route('books.index')"
 							:active="route().current('books.index')"
 						>
 							Shop
 						</BreezeResponsiveNavLink>
-						<!--						<CartLink :responsive="true" />-->
+						<!--<CartLink :responsive="true" />-->
 					</div>
 
 					<!-- Responsive Settings Options -->
