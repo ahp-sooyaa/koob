@@ -10,7 +10,7 @@
                         hover:text-gray-700 focus:outline-none transition ease-in-out
                         duration-150"
 					>
-						Sort by {{ labels[sort] }}
+						Sort by {{ sortedLabel }}
 						<svg
 							class="ml-2 -mr-0.5 h-4 w-4"
 							xmlns="http://www.w3.org/2000/svg"
@@ -71,13 +71,18 @@ export default {
     data() {
         return {
             sort: this.sorting,
-            labels: {
+        }
+    },
+
+    computed: {
+        sortedLabel() {
+            return {
                 'price,asc': 'Price (Low to High)',
                 'price,desc': 'Price (High to Low)',
                 'created_at,asc': 'Newest Books',
                 'created_at,desc': 'Oldest Books',
-            },
-        }
+            }[this.sort.toString()]
+        },
     },
 
     watch: {

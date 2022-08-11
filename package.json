@@ -36,6 +36,7 @@
     "dependencies": {
         "@tailwindcss/line-clamp": "^0.2.2",
         "@vue-stripe/vue-stripe": "^4.2.5",
+        "chart.js": "^3.9.1",
         "flatpickr": "^4.6.13",
         "moment": "^2.29.1",
         "tiny-emitter": "^2.1.0"
