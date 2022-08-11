@@ -132,17 +132,17 @@
 			</Link>
 		</div>
 
-		<couponslist />
+		<couponsList />
 	</BreezeNavBarLayout>
 </template>
 
 <script>
 import BreezeNavBarLayout from '@/Layouts/NavBar'
-import couponslist from '@/Components/CouponsList'
+import couponsList from '@/Components/CouponsList'
 import format from '@/mixins/format'
 
 export default {
-    components: {couponslist, BreezeNavBarLayout},
+    components: {couponsList, BreezeNavBarLayout},
 
     mixins: [format],
 

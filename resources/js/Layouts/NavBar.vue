@@ -107,13 +107,41 @@
 												:href="route('profile.show', $page.props.auth.user.name)"
 												as="button"
 											>
-												My Profile
+												<div class="flex items-center gap-x-2">
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														class="h-5 w-5"
+														viewBox="0 0 20 20"
+														fill="currentColor"
+													>
+														<path
+															fill-rule="evenodd"
+															d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+															clip-rule="evenodd"
+														/>
+													</svg>
+													My Profile
+												</div>
 											</BreezeDropdownLink>
 											<BreezeDropdownLink
 												:href="route('orders.index')"
 												as="button"
 											>
-												My Orders
+												<div class="flex items-center gap-x-2">
+													<svg
+														xmlns="http://www.w3.org/2000/svg"
+														class="h-5 w-5"
+														viewBox="0 0 20 20"
+														fill="currentColor"
+													>
+														<path
+															fill-rule="evenodd"
+															d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+															clip-rule="evenodd"
+														/>
+													</svg>
+													My Orders
+												</div>
 											</BreezeDropdownLink>
 										</div>
 										<BreezeDropdownLink
@@ -121,10 +149,10 @@
 											method="post"
 											as="button"
 										>
-											<div class="flex items-center gap-2">
+											<div class="flex items-center gap-x-1.5 pl-0.5">
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
-													class="h-6 w-6"
+													class="h-5 w-5"
 													fill="none"
 													viewBox="0 0 24 24"
 													stroke="currentColor"
@@ -237,13 +265,41 @@
 							:href="route('profile.show', $page.props.auth.user.name)"
 							:active="route().current('profile.show', $page.props.auth.user.name)"
 						>
-							Profile
+							<div class="flex items-center gap-x-2">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-5 w-5"
+									viewBox="0 0 20 20"
+									fill="currentColor"
+								>
+									<path
+										fill-rule="evenodd"
+										d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+										clip-rule="evenodd"
+									/>
+								</svg>
+								My Profile
+							</div>
 						</BreezeResponsiveNavLink>
 						<BreezeResponsiveNavLink
 							:href="route('orders.index')"
 							:active="route().current('orders.index')"
 						>
-							Orders
+							<div class="flex items-center gap-x-2">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-5 w-5"
+									viewBox="0 0 20 20"
+									fill="currentColor"
+								>
+									<path
+										fill-rule="evenodd"
+										d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
+										clip-rule="evenodd"
+									/>
+								</svg>
+								My Orders
+							</div>
 						</BreezeResponsiveNavLink>
 
 						<div class="mt-3 space-y-1">

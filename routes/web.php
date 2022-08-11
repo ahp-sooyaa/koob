@@ -11,6 +11,8 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SaveForLaterController;
 use App\Http\Controllers\SearchController;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -59,6 +61,23 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 });
 
 Route::get('thank-you/{order}', [CheckoutController::class, 'thankYou'])->name('checkout.thankYou');
+
+
+Route::get('login-as-admin', function (){
+    abort_if(config('app.env') !== 'local',405);
+
+    Auth::loginUsingId(1);
+
+    return redirect()->route('admin.dashboard');
+})->name('loginAsAdmin');
+
+Route::get('login-as-user', function (){
+    abort_if(config('app.env') !== 'local',405);
+
+    Auth::loginUsingId(2);
+
+    return redirect()->route('profile.show', User::find(2)->name);
+})->name('loginAsUser');
 
 Route::get('mailable', function () {
     $order = App\Models\Order::find(1);

@@ -38,18 +38,23 @@
 				<h1 class="text-2xl font-semibold mb-5">
 					Order #{{ order.id }}
 				</h1>
-				<span>{{ order.status === 0 ? 'Shipping' : 'Delivered on ' + formatDate(order.updated_at) }}</span>
+				<span
+					class="px-1.5 rounded text-sm"
+					:class="order.status === 0 ? 'bg-yellow-500 text-yellow-50' : 'bg-green-500 text-green-50'"
+				>
+					{{ order.status === 0 ? 'Shipping' : 'Delivered on ' + formatDate(order.updated_at) }}
+				</span>
 			</div>
 			<div
 				v-for="book in order.books"
 				:key="book.id"
 				class="w-full"
 			>
-				<div class="flex flex-col lg:flex-row space-y-5 my-8">
+				<div class="flex flex-col lg:flex-row space-y-5 lg:space-y-0 my-8">
 					<img
 						:src="book.cover_url"
 						alt="book cover"
-						class="mr-5 w-52 lg:w-32"
+						class="mr-5 w-24 h-32 lg:w-28 lg:h-36"
 					>
 					<div class="flex flex-col">
 						<div class="flex-1">
@@ -60,19 +65,27 @@
 								{{ book.excerpt }}
 							</p>
 						</div>
-						<div class="flex w-full divide-x">
-							<div class="mr-3">
-								<span class="text-gray-600">Quantity</span> <span class="font-bold">{{ book.pivot.quantity }}</span>
-							</div>
-							<div class="pl-3">
-								<span class="text-gray-600">Price</span> <span class="font-bold">{{ formatPrice(book.price) }}</span>
-							</div>
+						<div class="flex items-center mt-5">
+							{{ formatPrice(book.price) }}
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="h-3 w-3 text-gray-400"
+								viewBox="0 0 20 20"
+								fill="currentColor"
+							>
+								<path
+									fill-rule="evenodd"
+									d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+									clip-rule="evenodd"
+								/>
+							</svg>
+							{{ book.pivot.quantity }}
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="w-full">
-				<div class="flex w-full lg:w-2/3 ml-auto my-8">
+				<div class="flex space-x-3 w-full lg:w-2/3 ml-auto my-8">
 					<div class="flex-1">
 						<div class="font-semibold mb-2">
 							Shipping address

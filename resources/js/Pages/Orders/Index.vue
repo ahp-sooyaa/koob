@@ -17,7 +17,7 @@
 
 		<!-- orders list -->
 		<div
-			class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-16"
+			class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-16"
 		>
 			<div v-if="ordersCount">
 				<search-box :search-query="search" />
@@ -29,72 +29,95 @@
 						:key="order.id"
 						class="space-y-5"
 					>
-						<div class="flex lg:items-baseline justify-between mb-5 pt-10">
+						<div class="flex flex-col lg:flex-row lg:items-baseline justify-between mb-5 pt-8 space-y-3 lg:space-y-0">
 							<div class="flex flex-col lg:flex-row items-baseline lg:space-x-3">
-								<h1 class="text-2xl">
+								<h1 class="font-semibold text-md lg:text-2xl">
 									Order #{{ order.id }}
 								</h1>
-								<span>Order placed on {{ formatDate(order.created_at) }}</span>
+								<div class="text-sm text-gray-500">
+									Order placed {{ formatDate(order.created_at) }}
+								</div>
 							</div>
-							<Link
-								:href="route('orders.show', order.id)"
-								class="hover:underline"
-							>
-								Order Detail
-							</Link>
-						</div>
-						<Link
-							v-for="(book) in order.books"
-							:key="book.id"
-							:href="route('books.show', book.id)"
-							class="-m-5 flex hover:bg-white hover:shadow items-start justify-between px-5 py-3 rounded-md space-x-5 group"
-						>
-							<div class="flex space-x-5">
-								<img
-									:src="book.cover_url"
-									alt="book cover"
-									class="w-28 h-36"
+							<div class="flex items-end divide-x divide-gray-400 space-x-5 text-sm text-gray-800">
+								<Link
+									:href="route('orders.show', order.id)"
+									class="hover:underline"
 								>
-								<div>
-									<div
-										class="group-hover:underline"
-										v-text="book.title"
-									/>
-									<!-- <div
-                  class=""
-                  v-text="book.pivot.quantity"
-                /> -->
-									<div
-										class="font-semibold"
-										v-text="formatPrice(book.price)"
-									/>
-
-									<!-- mobile buy again & shop similar button -->
-									<div class="block lg:hidden flex-shrink-0 space-y-3 mt-5">
-										<div
-											@click="buyAgain(book.id)"
-											class="bg-blue-500 border-0 capitalize cursor-pointer flex focus:outline-none hover:bg-blue-400 justify-center px-6 py-2 rounded text-sm text-white"
+									Order Detail
+								</Link>
+								<Link
+									:href="route('orders.show', order.id)"
+									class="hover:underline pl-5"
+								>
+									Order Again
+								</Link>
+							</div>
+						</div>
+						<div class="bg-white bg-opacity-80 shadow rounded-lg p-7 divide-y">
+							<div
+								v-for="(book, index) in order.books"
+								:key="book.id"
+								class="flex items-start justify-between space-x-5"
+								:class="index !== 0 ? 'mt-3 pt-3' : ''"
+							>
+								<div class="flex space-x-5">
+									<Link
+										:href="route('books.show', book.slug)"
+										class="flex-none"
+									>
+										<img
+											:src="book.cover_url"
+											alt="book cover"
+											class="w-24 h-32 lg:w-28 lg:h-36"
 										>
-											buy again
-										</div>
-										<div class="border capitalize cursor-pointer flex focus:outline-none hover:border-gray-700 justify-center px-6 py-2 rounded text-sm">
-											shop similar
+									</Link>
+									<div>
+										<Link
+											:href="route('books.show', book.slug)"
+											class="hover:underline"
+										>
+											{{ book.title }}
+										</Link>
+										<div
+											class="font-semibold"
+											v-text="formatPrice(book.price)"
+										/>
+
+										<!-- mobile buy again & shop similar button -->
+										<div class="block lg:hidden flex-shrink-0 space-y-3 mt-5">
+											<BreezeButton
+												@click="buyAgain(book.id)"
+												type="button"
+												class="w-full"
+											>
+												Buy again
+											</BreezeButton>
+											<BreezeButtonOutline
+												@click="addToCart(book.id)"
+												type="button"
+												class="w-full"
+											>
+												Add to Cart
+											</BreezeButtonOutline>
 										</div>
 									</div>
 								</div>
-							</div>
-							<div class="hidden lg:block flex-shrink-0 space-y-3">
-								<div
-									@click="buyAgain(book.id)"
-									class="bg-blue-500 border-0 capitalize cursor-pointer flex focus:outline-none hover:bg-blue-400 justify-center px-6 py-2 rounded text-sm text-white"
-								>
-									buy again
+								<div class="hidden lg:flex flex-col flex-shrink-0 space-y-3">
+									<BreezeButton
+										@click="buyAgain(book.id)"
+										type="button"
+									>
+										Buy again
+									</BreezeButton>
+									<BreezeButtonOutline
+										@click="addToCart(book.id)"
+										type="button"
+									>
+										Add to Cart
+									</BreezeButtonOutline>
 								</div>
-								<div class="border capitalize cursor-pointer flex focus:outline-none hover:border-gray-700 justify-center px-6 py-2 rounded text-sm">
-									shop similar
-								</div>
 							</div>
-						</Link>
+						</div>
 					</div>
 				</div>
 				<paginator
@@ -143,10 +166,14 @@ import BreezeNavBarLayout from '@/Layouts/NavBar'
 import SearchBox from '@/Components/SearchBox'
 import Paginator from '@/Components/Paginator'
 import format from '@/mixins/format'
+import BreezeButton from '@/Components/Button'
+import BreezeButtonOutline from '@/Components/ButtonOutline'
 
 export default {
     components: {
         BreezeNavBarLayout,
+        BreezeButton,
+        BreezeButtonOutline,
         SearchBox,
         Paginator
     },
@@ -162,14 +189,19 @@ export default {
     },
 
     methods: {
-        buyAgain(id) {
-            axios.post(route('cart.store', id))
-                .then(() => {
+        addToCart(id) {
+            axios
+                .post(route('cart.store', id))
+                .then((res) => {
                     window.events.emit('cartQtyUpdated')
-                    this.$inertia.visit('/checkout')
+                    window.flash(res.data.message)
                 })
                 .catch(err => flash(err.response.data.message, 'error'))
-        }
+        },
+
+        buyAgain(id) {
+            this.$inertia.post(route('buyNow.store', id))
+        },
     }
 }
 </script>
