@@ -28,7 +28,7 @@
 		</Transition>
 		<Transition name="slide-fade">
 			<div
-				v-if="(error || $page.props.flash.error || Object.keys($page.props.errors).length > 0) && show"
+				v-if="(error || $page.props.flash.error) && show"
 				class="bg-white border fixed right-5 rounded-lg shadow space-x-2 bottom-5 z-50"
 			>
 				<div class="flex items-center mr-4">
@@ -79,6 +79,7 @@ export default {
                 this.show = true
 
                 if (this.$page.props.flash.success || this.$page.props.flash.error) {
+                    console.log('going to hide')
                     this.hide()
                 }
             },
@@ -113,7 +114,10 @@ export default {
             this.timeOut = setTimeout(() => {
                 this.success = ''
                 this.error = ''
+                this.$page.props.flash.success = ''
+                this.$page.props.flash.error = ''
                 this.show = false
+                console.log('hided')
             }, 3000)
         }
     },

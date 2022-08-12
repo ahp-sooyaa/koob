@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Notifications\VerifyEmailQueued;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -79,5 +80,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->profile_photo_path
             ? Storage::url($this->profile_photo_path)
             : "https://ui-avatars.com/api/?name=$this->name&background=0D8ABC&color=fff&rounded=true&size=128";
+    }
+
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmailQueued);
     }
 }

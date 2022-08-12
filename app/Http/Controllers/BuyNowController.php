@@ -41,7 +41,6 @@ class BuyNowController extends Controller
     {
         $buyNow->remove($book);
 
-        // flash message doesn't work with redirect to some route, only redirect back is working!
         return Redirect::route('books.index')->with('success', 'Successfully removed buy now book.');
     }
 }
