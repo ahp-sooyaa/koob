@@ -8,7 +8,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class OrderPlaced extends Notification implements ShouldQueue
+class CustomerOrderPlaced extends Notification implements ShouldQueue
 {
     use Queueable;
 
@@ -32,7 +32,7 @@ class OrderPlaced extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['mail', 'database'];
+        return ['mail'];
     }
 
     /**
@@ -44,10 +44,10 @@ class OrderPlaced extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject("New Order #1 Received")
-            ->markdown('emails.orders.placed', [
+            ->subject('Thanks for Your Order.')
+            ->markdown('emails.customer-orders.placed', [
                 'order' => $this->order,
-                'orderUrl' => route('orders.show', 1),
+                'orderUrl' => route('orders.show', $this->order->id),
             ]);
     }
 
@@ -60,8 +60,7 @@ class OrderPlaced extends Notification implements ShouldQueue
     public function toArray($notifiable)
     {
         return [
-            'message' => "<b>{$this->order->user->name}</b> placed order <b>#{$this->order->id}!</b>",
-            'link' => route('admin.orders.show', $this->order->id)
+            //
         ];
     }
 }

@@ -38,7 +38,7 @@
 
 			<template #content>
 				<div class="px-5 py-4">
-					<div class="flex justify-between items-baseline">
+					<div class="flex justify-between items-baseline pb-3">
 						<h1>Notifications</h1>
 						<Link
 							:href="route('admin.notifications.index')"
@@ -47,15 +47,19 @@
 							See all
 						</Link>
 					</div>
-					<div v-if="$page.props.unreadNotifications.length">
+					<div
+						v-if="$page.props.unreadNotifications.length"
+						class="max-h-96 overflow-y-auto"
+					>
 						<div
-							v-for="unreadNotification in $page.props.unreadNotifications"
+							v-for="(unreadNotification, index) in $page.props.unreadNotifications"
 							:key="unreadNotification"
 						>
 							<BreezeDropdownLink
 								:href="route('admin.notifications.show', unreadNotification.id)"
 								as="button"
-								class="rounded mt-3"
+								class="rounded"
+								:class="index === 0 ? '' : 'mt-3'"
 							>
 								<span
 									v-html="unreadNotification.data.message"
@@ -69,6 +73,7 @@
 					>
 						No unread notifications
 					</div>
+					<!--					<div class="absolute bg-gradient-to-b bottom-0 from-transparent h-24 inset-x-0 rounded-b-md to-white via-transparent w-full" />-->
 				</div>
 			</template>
 		</BreezeDropdown>

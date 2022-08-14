@@ -16,30 +16,33 @@ class DashboardController extends Controller
             ->whereYear('created_at', date('Y'))
             ->get()
             ->groupBy(fn($item) => $item->created_at->format('m'))
-            ->sortBy(fn($item, $key) => $key)
+            ->sortKeys()
             ->mapWithKeys(fn($item, $key) => [(int)$key => $item->count()]);
 
         $monthlyOrders = Order::query()
             ->whereYear('created_at', date('Y'))
             ->get()
             ->groupBy(fn($item) => $item->created_at->format('m'))
-            ->sortBy(fn($item, $key) => $key)
+            ->sortKeys()
             ->mapWithKeys(fn ($item, $key) => [
                 (int)$key => [
                     'Orders' => $item->count(),
-                    'Amount' => $item->sum(fn($item) => $item->total),
+                    'Amount' => $item->sum->total,
                 ]
             ]);
 
         foreach (range(1, 12) as $month) {
             if ($monthlyOrders->has($month)) {
-                $userDataSets[$month - 1] = $monthlyUsers[$month];
                 $orderDataSets[$month - 1] = $monthlyOrders[$month]['Orders'];
                 $saleDataSets[$month - 1] = $monthlyOrders[$month]['Amount'];
             } else {
+                $saleDataSets[$month - 1] = $orderDataSets[$month - 1] = $month > (int)date('m') ? null : 0;
+            }
+
+            if ($monthlyUsers->has($month)) {
+                $userDataSets[$month - 1] = $monthlyUsers[$month];
+            } else {
                 $userDataSets[$month - 1] = $month > (int)date('m') ? null : 0;
-                $orderDataSets[$month - 1] = $month > (int)date('m') ? null : 0;
-                $saleDataSets[$month - 1] = $month > (int)date('m') ? null : 0;
             }
         }
 

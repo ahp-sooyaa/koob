@@ -19492,14 +19492,23 @@ __webpack_require__.r(__webpack_exports__);
               display: false
             },
             tooltip: {
+              usePointStyle: true,
               callbacks: {
                 // use arrow function to use prop inside callback
                 label: function label(context) {
                   if (context.dataset.saleData) {
-                    return ['Orders: ' + context.formattedValue, 'Amount: $' + context.dataset.saleData[context.dataIndex].toLocaleString()];
+                    return [context.formattedValue + ' order(s)', (context.dataset.saleData[context.dataIndex] / 100).toLocaleString('en-US', {
+                      style: 'currency',
+                      currency: 'USD'
+                    })];
                   }
 
-                  return 'Users: ' + context.formattedValue;
+                  return context.formattedValue + ' user(s)';
+                },
+                labelPointStyle: function labelPointStyle() {
+                  return {
+                    pointStyle: 'circle'
+                  };
                 }
               }
             }
@@ -21926,7 +21935,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _Components_Button__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @/Components/Button */ "./resources/js/Components/Button.vue");
+/* harmony import */ var _Components_ButtonOutline__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/Components/ButtonOutline */ "./resources/js/Components/ButtonOutline.vue");
+
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    BreezeButton: _Components_Button__WEBPACK_IMPORTED_MODULE_0__["default"],
+    BreezeButtonOutline: _Components_ButtonOutline__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
   props: ['order']
 });
 
@@ -22008,7 +22025,7 @@ var _hoisted_8 = {
   "class": "px-5 py-4"
 };
 var _hoisted_9 = {
-  "class": "flex justify-between items-baseline"
+  "class": "flex justify-between items-baseline pb-3"
 };
 
 var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Notifications", -1
@@ -22018,7 +22035,8 @@ var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" See all ");
 
 var _hoisted_12 = {
-  key: 0
+  key: 0,
+  "class": "max-h-96 overflow-y-auto"
 };
 var _hoisted_13 = ["innerHTML"];
 var _hoisted_14 = {
@@ -22052,13 +22070,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
       }, 8
       /* PROPS */
-      , ["href"])]), _ctx.$page.props.unreadNotifications.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.$page.props.unreadNotifications, function (unreadNotification) {
+      , ["href"])]), _ctx.$page.props.unreadNotifications.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.$page.props.unreadNotifications, function (unreadNotification, index) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           key: unreadNotification
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BreezeDropdownLink, {
           href: _ctx.route('admin.notifications.show', unreadNotification.id),
           as: "button",
-          "class": "rounded mt-3"
+          "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["rounded", index === 0 ? '' : 'mt-3'])
         }, {
           "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
             return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
@@ -22072,10 +22090,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
         }, 1032
         /* PROPS, DYNAMIC_SLOTS */
-        , ["href"])]);
+        , ["href", "class"])]);
       }), 128
       /* KEYED_FRAGMENT */
-      ))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, " No unread notifications "))])];
+      ))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, " No unread notifications ")), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t<div class=\"absolute bg-gradient-to-b bottom-0 from-transparent h-24 inset-x-0 rounded-b-md to-white via-transparent w-full\" />")])];
     }),
     _: 1
     /* STABLE */
@@ -25692,10 +25710,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     labels: $data.monthLabels,
     datasets: [{
       label: 'Orders',
-      backgroundColor: 'rgb(255, 99, 132)',
+      backgroundColor: 'rgb(255, 255, 255)',
+      hoverBackgroundColor: 'rgb(255, 99, 132)',
       borderColor: 'rgb(255, 99, 132)',
       data: $props.orderDataSets,
-      saleData: $props.saleDataSets
+      saleData: $props.saleDataSets,
+      tension: 0.3
     }]
   }, null, 8
   /* PROPS */
@@ -25706,9 +25726,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     labels: $data.monthLabels,
     datasets: [{
       label: 'Registered Users',
-      backgroundColor: 'rgb(99,208,255)',
-      borderColor: 'rgb(99,208,255)',
-      data: $props.userDataSets
+      backgroundColor: 'rgb(255, 255, 255)',
+      hoverBackgroundColor: 'rgb(99, 208, 255)',
+      borderColor: 'rgb(99, 208, 255)',
+      data: $props.userDataSets,
+      tension: 0.3
     }]
   }, null, 8
   /* PROPS */
@@ -29769,49 +29791,63 @@ var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 /* HOISTED */
 );
 
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Continue Shopping ");
+var _hoisted_5 = {
+  "class": "flex space-x-3"
+};
 
-var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-  "class": "text-gray-500 my-2"
-}, "Or", -1
-/* HOISTED */
-);
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Continue Shopping ");
 
 var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" See Order Detail ");
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _component_BreezeButton = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("BreezeButton");
+
   var _component_Link = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Link");
+
+  var _component_BreezeButtonOutline = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("BreezeButtonOutline");
 
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     "class": "text-sm title-font text-gray-700 tracking-widest",
     textContent: (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)('Transaction ID: ' + $props.order.transaction_id)
   }, null, 8
   /* PROPS */
-  , _hoisted_3), _hoisted_4]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
-    href: _ctx.route('books.index'),
-    "class": "underline"
+  , _hoisted_3), _hoisted_4]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
+    href: _ctx.route('books.index')
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_5];
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BreezeButton, null, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [_hoisted_6];
+        }),
+        _: 1
+        /* STABLE */
+
+      })];
     }),
     _: 1
     /* STABLE */
 
   }, 8
   /* PROPS */
-  , ["href"]), _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
-    href: _ctx.route('orders.show', $props.order.id),
-    "class": "underline"
+  , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
+    href: _ctx.route('orders.show', $props.order.id)
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_7];
+      return [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BreezeButtonOutline, null, {
+        "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+          return [_hoisted_7];
+        }),
+        _: 1
+        /* STABLE */
+
+      })];
     }),
     _: 1
     /* STABLE */
 
   }, 8
   /* PROPS */
-  , ["href"])]);
+  , ["href"])])]);
 }
 
 /***/ }),

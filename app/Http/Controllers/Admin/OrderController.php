@@ -44,8 +44,7 @@ class OrderController extends Controller
         ]);
 
         if ($order->status != $request->status) {
-            // send mail to customer about order status update
-            Mail::to($order->user->email)->send(new OrderStatusUpdated($order));
+            Mail::to($order->user)->send(new OrderStatusUpdated($order));
         }
 
         $order->update($request->except('name', 'email'));

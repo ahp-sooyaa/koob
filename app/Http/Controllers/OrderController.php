@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\User;
+use App\Notifications\CustomerOrderPlaced;
 use App\Notifications\OrderPlaced;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -108,6 +109,7 @@ class OrderController extends Controller
              */
             $admins = User::where('role', 'admin')->get();
             Notification::send($admins, new OrderPlaced($order));
+            Notification::send(Auth::user(), new CustomerOrderPlaced($order));
 
             // coupon here or not
             if (session('coupon')) {

@@ -4,21 +4,22 @@ namespace App\Mail;
 
 use App\Models\Order;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class OrderStatusUpdated extends Mailable
+class OrderStatusUpdated extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    public $order;
+    protected $order;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(Order $order)
+    public function __construct($order)
     {
         $this->order = $order;
     }
@@ -30,7 +31,11 @@ class OrderStatusUpdated extends Mailable
      */
     public function build()
     {
-        return $this->from('donotreply@koob.com')
-            ->markdown('emails.orders.updated');
+        return $this
+            ->subject("Order #{$this->order->id} status have been updated")
+            ->markdown('emails.customer-orders.status-updated', [
+                'order' => $this->order,
+                'orderUrl' => route('orders.show', $this->order->id),
+            ]);
     }
 }

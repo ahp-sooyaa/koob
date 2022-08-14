@@ -30,18 +30,26 @@ export default {
                             display: false,
                         },
                         tooltip: {
+                            usePointStyle: true,
                             callbacks: {
                                 // use arrow function to use prop inside callback
                                 label: (context) => {
                                     if (context.dataset.saleData) {
                                         return [
-                                            'Orders: ' + context.formattedValue,
-                                            'Amount: $' + context.dataset.saleData[context.dataIndex].toLocaleString(),
+                                            context.formattedValue + ' order(s)',
+                                            (context.dataset.saleData[context.dataIndex] / 100).toLocaleString(
+                                                'en-US', {style: 'currency', currency: 'USD'}
+                                            ),
                                         ]
                                     }
 
-                                    return 'Users: ' + context.formattedValue
-                                }
+                                    return context.formattedValue + ' user(s)'
+                                },
+                                labelPointStyle: function() {
+                                    return {
+                                        pointStyle: 'circle',
+                                    }
+                                },
                             }
                         }
                     },

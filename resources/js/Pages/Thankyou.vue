@@ -11,23 +11,33 @@
 				Thank you for your purchase
 			</h1>
 		</div>
-		<Link
-			:href="route('books.index')"
-			class="underline"
-		>
-			Continue Shopping
-		</Link>
-		<span class="text-gray-500 my-2">Or</span>
-		<Link
-			:href="route('orders.show', order.id)"
-			class="underline"
-		>
-			See Order Detail
-		</Link>
+		<div class="flex space-x-3">
+			<Link
+				:href="route('books.index')"
+			>
+				<BreezeButton>
+					Continue Shopping
+				</BreezeButton>
+			</Link>
+			<Link
+				:href="route('orders.show', order.id)"
+			>
+				<BreezeButtonOutline>
+					See Order Detail
+				</BreezeButtonOutline>
+			</Link>
+		</div>
 	</div>
 </template>
 <script>
+import BreezeButton from '@/Components/Button'
+import BreezeButtonOutline from '@/Components/ButtonOutline'
 export default {
-    props: ['order'],
+
+    components: {
+        BreezeButton,
+        BreezeButtonOutline,
+    },
+    props: ['order']
 }
 </script>

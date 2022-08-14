@@ -80,10 +80,12 @@
 					:datasets="[
 						{
 							label: 'Orders',
-							backgroundColor: 'rgb(255, 99, 132)',
+							backgroundColor: 'rgb(255, 255, 255)',
+							hoverBackgroundColor: 'rgb(255, 99, 132)',
 							borderColor: 'rgb(255, 99, 132)',
 							data: orderDataSets,
 							saleData: saleDataSets,
+							tension: 0.3,
 						},
 					]"
 				/>
@@ -98,9 +100,11 @@
 					:datasets="[
 						{
 							label: 'Registered Users',
-							backgroundColor: 'rgb(99,208,255)',
-							borderColor: 'rgb(99,208,255)',
+							backgroundColor: 'rgb(255, 255, 255)',
+							hoverBackgroundColor: 'rgb(99, 208, 255)',
+							borderColor: 'rgb(99, 208, 255)',
 							data: userDataSets,
+							tension: 0.3,
 						}
 					]"
 				/>
