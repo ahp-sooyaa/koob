@@ -165,6 +165,7 @@ import BreezeInput from '@/Components/Input'
 import BreezeLabel from '@/Components/Label'
 import BreezeValidationErrors from '@/Components/ValidationErrors'
 import flatpickr from 'flatpickr'
+import 'flatpickr/dist/flatpickr.css'
 
 export default {
     components: {
@@ -194,7 +195,7 @@ export default {
                 altInput: true,
                 dateFormat: 'Y-m-d H:i:S',
                 altFormat: 'F j, Y h:i:s K',
-                minDate: 'today',
+                // minDate: 'today',
             },
         }
     },

@@ -175,7 +175,7 @@ export default {
                 altInput: true,
                 dateFormat: 'Y-m-d H:i:S',
                 altFormat: 'F j, Y h:i:s K',
-                minDate: 'today',
+                // minDate: 'today',
             },
         }
     },
