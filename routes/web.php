@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\BuyNowController;
 use App\Http\Controllers\CartController;
@@ -15,6 +16,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+
+//dd(User::find(2)->addresses);
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -58,6 +61,9 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('coupons', [CouponController::class, 'index'])->name('coupons.index');
     Route::post('coupons', [CouponController::class, 'store'])->name('coupons.store');
     Route::delete('coupons', [CouponController::class, 'destroy'])->name('coupons.destroy');
+
+    Route::post('addresses', [AddressController::class, 'store'])->name('addresses.store');
+    Route::patch('addresses/{address}', [AddressController::class, 'update'])->name('addresses.update');
 });
 
 Route::get('thank-you/{order}', [CheckoutController::class, 'thankYou'])->name('checkout.thankYou');

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Address;
 use App\Models\Book;
 use App\Models\User;
 use App\Notifications\OrderPlaced;
@@ -21,10 +22,6 @@ class CheckoutTest extends TestCase
         $checkoutForm = [
             'contact_name' => 'last name',
             'contact_email' => 'email@email.com',
-            'address' => 'address',
-            'city' => 'city',
-            'state' => 'state',
-            'zip_code' => '12345',
         ];
 
         unset($checkoutForm[$column]);
@@ -85,26 +82,6 @@ class CheckoutTest extends TestCase
         $this->validate_checkout_form('contact_email');
     }
 
-    public function test_order_requires_address()
-    {
-        $this->validate_checkout_form('address');
-    }
-
-    public function test_order_requires_city()
-    {
-        $this->validate_checkout_form('city');
-    }
-
-    public function test_order_requires_state()
-    {
-        $this->validate_checkout_form('state');
-    }
-
-    public function test_order_requires_zip_code()
-    {
-        $this->validate_checkout_form('zip_code');
-    }
-
     // what about payment card number, cvc etc.
 
     public function test_user_can_place_order_successfully()
@@ -113,6 +90,7 @@ class CheckoutTest extends TestCase
         $user = User::factory()->create();
         $admin = User::factory()->create(['role' => 'admin']);
         $book = Book::factory()->create();
+        $address = Address::factory()->create();
         $this->actingAs($user);
 
         $this
@@ -126,12 +104,9 @@ class CheckoutTest extends TestCase
         ]);
 
         $checkoutForm = [
-            'contact_name' => 'first name',
-            'contact_email' => 'email@email.com',
-            'address' => 'address',
-            'city' => 'city',
-            'state' => 'state',
-            'zip_code' => '12345',
+            'contact_name' => $user->name,
+            'contact_email' => $user->email,
+            'address_id' => $address->id,
             'amount' => '1999',
             'payment_method_id' => 'pm_card_visa',
             'cart' => '[{"id": 1, "title": "test", "quantity": 1, "price": 1000}]',

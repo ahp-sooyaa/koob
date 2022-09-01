@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use App\Models\Book;
 use App\Models\Cart;
 use App\Models\Order;
@@ -48,16 +49,13 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
+//        dd($request->all);
         $request->validate([
             'contact_name' => ['required', 'string'],
             'contact_email' => ['required', 'email'],
-            'address' => ['required', 'string'],
-            'city' => ['required', 'string'],
-            'state' => ['required', 'string'],
-            'zip_code' => ['required'],
         ]);
 
-        // check order quantity are more than avaliable stock here
+        // check order quantity are more than available stock here
         // or check this in addToCart before add to cart
         // $user = User::firstOrCreate(
         //     [
@@ -68,6 +66,28 @@ class OrderController extends Controller
         //         'name' => $request->input('first_name') . ' ' . $request->input('last_name')
         //     ]
         // );
+
+//        if (! Auth::user()->addresses) {
+//            Auth::user()->addresses()->create([
+//                'default' => 1,
+//                'label' => $request->input('label'),
+//                'building' => $request->input('building'),
+//                'street' => $request->input('street'),
+//                'state' => $request->input('state'),
+//                'township' => $request->input('township'),
+//                'city' => $request->input('city'),
+//            ]);
+//        } else {
+//            Auth::user()->addresses()->where('id', 1)->update([
+//                'default' => 1,
+//                'label' => $request->input('label'),
+//                'building' => $request->input('building'),
+//                'street' => $request->input('street'),
+//                'state' => $request->input('state'),
+//                'township' => $request->input('township'),
+//                'city' => $request->input('city'),
+//            ]);
+//        }
 
         try {
             $payment = auth()->user()->charge(
@@ -81,10 +101,12 @@ class OrderController extends Controller
                     // 'email' => $request->input('email'), this should save because user can fill different email in contact information section and that email will be useless if we don't save and we can't send mail to that address and we can only send mail to user registered email
                     'transaction_id' => $payment->charges->data[0]->id,
                     'total' => $payment->charges->data[0]->amount,
-                    'address' => $request->input('address'),
-                    'city' => $request->input('city'),
-                    'state' => $request->input('state'),
-                    'zip_code' => $request->input('zip_code')
+//                    'building' => $request->input('building'),
+//                    'street' => $request->input('street'),
+//                    'state' => $request->input('state'),
+//                    'township' => $request->input('township'),
+//                    'city' => $request->input('city'),
+                    'address_id' => $request->input('address_id'),
                 ]);
 
             foreach (json_decode($request->input('cart'), true) as $item) {
@@ -119,7 +141,7 @@ class OrderController extends Controller
                 session()->forget('coupon');
             }
 
-            session()->forget('checkoutProcess');
+//            session()->forget('checkoutProcess');
 
             return $order;
         } catch (\Exception $e) {

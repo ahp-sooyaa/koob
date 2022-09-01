@@ -17,10 +17,12 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('transaction_id');
-            $table->text('address');
-            $table->string('city');
-            $table->string('state');
-            $table->string('zip_code');
+            $table->foreignId('address_id')->constrained()->onDelete('cascade');
+//            $table->string('building');
+//            $table->string('street');
+//            $table->string('state');
+//            $table->string('township');
+//            $table->string('city');
             $table->integer('total')->default(0);
             $table->tinyInteger('status')->default(0);
             $table->timestamps();

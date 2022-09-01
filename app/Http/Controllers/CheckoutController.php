@@ -18,7 +18,8 @@ class CheckoutController extends Controller
         if (Auth::check() && $hasItems) {
             return Inertia::render('Checkout', [
                 'appliedCoupon' => session('coupon'),
-                'checkoutMode' => $request->input('buynow') ? 'buynow' : 'cart'
+                'checkoutMode' => $request->input('buynow') ? 'buynow' : 'cart',
+                'addresses' => Auth::user()->addresses
             ]);
         }
 

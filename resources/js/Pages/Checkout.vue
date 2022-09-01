@@ -7,7 +7,7 @@
 				Checkout
 			</h2>
 		</template>
-		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 mb-16 mt-12">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 mt-12">
 			<div class="flex flex-col-reverse lg:flex-row lg:space-x-16">
 				<div class="lg:w-1/2 w-full mx-auto">
 					<h1 class="text-xl font-semibold">
@@ -61,50 +61,161 @@
 					<h1 class="text-xl font-semibold mt-5">
 						Delivery Address
 					</h1>
-					<div class="lg:flex flex-wrap -mx-2">
+					<!--					<div class="lg:flex flex-wrap -mx-2">-->
+					<!--						<div class="p-2 lg:w-full">-->
+					<!--							<div class="relative">-->
+					<!--								<label-->
+					<!--									for="address"-->
+					<!--									class="leading-7 text-sm text-gray-600"-->
+					<!--								>Address</label>-->
+					<!--								<BreezeInput-->
+					<!--									id="address"-->
+					<!--									v-model="customer.address"-->
+					<!--									name="address"-->
+					<!--									type="text"-->
+					<!--									class="mt-1 block w-full"-->
+					<!--									required-->
+					<!--									autocomplete="address"-->
+					<!--									:disabled="paymentProcessing"-->
+					<!--								/>-->
+					<!--								<BreezeInputError-->
+					<!--									:message="errors.address ? errors.address[0] : ''"-->
+					<!--								/>-->
+					<!--							</div>-->
+					<!--						</div>-->
+					<!--						<div class="p-2 lg:w-2/4">-->
+					<!--							<div class="relative">-->
+					<!--								<label-->
+					<!--									for="city"-->
+					<!--									class="leading-7 text-sm text-gray-600"-->
+					<!--								>City</label>-->
+					<!--								<BreezeInput-->
+					<!--									id="city"-->
+					<!--									v-model="customer.city"-->
+					<!--									name="city"-->
+					<!--									type="text"-->
+					<!--									class="mt-1 block w-full"-->
+					<!--									required-->
+					<!--									autocomplete="city"-->
+					<!--									:disabled="paymentProcessing"-->
+					<!--								/>-->
+					<!--								<BreezeInputError-->
+					<!--									:message="errors.city ? errors.city[0] : ''"-->
+					<!--								/>-->
+					<!--							</div>-->
+					<!--						</div>-->
+					<!--						<div class="p-2 sm:w-1/2 lg:w-1/4">-->
+					<!--							<div class="relative">-->
+					<!--								<label-->
+					<!--									for="state"-->
+					<!--									class="leading-7 text-sm text-gray-600"-->
+					<!--								>State / Province</label>-->
+					<!--								<BreezeInput-->
+					<!--									id="state"-->
+					<!--									v-model="customer.state"-->
+					<!--									name="state"-->
+					<!--									type="text"-->
+					<!--									class="mt-1 block w-full"-->
+					<!--									required-->
+					<!--									autocomplete="state"-->
+					<!--									:disabled="paymentProcessing"-->
+					<!--								/>-->
+					<!--								<BreezeInputError-->
+					<!--									:message="errors.state ? errors.state[0] : ''"-->
+					<!--								/>-->
+					<!--							</div>-->
+					<!--						</div>-->
+					<!--						<div class="p-2 sm:w-1/2 lg:w-1/4">-->
+					<!--							<div class="relative">-->
+					<!--								<label-->
+					<!--									for="zip_code"-->
+					<!--									class="leading-7 text-sm text-gray-600"-->
+					<!--								>Zip Code</label>-->
+					<!--								<BreezeInput-->
+					<!--									id="zip_code"-->
+					<!--									v-model="customer.zip_code"-->
+					<!--									name="zip_code"-->
+					<!--									type="text"-->
+					<!--									class="mt-1 block w-full"-->
+					<!--									required-->
+					<!--									autocomplete="zip_code"-->
+					<!--									:disabled="paymentProcessing"-->
+					<!--								/>-->
+					<!--								<BreezeInputError-->
+					<!--									:message="errors.zip_code ? errors.zip_code[0] : ''"-->
+					<!--								/>-->
+					<!--							</div>-->
+					<!--						</div>-->
+					<!--					</div>-->
+
+					<div
+						v-if="!addresses.length || newAddress || isEditAddress"
+						class="lg:flex flex-wrap -mx-2"
+					>
 						<div class="p-2 lg:w-full">
 							<div class="relative">
 								<label
-									for="address"
+									for="label"
 									class="leading-7 text-sm text-gray-600"
-								>Address</label>
+								>Address Label</label>
 								<BreezeInput
-									id="address"
-									v-model="customer.address"
-									name="address"
+									id="label"
+									v-model="address.label"
+									name="label"
 									type="text"
 									class="mt-1 block w-full"
 									required
-									autocomplete="address"
+									autocomplete="label"
 									:disabled="paymentProcessing"
 								/>
 								<BreezeInputError
-									:message="errors.address ? errors.address[0] : ''"
+									:message="errors.label ? errors.label[0] : ''"
 								/>
 							</div>
 						</div>
-						<div class="p-2 lg:w-2/4">
+						<div class="p-2 lg:w-1/2">
 							<div class="relative">
 								<label
-									for="city"
+									for="building"
 									class="leading-7 text-sm text-gray-600"
-								>City</label>
+								>Building No</label>
 								<BreezeInput
-									id="city"
-									v-model="customer.city"
-									name="city"
+									id="building"
+									v-model="address.building"
+									name="building"
 									type="text"
 									class="mt-1 block w-full"
 									required
-									autocomplete="city"
+									autocomplete="building"
 									:disabled="paymentProcessing"
 								/>
 								<BreezeInputError
-									:message="errors.city ? errors.city[0] : ''"
+									:message="errors.building ? errors.building[0] : ''"
 								/>
 							</div>
 						</div>
-						<div class="p-2 sm:w-1/2 lg:w-1/4">
+						<div class="p-2 lg:w-1/2">
+							<div class="relative">
+								<label
+									for="street"
+									class="leading-7 text-sm text-gray-600"
+								>Street</label>
+								<BreezeInput
+									id="street"
+									v-model="address.street"
+									name="street"
+									type="text"
+									class="mt-1 block w-full"
+									required
+									autocomplete="street"
+									:disabled="paymentProcessing"
+								/>
+								<BreezeInputError
+									:message="errors.street ? errors.street[0] : ''"
+								/>
+							</div>
+						</div>
+						<div class="p-2 sm:w-1/2 lg:w-1/3">
 							<div class="relative">
 								<label
 									for="state"
@@ -112,7 +223,7 @@
 								>State / Province</label>
 								<BreezeInput
 									id="state"
-									v-model="customer.state"
+									v-model="address.state"
 									name="state"
 									type="text"
 									class="mt-1 block w-full"
@@ -125,26 +236,88 @@
 								/>
 							</div>
 						</div>
-						<div class="p-2 sm:w-1/2 lg:w-1/4">
+						<div class="p-2 sm:w-1/2 lg:w-1/3">
 							<div class="relative">
 								<label
-									for="zip_code"
+									for="township"
 									class="leading-7 text-sm text-gray-600"
-								>Zip Code</label>
+								>Township</label>
 								<BreezeInput
-									id="zip_code"
-									v-model="customer.zip_code"
-									name="zip_code"
+									id="township"
+									v-model="address.township"
+									name="township"
 									type="text"
 									class="mt-1 block w-full"
 									required
-									autocomplete="zip_code"
+									autocomplete="township"
 									:disabled="paymentProcessing"
 								/>
 								<BreezeInputError
-									:message="errors.zip_code ? errors.zip_code[0] : ''"
+									:message="errors.township ? errors.township[0] : ''"
 								/>
 							</div>
+						</div>
+						<div class="p-2 lg:w-1/3">
+							<div class="relative">
+								<label
+									for="city"
+									class="leading-7 text-sm text-gray-600"
+								>City</label>
+								<BreezeInput
+									id="city"
+									v-model="address.city"
+									name="city"
+									type="text"
+									class="mt-1 block w-full"
+									required
+									autocomplete="city"
+									:disabled="paymentProcessing"
+								/>
+								<BreezeInputError
+									:message="errors.city ? errors.city[0] : ''"
+								/>
+							</div>
+						</div>
+						<button @click="saveAddress">
+							Save & continue
+						</button>
+						<button @click="updateAddress">
+							Update & continue
+						</button>
+						<label for="default" />
+						<input
+							v-model="address.default"
+							name="default"
+							type="checkbox"
+						>
+					</div>
+					<div
+						v-else
+						class="gap-4 grid grid-cols-2 mt-2"
+					>
+						<div
+							v-for="(address, index) in addresses"
+							:key="address.id"
+							class="bg-white cursor-pointer hover:shadow inline-block p-3 rounded-md"
+							:class="selectedAddress.id == address.id ? 'border border-blue-400' : ''"
+						>
+							<h1>{{ address.label }}</h1>
+							<p>
+								{{ address.building }}, {{ address.street }}, {{ address.township }}, {{ address.city }}, {{ address.state }}
+							</p>
+							{{ selectedAddress.id }}
+							<div @click="selectedAddress = address">
+								use this address
+							</div>
+							<div @click="editAddress(address, index)">
+								edit
+							</div>
+						</div>
+						<div
+							@click="addNewAddress"
+							class="bg-white cursor-pointer hover:shadow inline-block p-3 rounded-md"
+						>
+							add new address
 						</div>
 					</div>
 
@@ -334,7 +507,7 @@ export default {
 
     mixins: [ format ],
 
-    props: ['message', 'appliedCoupon', 'checkoutMode'],
+    props: ['message', 'appliedCoupon', 'checkoutMode', 'addresses'],
 
     data() {
         return {
@@ -345,14 +518,24 @@ export default {
             customer: {
                 contact_name: this.$page.props.auth.user?.name,
                 contact_email: this.$page.props.auth.user?.email,
-                address: '',
-                city: '',
+            },
+            address: {
+                label: '',
+                building: '',
+                street: '',
                 state: '',
-                zip_code: '',
+                township: '',
+                city: '',
+                default: true,
             },
             paymentProcessing: false,
             code: '',
             coupon: this.appliedCoupon,
+            selectedAddress: {},
+            newAddress: false,
+            isEditAddress: false,
+            addressId: '',
+            index: '',
         }
     },
 
@@ -390,6 +573,7 @@ export default {
 
     created() {
         this.products = (this.checkoutMode === 'cart' ? this.cart : this.buyNow)
+        this.selectedAddress = this.addresses.find(address => address.default)
     },
 
     async mounted() {
@@ -404,7 +588,54 @@ export default {
     },
 
     methods: {
-        updateCartQuantity(index, item, event){
+        addNewAddress() {
+            this.newAddress = true
+            this.address.label = ''
+            this.address.building = ''
+            this.address.street = ''
+            this.address.state = ''
+            this.address.township = ''
+            this.address.city = ''
+            this.address.default = true
+        },
+
+        editAddress(address, index) {
+            this.isEditAddress = true
+            this.addressId = address.id
+            this.index = index
+            this.address.label = address.label
+            this.address.building = address.building
+            this.address.street = address.street
+            this.address.state = address.state
+            this.address.township = address.township
+            this.address.city = address.city
+            this.address.default = address.default
+        },
+
+        saveAddress() {
+            axios
+                .post(route('addresses.store'), this.address)
+                .then(res => {
+                    // if (!this.addresses.length) {
+                    this.selectedAddress = res.data.address
+                    // }
+                    this.addresses.push(res.data.address)
+                    this.newAddress = false
+                })
+                .catch(err => this.errors = err.response.data.errors)
+        },
+
+        updateAddress() {
+            axios
+                .patch(route('addresses.update', this.addressId), this.address)
+                .then(res => {
+                    this.addresses[this.index] = res.data.address
+                    this.isEditAddress = false
+                })
+                .catch(err => this.errors = err.response.data.errors)
+        },
+
+        updateCartQuantity(index, item, event) {
             let cartItem = this.products[index]
             let routeName = this.checkoutMode === 'cart' ? 'cart.update' : 'buyNow.update'
 
@@ -455,10 +686,10 @@ export default {
                         name: this.customer.contact_name,
                         email: this.customer.contact_email,
                         address: {
-                            line1: this.customer.address,
-                            city: this.customer.city,
-                            state: this.customer.state,
-                            postal_code: this.customer.zip_code,
+                            line1: this.selectedAddress.street,
+                            line2: this.selectedAddress.address,
+                            state: this.selectedAddress.state,
+                            city: this.selectedAddress.city,
                         },
                     },
                 }
@@ -469,6 +700,7 @@ export default {
                 this.customer.payment_method_id = paymentMethod.id
                 this.customer.amount = this.cartTotal
                 this.customer.cart = JSON.stringify(this.products)
+                this.customer.address_id = this.selectedAddress.id
                 axios
                     .post(route('orders.store'), this.customer)
                     .then((response) => {
