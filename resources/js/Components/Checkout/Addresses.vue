@@ -54,7 +54,7 @@ export default {
         Address,
     },
 
-    props: ['allAddresses', 'paymentProcessing'],
+    props: ['paymentProcessing'],
 
     data() {
         return {
@@ -63,8 +63,18 @@ export default {
     },
 
     created() {
-        deliveryAddressStore.addresses = this.allAddresses
-        deliveryAddressStore.selectedAddress = this.allAddresses.find(address => address.default)
+        this.fetchDeliveryAddresses()
     },
+
+    methods: {
+        fetchDeliveryAddresses() {
+            axios
+                .get(route('addresses.index'))
+                .then(res => {
+                    deliveryAddressStore.addresses = res.data.addresses
+                    deliveryAddressStore.selectedAddress = res.data.addresses.find(address => address.default)
+                })
+        }
+    }
 }
 </script>

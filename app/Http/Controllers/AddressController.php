@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\Auth;
 
 class AddressController extends Controller
 {
+    public function index()
+    {
+        return response()->json(['addresses' => Auth::user()->addresses]);
+    }
+
     public function store(Request $request)
     {
         $attributes = $request->validate([

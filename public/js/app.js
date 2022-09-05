@@ -19612,17 +19612,24 @@ __webpack_require__.r(__webpack_exports__);
     NewAddressForm: _Components_Checkout_NewAddressForm__WEBPACK_IMPORTED_MODULE_2__["default"],
     Address: _Components_Checkout_Address__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
-  props: ['allAddresses', 'paymentProcessing'],
+  props: ['paymentProcessing'],
   data: function data() {
     return {
       deliveryAddressStore: _Stores_DeliveryAddressStore__WEBPACK_IMPORTED_MODULE_0__.deliveryAddressStore
     };
   },
   created: function created() {
-    _Stores_DeliveryAddressStore__WEBPACK_IMPORTED_MODULE_0__.deliveryAddressStore.addresses = this.allAddresses;
-    _Stores_DeliveryAddressStore__WEBPACK_IMPORTED_MODULE_0__.deliveryAddressStore.selectedAddress = this.allAddresses.find(function (address) {
-      return address["default"];
-    });
+    this.fetchDeliveryAddresses();
+  },
+  methods: {
+    fetchDeliveryAddresses: function fetchDeliveryAddresses() {
+      axios.get(route('addresses.index')).then(function (res) {
+        _Stores_DeliveryAddressStore__WEBPACK_IMPORTED_MODULE_0__.deliveryAddressStore.addresses = res.data.addresses;
+        _Stores_DeliveryAddressStore__WEBPACK_IMPORTED_MODULE_0__.deliveryAddressStore.selectedAddress = res.data.addresses.find(function (address) {
+          return address["default"];
+        });
+      });
+    }
   }
 });
 
@@ -21739,7 +21746,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     Addresses: _Components_Checkout_Addresses__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
   mixins: [_mixins_format__WEBPACK_IMPORTED_MODULE_7__["default"]],
-  props: ['message', 'appliedCoupon', 'checkoutMode', 'addresses'],
+  props: ['message', 'appliedCoupon', 'checkoutMode'],
   data: function data() {
     var _this$$page$props$aut, _this$$page$props$aut2;
 
@@ -28959,7 +28966,7 @@ var _hoisted_2 = {
   "class": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 mt-12"
 };
 var _hoisted_3 = {
-  "class": "flex flex-col-reverse lg:flex-row lg:space-x-16"
+  "class": "flex flex-col-reverse lg:flex-row items-start lg:space-x-16"
 };
 var _hoisted_4 = {
   "class": "lg:w-1/2 w-full mx-auto"
@@ -29042,7 +29049,7 @@ var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 
 var _hoisted_19 = [_hoisted_18];
 var _hoisted_20 = {
-  "class": "bg-white rounded-2xl p-4 lg:p-8 shadow-md w-full lg:w-1/2 mb-12 lg:mb-0"
+  "class": "sticky top-40 bg-white rounded-2xl p-4 lg:p-8 shadow-md w-full lg:w-1/2 mb-12 lg:mb-0"
 };
 var _hoisted_21 = {
   key: 0,
@@ -29058,7 +29065,7 @@ var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 var _hoisted_23 = {
   "class": "space-y-10"
 };
-var _hoisted_24 = ["alt"];
+var _hoisted_24 = ["src", "alt"];
 var _hoisted_25 = {
   "class": "flex-1 flex flex-col space-y-3"
 };
@@ -29220,11 +29227,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, 8
       /* PROPS */
       , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Addresses, {
-        "all-addresses": $props.addresses,
         "payment-processing": $data.paymentProcessing
       }, null, 8
       /* PROPS */
-      , ["all-addresses", "payment-processing"]), _hoisted_13, _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      , ["payment-processing"]), _hoisted_13, _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         onClick: _cache[2] || (_cache[2] = function () {
           return $options.processPayment && $options.processPayment.apply($options, arguments);
         }),
@@ -29240,9 +29246,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           key: item.id,
           "class": "flex space-x-5"
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-          src: "/images/cover.png",
+          src: item.cover_url,
           alt: item.title + '\'s cover image',
-          "class": "h-40"
+          "class": "h-40 w-32"
         }, null, 8
         /* PROPS */
         , _hoisted_24), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.title), 1

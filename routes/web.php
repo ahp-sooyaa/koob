@@ -62,6 +62,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('coupons', [CouponController::class, 'store'])->name('coupons.store');
     Route::delete('coupons', [CouponController::class, 'destroy'])->name('coupons.destroy');
 
+    Route::get('addresses', [AddressController::class, 'index'])->name('addresses.index');
     Route::post('addresses', [AddressController::class, 'store'])->name('addresses.store');
     Route::patch('addresses/{address}', [AddressController::class, 'update'])->name('addresses.update');
 });

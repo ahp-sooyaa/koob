@@ -8,7 +8,7 @@
 			</h2>
 		</template>
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 mt-12">
-			<div class="flex flex-col-reverse lg:flex-row lg:space-x-16">
+			<div class="flex flex-col-reverse lg:flex-row items-start lg:space-x-16">
 				<div class="lg:w-1/2 w-full mx-auto">
 					<h1 class="text-xl font-semibold">
 						Contact Information
@@ -59,7 +59,6 @@
 					</div>
 
 					<Addresses
-						:all-addresses="addresses"
 						:payment-processing="paymentProcessing"
 					/>
 
@@ -100,7 +99,7 @@
 				</div>
 
 				<!-- order summary -->
-				<div class="bg-white rounded-2xl p-4 lg:p-8 shadow-md w-full lg:w-1/2 mb-12 lg:mb-0">
+				<div class="sticky top-40 bg-white rounded-2xl p-4 lg:p-8 shadow-md w-full lg:w-1/2 mb-12 lg:mb-0">
 					<div
 						v-if="message"
 						class="bg-gray-100 px-4 py-2 rounded-lg mb-5"
@@ -117,9 +116,9 @@
 							class="flex space-x-5"
 						>
 							<img
-								src="/images/cover.png"
+								:src="item.cover_url"
 								:alt="item.title + '\'s cover image'"
-								class="h-40"
+								class="h-40 w-32"
 							>
 							<div class="flex-1 flex flex-col space-y-3">
 								<h1>{{ item.title }}</h1>
@@ -252,7 +251,7 @@ export default {
 
     mixins: [ format ],
 
-    props: ['message', 'appliedCoupon', 'checkoutMode', 'addresses'],
+    props: ['message', 'appliedCoupon', 'checkoutMode'],
 
     data() {
         return {
