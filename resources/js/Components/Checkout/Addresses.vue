@@ -5,6 +5,7 @@
 		</h1>
 		<Button
 			@click="deliveryAddressStore.isNewAddress = true"
+			:class="deliveryAddressStore.isNewAddress || !deliveryAddressStore.addresses.length ? 'hidden' : 'block'"
 		>
 			add new address
 		</Button>
@@ -13,7 +14,10 @@
 	<div
 		v-if="!deliveryAddressStore.addresses.length || deliveryAddressStore.isNewAddress || deliveryAddressStore.isEditAddress"
 	>
-		<button @click="deliveryAddressStore.isNewAddress = false, deliveryAddressStore.isEditAddress = false">
+		<button
+			@click="deliveryAddressStore.isNewAddress = false, deliveryAddressStore.isEditAddress = false"
+			:class="deliveryAddressStore.isEditAddress || deliveryAddressStore.isNewAddress ? 'block' : 'hidden'"
+		>
 			Back
 		</button>
 

@@ -44,12 +44,13 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
+        abort_if($order->user_id != Auth::id(), 404);
+
         return Inertia::render('Orders/Show', compact('order'));
     }
 
     public function store(Request $request)
     {
-//        dd($request->all);
         $request->validate([
             'contact_name' => ['required', 'string'],
             'contact_email' => ['required', 'email'],

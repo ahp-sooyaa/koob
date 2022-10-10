@@ -91,9 +91,9 @@
 							Shipping address
 						</div>
 						<div class="text-gray-700">
-							<div>{{ order.address }}</div>
-							<div>{{ order.city }}</div>
-							<div>{{ order.state }}, {{ order.zip_code }}</div>
+							<div>{{ order.address.building }}</div>
+							<div>{{ order.address.street }}</div>
+							<div>{{ order.address.township }}, {{ order.address.city }}</div>
 						</div>
 					</div>
 					<div class="flex-1">
@@ -102,9 +102,9 @@
 						</div>
 
 						<div class="text-gray-700">
-							<div>Kristin Watson</div>
-							<div>7363 Cynthia Pass</div>
-							<div>Toronto, ON N3Y 4H8</div>
+							<div>{{ order.address.building }}</div>
+							<div>{{ order.address.street }}</div>
+							<div>{{ order.address.township }}, {{ order.address.city }}</div>
 						</div>
 					</div>
 				</div>

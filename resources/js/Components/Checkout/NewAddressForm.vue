@@ -128,6 +128,7 @@
 		</div>
 	</div>
 	<div
+		v-show="deliveryAddressStore.addresses.length"
 		@click="toggleDefault()"
 		@keydown.space.prevent="toggleDefault()"
 		class="flex items-center space-x-2"
@@ -187,19 +188,19 @@ export default {
         }
     },
 
+    created() {
+        this.address.default = ! this.deliveryAddressStore.addresses.length
+    },
+
     methods: {
         saveAddress() {
-            // this.address.post(route('addresses.store'), {
-            //     onSuccess: () => {
-            //         this.deliveryAddressStore.isNewAddress = false
-            //         this.address.reset()
-            //     }
-            // })
             axios
                 .post(route('addresses.store'), this.address)
                 .then(res => {
                     this.deliveryAddressStore.addresses.push(res.data.address)
+                    this.deliveryAddressStore.selectedAddress = res.data.address
                     this.deliveryAddressStore.isNewAddress = false
+                    this.deliveryAddressStore.isEditAddress = false
                 })
                 .catch(err => this.errors = err.response.data.errors)
         },

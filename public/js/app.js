@@ -19679,7 +19679,8 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.patch(route('addresses.update', this.address.id), this.address).then(function () {
-        return _this.deliveryAddressStore.isEditAddress = false;
+        _this.deliveryAddressStore.isEditAddress = false;
+        _this.deliveryAddressStore.isNewAddress = false;
       })["catch"](function (err) {
         return _this.errors = err.response.data.errors;
       });
@@ -19738,20 +19739,19 @@ __webpack_require__.r(__webpack_exports__);
       return this.address["default"].toString();
     }
   },
+  created: function created() {
+    this.address["default"] = !this.deliveryAddressStore.addresses.length;
+  },
   methods: {
     saveAddress: function saveAddress() {
       var _this = this;
 
-      // this.address.post(route('addresses.store'), {
-      //     onSuccess: () => {
-      //         this.deliveryAddressStore.isNewAddress = false
-      //         this.address.reset()
-      //     }
-      // })
       axios.post(route('addresses.store'), this.address).then(function (res) {
         _this.deliveryAddressStore.addresses.push(res.data.address);
 
+        _this.deliveryAddressStore.selectedAddress = res.data.address;
         _this.deliveryAddressStore.isNewAddress = false;
+        _this.deliveryAddressStore.isEditAddress = false;
       })["catch"](function (err) {
         return _this.errors = err.response.data.errors;
       });
@@ -22555,7 +22555,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return $data.deliveryAddressStore.isNewAddress = true;
-    })
+    }),
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.deliveryAddressStore.isNewAddress || !$data.deliveryAddressStore.addresses.length ? 'hidden' : 'block')
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [_hoisted_3];
@@ -22563,11 +22564,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 1
     /* STABLE */
 
-  })]), !$data.deliveryAddressStore.addresses.length || $data.deliveryAddressStore.isNewAddress || $data.deliveryAddressStore.isEditAddress ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, 8
+  /* PROPS */
+  , ["class"])]), !$data.deliveryAddressStore.addresses.length || $data.deliveryAddressStore.isNewAddress || $data.deliveryAddressStore.isEditAddress ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[1] || (_cache[1] = function ($event) {
       return $data.deliveryAddressStore.isNewAddress = false, $data.deliveryAddressStore.isEditAddress = false;
-    })
-  }, " Back "), $data.deliveryAddressStore.isNewAddress || !$data.deliveryAddressStore.addresses.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_NewAddressForm, {
+    }),
+    "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.deliveryAddressStore.isEditAddress || $data.deliveryAddressStore.isNewAddress ? 'block' : 'hidden')
+  }, " Back ", 2
+  /* CLASS */
+  ), $data.deliveryAddressStore.isNewAddress || !$data.deliveryAddressStore.addresses.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_NewAddressForm, {
     key: 0
   })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(_component_EditAddressForm, {
     key: 1
@@ -23079,7 +23085,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     message: $data.errors.city ? $data.errors.city[0] : ''
   }, null, 8
   /* PROPS */
-  , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  , ["message"])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     onClick: _cache[6] || (_cache[6] = function ($event) {
       return $options.toggleDefault();
     }),
@@ -23094,9 +23100,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-checked": $options.saveAsDefault
   }, null, 8
   /* PROPS */
-  , _hoisted_21)], 32
-  /* HYDRATE_EVENTS */
-  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
+  , _hoisted_21)], 544
+  /* HYDRATE_EVENTS, NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.deliveryAddressStore.addresses.length]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Button, {
     onClick: _cache[8] || (_cache[8] = function ($event) {
       return $options.saveAddress();
     }),
@@ -29767,38 +29773,40 @@ var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 var _hoisted_22 = {
   "class": "text-gray-700"
 };
-
-var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_23 = {
   "class": "flex-1"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+};
+
+var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "font-semibold mb-2"
-}, " Billing address "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-  "class": "text-gray-700"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, "Kristin Watson"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, "7363 Cynthia Pass"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, "Toronto, ON N3Y 4H8")])], -1
+}, " Billing address ", -1
 /* HOISTED */
 );
 
-var _hoisted_24 = {
-  "class": "w-full lg:w-2/3 ml-auto"
-};
 var _hoisted_25 = {
-  "class": "flex flex-col my-8 space-y-4"
+  "class": "text-gray-700"
 };
 var _hoisted_26 = {
+  "class": "w-full lg:w-2/3 ml-auto"
+};
+var _hoisted_27 = {
+  "class": "flex flex-col my-8 space-y-4"
+};
+var _hoisted_28 = {
   "class": "flex justify-between"
 };
 
-var _hoisted_27 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-gray-700"
 }, " Subtotal ", -1
 /* HOISTED */
 );
 
-var _hoisted_28 = {
+var _hoisted_30 = {
   "class": "font-semibold"
 };
 
-var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "flex justify-between"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-gray-700"
@@ -29808,17 +29816,17 @@ var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_30 = {
+var _hoisted_32 = {
   "class": "flex justify-between"
 };
 
-var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_33 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "text-gray-700"
 }, " Total ", -1
 /* HOISTED */
 );
 
-var _hoisted_32 = {
+var _hoisted_34 = {
   "class": "font-semibold"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -29879,15 +29887,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         )])])])]);
       }), 128
       /* KEYED_FRAGMENT */
-      )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.order.address), 1
+      )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.order.address.building), 1
       /* TEXT */
-      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.order.city), 1
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.order.address.street), 1
       /* TEXT */
-      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.order.state) + ", " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.order.zip_code), 1
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.order.address.township) + ", " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.order.address.city), 1
       /* TEXT */
-      )])]), _hoisted_23])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [_hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.formatPrice($props.order.total)), 1
+      )])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.order.address.building), 1
       /* TEXT */
-      )]), _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [_hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.formatPrice($props.order.total)), 1
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.order.address.street), 1
+      /* TEXT */
+      ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.order.address.township) + ", " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.order.address.city), 1
+      /* TEXT */
+      )])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.formatPrice($props.order.total)), 1
+      /* TEXT */
+      )]), _hoisted_31, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [_hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.formatPrice($props.order.total)), 1
       /* TEXT */
       )])])])])];
     }),

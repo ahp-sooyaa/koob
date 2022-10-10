@@ -185,7 +185,10 @@ export default {
         updateAddress() {
             axios
                 .patch(route('addresses.update', this.address.id), this.address)
-                .then(() => this.deliveryAddressStore.isEditAddress = false)
+                .then(() => {
+                    this.deliveryAddressStore.isEditAddress = false
+                    this.deliveryAddressStore.isNewAddress = false
+                })
                 .catch(err => this.errors = err.response.data.errors)
         },
 

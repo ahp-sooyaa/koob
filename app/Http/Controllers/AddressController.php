@@ -26,7 +26,9 @@ class AddressController extends Controller
         ]);
 
         if ($request->boolean('default')) {
-            Auth::user()->addresses()->where('default', 1)->update(['default' => 0]);
+            Auth::user()->addresses()
+                ->where('default', 1)
+                ->update(['default' => 0]);
         }
 
         $address = Auth::user()->addresses()->create($attributes);
@@ -47,7 +49,10 @@ class AddressController extends Controller
         ]);
 
         if ($request->boolean('default')) {
-            Auth::user()->addresses()->where('default', 1)->update(['default' => 0]);
+            Auth::user()->addresses()
+                ->where('default', 1)
+                ->where('id', '!=', $address->id)
+                ->update(['default' => 0]);
         }
 
         $address->update($attributes);

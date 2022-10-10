@@ -14,7 +14,7 @@ class Order extends Model
     const SHIPPING = 0;
     const DELIVERED = 1;
 
-    protected $with = ['books'];
+    protected $with = ['books', 'address'];
 
     public function books()
     {
@@ -26,7 +26,7 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function addresses()
+    public function address()
     {
         return $this->belongsTo(Address::class);
     }

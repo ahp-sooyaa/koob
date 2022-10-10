@@ -28,6 +28,7 @@ class BuyNow
                 'title' => $book->title,
                 'quantity' => $qty,
                 'price' => $book->price,
+                'cover_url' => $book->cover_url,
             ]);
         }
     }
