@@ -73,6 +73,9 @@
 									class="leading-7 text-sm text-gray-600"
 								>Credit Card Info</label>
 								<div id="card-element" />
+								<p class="text-sm text-red-400 mt-1 ml-3">
+									{{ cardError }}
+								</p>
 							</div>
 						</div>
 					</div>
@@ -260,6 +263,7 @@ export default {
             errors: [],
             stripe: {},
             cardElement: {},
+            cardError: '',
             customer: {
                 contact_name: this.$page.props.auth.user?.name,
                 contact_email: this.$page.props.auth.user?.email,
@@ -315,6 +319,13 @@ export default {
             },
         })
         this.cardElement.mount('#card-element')
+        this.cardElement.on('change', ({error}) => {
+            if (error) {
+                this.cardError = error.message
+            } else {
+                this.cardError = ''
+            }
+        })
     },
 
     methods: {
@@ -377,13 +388,16 @@ export default {
                     },
                 }
             )
+
             if (error) {
                 this.paymentProcessing = false
+                this.cardError = error.message
             } else {
                 this.customer.payment_method_id = paymentMethod.id
                 this.customer.amount = this.cartTotal
                 this.customer.cart = JSON.stringify(this.products)
                 this.customer.address_id = this.deliveryAddressStore.selectedAddress.id
+
                 axios
                     .post(route('orders.store'), this.customer)
                     .then((response) => {
@@ -391,8 +405,14 @@ export default {
                         this.$inertia.get(route('checkout.thankYou', response.data.id))
                     })
                     .catch((error) => {
+                        console.log(error.response.data)
                         this.paymentProcessing = false
-                        this.errors = error.response.data.errors
+                        
+                        if(error.response.status === 500) {
+                            this.cardError = error.response.data.message
+                        } else {
+                            this.errors = error.response.data
+                        }
                     })
             }
         },

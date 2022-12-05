@@ -45,9 +45,9 @@
 							class="flex space-x-5"
 						>
 							<img
-								src="/images/cover.png"
+								:src="item.cover_url"
 								:alt="item.title + '\'s cover image'"
-								class="h-40"
+								class="h-40 w-32"
 							>
 							<div class="flex-1 flex flex-col items-start">
 								<h1>{{ item.title }}</h1>
