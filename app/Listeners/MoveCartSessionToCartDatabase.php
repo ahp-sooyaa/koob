@@ -35,8 +35,10 @@ class MoveCartSessionToCartDatabase
                         'user_id' => $event->user->id,
                         'book_id' => $cartItem['id'],
                         'title' => $cartItem['title'],
+                        'slug' => $cartItem['slug'],
                         'quantity' => $cartItem['quantity'],
-                        'price' => $cartItem['price']
+                        'price' => $cartItem['price'],
+                        'cover_url' => $cartItem['cover_url'],
                     ]);
                 }
             }
@@ -47,8 +49,10 @@ class MoveCartSessionToCartDatabase
                 session()->put("cart.{$dbCartItem->book_id}", [
                     'id' => $dbCartItem->book_id,
                     'title' => $dbCartItem->title,
+                    'slug' => $dbCartItem->slug,
                     'quantity' => $dbCartItem->quantity,
                     'price' => $dbCartItem->price,
+                    'cover_url' => $dbCartItem->cover_url,
                 ]);
             }
         }
@@ -61,8 +65,10 @@ class MoveCartSessionToCartDatabase
                 session()->put("saveforlater.{$dbSaveForLaterItem->book_id}", [
                     'id' => $dbSaveForLaterItem->book_id,
                     'title' => $dbSaveForLaterItem->title,
+                    'slug' => $dbSaveForLaterItem->slug,
                     'quantity' => $dbSaveForLaterItem->quantity,
                     'price' => $dbSaveForLaterItem->price,
+                    'cover_url' => $dbSaveForLaterItem->cover_url,
                 ]);
             }
         }

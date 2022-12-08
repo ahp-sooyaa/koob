@@ -61,8 +61,10 @@ class Cart
                     'user_id' => Auth::id(),
                     'book_id' => $book->id,
                     'title' => $book->title,
+                    'slug' => $book->slug,
                     'quantity' => $qty,
-                    'price' => $book->price
+                    'price' => $book->price,
+                    'cover_url' => $book->cover_url,
                 ]);
             }
         }
@@ -132,8 +134,10 @@ class Cart
                     'user_id' => Auth::id(),
                     'book_id' => $dbCartItem['book_id'],
                     'title' => $dbCartItem['title'],
+                    'slug' => $dbCartItem['slug'],
                     'quantity' => $dbCartItem['quantity'],
-                    'price' => $dbCartItem['price']
+                    'price' => $dbCartItem['price'],
+                    'cover_url' => $dbCartItem['cover_url'],
                 ]);
                 $dbCartItem->delete();
             }

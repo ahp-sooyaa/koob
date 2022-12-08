@@ -198,11 +198,11 @@ export default {
             axios
                 .patch(route('addresses.update', this.address.id), this.address)
                 .then(() => {
-					// if (this.address.default) {
-					// 	this.deliveryAddressStore.selectedAddress = this.address
-					// }
+                    // if (this.address.default) {
+                    // 	this.deliveryAddressStore.selectedAddress = this.address
+                    // }
 
-					deliveryAddressStore.addresses[deliveryAddressStore.editingAddressIndex] = this.address
+                    deliveryAddressStore.addresses[deliveryAddressStore.editingAddressIndex] = this.address
                     deliveryAddressStore.isEditAddress = false
                     deliveryAddressStore.isNewAddress = false
                 })

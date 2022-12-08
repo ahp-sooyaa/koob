@@ -378,8 +378,10 @@ class CartTest extends TestCase
         session()->put("cart.{$bookA->id}", [
             'id' => $bookA->id,
             'title' => $bookA->title,
+            'slug' => $bookA->slug,
             'quantity' => 5,
             'price' => $bookA->price,
+            'cover_url' => $bookA->cover_url,
         ]);
         Cart::factory()->create([
             'user_id' => $user->id,

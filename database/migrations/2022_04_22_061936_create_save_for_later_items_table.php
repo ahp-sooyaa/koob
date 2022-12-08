@@ -18,8 +18,10 @@ class CreateSaveForLaterItemsTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('book_id')->constrained()->onDelete('cascade');
             $table->string('title');
+            $table->string('slug');
             $table->unsignedInteger('quantity');
             $table->integer('price');
+            $table->string('cover_url');
             $table->timestamps();
         });
     }

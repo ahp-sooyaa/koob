@@ -17,8 +17,10 @@ class SaveForLaterController extends Controller
         Auth::user()->saveForLaters()->create([
             'book_id' => $dbCartItem->book_id,
             'title' => $dbCartItem->title,
+            'slug' => $dbCartItem->slug,
             'quantity' => $dbCartItem->quantity,
             'price' => $dbCartItem->price,
+            'cover_url' => $dbCartItem->cover_url,
         ]);
         $dbCartItem->delete();
 
@@ -36,8 +38,10 @@ class SaveForLaterController extends Controller
         Auth::user()->carts()->create([
             'book_id' => $dbCartItem->book_id,
             'title' => $dbCartItem->title,
+            'slug' => $dbCartItem->slug,
             'quantity' => $dbCartItem->quantity,
             'price' => $dbCartItem->price,
+            'cover_url' => $dbCartItem->cover_url,
         ]);
         $dbCartItem->delete();
 

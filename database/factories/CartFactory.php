@@ -23,12 +23,16 @@ class CartFactory extends Factory
      */
     public function definition()
     {
+        $book = Book::factory()->create();
+
         return [
-            'user_id' => User::factory()->create(),
-            'book_id' => Book::factory()->create(),
-            'title' => $this->faker->sentence(),
+            'user_id' => User::factory(),
+            'book_id' => $book->id,
+            'title' => $book->title,
+            'slug' => $book->slug,
             'quantity' => $this->faker->numberBetween(1, 10),
-            'price' => $this->faker->numberBetween(10_00, 90_00)
+            'price' => $this->faker->numberBetween(10_00, 90_00),
+            'cover_url' => $book->cover_url,
         ];
     }
 }

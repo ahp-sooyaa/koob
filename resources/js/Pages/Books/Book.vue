@@ -1,10 +1,10 @@
 <template>
 	<!-- <div class="bg-gray-200 mb-5 p-5 rounded-2xl"> -->
-		<img
-			:src="data.cover_url"
-			:alt="data.title + '\'s cover image'"
-			class="object-cover w-44 mx-auto mb-5 shadow-xl h-56"
-		>
+	<img
+		:src="data.cover_url"
+		:alt="data.title + '\'s cover image'"
+		class="object-cover w-44 mx-auto mb-5 shadow-xl h-56"
+	>
 	<!-- </div> -->
 	<div class="flex flex-1 flex-col px-1">
 		<Link

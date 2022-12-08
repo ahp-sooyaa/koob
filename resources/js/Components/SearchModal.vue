@@ -159,9 +159,9 @@ export default {
                 this.openModal()
             }
 
-			if (event.key === 'Escape') {
-				this.showModal = false
-			}
+            if (event.key === 'Escape') {
+                this.showModal = false
+            }
         })
     },
 
@@ -174,9 +174,9 @@ export default {
         },
 
         openModal() {
-			if(!this.search) {
-            	this.fetchResults()
-			}
+            if(!this.search) {
+                this.fetchResults()
+            }
 
             this.showModal = true
             this.$nextTick(() => this.$refs.search.focus())
