@@ -17,6 +17,7 @@
 			</template>
 			<section class="max-w-7xl mx-auto px-4 lg:px-10 mb-14 lg:my-16 pt-7">
 				<div
+					v-if="booksCount"
 					class="flex flex-col lg:flex-row space-y-5 space-x-0 lg:space-y-0 lg:space-x-10"
 				>
 					<div class="w-full lg:w-1/5">
@@ -107,6 +108,20 @@
 						</div>
 					</div>
 				</div>
+				<div v-else class="flex flex-col items-center">
+					<lottie-player
+						src="https://assets6.lottiefiles.com/packages/lf20_0s6tfbuc.json"
+						background="transparent"
+						speed="1"
+						style="width: 200px; height: 200px"
+						loop
+						autoplay
+						class="mx-auto"
+					/>
+					<p>
+						There is no books data in database.
+					</p>
+				</div>
 			</section>
 		</BreezeNavBarLayout>
 	</div>
@@ -145,6 +160,10 @@ export default {
             type: Object,
             default: null
         },
+		booksCount: {
+			type: Number,
+			required: true,
+		}
     },
 
     data() {

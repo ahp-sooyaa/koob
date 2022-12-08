@@ -44,6 +44,7 @@ class Cart
             session()->put($this->cartKey($book->id), [
                 'id' => $book->id,
                 'title' => $book->title,
+                'slug' => $book->slug,
                 'quantity' => $qty,
                 'price' => $book->price,
                 'cover_url' => $book->cover_url,

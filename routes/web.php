@@ -12,6 +12,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SaveForLaterController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\WelcomeController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -19,12 +20,7 @@ use Inertia\Inertia;
 
 //dd(User::find(2)->addresses);
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-    ]);
-})->name('welcome');
+Route::get('/', WelcomeController::class)->name('welcome');
 
 /** give conditional redirect path after login successfully */
 Route::get('home', RedirectToHomeController::class)->name('home');

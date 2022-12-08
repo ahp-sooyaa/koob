@@ -127,29 +127,42 @@
 			</div>
 		</div>
 	</div>
-	<div
-		v-show="deliveryAddressStore.addresses.length"
-		@click="toggleDefault()"
-		@keydown.space.prevent="toggleDefault()"
-		class="flex items-center space-x-2"
-	>
-		<label
-			class="text-sm text-gray-500"
-		>Save as default</label>
-		<span
-			class="toggle"
-			role="checkbox"
-			tabindex="0"
-			:aria-checked="saveAsDefault"
-		/>
-	</div>
+	<div class="flex justify-between mt-3">
+		<div
+			v-show="deliveryAddressStore.addresses.length"
+			@click="toggleDefault()"
+			@keydown.space.prevent="toggleDefault()"
+			class="inline-flex items-center space-x-2"
+		>
+			<span
+				class="toggle"
+				role="checkbox"
+				tabindex="0"
+				:aria-checked="saveAsDefault"
+			/>
+			<label
+				class="text-sm text-gray-500"
+			>
+				Save as default
+			</label>
+		</div>
 
-	<Button
-		@click="saveAddress()"
-		class="mt-5 max-w-max"
-	>
-		Save & continue
-	</Button>
+		<div class="flex space-x-2 ml-auto">
+			<button
+				v-show="deliveryAddressStore.addresses.length > 0"
+				@click="deliveryAddressStore.isNewAddress = false" 
+				class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest hover:border-gray-900 hover:text-gray-900 transition ease-in-out duration-150 border-gray-500 text-gray-500"
+			>
+				Back
+			</button>
+			<Button
+				@click="saveAddress()"
+				class="max-w-max"
+			>
+				Save
+			</Button>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -189,7 +202,7 @@ export default {
     },
 
     created() {
-        this.address.default = ! this.deliveryAddressStore.addresses.length
+        this.address.default = ! deliveryAddressStore.addresses.length
     },
 
     methods: {
@@ -197,10 +210,10 @@ export default {
             axios
                 .post(route('addresses.store'), this.address)
                 .then(res => {
-                    this.deliveryAddressStore.addresses.push(res.data.address)
-                    this.deliveryAddressStore.selectedAddress = res.data.address
-                    this.deliveryAddressStore.isNewAddress = false
-                    this.deliveryAddressStore.isEditAddress = false
+                    deliveryAddressStore.addresses.push(res.data.address)
+                    // deliveryAddressStore.selectedAddress = res.data.address
+                    deliveryAddressStore.isNewAddress = false
+                    deliveryAddressStore.isEditAddress = false
                 })
                 .catch(err => this.errors = err.response.data.errors)
         },

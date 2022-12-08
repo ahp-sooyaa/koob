@@ -50,11 +50,11 @@
 								class="h-40 w-32"
 							>
 							<div class="flex-1 flex flex-col items-start">
-								<h1>{{ item.title }}</h1>
+								<Link :href="route('books.show', item.slug)">{{ item.title }}</Link>
 								<div class="flex items-center space-x-5 mt-3">
 									<select
 										@change="updateCartQuantity( index, item, $event )"
-										class="rounded-2xl shadow-md cursor-pointer"
+										class="rounded-2xl shadow-md cursor-pointer text-xs"
 										name="quantity"
 									>
 										<option
@@ -79,13 +79,14 @@
 									Save for later
 								</div>
 							</div>
-							<button
+							<!-- <button
 								@click="removeFromCart(index, item)"
-								class="flex ml-auto text-sm text-gray-500 hover:text-gray-800 border-0 pt-0.5 focus:outline-none rounded"
-							>
+								class="flex ml-auto text-sm text-red-500 hover:text-red-800 border-0 pt-0.5 focus:outline-none rounded"
+							> -->
 								<svg
+									@click="removeFromCart(index, item)"
 									xmlns="http://www.w3.org/2000/svg"
-									class="h-5 w-5"
+									class="h-5 w-5 text-sm text-red-500 hover:text-red-800 cursor-pointer"
 									viewBox="0 0 20 20"
 									fill="currentColor"
 								>
@@ -95,7 +96,7 @@
 										clip-rule="evenodd"
 									/>
 								</svg>
-							</button>
+							<!-- </button> -->
 						</li>
 					</ul>
 				</div>

@@ -29,141 +29,57 @@
 		<div class="absolute bg-black bg-opacity-25 h-full inset-0" />
 	</header>
 
-	<section class="py-20">
-		<div class="container mx-auto">
-			<h1 class="font-bold text-center text-2xl mb-8">
-				Shop by category
+	<section class="py-20 bg-gray-50 relative">
+		<div class="absolute text-9xl text-gray-700 opacity-5 font-black z-0">Trending</div>
+		<div class="container mx-auto z-10">
+			<h1 class="font-bold text-2xl mb-8">
+				Trending
 			</h1>
-			<div class="grid grid-cols-1 gap-y-5 md:grid-cols-3 lg:grid-cols-5 md:gap-x-10 px-4 sm:px-6 lg:px-8">
-				<div class="flex justify-center relative overflow-hidden">
-					<div class="absolute bg-gradient-to-b bottom-0 flex font-bold from-transparent h-full items-end justify-center pb-5 text-white to-gray-800 via-transparent w-full">
-						Action & Adventure
-					</div>
+			<div class="grid grid-cols-3 gap-10">
+				<div v-for="book in books" class="flex space-x-5">
 					<img
-						src="images/cover.png"
-						alt="cover image"
-						class="h-full lg:h-72 w-full"
+						:src="book.cover_url"
+						:alt="book.title + '\s cover image'"
+						class="w-32 h-44 flex-shrink-0 shadow-2xl"
 					>
-				</div>
-				<div class="flex justify-center relative">
-					<div class="absolute bg-gradient-to-b bottom-0 flex font-bold from-transparent h-full items-end justify-center pb-5 text-white to-gray-800 via-transparent w-full">
-						Mystery
+					<div>
+						<h1 class="font-bold tracking-wider text-lg line-clamp-2">{{ book.title }}</h1>
+						<div class="text-sm text-gray-400 mb-3">by 
+							<a href="" class="text-gray-700 hover:underline">{{ book.author }}</a>
+						</div>
+						<p class="w-4/5 line-clamp-2 text-sm text-gray-700 mb-3">
+							{{ book.excerpt }}
+						</p>
+						<span>{{ formatPrice(book.price) }}</span>
 					</div>
-					<img
-						src="images/cover.png"
-						alt="cover image"
-						class="h-full lg:h-72 w-full"
-					>
-				</div>
-				<div class="flex justify-center relative">
-					<div class="absolute bg-gradient-to-b bottom-0 flex font-bold from-transparent h-full items-end justify-center pb-5 text-white to-gray-800 via-transparent w-full">
-						Action
-					</div>
-					<img
-						src="images/cover.png"
-						alt="cover image"
-						class="h-full lg:h-72 w-full"
-					>
-				</div>
-				<div class="flex justify-center relative">
-					<div class="absolute bg-gradient-to-b bottom-0 flex font-bold from-transparent h-full items-end justify-center pb-5 text-white to-gray-800 via-transparent w-full">
-						Classic
-					</div>
-					<img
-						src="images/cover.png"
-						alt="cover image"
-						class="h-full lg:h-72 w-full"
-					>
-				</div>
-				<div class="flex justify-center relative">
-					<div class="absolute bg-gradient-to-b bottom-0 flex font-bold from-transparent h-full items-end justify-center pb-5 text-white to-gray-800 via-transparent w-full">
-						Cosmic
-					</div>
-					<img
-						src="images/cover.png"
-						alt="cover image"
-						class="h-full lg:h-72 w-full"
-					>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<section class="py-20 bg-white">
-		<div class="container mx-auto">
-			<h1 class="font-bold text-center text-2xl mb-8">
-				Trending Books
+	<section class="pb-20 bg-gray-50 relative">
+		<div class="absolute text-9xl text-gray-700 opacity-5 font-black z-0">Romance</div>
+		<div class="container mx-auto z-10">
+			<h1 class="font-bold text-2xl mb-8">
+				Romance
 			</h1>
-			<div class="grid grid-cols-1 gap-y-5 md:grid-cols-3 lg:grid-cols-5 md:gap-x-10 px-4 sm:px-6 lg:px-8">
-				<div class="flex flex-col items-center">
+			<div class="grid grid-cols-3 gap-10">
+				<div v-for="book in books" class="flex space-x-5">
 					<img
-						src="images/cover.png"
-						alt="cover image"
-						class="h-full lg:h-72 w-full mb-5"
+						:src="book.cover_url"
+						:alt="book.title + '\s cover image'"
+						class="w-32 h-44 flex-shrink-0 shadow-2xl"
 					>
-					<p class="text-gray-500">
-						John Doe
-					</p>
-					<h1 class="font-bold text-lg">
-						Title of book
-					</h1>
-					<span class="text-sm">$ 29.99</span>
-				</div>
-				<div class="flex flex-col items-center">
-					<img
-						src="images/cover.png"
-						alt="cover image"
-						class="h-full lg:h-72 w-full mb-5"
-					>
-					<p class="text-gray-500">
-						John Doe
-					</p>
-					<h1 class="font-bold text-lg">
-						Title of book
-					</h1>
-					<span class="text-sm">$ 29.99</span>
-				</div>
-				<div class="flex flex-col items-center">
-					<img
-						src="images/cover.png"
-						alt="cover image"
-						class="h-full lg:h-72 w-full mb-5"
-					>
-					<p class="text-gray-500">
-						John Doe
-					</p>
-					<h1 class="font-bold text-lg">
-						Title of book
-					</h1>
-					<span class="text-sm">$ 29.99</span>
-				</div>
-				<div class="flex flex-col items-center">
-					<img
-						src="images/cover.png"
-						alt="cover image"
-						class="h-full lg:h-72 w-full mb-5"
-					>
-					<p class="text-gray-500">
-						John Doe
-					</p>
-					<h1 class="font-bold text-lg">
-						Title of book
-					</h1>
-					<span class="text-sm">$ 29.99</span>
-				</div>
-				<div class="flex flex-col items-center">
-					<img
-						src="images/cover.png"
-						alt="cover image"
-						class="h-full lg:h-72 w-full mb-5"
-					>
-					<p class="text-gray-500">
-						John Doe
-					</p>
-					<h1 class="font-bold text-lg">
-						Title of book
-					</h1>
-					<span class="text-sm">$ 29.99</span>
+					<div>
+						<h1 class="font-bold tracking-wider text-lg line-clamp-2">{{ book.title }}</h1>
+						<div class="text-sm text-gray-400 mb-3">by 
+							<a href="" class="text-gray-700 hover:underline">{{ book.author }}</a>
+						</div>
+						<p class="w-4/5 line-clamp-2 text-sm text-gray-700 mb-3">
+							{{ book.excerpt }}
+						</p>
+						<span>{{ formatPrice(book.price) }}</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -171,60 +87,25 @@
 
 	<section class="my-20">
 		<div class="container mx-auto">
-			<h1 class="font-bold text-center text-2xl mb-8">
-				Popular Authors
-			</h1>
-			<div class="grid grid-cols-1 gap-y-5 md:grid-cols-3 lg:grid-cols-5 md:gap-x-10 px-4 sm:px-6 lg:px-8">
-				<div class="flex flex-col items-center">
-					<img
-						src="images/avatar.jpg"
-						alt="author avatar"
-						class="rounded-full h-32 mb-5"
-					>
-					<h1 class="font-bold text-2xl">
-						John Doe
-					</h1>
+			<div class="flex space-x-10 mx-auto w-1/2">
+				<div class="text-right">
+					<span class="capitalize text-gray-700">author of the week</span>
+					<div class="border-t mt-5 mb-3 w-20 border-gray-500 ml-auto"></div>
+					<h1 class="text-5xl font-black mb-3 capitalize">sandro loren</h1>
+					<p class="text-gray-600">
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt deleniti exercitationem eligendi esse blanditiis? Quas non, sequi alias commodi harum eum necessitatibus consequuntur illo molestias ipsam, ipsum accusamus deserunt ab!
+					</p>
 				</div>
-				<div class="flex flex-col items-center">
-					<img
-						src="images/avatar.jpg"
-						alt="author avatar"
-						class="rounded-full h-32 mb-5"
-					>
-					<h1 class="font-bold text-2xl">
-						John Doe
-					</h1>
-				</div>
-				<div class="flex flex-col items-center">
-					<img
-						src="images/avatar.jpg"
-						alt="author avatar"
-						class="rounded-full h-32 mb-5"
-					>
-					<h1 class="font-bold text-2xl">
-						John Doe
-					</h1>
-				</div>
-				<div class="flex flex-col items-center">
-					<img
-						src="images/avatar.jpg"
-						alt="author avatar"
-						class="rounded-full h-32 mb-5"
-					>
-					<h1 class="font-bold text-2xl">
-						John Doe
-					</h1>
-				</div>
-				<div class="flex flex-col items-center">
-					<img
-						src="images/avatar.jpg"
-						alt="author avatar"
-						class="rounded-full h-32 mb-5"
-					>
-					<h1 class="font-bold text-2xl">
-						John Doe
-					</h1>
-				</div>
+				<img
+					src="images/cover.png"
+					alt="cover image"
+					class="flex-shrink-0 shadow-2xl w-52 h-64"
+				>
+			</div>
+			<div class="flex mx-auto w-20 space-x-4 justify-center mt-10">
+				<span class="bg-gray-400 block w-2 h-2 rounded-full"></span>
+				<span class="bg-white border border-gray-400 block w-2 h-2 rounded-full"></span>
+				<span class="bg-white border border-gray-400 block w-2 h-2 rounded-full"></span>
 			</div>
 		</div>
 	</section>
@@ -232,8 +113,13 @@
 
 <script>
 import BreezeNavBarLayout from '@/Layouts/NavBar'
+import format from '@/mixins/format';
+
 export default {
-    layout: BreezeNavBarLayout
+	mixins: [ format ],
+    layout: BreezeNavBarLayout,
+
+	props: ['books'],
 }
 </script>
 

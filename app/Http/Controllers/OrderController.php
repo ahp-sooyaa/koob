@@ -58,7 +58,7 @@ class OrderController extends Controller
         ]);
 
         // check order quantity are more than available stock here
-        // or check this in addToCart before add to cart
+        // or check this before add to cart
         // $user = User::firstOrCreate(
         //     [
         //         'email' => $request->input('email')
@@ -70,18 +70,10 @@ class OrderController extends Controller
         // );
 
         try {
-            // Auth::user()->createOrGetStripeCustomer();
-
-            // if (! Auth::user()->hasDefaultPaymentMethod()) {
-            //     Auth::user()->updateDefaultPaymentMethod($request->payment_method_id);
-            // }
-
-            // $payment = Auth::user()->invoiceFor('description', $request->input('amount')); 
             $payment = Auth::user()->charge(
                 $request->input('amount'),
                 $request->input('payment_method_id')
             );
-            // $payment = $payment->asStripePaymentIntent();
         } catch (\Exception $e) {
             Log::debug($e->getMessage());
             return response()->json(['message' => $e->getMessage()], 500);
@@ -111,13 +103,11 @@ class OrderController extends Controller
         session()->forget('cart');
         Cart::where('user_id', auth()->id())->delete();
 
-        // Mail::send(new OrderPlaced($order));
         $admins = User::where('role', 'admin')->get();
         Notification::send($admins, new OrderPlaced($order));
         Notification::send(Auth::user(), new CustomerOrderPlaced($order));
 
         if (session('coupon')) {
-            // auth()->user()->coupons()->attach(session('coupon')->id);
             auth()->user()->coupons()->where('code', session('coupon')->code)->first()->pivot->update(['isApplied' => true]);
 
             session()->forget('coupon');

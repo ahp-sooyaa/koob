@@ -1,7 +1,7 @@
 <template>
 	<div class="relative">
 		<div
-			@click="open = ! open"
+			@click.stop="open = ! open"
 			class="flex"
 		>
 			<slot name="trigger" />
@@ -10,7 +10,7 @@
 		<!-- Full Screen Dropdown Overlay -->
 		<div
 			v-show="open"
-			@click="open = false"
+			@click.stop="open = false"
 			class="fixed inset-0 z-40"
 		/>
 
@@ -24,7 +24,7 @@
 		>
 			<div
 				v-show="open"
-				@click="open = false"
+				@click.stop="open = false"
 				class="absolute z-50 mt-2 rounded-md shadow-lg bg-white"
 				:class="[widthClass, alignmentClasses]"
 				style="display: none;"

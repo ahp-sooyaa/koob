@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="flex flex-col min-h-screen bg-gray-100">
+		<div class="flex flex-col min-h-screen bg-gray-50">
 			<nav class="fixed z-20 w-full bg-white border-b border-gray-100">
 				<!-- Primary Navigation Menu -->
 				<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -367,7 +367,7 @@
 			</main>
 
 			<!-- page Footer -->
-			<footer class="bg-gray-700 text-white">
+			<footer class="bg-gray-900 text-white">
 				<div class="container mx-auto pt-10 lg:pt-20 pb-5">
 					<div class="px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row space-y-10 space-x-0 lg:space-y-0 lg:space-x-32">
 						<div>
@@ -432,7 +432,7 @@
 						</div>
 					</div>
 					<hr class="my-10 border border-gray-600">
-					<div class="text-center">
+					<div class="text-center text-sm">
 						© 2021 All Right Reserved. Aung Htet Paing.
 					</div>
 				</div>

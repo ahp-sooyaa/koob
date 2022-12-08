@@ -10,7 +10,7 @@
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 mt-12">
 			<div class="flex flex-col-reverse lg:flex-row items-start lg:space-x-16">
 				<div class="lg:w-1/2 w-full mx-auto">
-					<h1 class="text-xl font-semibold">
+					<h1 class="text-xl font-semibold text-gray-800">
 						Contact Information
 					</h1>
 					<div class="lg:flex flex-wrap -mx-2">
@@ -58,11 +58,15 @@
 						</div>
 					</div>
 
-					<Addresses
+					<div class="border-t my-5"></div>
+
+					<Addresses 
 						:payment-processing="paymentProcessing"
 					/>
 
-					<h1 class="text-xl font-semibold mt-5">
+					<div class="border-t my-5"></div>
+
+					<h1 class="text-xl font-semibold text-gray-800">
 						Payment Detail
 					</h1>
 					<div class="flex flex-wrap -mx-2">
@@ -82,23 +86,26 @@
 
 					<button
 						@click="processPayment"
-						class="bg-gray-700 border cursor-pointer flex hover:shadow-none items-center justify-center mt-5 px-5 py-3 rounded-xl shadow-md text-sm text-white w-full"
+						class="bg-gray-700 border cursor-pointer flex space-x-2 hover:shadow-none items-center justify-center mt-5 px-5 py-3 rounded-xl shadow-md text-sm text-white w-full"
 						dusk="paynow"
-						:class="paymentProcessing || !products.length ? 'cursor-not-allowed bg-gray-400' : ''"
+						:class="{'cursor-not-allowed opacity-50': paymentProcessing || !products.length}"
 						:disabled="paymentProcessing || !products.length"
 					>
-						<span v-if="!paymentProcessing">Pay Now</span>
 						<svg
-							v-else
+							v-if="paymentProcessing"
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 512 512"
-							class="w-7 h-7 text-white fill-current animate-spin"
+							class="w-5 h-5 text-white fill-current animate-spin"
 						>
 							<path
 								d="M304 48C304 74.51 282.5 96 256 96C229.5 96 208 74.51 208 48C208 21.49 229.5 0 256 0C282.5 0 304 21.49 304 48zM304 464C304 490.5 282.5 512 256 512C229.5 512 208 490.5 208 464C208 437.5 229.5 416 256 416C282.5 416 304 437.5 304 464zM0 256C0 229.5 21.49 208 48 208C74.51 208 96 229.5 96 256C96 282.5 74.51 304 48 304C21.49 304 0 282.5 0 256zM512 256C512 282.5 490.5 304 464 304C437.5 304 416 282.5 416 256C416 229.5 437.5 208 464 208C490.5 208 512 229.5 512 256zM74.98 437C56.23 418.3 56.23 387.9 74.98 369.1C93.73 350.4 124.1 350.4 142.9 369.1C161.6 387.9 161.6 418.3 142.9 437C124.1 455.8 93.73 455.8 74.98 437V437zM142.9 142.9C124.1 161.6 93.73 161.6 74.98 142.9C56.24 124.1 56.24 93.73 74.98 74.98C93.73 56.23 124.1 56.23 142.9 74.98C161.6 93.73 161.6 124.1 142.9 142.9zM369.1 369.1C387.9 350.4 418.3 350.4 437 369.1C455.8 387.9 455.8 418.3 437 437C418.3 455.8 387.9 455.8 369.1 437C350.4 418.3 350.4 387.9 369.1 369.1V369.1z"
 							/>
 						</svg>
+						<span v-text="paymentProcessing ? 'Processing Payment' : 'Pay Now'"></span>
 					</button>
+					<!-- <button @click="paymentProcessing = true, deliveryAddressStore.paymentProcessing = true, cardElement.update({disabled: true})">
+						loading state
+					</button> -->
 				</div>
 
 				<!-- order summary -->
@@ -128,13 +135,14 @@
 								<div class="flex items-center flex-1 space-x-5">
 									<select
 										@change="updateCartQuantity(index, item, $event)"
-										class="rounded-2xl shadow-md cursor-pointer"
+										class="rounded-2xl shadow-md cursor-pointer text-xs"
 									>
 										<option
 											v-for="qty in 10"
 											:key="qty"
 											:value="qty"
 											:selected="item.quantity === qty"
+											:disabled="paymentProcessing"
 										>
 											{{ qty }}
 										</option>
@@ -147,6 +155,7 @@
 							<button
 								@click="removeFromCart(index, item)"
 								class="ml-auto text-sm text-gray-500 hover:text-gray-800 border-0 pt-0.5 focus:outline-none rounded self-start"
+								:disabled="paymentProcessing"
 							>
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -183,18 +192,18 @@
 							</div>
 							<div
 								v-if="!coupon"
-								class="flex items-center justify-between relative"
+								class="flex items-center justify-between"
 							>
 								<input
 									v-model="code"
 									type="text"
 									placeholder="coupon"
-									class="rounded-2xl w-full focus:ring-0 focus:border-black"
+									class="rounded-l-2xl w-full focus:ring-0 focus:border-black border-gray-300"
 								>
 								<div
 									@click="applyCoupon"
-									class="absolute bg-gray-800 px-7 py-2 right-0 rounded-2xl"
-									:class="code ? 'cursor-pointer text-gray-100' : 'opacity-50 cursor-default text-gray-500'"
+									class="bg-gray-700 px-7 py-2 rounded-r-2xl border border-gray-700"
+									:class="code ? 'cursor-pointer text-gray-100 hover:bg-gray-900' : 'opacity-50 cursor-default text-gray-500'"
 								>
 									Apply
 								</div>
@@ -330,6 +339,10 @@ export default {
 
     methods: {
         updateCartQuantity(index, item, event) {
+			if (this.paymentProcessing) {
+				return
+			}
+
             let cartItem = this.products[index]
             let routeName = this.checkoutMode === 'cart' ? 'cart.update' : 'buyNow.update'
 
@@ -347,6 +360,10 @@ export default {
         },
 
         removeFromCart(index, item) {
+			if (this.paymentProcessing) {
+				return
+			}
+
             if(this.checkoutMode === 'cart') {
                 axios
                     .delete(route('cart.destroy', item.id))
@@ -371,7 +388,21 @@ export default {
         },
 
         async processPayment() {
+			if (!this.customer.contact_name || !this.customer.contact_email) {
+				window.flash('Please fill contact information first!', 'error')
+
+				return
+			}
+
+			if (!this.deliveryAddressStore.selectedAddress) {
+				window.flash('Please create or choose delivery address!', 'error')
+
+				return
+			}
+
             this.paymentProcessing = true
+			this.cardElement.update({disabled: true})
+
             const { paymentMethod, error } = await this.stripe.createPaymentMethod(
                 'card',
                 this.cardElement,
@@ -391,6 +422,7 @@ export default {
 
             if (error) {
                 this.paymentProcessing = false
+				this.cardElement.update({disabled: false})
                 this.cardError = error.message
             } else {
                 this.customer.payment_method_id = paymentMethod.id

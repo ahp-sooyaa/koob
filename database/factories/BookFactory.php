@@ -29,7 +29,7 @@ class BookFactory extends Factory
             'author' => $this->faker->name(),
             'excerpt' => $this->faker->paragraph(),
             'price' => $this->faker->numberBetween(10_00, 90_00),
-            'cover_photo_path' => 'cover-photos/BkUylVGhFbp0JVHnVyRzGxJhubpGC4kCHfBOnxFT.png',
+            'cover_photo_path' => 'cover-photos/cover.png',
             // 'available_stock_count' => 10,
             'stock_count' => 10
         ];

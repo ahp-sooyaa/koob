@@ -26,6 +26,7 @@ class BookController extends Controller
                     'cover_url' => $book->cover_url,
                     'stock_count' => $book->stock_count,
                 ]),
+            'booksCount' => Book::count(),
             'categories' => Category::select(['slug', 'name'])->get(),
             'sorting' => Request::query('sort', 'created_at,asc'),
             'filters' => Request::only(['search', 'category']),

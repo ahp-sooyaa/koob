@@ -72,7 +72,7 @@
 							<div class="flex items-center">
 								<div class="flex-shrink-0 h-20 w-18">
 									<img
-										class="h-20 w-69 rounded-md"
+										class="h-20 w-69 rounded-md object-cover"
 										alt="book cover"
 										:src="book.cover_url"
 										loading="lazy"

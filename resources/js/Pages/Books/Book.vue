@@ -1,11 +1,11 @@
 <template>
-	<div class="bg-gray-200 mb-5 p-5 rounded-2xl">
+	<!-- <div class="bg-gray-200 mb-5 p-5 rounded-2xl"> -->
 		<img
 			:src="data.cover_url"
-			alt="cover"
-			class="h-96 md:h-72 lg:h-56 w-full object-cover"
+			:alt="data.title + '\'s cover image'"
+			class="object-cover w-44 mx-auto mb-5 shadow-xl h-56"
 		>
-	</div>
+	<!-- </div> -->
 	<div class="flex flex-1 flex-col px-1">
 		<Link
 			:href="'books/' + data.slug"

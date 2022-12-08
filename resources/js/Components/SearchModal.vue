@@ -28,7 +28,7 @@
 	<!--	>-->
 	<div
 		v-show="showModal"
-		class="w-full max-w-2xl absolute z-50 left-1/2 transform -translate-x-1/2 top-10 bg-white p-5 rounded-2xl shadow"
+		class="lg:w-full max-w-2xl absolute z-50 left-5 right-5 lg:left-1/2 lg:transform lg:-translate-x-1/2 top-10 bg-white p-5 rounded-2xl shadow"
 	>
 		<div class="relative flex items-center">
 			<img
@@ -155,8 +155,13 @@ export default {
         window.addEventListener('keydown', event => {
             if (event.key === '/') {
                 event.preventDefault()
+
                 this.openModal()
             }
+
+			if (event.key === 'Escape') {
+				this.showModal = false
+			}
         })
     },
 
@@ -169,7 +174,10 @@ export default {
         },
 
         openModal() {
-            this.fetchResults()
+			if(!this.search) {
+            	this.fetchResults()
+			}
+
             this.showModal = true
             this.$nextTick(() => this.$refs.search.focus())
         }

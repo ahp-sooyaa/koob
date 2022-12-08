@@ -8,7 +8,7 @@
 import Chart from 'chart.js/auto'
 
 export default {
-    props: ['type', 'labels', 'datasets'],
+    props: ['type', 'labels', 'datasets', 'elements', 'scales', 'aspectRatio', 'tooltipEnabled'],
 
     data() {
         return {
@@ -19,12 +19,8 @@ export default {
                     datasets: this.datasets
                 },
                 options: {
-                    spanGaps: true,
-                    responsive: true,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false,
-                    },
+                    elements: this.elements,
+                    maintainAspectRatio: this.aspectRatio,
                     plugins: {
                         legend: {
                             display: false,
@@ -50,9 +46,17 @@ export default {
                                         pointStyle: 'circle',
                                     }
                                 },
-                            }
+                            },
+                            interaction: {
+                                mode: 'index',
+                                intersect: false,
+                            },
+                            enabled: this.tooltipEnabled
                         }
                     },
+                    scales: this.scales,
+                    spanGaps: true,
+                    responsive: true,
                 }
             }
         }

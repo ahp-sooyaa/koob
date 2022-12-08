@@ -127,29 +127,41 @@
 			</div>
 		</div>
 	</div>
-	<div
-		v-if="!isDefaultAddress"
-		@click="toggleDefault()"
-		@keydown.space.prevent="toggleDefault()"
-		class="flex items-center space-x-2"
-	>
-		<label
-			class="text-sm text-gray-500"
-		>Save as default</label>
-		<span
-			class="toggle"
-			role="checkbox"
-			tabindex="0"
-			:aria-checked="saveAsDefault"
-		/>
-	</div>
+	<div class="flex justify-between mt-3">
+		<div
+			v-if="!isDefaultAddress"
+			@click="toggleDefault()"
+			@keydown.space.prevent="toggleDefault()"
+			class="flex items-center space-x-2"
+		>
+			<span
+				class="toggle"
+				role="checkbox"
+				tabindex="0"
+				:aria-checked="saveAsDefault"
+			/>
+			<label
+				class="text-sm text-gray-500"
+			>
+				Save as default
+			</label>
+		</div>
 
-	<Button
-		@click="updateAddress()"
-		class="mt-5 max-w-max"
-	>
-		Update & continue
-	</Button>
+		<div class="flex space-x-2 ml-auto">
+			<button
+				@click="deliveryAddressStore.isEditAddress = false" 
+				class="inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md font-semibold text-xs uppercase tracking-widest hover:border-gray-900 hover:text-gray-900 transition ease-in-out duration-150 border-gray-500 text-gray-500"
+			>
+				Back
+			</button>
+			<Button
+				@click="updateAddress()"
+				class="max-w-max"
+			>
+				Save
+			</Button>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -186,8 +198,13 @@ export default {
             axios
                 .patch(route('addresses.update', this.address.id), this.address)
                 .then(() => {
-                    this.deliveryAddressStore.isEditAddress = false
-                    this.deliveryAddressStore.isNewAddress = false
+					// if (this.address.default) {
+					// 	this.deliveryAddressStore.selectedAddress = this.address
+					// }
+
+					deliveryAddressStore.addresses[deliveryAddressStore.editingAddressIndex] = this.address
+                    deliveryAddressStore.isEditAddress = false
+                    deliveryAddressStore.isNewAddress = false
                 })
                 .catch(err => this.errors = err.response.data.errors)
         },

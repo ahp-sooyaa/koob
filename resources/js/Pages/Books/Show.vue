@@ -11,13 +11,13 @@
 	<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 my-16 pt-7">
 		<div
 			v-if="previousPurchasedOrder"
-			class="bg-white inline-block mb-5 px-5 py-3 rounded-2xl shadow"
+			class="text-gray-700 text-sm bg-white inline-block mb-5 px-5 py-3 rounded-2xl shadow"
 		>
 			<h1>
 				You have previously purchased this book. See
 				<Link
 					:href="route('orders.show', previousPurchasedOrder.id)"
-					class="hover:text-gray-800 underline"
+					class="hover:text-gray-900 transform hover:translate-y-20 underline"
 				>
 					order detail
 				</Link>
@@ -27,7 +27,7 @@
 			<img
 				:src="book.cover_url"
 				alt="book_cover"
-				class="w-96 h-96"
+				class="w-72 h-96 object-cover"
 			>
 			<div class="ml-8 w-1/2">
 				<h1 class="font-bold mb-1 text-4xl tracking-tight">
@@ -45,7 +45,7 @@
 						v-model="quantity"
 						@change="updateCartQuantity(book, $event)"
 						name="qty"
-						class="mr-3 rounded-2xl"
+						class="mr-3 rounded-2xl text-xs"
 					>
 						<option
 							v-for="qty in 10"
@@ -55,15 +55,13 @@
 							{{ qty }}
 						</option>
 					</select>
-					<button
+					<Button
 						@click="addToCart"
-						class="w-60 font-bold px-4 py-2 rounded-xl text-white"
-						:class="
-							isAdded ? 'bg-gray-500 cursor-not-allowed' : 'bg-blue-500'
-						"
 						:disabled="isAdded"
-						v-text="isAdded ? 'Added to Cart' : 'Add to Cart'"
-					/>
+						:class="{'cursor-default opacity-50': isAdded}"
+					>
+						{{ isAdded ? 'Added' : 'Add'}} to Cart
+					</Button>
 				</div>
 			</div>
 		</div>
@@ -73,8 +71,13 @@
 <script>
 import BreezeNavBarLayout from '@/Layouts/NavBar'
 import format from '@/mixins/format'
+import Button from '@/Components/Button'
 
 export default {
+	components: {
+		Button,
+	},
+
     mixins: [ format ],
 
     layout: BreezeNavBarLayout,

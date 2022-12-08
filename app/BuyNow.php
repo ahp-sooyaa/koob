@@ -26,6 +26,7 @@ class BuyNow
             session()->put($this->buyNowKey($book->id), [
                 'id' => $book->id,
                 'title' => $book->title,
+                'slug' => $book->slug,
                 'quantity' => $qty,
                 'price' => $book->price,
                 'cover_url' => $book->cover_url,
