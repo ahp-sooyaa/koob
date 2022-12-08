@@ -8,19 +8,22 @@
 		>
 	</Head>
 
-	<BreezeNavBarLayout>
+	<SettingSideBarLayout>
 		<template #header>
 			<h2 class="font-semibold text-xl text-gray-800 leading-tight">
-				Order History
+				Orders & Returns
 			</h2>
+			<p class="text-sm text-gray-500 mt-1">
+				Manage your orders, view their progress or return products.
+			</p>
 		</template>
 
 		<!-- orders list -->
 		<div
-			class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 mb-16"
+			class="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 mb-16"
 		>
 			<div v-if="ordersCount">
-				<search-box :search-query="search" />
+				<search-box :search-query="search" classes="w-full rounded-lg" />
 			</div>
 			<div v-if="orders.data.length">
 				<div class="divide-y space-y-10">
@@ -53,7 +56,7 @@
 								</Link>
 							</div>
 						</div>
-						<div class="bg-white bg-opacity-80 shadow rounded-lg p-7 divide-y">
+						<div class="divide-y">
 							<div
 								v-for="(book, index) in order.books"
 								:key="book.id"
@@ -158,11 +161,11 @@
 			</div>
 		</div>
 		<!-- end of orders list -->
-	</BreezeNavBarLayout>
+	</SettingSideBarLayout>
 </template>
 
 <script>
-import BreezeNavBarLayout from '@/Layouts/NavBar'
+import SettingSideBarLayout from '@/Layouts/SettingSideBar'
 import SearchBox from '@/Components/SearchBox'
 import Paginator from '@/Components/Paginator'
 import format from '@/mixins/format'
@@ -171,7 +174,7 @@ import BreezeButtonOutline from '@/Components/ButtonOutline'
 
 export default {
     components: {
-        BreezeNavBarLayout,
+        SettingSideBarLayout,
         BreezeButton,
         BreezeButtonOutline,
         SearchBox,

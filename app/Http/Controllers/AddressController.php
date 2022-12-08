@@ -5,12 +5,26 @@ namespace App\Http\Controllers;
 use App\Models\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
 class AddressController extends Controller
 {
     public function index()
     {
-        return response()->json(['addresses' => Auth::user()->addresses]);
+        if(request()->wantsJson()) {
+            return response()->json(['addresses' => Auth::user()->addresses]);
+        }
+
+        return Inertia::render('Settings/Addresses/Index', [
+            'addresses' => Auth::user()->addresses,
+        ]);
+    }
+
+    public function edit(Address $address)
+    {
+        return Inertia::render('Settings/Addresses/Edit', [
+            'initialAddress' => $address,
+        ]);
     }
 
     public function store(Request $request)

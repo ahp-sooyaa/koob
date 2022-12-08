@@ -36,7 +36,7 @@ class OrderController extends Controller
             ->latest()
             ->paginate(5);
 
-        return Inertia::render('Orders/Index', [
+        return Inertia::render('Settings/Orders/Index', [
             'orders' => $orders,
             'ordersCount' => $ordersCount,
             'search' => request('search')
@@ -47,7 +47,7 @@ class OrderController extends Controller
     {
         abort_if($order->user_id != Auth::id(), 404);
 
-        return Inertia::render('Orders/Show', compact('order'));
+        return Inertia::render('Settings/Orders/Show', compact('order'));
     }
 
     public function store(Request $request)

@@ -54,7 +54,7 @@
 					</div>
 					<div class="w-full lg:w-4/5">
 						<div class="flex items-center justify-between lg:flex-row lg:items-center space-x-3">
-							<search-box :search-query="filters.search" />
+							<search-box :search-query="filters.search" classes="hover:border-transparent focus:border-transparent rounded-full" />
 							<sorting :sorting="sorting" />
 						</div>
 						<div

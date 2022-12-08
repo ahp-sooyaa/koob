@@ -104,23 +104,15 @@
 										</div>
 										<div v-else>
 											<BreezeDropdownLink
-												:href="route('profile.show', $page.props.auth.user.name)"
+												:href="route('profile.edit', $page.props.auth.user.name)"
 												as="button"
 											>
 												<div class="flex items-center gap-x-2">
-													<svg
-														xmlns="http://www.w3.org/2000/svg"
-														class="h-5 w-5"
-														viewBox="0 0 20 20"
-														fill="currentColor"
-													>
-														<path
-															fill-rule="evenodd"
-															d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-															clip-rule="evenodd"
-														/>
+													<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+														<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
 													</svg>
-													My Profile
+
+													Manage Account
 												</div>
 											</BreezeDropdownLink>
 											<BreezeDropdownLink
@@ -128,19 +120,11 @@
 												as="button"
 											>
 												<div class="flex items-center gap-x-2">
-													<svg
-														xmlns="http://www.w3.org/2000/svg"
-														class="h-5 w-5"
-														viewBox="0 0 20 20"
-														fill="currentColor"
-													>
-														<path
-															fill-rule="evenodd"
-															d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
-															clip-rule="evenodd"
-														/>
+													<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+														<path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
 													</svg>
-													My Orders
+
+													Orders & Returns
 												</div>
 											</BreezeDropdownLink>
 										</div>
@@ -266,19 +250,11 @@
 							:active="route().current('profile.show', $page.props.auth.user.name)"
 						>
 							<div class="flex items-center gap-x-2">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									class="h-5 w-5"
-									viewBox="0 0 20 20"
-									fill="currentColor"
-								>
-									<path
-										fill-rule="evenodd"
-										d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-										clip-rule="evenodd"
-									/>
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
 								</svg>
-								My Profile
+
+								Manage Account
 							</div>
 						</BreezeResponsiveNavLink>
 						<BreezeResponsiveNavLink
@@ -286,19 +262,11 @@
 							:active="route().current('orders.index')"
 						>
 							<div class="flex items-center gap-x-2">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									class="h-5 w-5"
-									viewBox="0 0 20 20"
-									fill="currentColor"
-								>
-									<path
-										fill-rule="evenodd"
-										d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z"
-										clip-rule="evenodd"
-									/>
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+									<path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
 								</svg>
-								My Orders
+
+								Orders & Returns
 							</div>
 						</BreezeResponsiveNavLink>
 

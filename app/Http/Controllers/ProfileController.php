@@ -31,7 +31,7 @@ class ProfileController extends Controller
 
     public function edit()
     {
-        return Inertia::render('Setting');
+        return Inertia::render('Settings/Accounts/Edit');
     }
 
     public function update(Request $request)

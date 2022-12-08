@@ -1,5 +1,5 @@
 <template>
-	<div class="relative flex items-center w-full lg:max-w-min">
+	<div class="relative flex items-center">
 		<img
 			v-if="loading"
 			src="/images/tail-spin.svg"
@@ -23,7 +23,8 @@
 			v-model="search"
 			type="text"
 			placeholder="search"
-			class="w-full lg:w-auto px-10 border-gray-300 hover:shadow hover:border-transparent focus:border-transparent focus:shadow focus:ring-0 rounded-full"
+			class="px-10 border-gray-300 hover:shadow focus:shadow focus:ring-0"
+			:class="classes"
 		>
 		<svg
 			v-if="search"
@@ -47,7 +48,7 @@
 <script>
 import debounce from 'lodash/debounce'
 export default {
-    props: ['searchQuery'],
+    props: ['searchQuery', 'classes'],
 
     data() {
         return {

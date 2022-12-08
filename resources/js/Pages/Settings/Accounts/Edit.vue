@@ -4,13 +4,19 @@
 		<meta
 			head-key="description"
 			name="description"
-			content="This is profile setting page."
+			content="This is account setting page."
 		>
 	</Head>
 
-	<BreezeNavBarLayout>
+	<SettingSideBarLayout>
 		<template #header>
-			<h2 class="flex font-semibold text-xl text-gray-800 leading-tight">
+			<h2 class="font-semibold text-xl text-gray-800 leading-tight">
+				Manage Account
+			</h2>
+			<p class="text-sm text-gray-500 mt-1">
+				Update your username, email or password.
+			</p>
+			<!-- <h2 class="flex font-semibold text-xl text-gray-800 leading-tight">
 				<Link
 					:href="route('profile.show', $page.props.auth.user.name)"
 					class="text-gray-500 hover:text-gray-900"
@@ -30,13 +36,15 @@
 					/>
 				</svg>
 				Setting
-			</h2>
+			</h2> -->
 		</template>
-		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+		
+		<div class="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 			<form
 				@submit.prevent="updateProfile"
-				class="px-2 py-10 lg:w-1/2 mx-auto"
+				class="px-2 py-10 lg:w-2/3"
 			>
+				<h1 class="mb-5 text-xl">Personal information</h1>
 				<div class="relative max-w-max mb-5">
 					<img
 						v-if="!profilePhotoPreview"
@@ -59,7 +67,7 @@
 					<button
 						@click="$refs.photo.click()"
 						type="button"
-						class="-bottom-3 -translate-x-1/2 absolute bg-blue-200 border hover:border-blue-400 left-1/2 px-2 py-0.5 rounded-lg text-blue-600 text-sm transform"
+						class="-bottom-3 -translate-x-1/2 absolute bg-gray-700 hover:bg-gray-500 shadow left-1/2 px-4 py-1 rounded-lg text-gray-300 text-xs transform tracking-widest"
 					>
 						Edit
 					</button>
@@ -122,8 +130,9 @@
 			</form>
 			<form
 				@submit.prevent="updatePassword"
-				class="px-2 py-10 lg:w-1/2 mx-auto"
+				class="px-2 py-10 lg:w-2/3"
 			>
+				<h1 class="mb-5 text-xl">Update Password</h1>
 				<div class="py-2">
 					<div class="relative">
 						<label
@@ -194,11 +203,11 @@
 				</BreezeButton>
 			</form>
 		</div>
-	</BreezeNavBarLayout>
+	</SettingSideBarLayout>
 </template>
 
 <script>
-import BreezeNavBarLayout from '@/Layouts/NavBar'
+import SettingSideBarLayout from '@/Layouts/SettingSideBar'
 import BreezeInput from '@/Components/Input'
 import BreezeInputError from '@/Components/InputError'
 import BreezeButton from '@/Components/Button'
@@ -206,7 +215,7 @@ export default {
     components: {
         BreezeInput,
         BreezeInputError,
-        BreezeNavBarLayout,
+        SettingSideBarLayout,
         BreezeButton
     },
 
