@@ -13,6 +13,6 @@ class RedirectToHomeController extends Controller
         }
 
         // instead of user dashboard, i will redirect to profile page
-        return redirect(route('profile.show', Auth::user()->name));
+        return redirect(route('profile.edit'));
     }
 }

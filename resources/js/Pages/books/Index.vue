@@ -85,9 +85,9 @@
 
 						<div
 							v-else
-							class="grid mt-32 place-content-center text-center"
+							class="grid mt-32 place-items-center text-center"
 						>
-							<lottie-player
+							<!-- <lottie-player
 								src="https://assets6.lottiefiles.com/packages/lf20_0s6tfbuc.json"
 								background="transparent"
 								speed="1"
@@ -95,16 +95,20 @@
 								loop
 								autoplay
 								class="mx-auto"
-							/>
-							<p>
+							/> -->
+							<img src="/images/not-found.svg" alt="Not Found svg" class="w-52 h-52">
+							<!-- <p>
 								No results found for
 								<span class="font-bold">{{ categoryFilter }}</span>
 								<span v-show="filters.search || categoryFilter"> books </span>
 								<span v-show="filters.search">matching </span>
 								<span class="font-bold">{{ filters.search }} </span>
 								.
+							</p> -->
+							<h1 class="mt-8 text-xl font-bold text-gray-900 tracking-wide">Result Not Found</h1>
+							<p class="text-sm text-gray-500 mb-5 mt-1 w-72">
+								Please try again with different keywords or check spelling
 							</p>
-							<p>Try different keywords or check spelling.</p>
 						</div>
 					</div>
 				</div>

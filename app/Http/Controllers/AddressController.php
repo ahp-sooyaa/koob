@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 
 class AddressController extends Controller
@@ -16,7 +18,14 @@ class AddressController extends Controller
         }
 
         return Inertia::render('Settings/Addresses/Index', [
-            'addresses' => Auth::user()->addresses,
+            'addresses' => Auth::user()->addresses()->latest()->get(),
+        ]);
+    }
+
+    public function create()
+    {
+        return Inertia::render('Settings/Addresses/Create', [
+            'isFirstAddress' => Auth::user()->addresses->isEmpty()
         ]);
     }
 
@@ -72,5 +81,28 @@ class AddressController extends Controller
         $address->update($attributes);
 
         return response()->json(['address' => $address]);
+    }
+
+    public function destroy(Address $address)
+    {
+        if (Auth::user()->addresses->count() > 1 && $address->default) {
+            if (request()->wantsJson()) {
+                return response()->json([
+                    'message' => 'You can\'t delete your default address while you have more than one address'
+                ], 422); 
+            }
+    
+            return Redirect::back()->with('error', 'You can\'t delete your default address while you have more than one address');
+        }
+        
+        $address->delete();
+
+        if (request()->wantsJson()) {
+            return response()->json([
+                'message' => "Successfully deleted address"
+            ]); 
+        }
+
+        return Redirect::back()->with('success', 'Successfully deleted address');
     }
 }

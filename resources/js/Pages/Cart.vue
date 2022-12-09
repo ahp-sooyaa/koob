@@ -145,9 +145,9 @@
 
 			<div
 				v-else
-				class="text-center"
+				class="flex flex-col items-center"
 			>
-				<lottie-player
+				<!-- <lottie-player
 					src="https://assets6.lottiefiles.com/packages/lf20_0s6tfbuc.json"
 					background="transparent"
 					speed="1"
@@ -155,15 +155,21 @@
 					loop
 					autoplay
 					class="mx-auto"
-				/>
-				<p class="mb-3 text-gray-700">
-					There is no items in cart!
+				/> -->
+				<img src="/images/empty-cart.svg" alt="Empty Cart svg" class="w-52 h-52"/>
+
+				<h1 class="mt-8 text-xl font-bold text-gray-900 tracking-wide">
+					Your Cart is Empty
+				</h1>
+				<p class="text-sm text-gray-500 mb-5 mt-1 w-72 text-center">
+					Looks like you haven't added anything to your cart yet
 				</p>
 				<Link
 					:href="route('books.index')"
-					class="bg-gray-700 border cursor-pointer hover:shadow-none inline-block items-center max-w-max px-5 py-3 rounded-xl shadow-md text-sm text-white"
 				>
-					Continue Shopping
+					<BreezeButton>
+						Continue Shopping
+					</BreezeButton>
 				</Link>
 			</div>
 
@@ -233,12 +239,14 @@
 
 <script>
 import BreezeNavBarLayout from '@/Layouts/NavBar'
+import BreezeButton from '@/Components/Button'
 import axios from 'axios'
 import format from '@/mixins/format'
 
 export default {
     components: {
         BreezeNavBarLayout,
+		BreezeButton,
     },
 
     mixins: [format],

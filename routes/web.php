@@ -59,9 +59,11 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::delete('coupons', [CouponController::class, 'destroy'])->name('coupons.destroy');
 
     Route::get('addresses', [AddressController::class, 'index'])->name('addresses.index');
-    Route::get('addresses/{address}', [AddressController::class, 'edit'])->name('addresses.edit');
+    Route::get('addresses/create', [AddressController::class, 'create'])->name('addresses.create');
     Route::post('addresses', [AddressController::class, 'store'])->name('addresses.store');
+    Route::get('addresses/{address}/edit', [AddressController::class, 'edit'])->name('addresses.edit');
     Route::patch('addresses/{address}', [AddressController::class, 'update'])->name('addresses.update');
+    Route::delete('addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
 });
 
 Route::get('thank-you/{order}', [CheckoutController::class, 'thankYou'])->name('checkout.thankYou');
@@ -80,7 +82,7 @@ Route::get('login-as-user', function (){
 
     Auth::loginUsingId(2);
 
-    return redirect()->route('profile.show', User::find(2)->name);
+    return redirect()->route('profile.edit', User::find(2)->name);
 })->name('loginAsUser');
 
 Route::get('mailable', function () {

@@ -174,7 +174,7 @@
 														/>
 													</svg>
 
-													Addresse Book
+													Address Book
 												</div>
 											</BreezeDropdownLink>
 										</div>

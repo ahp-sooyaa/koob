@@ -90,7 +90,7 @@
 					v-for="book in result"
 					:key="book.slug"
 					:href="'books/' + book.slug"
-					class="flex items-center"
+					class="flex"
 				>
 					<img
 						:src="book.cover_url"

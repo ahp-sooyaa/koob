@@ -130,33 +130,31 @@
 			</div>
 			<div
 				v-if="!ordersCount || !orders.data.length"
-				class="text-center pb-16"
+				class="text-center py-10"
 			>
-				<lottie-player
-					src="https://assets6.lottiefiles.com/packages/lf20_0s6tfbuc.json"
-					background="transparent"
-					speed="1"
-					style="width: 200px; height: 200px;"
-					loop
-					autoplay
-					class="mx-auto"
-				/>
-				<div v-if="!ordersCount">
-					<p class="mb-3 text-gray-700">
-						You didn't order anything!
+				<div v-if="!ordersCount" class="flex flex-col items-center">
+					<img src="/images/no-order.svg" alt="No Order svg" class="w-52 h-52">
+					<h1 class="mt-8 text-xl font-bold text-gray-900 tracking-wide">
+						No Orders Yet
+					</h1>
+					<p class="text-sm text-gray-500 mb-5 mt-1 w-72 text-center">
+						Please make your first purchase and come back here
 					</p>
-					<Link
-						:href="route('books.index')"
-						class="bg-blue-500 px-3 py-1.5 rounded-md text-white shadow"
-					>
-						Continue Shopping
+					<Link :href="route('books.index')">
+						<BreezeButton>
+							Continue Shopping
+						</BreezeButton>
 					</Link>
 				</div>
-				<div v-if="search && !orders.data.length">
-					<p class="mb-3 text-gray-700">
-						No results found for <span class="font-bold">"{{ search }}"</span>
+				<div v-if="search && !orders.data.length" class="flex flex-col items-center">
+					<img src="/images/not-found.svg" alt="Not Found svg" class="w-52 h-52">
+					
+					<h1 class="mt-8 text-xl font-bold text-gray-900 tracking-wide">
+						Result Not Found
+					</h1>
+					<p class="text-sm text-gray-500 mb-5 mt-1 w-72">
+						Please try again with different keywords or check spelling
 					</p>
-					<p>Try different keywords or check spelling.</p>
 				</div>
 			</div>
 		</div>

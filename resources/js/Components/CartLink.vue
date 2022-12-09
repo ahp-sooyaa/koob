@@ -20,7 +20,7 @@
 			/>
 		</svg>
 		<span
-			class="bg-blue-500 flex font-bold items-center px-2 py-1 rounded-full shadow text-white text-xs"
+			class="bg-gray-800 flex font-bold items-center px-2 py-1 rounded-full shadow text-white text-xs"
 		>
 			{{ cartItemsCount }}
 		</span>
