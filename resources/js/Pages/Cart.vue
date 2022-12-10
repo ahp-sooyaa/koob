@@ -156,7 +156,11 @@
 					autoplay
 					class="mx-auto"
 				/> -->
-				<img src="/images/empty-cart.svg" alt="Empty Cart svg" class="w-52 h-52"/>
+				<img
+					src="/images/empty-cart.svg"
+					alt="Empty Cart svg"
+					class="w-52 h-52"
+				>
 
 				<h1 class="mt-8 text-xl font-bold text-gray-900 tracking-wide">
 					Your Cart is Empty
@@ -246,7 +250,7 @@ import format from '@/mixins/format'
 export default {
     components: {
         BreezeNavBarLayout,
-		BreezeButton,
+        BreezeButton,
     },
 
     mixins: [format],

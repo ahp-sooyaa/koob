@@ -9,7 +9,10 @@
 	</Head>
 
 	<BreezeNavBarLayout>
-		<template v-if="previousPurchasedOrder" #header>
+		<template
+			v-if="previousPurchasedOrder"
+			#header
+		>
 			<!-- <h2 class="font-semibold text-xl text-gray-800 leading-tight">
 				Shop
 			</h2> -->
@@ -24,7 +27,10 @@
 			</h1>
 		</template>
 
-		<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 mb-16 pt-7" :class="{'mt-16': !previousPurchasedOrder}">
+		<section
+			class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 mb-16 pt-7"
+			:class="{'mt-16': !previousPurchasedOrder}"
+		>
 			<!-- <div
 				v-if="previousPurchasedOrder"
 				class="text-gray-700 text-sm bg-white inline-block mb-5 px-5 py-3 rounded-2xl shadow"
@@ -76,7 +82,7 @@
 							:disabled="isAdded"
 							:class="{'cursor-default opacity-50': isAdded}"
 						>
-							{{ isAdded ? 'Added' : 'Add'}} to Cart
+							{{ isAdded ? 'Added' : 'Add' }} to Cart
 						</Button>
 					</div>
 				</div>
@@ -91,10 +97,10 @@ import format from '@/mixins/format'
 import Button from '@/Components/Button'
 
 export default {
-	components: {
-		Button,
-		BreezeNavBarLayout,
-	},
+    components: {
+        Button,
+        BreezeNavBarLayout,
+    },
 
     mixins: [ format ],
 

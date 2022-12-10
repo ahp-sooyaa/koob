@@ -54,7 +54,10 @@
 					</div>
 					<div class="w-full lg:w-4/5">
 						<div class="flex items-center justify-between lg:flex-row lg:items-center space-x-3">
-							<search-box :search-query="filters.search" classes="hover:border-transparent focus:border-transparent rounded-full" />
+							<search-box
+								:search-query="filters.search"
+								classes="hover:border-transparent focus:border-transparent rounded-full"
+							/>
 							<sorting :sorting="sorting" />
 						</div>
 						<div
@@ -96,7 +99,11 @@
 								autoplay
 								class="mx-auto"
 							/> -->
-							<img src="/images/not-found.svg" alt="Not Found svg" class="w-52 h-52">
+							<img
+								src="/images/not-found.svg"
+								alt="Not Found svg"
+								class="w-52 h-52"
+							>
 							<!-- <p>
 								No results found for
 								<span class="font-bold">{{ categoryFilter }}</span>
@@ -105,14 +112,19 @@
 								<span class="font-bold">{{ filters.search }} </span>
 								.
 							</p> -->
-							<h1 class="mt-8 text-xl font-bold text-gray-900 tracking-wide">Result Not Found</h1>
+							<h1 class="mt-8 text-xl font-bold text-gray-900 tracking-wide">
+								Result Not Found
+							</h1>
 							<p class="text-sm text-gray-500 mb-5 mt-1 w-72">
 								Please try again with different keywords or check spelling
 							</p>
 						</div>
 					</div>
 				</div>
-				<div v-else class="flex flex-col items-center">
+				<div
+					v-else
+					class="flex flex-col items-center"
+				>
 					<lottie-player
 						src="https://assets6.lottiefiles.com/packages/lf20_0s6tfbuc.json"
 						background="transparent"
@@ -164,10 +176,10 @@ export default {
             type: Object,
             default: null
         },
-		booksCount: {
-			type: Number,
-			required: true,
-		}
+        booksCount: {
+            type: Number,
+            required: true,
+        }
     },
 
     data() {
