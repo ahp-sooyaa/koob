@@ -1,10 +1,10 @@
 <template>
 	<!-- <div class="flex justify-between"> -->
-		<h1 class="text-xl font-semibold text-gray-800">
-			Choose Delivery Address
-		</h1>
-		<!-- <p class="mb-5 text-gray-500 text-sm">Choose delivery address</p> -->
-		<!-- <Button
+	<h1 class="text-xl font-semibold text-gray-800">
+		Choose Delivery Address
+	</h1>
+	<!-- <p class="mb-5 text-gray-500 text-sm">Choose delivery address</p> -->
+	<!-- <Button
 			@click="deliveryAddressStore.isNewAddress = true"
 			:class="deliveryAddressStore.isNewAddress || !deliveryAddressStore.addresses.length ? 'hidden' : 'block'"
 		>
@@ -35,8 +35,8 @@
 		<div
 			v-for="(addressItem, index) in deliveryAddressStore.addresses"
 			:key="addressItem.id"
-			:class="[{'border border-gray-500': deliveryAddressStore.selectedAddress.id === addressItem.id}, {'cursor-pointer hover:shadow': !paymentProcessing}, baseClasses]"
 			@click="selectDeliveryAddress(addressItem)"
+			:class="[{'border border-gray-500': deliveryAddressStore.selectedAddress.id === addressItem.id}, {'cursor-pointer hover:shadow': !paymentProcessing}, baseClasses]"
 		>
 			<Address
 				:address-item="addressItem"
@@ -50,8 +50,19 @@
 			class="bg-gray-200 border border-gray-400 text-sm rounded-md p-3 text-gray-500 border-dashed flex justify-center items-center h-32 gap-2"
 			:class="{'cursor-pointer hover:border-gray-500 hover:text-gray-600': !paymentProcessing}"
 		>
-			<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-				<path stroke-linecap="round" stroke-linejoin="round" d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 002.25-2.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v2.25A2.25 2.25 0 006 10.5zm0 9.75h2.25A2.25 2.25 0 0010.5 18v-2.25a2.25 2.25 0 00-2.25-2.25H6a2.25 2.25 0 00-2.25 2.25V18A2.25 2.25 0 006 20.25zm9.75-9.75H18a2.25 2.25 0 002.25-2.25V6A2.25 2.25 0 0018 3.75h-2.25A2.25 2.25 0 0013.5 6v2.25a2.25 2.25 0 002.25 2.25z" />
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke-width="1.5"
+				stroke="currentColor"
+				class="w-5 h-5"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 002.25-2.25V6a2.25 2.25 0 00-2.25-2.25H6A2.25 2.25 0 003.75 6v2.25A2.25 2.25 0 006 10.5zm0 9.75h2.25A2.25 2.25 0 0010.5 18v-2.25a2.25 2.25 0 00-2.25-2.25H6a2.25 2.25 0 00-2.25 2.25V18A2.25 2.25 0 006 20.25zm9.75-9.75H18a2.25 2.25 0 002.25-2.25V6A2.25 2.25 0 0018 3.75h-2.25A2.25 2.25 0 0013.5 6v2.25a2.25 2.25 0 002.25 2.25z"
+				/>
 			</svg>
 
 			new address
@@ -64,11 +75,9 @@ import {deliveryAddressStore} from '@/Stores/DeliveryAddressStore'
 import Address from '@/Components/Checkout/Address'
 import NewAddressForm from '@/Components/Checkout/NewAddressForm'
 import EditAddressForm from '@/Components/Checkout/EditAddressForm'
-import Button from '@/Components/Button'
 
 export default {
     components: {
-        Button,
         EditAddressForm,
         NewAddressForm,
         Address,
@@ -79,7 +88,7 @@ export default {
     data() {
         return {
             deliveryAddressStore,
-			baseClasses: 'inline-block p-3 rounded-md bg-white flex flex-col',
+            baseClasses: 'inline-block p-3 rounded-md bg-white flex flex-col',
         }
     },
 
@@ -97,17 +106,17 @@ export default {
                 })
         },
 
-		showNewAddressForm() {
-			if (this.paymentProcessing) return
+        showNewAddressForm() {
+            if (this.paymentProcessing) return
 
-			deliveryAddressStore.isNewAddress = true
-		},
+            deliveryAddressStore.isNewAddress = true
+        },
 
-		selectDeliveryAddress(address) {
-			if (this.paymentProcessing) return
+        selectDeliveryAddress(address) {
+            if (this.paymentProcessing) return
 
-			deliveryAddressStore.selectedAddress = address
-		}
+            deliveryAddressStore.selectedAddress = address
+        }
     },
 }
 </script>

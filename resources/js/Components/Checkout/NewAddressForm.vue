@@ -210,8 +210,10 @@ export default {
             axios
                 .post(route('addresses.store'), this.address)
                 .then(res => {
+                    if (! deliveryAddressStore.addresses.length) {
+                        deliveryAddressStore.selectedAddress = res.data.address
+                    }
                     deliveryAddressStore.addresses.push(res.data.address)
-                    // deliveryAddressStore.selectedAddress = res.data.address
                     deliveryAddressStore.isNewAddress = false
                     deliveryAddressStore.isEditAddress = false
                 })

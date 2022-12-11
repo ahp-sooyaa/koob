@@ -54,6 +54,10 @@ class AddressController extends Controller
                 ->update(['default' => 0]);
         }
 
+        if (Auth::user()->addresses->isEmpty()) {
+            $attributes['default'] = 1;
+        }
+
         $address = Auth::user()->addresses()->create($attributes);
 
         return response()->json(['address' => $address]);

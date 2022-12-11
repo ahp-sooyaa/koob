@@ -18,12 +18,13 @@ class CreateAddressesTable extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->tinyInteger('default');
             $table->string('label');
-//            $table->string('contact_no');
+        //    $table->string('contact_no');
             $table->string('building');
             $table->string('street');
             $table->string('state');
             $table->string('township');
             $table->string('city');
+            $table->softDeletes();
             $table->timestamps();
         });
     }
