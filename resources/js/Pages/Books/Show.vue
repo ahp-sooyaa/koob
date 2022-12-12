@@ -16,7 +16,7 @@
 			<!-- <h2 class="font-semibold text-xl text-gray-800 leading-tight">
 				Shop
 			</h2> -->
-			<h1>
+			<h1 class="text-sm text-gray-700">
 				You have previously purchased this book. See
 				<Link
 					:href="route('orders.show', previousPurchasedOrder.id)"
@@ -58,7 +58,7 @@
 					<div class="font-semibold mb-3 text-2xl text-gray-900">
 						{{ formatPrice(book.price) }}
 					</div>
-					<p class="mb-3 text-gray-600">
+					<p class="mb-3 text-gray-700">
 						{{ book.excerpt }}
 					</p>
 					<div class="flex">
@@ -88,6 +88,59 @@
 				</div>
 			</div>
 		</section>
+
+		<!-- <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 mb-16 pt-7">
+			similar books
+		</section> -->
+
+		<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 mb-16 pt-7">
+			<div class="flex border-b-2 pb-2 text-lg space-x-10 text-gray-400 tracking-wide mb-10">
+				<h1 
+					@click="activeTab = 'details'" 
+					class="hover:text-gray-900 border-b-2 border-transparent hover:border-gray-900 pb-2 -mb-2.5 cursor-pointer transition duration-300 ease-in-out"
+					:class="{'text-gray-900 border-gray-900': activeTab === 'details'}"	
+				>
+					Details
+				</h1>
+				<h1 
+					@click="activeTab = 'reviews'" 
+					class="hover:text-gray-900 border-b-2 border-transparent hover:border-gray-900 pb-2 -mb-2.5 cursor-pointer transition duration-300 ease-in-out"
+					:class="{'text-gray-900 border-gray-900': activeTab === 'reviews'}"		
+				>
+					Reviews
+				</h1>
+			</div>
+			<div v-show="activeTab === 'details'" class="space-y-5 w-1/4">
+				<div class="flex justify-between items-center space-x-2">
+					<span class="text-gray-500">Publisher</span>
+					<div class="flex-1 border-t mt-1"></div>
+					<span>Manager FeedWise</span>
+				</div>
+				<div class="flex justify-between items-center space-x-2">
+					<span class="text-gray-500">Year of publishing</span>
+					<div class="flex-1 border-t mt-1"></div>
+					<span>2015</span>
+				</div>
+				<div class="flex justify-between items-center space-x-2">
+					<span class="text-gray-500">No of pages</span>
+					<div class="flex-1 border-t mt-1"></div>
+					<span>100</span>
+				</div>
+				<div class="flex justify-between items-center space-x-2">
+					<span class="text-gray-500">ISBN</span>
+					<div class="flex-1 border-t mt-1"></div>
+					<span>2544365629</span>
+				</div>
+				<div class="flex justify-between items-center space-x-2">
+					<span class="text-gray-500">Format</span>
+					<div class="flex-1 border-t mt-1"></div>
+					<span>Online Book, Paper Book</span>
+				</div>
+			</div>
+			<div v-show="activeTab === 'reviews'" class="flex space-x-20">
+				<ReviewList :reviewList="reviews" :ratings="ratings"></ReviewList>
+			</div>
+		</section>
 	</BreezeNavBarLayout>
 </template>
 
@@ -95,18 +148,20 @@
 import BreezeNavBarLayout from '@/Layouts/NavBar'
 import format from '@/mixins/format'
 import Button from '@/Components/Button'
+import ReviewList from '@/Components/ReviewList'
 
 export default {
     components: {
         Button,
         BreezeNavBarLayout,
+		ReviewList,
     },
 
     mixins: [ format ],
 
     // layout: BreezeNavBarLayout,
 
-    props: ['book', 'previousPurchasedOrder'],
+    props: ['book', 'previousPurchasedOrder', 'reviews', 'ratings'],
 
     data() {
         return {
@@ -115,6 +170,7 @@ export default {
             isAdded: this.$page.props.cart.some(
                 (item) => item['id'] === this.book.id
             ),
+			activeTab: 'reviews',
         }
     },
 
