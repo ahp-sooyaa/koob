@@ -33,6 +33,7 @@ module.exports = {
         extend: {
             opacity: ['disabled'],
             translate: ['hover', 'group-hover'],
+            fill: ['hover']
         },
     },
 

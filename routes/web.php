@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfilePasswordController;
 use App\Http\Controllers\RedirectToHomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SaveForLaterController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\WelcomeController;
@@ -64,6 +65,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('addresses/{address}/edit', [AddressController::class, 'edit'])->name('addresses.edit');
     Route::patch('addresses/{address}', [AddressController::class, 'update'])->name('addresses.update');
     Route::delete('addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
+
+    Route::post('reviews', [ReviewController::class, 'store'])->name('reviews.store');
 });
 
 Route::get('thank-you/{order}', [CheckoutController::class, 'thankYou'])->name('checkout.thankYou');

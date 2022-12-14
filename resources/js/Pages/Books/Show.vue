@@ -138,7 +138,7 @@
 				</div>
 			</div>
 			<div v-show="activeTab === 'reviews'" class="flex space-x-20">
-				<ReviewList :reviewList="reviews" :ratings="ratings"></ReviewList>
+				<ReviewList :bookId="book.id" :reviewList="reviews" :ratings="ratings"></ReviewList>
 			</div>
 		</section>
 	</BreezeNavBarLayout>

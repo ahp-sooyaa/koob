@@ -47,6 +47,9 @@ class BookController extends Controller
                 ['approved_at', '!=', null],
                 ['book_id', $book->id],
             ])
+            ->when(Auth::user(), function($query) {
+                $query->orWhere('user_id', Auth::id());
+            })
             ->with('user')
             ->latest()
             ->get();
