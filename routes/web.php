@@ -17,9 +17,6 @@ use App\Http\Controllers\WelcomeController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
-
-//dd(User::find(2)->addresses);
 
 Route::get('/', WelcomeController::class)->name('welcome');
 
@@ -66,11 +63,14 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::patch('addresses/{address}', [AddressController::class, 'update'])->name('addresses.update');
     Route::delete('addresses/{address}', [AddressController::class, 'destroy'])->name('addresses.destroy');
 
-    Route::post('reviews', [ReviewController::class, 'store'])->name('reviews.store');
+    Route::post('books/{book}/reviews', [ReviewController::class, 'store'])->name('books.reviews.store');
+    Route::patch('reviews/{review}', [ReviewController::class, 'update'])->name('reviews.update');
+    Route::delete('reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
 });
 
-Route::get('thank-you/{order}', [CheckoutController::class, 'thankYou'])->name('checkout.thankYou');
+Route::get('books/{book}/reviews', [ReviewController::class, 'index'])->name('books.reviews.index');
 
+Route::get('thank-you/{order}', [CheckoutController::class, 'thankYou'])->name('checkout.thankYou');
 
 Route::get('login-as-admin', function (){
     abort_if(config('app.env') !== 'local',405);

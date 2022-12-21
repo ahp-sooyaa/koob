@@ -137,8 +137,8 @@
 					<span>Online Book, Paper Book</span>
 				</div>
 			</div>
-			<div v-show="activeTab === 'reviews'" class="flex space-x-20">
-				<ReviewList :bookId="book.id" :reviewList="reviews" :ratings="ratings"></ReviewList>
+			<div v-show="activeTab === 'reviews'" class="flex space-x-16">
+				<ReviewList :bookId="book.id"></ReviewList>
 			</div>
 		</section>
 	</BreezeNavBarLayout>
@@ -159,9 +159,7 @@ export default {
 
     mixins: [ format ],
 
-    // layout: BreezeNavBarLayout,
-
-    props: ['book', 'previousPurchasedOrder', 'reviews', 'ratings'],
+    props: ['book', 'previousPurchasedOrder'],
 
     data() {
         return {

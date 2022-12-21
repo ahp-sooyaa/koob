@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use App\Models\Category;
 use App\Models\Order;
-use App\Models\Review;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
@@ -41,36 +39,10 @@ class BookController extends Controller
             ->whereHas('books', function ($query) use ($book) {
                 $query->where('books.id', $book->id);
             })->latest()->first();
-
-        $reviews = Review::query()
-            ->where([
-                ['approved_at', '!=', null],
-                ['book_id', $book->id],
-            ])
-            ->when(Auth::user(), function($query) {
-                $query->orWhere('user_id', Auth::id());
-            })
-            ->with('user')
-            ->latest()
-            ->get();
-
-        $ratings = Review::query()
-            ->select('book_id', 'approved_at', 'rating')
-            ->where([
-                ['approved_at', '!=', null],
-                ['book_id', $book->id],
-            ])
-            ->get()
-            ->groupBy('rating')
-            ->map(function($item, $key) {
-                return $item->count();
-            });
         
         return Inertia::render('Books/Show', compact(
             'book',
             'previousPurchasedOrder',
-            'reviews',
-            'ratings',
         ));
     }
 }
