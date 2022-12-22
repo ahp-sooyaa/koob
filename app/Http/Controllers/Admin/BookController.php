@@ -73,9 +73,9 @@ class BookController extends Controller
             $validated['slug'] = Str::slug($request->title . '_' . uniqid());
 
             if ($request->hasFile('cover')) {
-                Storage::delete($book->cover);
+                Storage::delete($book->cover_photo_path);
 
-                $validated['cover'] = $request->file('cover')->store('covers');
+                $validated['cover_photo_path'] = $request->file('cover')->store('cover-photos');
             }
 
             $book->update($validated);
