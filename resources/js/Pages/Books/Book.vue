@@ -1,19 +1,32 @@
 <template>
 	<!-- <div class="bg-gray-200 mb-5 p-5 rounded-2xl"> -->
-	<img
-		:src="data.cover_url"
-		:alt="data.title + '\'s cover image'"
-		class="object-cover w-44 mx-auto mb-5 shadow-xl h-56"
-	>
+	<div class="flex space-x-5">
+		<img
+			:src="data.cover_url"
+			:alt="data.title + '\'s cover image'"
+			class="flex-shrink-0 object-cover w-32 md:w-44 mb-5 shadow-xl h-44 md:h-56 sm:mx-auto"
+		>
+		<div class="sm:hidden flex-1">
+			<Link
+				:href="'books/' + data.slug"
+				class="font-semibold line-clamp-2 text-lg lg:text-sm hover:underline"
+			>
+				{{ data.title }}
+			</Link>
+			<div class="mt-2 mb-auto text-gray-500 mr-3 text-lg lg:text-sm">
+				{{ formatPrice(data.price) }}
+			</div>
+		</div>
+	</div>
 	<!-- </div> -->
 	<div class="flex flex-1 flex-col px-1">
 		<Link
 			:href="'books/' + data.slug"
-			class="font-semibold line-clamp-2 text-lg lg:text-sm hover:underline"
+			class="hidden sm:block font-semibold sm:line-clamp-2 text-lg lg:text-sm hover:underline"
 		>
 			{{ data.title }}
 		</Link>
-		<div class="mt-2 mb-auto text-gray-500 mr-3 text-lg lg:text-sm">
+		<div class="hidden sm:block mt-2 mb-auto text-gray-500 mr-3 text-lg lg:text-sm">
 			{{ formatPrice(data.price) }}
 		</div>
 		<div

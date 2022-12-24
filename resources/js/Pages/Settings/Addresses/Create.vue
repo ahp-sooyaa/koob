@@ -9,12 +9,12 @@
 			</p>
 		</template>
 
-		<div class="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+		<div class="w-full max-w-xl lg:max-w-4xl lg:mx-auto px-4 sm:px-6 lg:px-8 py-10">
 			<h1 class="mb-5 text-xl">
 				Add Address
 			</h1>
 			<div class="grid grid-cols-6 gap-5">
-				<div class="lg:col-span-6">
+				<div class="col-span-6 lg:col-span-6">
 					<div class="relative">
 						<label
 							for="label"

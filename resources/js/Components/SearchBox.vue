@@ -1,5 +1,5 @@
 <template>
-	<div class="relative flex items-center">
+	<div class="relative flex items-center w-full">
 		<img
 			v-if="loading"
 			src="/images/tail-spin.svg"

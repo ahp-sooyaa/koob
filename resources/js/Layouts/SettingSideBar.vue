@@ -9,7 +9,7 @@
 
 		<div class="mt-12 bg-white">
 			<div class="flex flex-col lg:flex-row max-w-7xl mx-auto">
-				<div class="px-4 pt-5 lg:p-10 w-full lg:w-80 flex-shrink-0 sticky top-40 self-start">
+				<div class="px-4 sm:px-6 lg:px-8 pt-5 lg:p-10 w-full lg:w-80 flex-shrink-0">
 					<div>
 						<div class="flex justify-between text-sm text-gray-500">
 							<span>Signed in as</span>

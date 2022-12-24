@@ -39,12 +39,14 @@
 			</h2> -->
 		</template>
 		
-		<div class="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+		<div class="w-full max-w-xl lg:max-w-4xl lg:mx-auto px-4 sm:px-6 lg:px-8">
 			<form
 				@submit.prevent="updateProfile"
 				class="px-2 py-10 lg:w-2/3"
 			>
-				<h1 class="mb-5 text-xl">Personal information</h1>
+				<h1 class="mb-5 text-xl">
+					Personal information
+				</h1>
 				<div class="relative max-w-max mb-5">
 					<img
 						v-if="!profilePhotoPreview"
@@ -132,7 +134,9 @@
 				@submit.prevent="updatePassword"
 				class="px-2 py-10 lg:w-2/3"
 			>
-				<h1 class="mb-5 text-xl">Update Password</h1>
+				<h1 class="mb-5 text-xl">
+					Update Password
+				</h1>
 				<div class="py-2">
 					<div class="relative">
 						<label

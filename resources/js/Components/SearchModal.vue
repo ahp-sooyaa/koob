@@ -78,7 +78,7 @@
 		</div>
 
 		<div
-			class="mt-5"
+			class="mt-5 max-h-96 overflow-y-auto 2xl:max-h-full 2xl:overflow-hidden"
 		>
 			<h1>Relevant Results</h1>
 			<div

@@ -13,8 +13,8 @@
 					<h1 class="text-xl font-semibold text-gray-800">
 						Contact Information
 					</h1>
-					<div class="lg:flex flex-wrap -mx-2">
-						<div class="p-2 lg:w-1/2">
+					<div class="grid sm:grid-cols-2 -mx-2">
+						<div class="p-2">
 							<div class="relative">
 								<label
 									for="contact_name"
@@ -35,7 +35,7 @@
 								/>
 							</div>
 						</div>
-						<div class="p-2 lg:w-1/2">
+						<div class="p-2">
 							<div class="relative">
 								<label
 									for="contact_email"
@@ -109,7 +109,7 @@
 				</div>
 
 				<!-- order summary -->
-				<div class="sticky top-40 bg-white rounded-2xl p-4 lg:p-8 shadow-md w-full lg:w-1/2 mb-12 lg:mb-0">
+				<div class="lg:sticky lg:top-40 bg-white rounded-2xl p-4 lg:p-8 shadow-md w-full lg:w-1/2 mb-12 lg:mb-0">
 					<div
 						v-if="message"
 						class="bg-gray-100 px-4 py-2 rounded-lg mb-5"

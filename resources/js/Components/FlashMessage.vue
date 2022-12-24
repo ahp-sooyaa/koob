@@ -75,8 +75,8 @@ export default {
             success: '',
             error: '',
             timeOut: '',
-			// messages: [],
-			// interval: ''
+            // messages: [],
+            // interval: ''
         }
     },
 
@@ -106,22 +106,22 @@ export default {
                 this.error = data.message
                 this.success = ''
             }
-			// this.messages.push(data.message)
-			// console.log(this.messages, data.message);
+            // this.messages.push(data.message)
+            // console.log(this.messages, data.message);
             this.show = true
 			
             this.hide()
 
-			// if (!this.interval) {
-			// 	this.interval = setInterval(() => {
-			// 		console.log('called');
-			// 		if (this.messages.length > 0) {
-			// 			this.messages.shift()
-			// 		} else {
-			// 			clearInterval(this.interval)
-			// 		}
-			// 	}, 3000)
-			// }
+            // if (!this.interval) {
+            // 	this.interval = setInterval(() => {
+            // 		console.log('called');
+            // 		if (this.messages.length > 0) {
+            // 			this.messages.shift()
+            // 		} else {
+            // 			clearInterval(this.interval)
+            // 		}
+            // 	}, 3000)
+            // }
         },
 
         hide() {

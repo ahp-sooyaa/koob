@@ -53,22 +53,30 @@
 						</div>
 					</div>
 					<div class="w-full lg:w-4/5">
-						<div class="flex items-center justify-between lg:flex-row lg:items-center space-x-3">
+						<div class="flex flex-col items-center justify-between md:flex-row lg:items-center space-x-3">
 							<search-box
 								:search-query="filters.search"
-								classes="hover:border-transparent focus:border-transparent rounded-full"
+								classes="hover:border-transparent focus:border-transparent rounded-full w-full"
 							/>
-							<sorting :sorting="sorting" />
+							<div class="flex items-center justify-between mb-5 mt-3 w-full md:w-auto">
+								<div
+									v-show="books.total"
+									class="text-sm text-gray-600 md:hidden"
+								>
+									Showing {{ books.from }}-{{ books.to }} of {{ books.total }}
+								</div>
+								<sorting :sorting="sorting" />
+							</div>
 						</div>
 						<div
 							v-show="books.total"
-							class="text-sm text-gray-600 mt-7"
+							class="text-sm text-gray-600 mt-7 hidden md:block"
 						>
 							Showing {{ books.from }}-{{ books.to }} of {{ books.total }}
 						</div>
 						<div v-if="Object.keys(books.data).length">
 							<div
-								class="grid grid-cols-1 gap-y-5 md:grid-cols-3 lg:grid-cols-4 md:gap-10 my-5"
+								class="grid grid-cols-1 gap-y-5 sm:grid-cols-2 sm:gap-7 md:grid-cols-3 lg:grid-cols-4 md:gap-10 my-5"
 							>
 								<div
 									v-for="book in books.data"

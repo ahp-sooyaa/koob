@@ -6,12 +6,12 @@
 			:href="prevPage.url"
 			:class="prevPage.url ? 'cursor-pointer hover:border-gray-700' : 'text-gray-500'"
 			preserve-scroll
-			class="border flex items-center px-3 rounded-lg text-gray-500 text-sm"
+			class="border flex items-center px-3 rounded-lg text-gray-500 text-lg md:text-sm"
 		>
 			Prev
 		</Component>
 
-		<div class="flex space-x-3">
+		<div class="hidden md:flex space-x-3">
 			<!-- pagination elements -->
 			<Link
 				v-for="link in pageLinks"
@@ -30,7 +30,7 @@
 			:href="nextPage.url"
 			:class="nextPage.url ? 'cursor-pointer hover:border-gray-700' : 'text-gray-500'"
 			preserve-scroll
-			class="border flex items-center px-3 rounded-lg text-gray-500 text-sm"
+			class="border flex items-center px-3 rounded-lg text-gray-500 text-lg md:text-sm"
 		>
 			Next
 		</Component>

@@ -20,10 +20,13 @@
 
 		<!-- orders list -->
 		<div
-			class="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 mb-16"
+			class="w-full lg:max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 mb-16"
 		>
 			<div v-if="ordersCount">
-				<search-box :search-query="search" classes="w-full rounded-lg" />
+				<search-box
+					:search-query="search"
+					classes="w-full rounded-lg"
+				/>
 			</div>
 			<div v-if="orders.data.length">
 				<div class="divide-y space-y-10">
@@ -63,18 +66,18 @@
 								class="flex items-start justify-between space-x-5"
 								:class="index !== 0 ? 'mt-3 pt-3' : ''"
 							>
-								<div class="flex space-x-5">
+								<div class="flex space-x-5 w-full">
 									<Link
 										:href="route('books.show', book.slug)"
-										class="flex-none"
+										class="flex-none w-24 h-32 lg:w-28 lg:h-36"
 									>
 										<img
 											:src="book.cover_url"
 											alt="book cover"
-											class="w-24 h-32 lg:w-28 lg:h-36"
+											class="object-cover w-full h-full"
 										>
 									</Link>
-									<div>
+									<div class="flex-1">
 										<Link
 											:href="route('books.show', book.slug)"
 											class="hover:underline"
@@ -87,7 +90,7 @@
 										/>
 
 										<!-- mobile buy again & shop similar button -->
-										<div class="block lg:hidden flex-shrink-0 space-y-3 mt-5">
+										<div class="block sm:hidden flex-shrink-0 space-y-3 mt-5">
 											<BreezeButton
 												@click="buyAgain(book.id)"
 												type="button"
@@ -105,7 +108,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="hidden lg:flex flex-col flex-shrink-0 space-y-3">
+								<div class="hidden sm:flex flex-col flex-shrink-0 space-y-3">
 									<BreezeButton
 										@click="buyAgain(book.id)"
 										type="button"
@@ -132,8 +135,15 @@
 				v-if="!ordersCount || !orders.data.length"
 				class="text-center py-10"
 			>
-				<div v-if="!ordersCount" class="flex flex-col items-center">
-					<img src="/images/no-order.svg" alt="No Order svg" class="w-52 h-52">
+				<div
+					v-if="!ordersCount"
+					class="flex flex-col items-center"
+				>
+					<img
+						src="/images/no-order.svg"
+						alt="No Order svg"
+						class="w-52 h-52"
+					>
 					<h1 class="mt-8 text-xl font-bold text-gray-900 tracking-wide">
 						No Orders Yet
 					</h1>
@@ -146,8 +156,15 @@
 						</BreezeButton>
 					</Link>
 				</div>
-				<div v-if="search && !orders.data.length" class="flex flex-col items-center">
-					<img src="/images/not-found.svg" alt="Not Found svg" class="w-52 h-52">
+				<div
+					v-if="search && !orders.data.length"
+					class="flex flex-col items-center"
+				>
+					<img
+						src="/images/not-found.svg"
+						alt="Not Found svg"
+						class="w-52 h-52"
+					>
 					
 					<h1 class="mt-8 text-xl font-bold text-gray-900 tracking-wide">
 						Result Not Found

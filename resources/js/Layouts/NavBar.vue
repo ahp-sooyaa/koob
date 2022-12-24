@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="flex flex-col min-h-screen bg-gray-50">
-			<nav class="fixed z-20 w-full bg-white border-b border-gray-100">
+			<nav class="fixed z-30 w-full bg-white border-b border-gray-100">
 				<!-- Primary Navigation Menu -->
 				<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 					<div class="flex justify-between h-16">
@@ -104,7 +104,7 @@
 										</div>
 										<div v-else>
 											<BreezeDropdownLink
-												:href="route('profile.edit', $page.props.auth.user.name)"
+												:href="route('profile.edit')"
 												as="button"
 											>
 												<div class="flex items-center gap-x-2">
@@ -279,7 +279,7 @@
 						>
 							Shop
 						</BreezeResponsiveNavLink>
-						<!--<CartLink :responsive="true" />-->
+						<CartLink :responsive="true" />
 					</div>
 
 					<!-- Responsive Settings Options -->
@@ -295,82 +295,82 @@
 								{{ $page.props.auth.user.email }}
 							</div>
 						</div>
-						<BreezeResponsiveNavLink
-							:href="route('profile.show', $page.props.auth.user.name)"
-							:active="route().current('profile.show', $page.props.auth.user.name)"
-						>
-							<div class="flex items-center gap-x-2">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke-width="1.5"
-									stroke="currentColor"
-									class="w-6 h-6"
-								>
-									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-									/>
-								</svg>
-
-								Manage Account
-							</div>
-						</BreezeResponsiveNavLink>
-						<BreezeResponsiveNavLink
-							:href="route('orders.index')"
-							:active="route().current('orders.index')"
-						>
-							<div class="flex items-center gap-x-2">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke-width="1.5"
-									stroke="currentColor"
-									class="w-5 h-5"
-								>
-									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
-									/>
-								</svg>
-
-								Orders & Returns
-							</div>
-						</BreezeResponsiveNavLink>
-						<BreezeResponsiveNavLink
-							:href="route('addresses.index')"
-							:active="route().current('addresses.index')"
-						>
-							<div class="flex items-center gap-x-2">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke-width="1.5"
-									stroke="currentColor"
-									class="w-5 h-5"
-								>
-									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
-									/>
-									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
-									/>
-								</svg>
-
-								Address Book
-							</div>
-						</BreezeResponsiveNavLink>
 
 						<div class="mt-3 space-y-1">
+							<BreezeResponsiveNavLink
+								:href="route('profile.edit')"
+								:active="route().current('profile.edit')"
+							>
+								<div class="flex items-center gap-x-2">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor"
+										class="w-6 h-6"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+										/>
+									</svg>
+
+									Manage Account
+								</div>
+							</BreezeResponsiveNavLink>
+							<BreezeResponsiveNavLink
+								:href="route('orders.index')"
+								:active="route().current('orders.index')"
+							>
+								<div class="flex items-center gap-x-2">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor"
+										class="w-5 h-5"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"
+										/>
+									</svg>
+
+									Orders & Returns
+								</div>
+							</BreezeResponsiveNavLink>
+							<BreezeResponsiveNavLink
+								:href="route('addresses.index')"
+								:active="route().current('addresses.index')"
+							>
+								<div class="flex items-center gap-x-2">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke-width="1.5"
+										stroke="currentColor"
+										class="w-5 h-5"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+										/>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
+										/>
+									</svg>
+
+									Address Book
+								</div>
+							</BreezeResponsiveNavLink>
 							<BreezeResponsiveNavLink
 								:href="route('logout')"
 								method="post"
@@ -421,7 +421,7 @@
 			<!-- Page Heading -->
 			<header
 				v-if="$slots.header"
-				class="bg-white shadow sticky top-0 z-10"
+				class="bg-white shadow sticky top-0 z-20"
 			>
 				<div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 mt-16">
 					<slot name="header" />
@@ -436,8 +436,8 @@
 
 			<!-- page Footer -->
 			<footer class="bg-gray-900 text-white">
-				<div class="container mx-auto pt-10 lg:pt-20 pb-5">
-					<div class="px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row space-y-10 space-x-0 lg:space-y-0 lg:space-x-32">
+				<div class="pt-10 lg:pt-20 pb-5">
+					<div class="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto flex flex-col lg:flex-row space-y-10 space-x-0 lg:space-y-0 lg:space-x-32">
 						<div>
 							<h1 class="text-lg font-bold mb-5">
 								Support Menu

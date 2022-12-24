@@ -1,6 +1,6 @@
 <template>
-	<div class="lg:flex flex-wrap -mx-2">
-		<div class="p-2 lg:w-full">
+	<div class="grid sm:grid-cols-2 -mx-2">
+		<div class="p-2">
 			<div class="relative">
 				<label
 					for="label"
@@ -21,7 +21,7 @@
 				/>
 			</div>
 		</div>
-		<div class="p-2 lg:w-1/2">
+		<div class="p-2">
 			<div class="relative">
 				<label
 					for="building"
@@ -42,7 +42,7 @@
 				/>
 			</div>
 		</div>
-		<div class="p-2 lg:w-1/2">
+		<div class="p-2">
 			<div class="relative">
 				<label
 					for="street"
@@ -63,7 +63,7 @@
 				/>
 			</div>
 		</div>
-		<div class="p-2 sm:w-1/2 lg:w-1/3">
+		<div class="p-2">
 			<div class="relative">
 				<label
 					for="state"
@@ -84,7 +84,7 @@
 				/>
 			</div>
 		</div>
-		<div class="p-2 sm:w-1/2 lg:w-1/3">
+		<div class="p-2">
 			<div class="relative">
 				<label
 					for="township"
@@ -105,7 +105,7 @@
 				/>
 			</div>
 		</div>
-		<div class="p-2 lg:w-1/3">
+		<div class="p-2">
 			<div class="relative">
 				<label
 					for="city"

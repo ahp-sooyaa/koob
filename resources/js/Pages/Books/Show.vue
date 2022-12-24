@@ -45,13 +45,13 @@
 					</Link>
 				</h1>
 			</div> -->
-			<div class="flex justify-start">
+			<div class="flex flex-col md:flex-row justify-start">
 				<img
 					:src="book.cover_url"
 					alt="book_cover"
-					class="w-72 h-96 object-cover"
+					class="w-full md:w-72 h-96 object-cover"
 				>
-				<div class="ml-8 w-1/2">
+				<div class="mt-8 md:ml-8 md:w-1/2">
 					<h1 class="font-bold mb-1 text-4xl tracking-tight">
 						{{ book.title }}
 					</h1>
@@ -81,6 +81,7 @@
 							@click="addToCart"
 							:disabled="isAdded"
 							:class="{'cursor-default opacity-50': isAdded}"
+							class="w-full"
 						>
 							{{ isAdded ? 'Added' : 'Add' }} to Cart
 						</Button>
@@ -110,35 +111,41 @@
 					Reviews
 				</h1>
 			</div>
-			<div v-show="activeTab === 'details'" class="space-y-5 w-1/4">
+			<div
+				v-show="activeTab === 'details'"
+				class="space-y-5 md:w-1/4"
+			>
 				<div class="flex justify-between items-center space-x-2">
 					<span class="text-gray-500">Publisher</span>
-					<div class="flex-1 border-t mt-1"></div>
+					<div class="flex-1 border-t mt-1" />
 					<span>Manager FeedWise</span>
 				</div>
 				<div class="flex justify-between items-center space-x-2">
 					<span class="text-gray-500">Year of publishing</span>
-					<div class="flex-1 border-t mt-1"></div>
+					<div class="flex-1 border-t mt-1" />
 					<span>2015</span>
 				</div>
 				<div class="flex justify-between items-center space-x-2">
 					<span class="text-gray-500">No of pages</span>
-					<div class="flex-1 border-t mt-1"></div>
+					<div class="flex-1 border-t mt-1" />
 					<span>100</span>
 				</div>
 				<div class="flex justify-between items-center space-x-2">
 					<span class="text-gray-500">ISBN</span>
-					<div class="flex-1 border-t mt-1"></div>
+					<div class="flex-1 border-t mt-1" />
 					<span>2544365629</span>
 				</div>
 				<div class="flex justify-between items-center space-x-2">
 					<span class="text-gray-500">Format</span>
-					<div class="flex-1 border-t mt-1"></div>
+					<div class="flex-1 border-t mt-1" />
 					<span>Online Book, Paper Book</span>
 				</div>
 			</div>
-			<div v-show="activeTab === 'reviews'" class="flex space-x-16">
-				<ReviewList :bookId="book.id"></ReviewList>
+			<div
+				v-show="activeTab === 'reviews'"
+				class="flex flex-col lg:flex-row space-y-10 lg:space-y-0 lg:space-x-16"
+			>
+				<ReviewList :book-id="book.id" />
 			</div>
 		</section>
 	</BreezeNavBarLayout>
@@ -154,7 +161,7 @@ export default {
     components: {
         Button,
         BreezeNavBarLayout,
-		ReviewList,
+        ReviewList,
     },
 
     mixins: [ format ],
@@ -168,7 +175,7 @@ export default {
             isAdded: this.$page.props.cart.some(
                 (item) => item['id'] === this.book.id
             ),
-			activeTab: 'reviews',
+            activeTab: 'reviews',
         }
     },
 
