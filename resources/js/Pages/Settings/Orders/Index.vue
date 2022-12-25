@@ -25,6 +25,7 @@
 			<div v-if="ordersCount">
 				<search-box
 					:search-query="search"
+					placeholder="Search by order id or book title..."
 					classes="w-full rounded-lg"
 				/>
 			</div>
@@ -51,12 +52,12 @@
 								>
 									Order Detail
 								</Link>
-								<Link
+								<!-- <Link
 									:href="route('orders.show', order.id)"
 									class="hover:underline pl-5"
 								>
 									Order Again
-								</Link>
+								</Link> -->
 							</div>
 						</div>
 						<div class="divide-y">

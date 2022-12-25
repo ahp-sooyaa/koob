@@ -56,6 +56,7 @@
 						<div class="flex flex-col items-center justify-between md:flex-row lg:items-center space-x-3">
 							<search-box
 								:search-query="filters.search"
+								placeholder="Search by book title or excerpt..."
 								classes="hover:border-transparent focus:border-transparent rounded-full w-full"
 							/>
 							<div class="flex items-center justify-between mb-5 mt-3 w-full md:w-auto">

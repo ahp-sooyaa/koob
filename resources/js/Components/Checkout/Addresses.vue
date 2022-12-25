@@ -30,7 +30,7 @@
 
 	<div
 		v-else
-		class="gap-4 grid grid-cols-2 mt-2"
+		class="gap-4 grid lg:grid-cols-2 mt-2"
 	>
 		<div
 			v-for="(addressItem, index) in deliveryAddressStore.addresses"

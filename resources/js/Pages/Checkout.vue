@@ -109,7 +109,7 @@
 				</div>
 
 				<!-- order summary -->
-				<div class="lg:sticky lg:top-40 bg-white rounded-2xl p-4 lg:p-8 shadow-md w-full lg:w-1/2 mb-12 lg:mb-0">
+				<div class="lg:sticky lg:top-40 -mx-4 lg:-mx-0 bg-white lg:rounded-2xl p-4 lg:p-8 shadow-md lg:w-1/2 mb-12 lg:mb-0">
 					<div
 						v-if="message"
 						class="bg-gray-100 px-4 py-2 rounded-lg mb-5"
@@ -128,10 +128,15 @@
 							<img
 								:src="item.cover_url"
 								:alt="item.title + '\'s cover image'"
-								class="h-40 w-32"
+								class="w-24 h-32 lg:h-40 lg:w-32 object-cover"
 							>
 							<div class="flex-1 flex flex-col space-y-3">
-								<h1>{{ item.title }}</h1>
+								<Link
+									:href="route('books.show', item.slug)"
+									class="hover:underline line-clamp-2"
+								>
+									{{ item.title }}
+								</Link>
 								<div class="flex items-center flex-1 space-x-5">
 									<select
 										@change="updateCartQuantity(index, item, $event)"
@@ -154,7 +159,7 @@
 							</div>
 							<button
 								@click="removeFromCart(index, item)"
-								class="ml-auto text-sm text-gray-500 hover:text-gray-800 border-0 pt-0.5 focus:outline-none rounded self-start"
+								class="ml-auto text-sm text-red-500 hover:text-red-800 border-0 pt-0.5 focus:outline-none rounded self-start"
 								:disabled="paymentProcessing"
 							>
 								<svg

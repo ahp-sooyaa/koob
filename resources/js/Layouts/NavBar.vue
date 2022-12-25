@@ -401,7 +401,6 @@
 						v-else
 						class="pt-4 pb-1 border-t border-gray-200"
 					>
-						<CartLink :responsive="true" />
 						<BreezeResponsiveNavLink
 							:href="route('login')"
 							:active="route().current('login')"

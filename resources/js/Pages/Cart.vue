@@ -35,9 +35,9 @@
 		<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-12 min-h-96">
 			<div
 				v-if="cartItems.length"
-				class="bg-white flex flex-col lg:flex-row lg:space-y-0 rounded-2xl shadow-md space-y-5"
+				class="bg-white flex flex-col lg:flex-row lg:space-y-0 lg:rounded-2xl shadow-md space-y-5 -mx-4 lg:-mx-0"
 			>
-				<div class="lg:p-8 lg:w-2/3 p-4 w-full border-r">
+				<div class="lg:p-8 lg:w-2/3 p-4 w-full lg:border-r">
 					<ul class="space-y-10">
 						<li
 							v-for="(item, index) in cartItems"
@@ -47,10 +47,13 @@
 							<img
 								:src="item.cover_url"
 								:alt="item.title + '\'s cover image'"
-								class="h-40 w-32"
+								class="w-24 h-32 lg:h-40 lg:w-32 object-cover"
 							>
 							<div class="flex-1 flex flex-col items-start">
-								<Link :href="route('books.show', item.slug)">
+								<Link
+									:href="route('books.show', item.slug)"
+									class="line-clamp-2"
+								>
 									{{ item.title }}
 								</Link>
 								<div class="flex items-center space-x-5 mt-3">
@@ -76,7 +79,7 @@
 								<div
 									v-if="$page.props.auth.user"
 									@click="saveForLater(index, item)"
-									class="mt-auto hover:bg-gray-50 hover:shadow-none border cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-xs"
+									class="mt-5 hover:bg-gray-50 hover:shadow-none border cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-xs"
 								>
 									Save for later
 								</div>
@@ -88,7 +91,7 @@
 							<svg
 								@click="removeFromCart(index, item)"
 								xmlns="http://www.w3.org/2000/svg"
-								class="h-5 w-5 text-sm text-red-500 hover:text-red-800 cursor-pointer"
+								class="h-5 w-5 text-sm text-red-500 hover:text-red-800 cursor-pointer flex-shrink-0"
 								viewBox="0 0 20 20"
 								fill="currentColor"
 							>
@@ -180,13 +183,40 @@
 			<!-- save for later section -->
 			<div
 				v-if="allSavedItems.length"
-				class="mt-10 bg-white rounded-2xl p-4 lg:p-8 shadow-md w-full"
+				class="mt-10 bg-white -mx-4 lg:-mx-0 lg:rounded-2xl p-4 lg:p-8 shadow-md"
 			>
-				<h1
-					class="text-gray-800 font-semibold leading-tight mb-5 text-xl"
-				>
-					Save for later
-				</h1>
+				<div class="flex items-center mb-5">
+					<h1
+						class="text-gray-800 font-semibold leading-tight text-xl mr-2"
+					>
+						Save for later
+					</h1>
+					<div class="relative">
+						<svg
+							@mouseover="showToolTip = true"
+							@mouseleave="showToolTip = false"
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="1.5"
+							stroke="currentColor"
+							class="w-5 h-5 cursor-pointer text-gray-500 hover:text-gray-700"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+							/>
+						</svg>
+						<div
+							v-show="showToolTip"
+							class="absolute bg-gray-700 bottom-5 transform -translate-x-1/2 lg:translate-x-0 lg:left-0 origin-bottom-left px-4 rounded text-sm text-white w-72 py-2"
+						>
+							If your cart items are out of stock, they will automatically move to save for later list.
+						</div>
+					</div>
+				</div>
+
 				<ul class="space-y-10">
 					<li
 						v-for="(item, index) in allSavedItems"
@@ -194,12 +224,17 @@
 						class="flex space-x-5"
 					>
 						<img
-							src="/images/cover.png"
+							:src="item.cover_url"
 							:alt="item.title + '\'s cover image'"
-							class="h-40"
+							class="w-24 h-32 lg:h-40 lg:w-32 object-cover"
 						>
 						<div class="flex-1 flex flex-col items-start">
-							<h1>{{ item.title }}</h1>
+							<Link
+								:href="route('books.show', item.slug)"
+								class="hover:underline line-clamp-2"
+							>
+								{{ item.title }}
+							</Link>
 							<div class="flex items-center space-x-5 mt-3">
 								<!--								<select-->
 								<!--									@change="updateCartQuantity(index, item, $event)"-->
@@ -231,7 +266,7 @@
 								v-else
 								class="text-sm text-gray-500 mt-3"
 							>
-								This item is no longer available.
+								This item is no longer available. Out of Stock.
 							</div>
 						</div>
 					</li>
@@ -256,6 +291,12 @@ export default {
     mixins: [format],
 
     props: ['cartItems', 'allSavedItems', 'overStockItems', 'availableSavedItems'],
+
+    data() {
+        return {
+            showToolTip: false,
+        }
+    },
 
     computed: {
         cartQuantity() {

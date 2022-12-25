@@ -33,7 +33,7 @@
 		<div class="absolute text-5xl 2xl:text-9xl text-gray-700 opacity-5 font-black z-0">
 			Trending
 		</div>
-		<div class="container mx-auto z-10">
+		<div class="relative container mx-auto z-10">
 			<h1 class="font-bold text-2xl mb-8">
 				Trending
 			</h1>
@@ -49,15 +49,17 @@
 						class="w-32 h-44 flex-shrink-0 shadow-2xl"
 					>
 					<div>
-						<h1 class="font-bold tracking-wider text-lg line-clamp-2">
+						<Link
+							:href="'books/' + book.slug"
+							class="font-bold tracking-wider text-lg line-clamp-2 hover:underline"
+						>
 							{{ book.title }}
-						</h1>
+						</Link>
 						<div class="text-sm text-gray-400 mb-3">
 							by 
-							<a
-								href=""
-								class="text-gray-700 hover:underline"
-							>{{ book.author }}</a>
+							<span class="text-gray-700">
+								{{ book.author }}
+							</span>
 						</div>
 						<p class="w-4/5 line-clamp-2 text-sm text-gray-700 mb-3">
 							{{ book.excerpt }}
@@ -73,7 +75,7 @@
 		<div class="absolute text-5xl 2xl:text-9xl text-gray-700 opacity-5 font-black z-0">
 			Romance
 		</div>
-		<div class="container mx-auto z-10">
+		<div class="relative container mx-auto z-10">
 			<h1 class="font-bold text-2xl mb-8">
 				Romance 
 			</h1>
@@ -89,15 +91,17 @@
 						class="w-32 h-44 flex-shrink-0 shadow-2xl"
 					>
 					<div>
-						<h1 class="font-bold tracking-wider text-lg line-clamp-2">
+						<Link
+							:href="'books/' + book.slug"
+							class="font-bold tracking-wider text-lg line-clamp-2 hover:underline"
+						>
 							{{ book.title }}
-						</h1>
+						</Link>
 						<div class="text-sm text-gray-400 mb-3">
 							by 
-							<a
-								href=""
-								class="text-gray-700 hover:underline"
-							>{{ book.author }}</a>
+							<span class="text-gray-700">
+								{{ book.author }}
+							</span>
 						</div>
 						<p class="w-4/5 line-clamp-2 text-sm text-gray-700 mb-3">
 							{{ book.excerpt }}
@@ -123,9 +127,9 @@
 					</p>
 				</div>
 				<img
-					src="images/cover.png"
+					src="images/avatar.jpg"
 					alt="cover image"
-					class="flex-shrink-0 shadow-2xl w-52 h-64"
+					class="flex-shrink-0 shadow-2xl w-52 h-64 object-cover"
 				>
 			</div>
 			<div class="flex mx-auto w-20 space-x-4 justify-center mt-10">

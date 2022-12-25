@@ -18647,7 +18647,7 @@ select {
 }
 
 .bg-hero-image {
-  background-image: url("/images/hero_image.jpg");
+  background-image: url("/images/hero_image_large.jpeg");
 }
 
 .from-transparent {
@@ -50689,7 +50689,7 @@ select {
   }
 
   .sm\:bg-hero-image {
-    background-image: url("/images/hero_image.jpg");
+    background-image: url("/images/hero_image_large.jpeg");
   }
 
   .sm\:from-transparent {
@@ -82719,7 +82719,7 @@ select {
   }
 
   .md\:bg-hero-image {
-    background-image: url("/images/hero_image.jpg");
+    background-image: url("/images/hero_image_large.jpeg");
   }
 
   .md\:from-transparent {
@@ -114749,7 +114749,7 @@ select {
   }
 
   .lg\:bg-hero-image {
-    background-image: url("/images/hero_image.jpg");
+    background-image: url("/images/hero_image_large.jpeg");
   }
 
   .lg\:from-transparent {
@@ -146779,7 +146779,7 @@ select {
   }
 
   .xl\:bg-hero-image {
-    background-image: url("/images/hero_image.jpg");
+    background-image: url("/images/hero_image_large.jpeg");
   }
 
   .xl\:from-transparent {
@@ -178809,7 +178809,7 @@ select {
   }
 
   .\32xl\:bg-hero-image {
-    background-image: url("/images/hero_image.jpg");
+    background-image: url("/images/hero_image_large.jpeg");
   }
 
   .\32xl\:from-transparent {

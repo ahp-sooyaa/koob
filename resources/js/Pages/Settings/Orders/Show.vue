@@ -35,13 +35,13 @@
 				Order Detail
 			</h2>
 			<p class="text-sm text-gray-500 mt-1">
-				Check your order #{{order.id}} detail.
+				Check your order #{{ order.id }} detail.
 			</p>
 		</template>
 
 		<!-- <div class="w-full max-w-4xl mx-auto divide-y-2 mt-12 mb-16 p-4"> -->
 		<div class="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 mb-16">
-			<div class="w-2/3">
+			<div class="w-full lg:w-2/3">
 				<div class="flex items-baseline space-x-3">
 					<h1 class="text-2xl font-semibold mb-5">
 						Order #{{ order.id }}
@@ -58,11 +58,11 @@
 					:key="book.id"
 					class="w-full"
 				>
-					<div class="flex flex-col lg:flex-row space-y-5 lg:space-y-0 my-8">
+					<div class="flex my-8">
 						<img
 							:src="book.cover_url"
 							alt="book cover"
-							class="mr-5 w-24 h-32 lg:w-28 lg:h-36"
+							class="mr-5 w-24 h-32 lg:w-28 lg:h-36 object-cover"
 						>
 						<div class="flex flex-col">
 							<div class="flex-1">
@@ -93,7 +93,7 @@
 					</div>
 				</div>
 				<div class="w-full">
-					<div class="flex space-x-3 w-full lg:w-2/3 ml-auto my-8">
+					<div class="flex flex-col lg:flex-row space-y-3 lg:space-y-0 lg:space-x-3 w-full lg:w-2/3 ml-auto my-8">
 						<div class="flex-1">
 							<div class="font-semibold mb-2">
 								Shipping address

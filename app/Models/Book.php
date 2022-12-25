@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class Book extends Model
@@ -34,6 +33,10 @@ class Book extends Model
 
     public function getCoverUrlAttribute()
     {
+        if (! Storage::disk('public')->exists($this->cover_photo_path)) {
+            return url('/images/cover.png');
+        }
+        
         return Storage::url($this->cover_photo_path);
     }
 

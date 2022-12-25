@@ -52,6 +52,8 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
+        Log::debug('Started order store process');
+        
         $request->validate([
             'contact_name' => ['required', 'string'],
             'contact_email' => ['required', 'email'],

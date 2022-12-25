@@ -22,7 +22,7 @@
 		<input
 			v-model="search"
 			type="text"
-			placeholder="search"
+			:placeholder="placeholder"
 			class="px-10 border-gray-300 hover:shadow focus:shadow focus:ring-0"
 			:class="classes"
 		>
@@ -48,7 +48,7 @@
 <script>
 import debounce from 'lodash/debounce'
 export default {
-    props: ['searchQuery', 'classes'],
+    props: ['searchQuery', 'classes', 'placeholder'],
 
     data() {
         return {
