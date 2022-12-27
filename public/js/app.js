@@ -20328,6 +20328,7 @@ __webpack_require__.r(__webpack_exports__);
     search: lodash_debounce__WEBPACK_IMPORTED_MODULE_0___default()(function (value) {
       var _this = this;
 
+      console.log('search');
       this.$inertia.get(this.$page.url, {
         search: value,
         page: 1
@@ -20345,13 +20346,6 @@ __webpack_require__.r(__webpack_exports__);
         }
       });
     }, 300)
-  },
-  created: function created() {
-    var _this2 = this;
-
-    window.events.on('clearedFilters', function () {
-      return _this2.search = '';
-    });
   }
 });
 
@@ -21722,27 +21716,17 @@ __webpack_require__.r(__webpack_exports__);
       categoryFilter: this.filters.category
     };
   },
-  watch: {
-    categoryFilter: function categoryFilter(value) {
+  methods: {
+    filterCategory: function filterCategory(value) {
       this.$inertia.get(this.$page.url, {
         category: value,
         page: 1
-      }, {
-        preserveState: true
       });
-    }
-  },
-  methods: {
+    },
     clearFilter: function clearFilter() {
-      this.categoryFilter = null;
       this.$inertia.get(this.$page.url, {
         search: null,
         category: null
-      }, {
-        preserveState: true,
-        onFinish: function onFinish() {
-          window.events.emit('clearedFilters');
-        }
       });
     }
   }
@@ -24733,7 +24717,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   , _hoisted_6), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.search]]), $data.search ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("svg", {
     key: 2,
     onClick: _cache[1] || (_cache[1] = function ($event) {
-      return $data.search = '';
+      return $data.search = null;
     }),
     xmlns: "http://www.w3.org/2000/svg",
     "class": "absolute h-5 right-3 text-gray-400 w-5 cursor-pointer hover:text-gray-700",
@@ -29726,12 +29710,13 @@ var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_21 = {
+var _hoisted_21 = [_hoisted_18, _hoisted_19, _hoisted_20];
+var _hoisted_22 = {
   key: 1,
   "class": "flex flex-col items-center"
 };
 
-var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("lottie-player", {
+var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("lottie-player", {
   src: "https://assets6.lottiefiles.com/packages/lf20_0s6tfbuc.json",
   background: "transparent",
   speed: "1",
@@ -29746,11 +29731,11 @@ var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, " There is no books data in database. ", -1
+var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, " There is no books data in database. ", -1
 /* HOISTED */
 );
 
-var _hoisted_24 = [_hoisted_22, _hoisted_23];
+var _hoisted_25 = [_hoisted_23, _hoisted_24];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _component_Head = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("Head");
 
@@ -29785,7 +29770,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       /* NEED_PATCH */
       ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.filters.search || $data.categoryFilter]])]), _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         onClick: _cache[1] || (_cache[1] = function ($event) {
-          return $data.categoryFilter = null;
+          return $options.filterCategory(null);
         }),
         "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["capitalize cursor-pointer bg-white border inline-block px-4 py-1 rounded-2xl shadow text-sm mx-1", !$data.categoryFilter ? 'border-blue-400 text-blue-500' : 'text-gray-600'])
       }, " all ", 2
@@ -29794,7 +29779,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           key: category.slug,
           onClick: function onClick($event) {
-            return $data.categoryFilter = category.slug;
+            return $options.filterCategory(category.slug);
           },
           "class": (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["capitalize cursor-pointer bg-white border inline-block px-4 py-1 rounded-2xl shadow text-sm mx-1", $data.categoryFilter === category.slug ? 'border-blue-400 text-blue-500' : 'text-gray-600'])
         }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.name), 11
@@ -29835,7 +29820,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         links: $props.books.links
       }, null, 8
       /* PROPS */
-      , ["links"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.books.total > $props.books.per_page]])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <lottie-player\n\t\t\t\t\t\t\t\tsrc=\"https://assets6.lottiefiles.com/packages/lf20_0s6tfbuc.json\"\n\t\t\t\t\t\t\t\tbackground=\"transparent\"\n\t\t\t\t\t\t\t\tspeed=\"1\"\n\t\t\t\t\t\t\t\tstyle=\"width: 200px; height: 200px\"\n\t\t\t\t\t\t\t\tloop\n\t\t\t\t\t\t\t\tautoplay\n\t\t\t\t\t\t\t\tclass=\"mx-auto\"\n\t\t\t\t\t\t\t/> "), _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p>\n\t\t\t\t\t\t\t\tNo results found for\n\t\t\t\t\t\t\t\t<span class=\"font-bold\">{{ categoryFilter }}</span>\n\t\t\t\t\t\t\t\t<span v-show=\"filters.search || categoryFilter\"> books </span>\n\t\t\t\t\t\t\t\t<span v-show=\"filters.search\">matching </span>\n\t\t\t\t\t\t\t\t<span class=\"font-bold\">{{ filters.search }} </span>\n\t\t\t\t\t\t\t\t.\n\t\t\t\t\t\t\t</p> "), _hoisted_19, _hoisted_20]))])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, _hoisted_24))])];
+      , ["links"]), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $props.books.total > $props.books.per_page]])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, _hoisted_21))])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, _hoisted_25))])];
     }),
     _: 1
     /* STABLE */

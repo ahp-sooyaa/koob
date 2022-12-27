@@ -35,7 +35,7 @@
 						<h1>Categories</h1>
 						<div class="-ml-1 flex flex-nowrap lg:flex-wrap items-baseline overflow-x-auto pb-3 pt-1 lg:space-y-2">
 							<div
-								@click="categoryFilter = null"
+								@click="filterCategory(null)"
 								class="capitalize cursor-pointer bg-white border inline-block px-4 py-1 rounded-2xl shadow text-sm mx-1"
 								:class="!categoryFilter ? 'border-blue-400 text-blue-500': 'text-gray-600'"
 							>
@@ -44,7 +44,7 @@
 							<div
 								v-for="category in categories"
 								:key="category.slug"
-								@click="categoryFilter = category.slug"
+								@click="filterCategory(category.slug)"
 								class="capitalize cursor-pointer bg-white border inline-block px-4 py-1 rounded-2xl shadow text-sm mx-1"
 								:class="categoryFilter === category.slug ? 'border-blue-400 text-blue-500': 'text-gray-600'"
 							>
@@ -99,28 +99,11 @@
 							v-else
 							class="grid mt-32 place-items-center text-center"
 						>
-							<!-- <lottie-player
-								src="https://assets6.lottiefiles.com/packages/lf20_0s6tfbuc.json"
-								background="transparent"
-								speed="1"
-								style="width: 200px; height: 200px"
-								loop
-								autoplay
-								class="mx-auto"
-							/> -->
 							<img
 								src="/images/not-found.svg"
 								alt="Not Found svg"
 								class="w-52 h-52"
 							>
-							<!-- <p>
-								No results found for
-								<span class="font-bold">{{ categoryFilter }}</span>
-								<span v-show="filters.search || categoryFilter"> books </span>
-								<span v-show="filters.search">matching </span>
-								<span class="font-bold">{{ filters.search }} </span>
-								.
-							</p> -->
 							<h1 class="mt-8 text-xl font-bold text-gray-900 tracking-wide">
 								Result Not Found
 							</h1>
@@ -197,26 +180,15 @@ export default {
         }
     },
 
-    watch: {
-        categoryFilter(value) {
-            this.$inertia
-                .get(this.$page.url, { category: value, page: 1 }, {
-                    preserveState: true,
-                })
-        },
-    },
-
     methods: {
-        clearFilter() {
-            this.categoryFilter = null
-
+        filterCategory(value) {
             this.$inertia
-                .get(this.$page.url, {search: null, category: null}, {
-                    preserveState: true,
-                    onFinish: () => {
-                        window.events.emit('clearedFilters')
-                    },
-                })
+                .get(this.$page.url, { category: value, page: 1 })
+        },
+
+        clearFilter() {
+            this.$inertia
+                .get(this.$page.url, {search: null, category: null})
         }
     },
 }

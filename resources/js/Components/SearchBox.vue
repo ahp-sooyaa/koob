@@ -28,7 +28,7 @@
 		>
 		<svg
 			v-if="search"
-			@click="search = ''"
+			@click="search = null"
 			xmlns="http://www.w3.org/2000/svg"
 			class="absolute h-5 right-3 text-gray-400 w-5 cursor-pointer hover:text-gray-700"
 			fill="none"
@@ -60,6 +60,7 @@ export default {
 
     watch: {
         search: debounce(function (value) {
+            console.log('search')
             this.$inertia
                 .get(this.$page.url, { search: value, page: 1 }, {
                     preserveState: true,
@@ -75,10 +76,6 @@ export default {
                     },
                 })
         }, 300),
-    },
-
-    created() {
-        window.events.on('clearedFilters', () => this.search = '')
     },
 }
 </script>
