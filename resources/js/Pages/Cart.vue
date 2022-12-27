@@ -191,30 +191,6 @@
 					>
 						Save for later
 					</h1>
-					<div class="relative">
-						<svg
-							@mouseover="showToolTip = true"
-							@mouseleave="showToolTip = false"
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke-width="1.5"
-							stroke="currentColor"
-							class="w-5 h-5 cursor-pointer text-gray-500 hover:text-gray-700"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
-							/>
-						</svg>
-						<div
-							v-show="showToolTip"
-							class="absolute bg-gray-700 bottom-5 transform -translate-x-1/2 lg:translate-x-0 lg:left-0 origin-bottom-left px-4 rounded text-sm text-white w-72 py-2"
-						>
-							If your cart items are out of stock, they will automatically move to save for later list.
-						</div>
-					</div>
 				</div>
 
 				<ul class="space-y-10">
@@ -291,12 +267,6 @@ export default {
     mixins: [format],
 
     props: ['cartItems', 'allSavedItems', 'overStockItems', 'availableSavedItems'],
-
-    data() {
-        return {
-            showToolTip: false,
-        }
-    },
 
     computed: {
         cartQuantity() {

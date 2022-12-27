@@ -21843,11 +21843,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   mixins: [_mixins_format__WEBPACK_IMPORTED_MODULE_3__["default"]],
   props: ['cartItems', 'allSavedItems', 'overStockItems', 'availableSavedItems'],
-  data: function data() {
-    return {
-      showToolTip: false
-    };
-  },
   computed: {
     cartQuantity: function cartQuantity() {
       var totalQty = 0;
@@ -30267,47 +30262,30 @@ var _hoisted_38 = {
   key: 2,
   "class": "mt-10 bg-white -mx-4 lg:-mx-0 lg:rounded-2xl p-4 lg:p-8 shadow-md"
 };
-var _hoisted_39 = {
+
+var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "flex items-center mb-5"
-};
-
-var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
   "class": "text-gray-800 font-semibold leading-tight text-xl mr-2"
-}, " Save for later ", -1
+}, " Save for later ")], -1
 /* HOISTED */
 );
 
-var _hoisted_41 = {
-  "class": "relative"
-};
-
-var _hoisted_42 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("path", {
-  "stroke-linecap": "round",
-  "stroke-linejoin": "round",
-  d: "M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
-}, null, -1
-/* HOISTED */
-);
-
-var _hoisted_43 = [_hoisted_42];
-var _hoisted_44 = {
-  "class": "absolute bg-gray-700 bottom-5 transform -translate-x-1/2 lg:translate-x-0 lg:left-0 origin-bottom-left px-4 rounded text-sm text-white w-72 py-2"
-};
-var _hoisted_45 = {
+var _hoisted_40 = {
   "class": "space-y-10"
 };
-var _hoisted_46 = ["src", "alt"];
-var _hoisted_47 = {
+var _hoisted_41 = ["src", "alt"];
+var _hoisted_42 = {
   "class": "flex-1 flex flex-col items-start"
 };
-var _hoisted_48 = {
+var _hoisted_43 = {
   "class": "flex items-center space-x-5 mt-3"
 };
-var _hoisted_49 = {
+var _hoisted_44 = {
   "class": "font-semibold"
 };
-var _hoisted_50 = ["onClick"];
-var _hoisted_51 = {
+var _hoisted_45 = ["onClick"];
+var _hoisted_46 = {
   key: 1,
   "class": "text-sm text-gray-500 mt-3"
 };
@@ -30455,24 +30433,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
       }, 8
       /* PROPS */
-      , ["href"])])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" save for later section "), $props.allSavedItems.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [_hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("svg", {
-        onMouseover: _cache[0] || (_cache[0] = function ($event) {
-          return $data.showToolTip = true;
-        }),
-        onMouseleave: _cache[1] || (_cache[1] = function ($event) {
-          return $data.showToolTip = false;
-        }),
-        xmlns: "http://www.w3.org/2000/svg",
-        fill: "none",
-        viewBox: "0 0 24 24",
-        "stroke-width": "1.5",
-        stroke: "currentColor",
-        "class": "w-5 h-5 cursor-pointer text-gray-500 hover:text-gray-700"
-      }, _hoisted_43, 32
-      /* HYDRATE_EVENTS */
-      )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, " If your cart items are out of stock, they will automatically move to save for later list. ", 512
-      /* NEED_PATCH */
-      ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.showToolTip]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_45, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.allSavedItems, function (item, index) {
+      , ["href"])])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" save for later section "), $props.allSavedItems.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, [_hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_40, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($props.allSavedItems, function (item, index) {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
           key: item.id,
           "class": "flex space-x-5"
@@ -30482,7 +30443,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "class": "w-24 h-32 lg:h-40 lg:w-32 object-cover"
         }, null, 8
         /* PROPS */
-        , _hoisted_46), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
+        , _hoisted_41), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Link, {
           href: _ctx.route('books.show', item.slug),
           "class": "hover:underline line-clamp-2"
         }, {
@@ -30496,7 +30457,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
         }, 1032
         /* PROPS, DYNAMIC_SLOTS */
-        , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t<select"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t\t@change=\"updateCartQuantity(index, item, $event)\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t\tclass=\"rounded-2xl shadow-md cursor-pointer\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t\t<option"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t\t\tv-for=\"qty in 10\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t\t\t:key=\"qty\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t\t\t:value=\"qty\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t\t\t:selected=\"item.quantity == qty\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t\t>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t\t\t{{ qty }}"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t\t</option>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t</select>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.formatPrice(item.price)), 1
+        , ["href"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t<select"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t\t@change=\"updateCartQuantity(index, item, $event)\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t\tclass=\"rounded-2xl shadow-md cursor-pointer\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t\t<option"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t\t\tv-for=\"qty in 10\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t\t\t:key=\"qty\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t\t\t:value=\"qty\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t\t\t:selected=\"item.quantity == qty\""), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t\t>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t\t\t{{ qty }}"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t\t</option>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\t\t\t\t\t\t\t\t</select>"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.formatPrice(item.price)), 1
         /* TEXT */
         )]), $options.isInStockItem(item.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           key: 0,
@@ -30506,7 +30467,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "class": "hover:bg-gray-50 hover:shadow-none mt-auto border cursor-pointer inline-block px-3 py-1.5 rounded-md shadow text-xs"
         }, " Move to cart ", 8
         /* PROPS */
-        , _hoisted_50)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, " This item is no longer available. Out of Stock. "))])]);
+        , _hoisted_45)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_46, " This item is no longer available. Out of Stock. "))])]);
       }), 128
       /* KEYED_FRAGMENT */
       ))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])];
