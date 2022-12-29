@@ -23,7 +23,7 @@
 						/>
 					</svg>
 					<span
-						v-if="$page.props.unreadNotifications.length"
+						v-if="unreadNotifications.length"
 						class="absolute top-0.5 right-0.5 flex h-2 w-2"
 					>
 						<span
@@ -48,11 +48,11 @@
 						</Link>
 					</div>
 					<div
-						v-if="$page.props.unreadNotifications.length"
+						v-if="unreadNotifications.length"
 						class="max-h-96 overflow-y-auto"
 					>
 						<div
-							v-for="(unreadNotification, index) in $page.props.unreadNotifications"
+							v-for="(unreadNotification, index) in unreadNotifications"
 							:key="unreadNotification"
 						>
 							<BreezeDropdownLink
@@ -73,7 +73,6 @@
 					>
 						No unread notifications
 					</div>
-					<!--					<div class="absolute bg-gradient-to-b bottom-0 from-transparent h-24 inset-x-0 rounded-b-md to-white via-transparent w-full" />-->
 				</div>
 			</template>
 		</BreezeDropdown>
@@ -83,13 +82,17 @@
 <script>
 import BreezeDropdown from '@/Components/Dropdown'
 import BreezeDropdownLink from '@/Components/DropdownLink'
+
 export default {
     components: {
         BreezeDropdown,
         BreezeDropdownLink,
     },
+
+    data() {
+        return {
+            unreadNotifications: this.$page.props.auth.user.unread_notifications
+        }
+    },
 }
 </script>
-
-<style lang="scss" scoped>
-</style>

@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use Exception;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Events\QueryExecuted;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
@@ -27,14 +30,18 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // URL::forceScheme('https');
-        Schema::defaultStringLength(191);
+        if (! app()->isProduction()) {
+            Model::preventLazyLoading();
 
-        // DB::listen(function ($query) {
-        //     Log::debug($query->sql);
-            
-        //     $query->bindings;
-        //     $query->time;
-        // });
+            DB::listen(function (QueryExecuted $event) {
+                if ($event->time > 100) {
+                    throw new QueryException(
+                        $event->sql,
+                        $event->bindings,
+                        new Exception("Individual database query exceed 100ms")
+                    );
+                }
+            });
+        }
     }
 }
