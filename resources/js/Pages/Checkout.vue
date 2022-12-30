@@ -442,12 +442,14 @@ export default {
                         this.$inertia.get(route('checkout.thankYou', response.data.id))
                     })
                     .catch((error) => {
-                        console.log(error.response.data)
                         this.paymentProcessing = false
+                        this.cardElement.update({disabled: false})
                         
-                        if(error.response.status === 500) {
-                            this.cardError = error.response.data.message
-                        } else {
+                        if (error.response.data.message && error.response.status === 500) {
+                            window.flash(error.response.data.message, 'error')
+                        }
+
+                        if (error.response.status === 422) {
                             this.errors = error.response.data
                         }
                     })

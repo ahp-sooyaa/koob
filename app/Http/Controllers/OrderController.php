@@ -52,11 +52,12 @@ class OrderController extends Controller
 
     public function store(Request $request)
     {
-        Log::debug('Started order store process');
-        
         $request->validate([
             'contact_name' => ['required', 'string'],
             'contact_email' => ['required', 'email'],
+            'amount' => ['required', 'numeric'],
+            'payment_method_id' => ['required', 'string'],
+            'address_id' => ['required', 'numeric'],
         ]);
 
         // check order quantity are more than available stock here
@@ -71,6 +72,14 @@ class OrderController extends Controller
         //     ]
         // );
 
+        foreach(json_decode($request->input('cart'), true) as $item) {
+            $book = Book::find($item['id']);
+
+            if ($book->stock_count < $item['quantity']) {
+                return response()->json(['message' => 'Sorry! Some items in your cart are not available.'], 500);
+            }
+        }
+
         try {
             $payment = Auth::user()->charge(
                 $request->input('amount'),
@@ -81,7 +90,6 @@ class OrderController extends Controller
             return response()->json(['message' => $e->getMessage()], 500);
         }
 
-        Log::debug($payment);
         $order = Auth::user()->orders()
             ->create([
                 // 'email' => $request->input('email'), this should save because user can fill different email in contact information section and that email will be useless if we don't save and we can't send mail to that address and we can only send mail to user registered email
@@ -95,7 +103,6 @@ class OrderController extends Controller
                 ->attach($item['id'], ['quantity' => $item['quantity']]);
 
             // product or book stock quantities should decrease here
-            // SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'stock_count' at row 1 (SQL: update `books` set `stock_count` = -1, `books`.`updated_at` = 2022-04-03 05:26:57 where `id` = 3)"
             $book = Book::find($item['id']);
             $book->update([
                 'stock_count' => $book->stock_count - $item['quantity']
@@ -103,14 +110,14 @@ class OrderController extends Controller
         }
 
         session()->forget('cart');
-        Cart::where('user_id', auth()->id())->delete();
+        Cart::where('user_id', Auth::id())->delete();
 
         $admins = User::where('role', 'admin')->get();
         Notification::send($admins, new OrderPlaced($order));
         Notification::send(Auth::user(), new CustomerOrderPlaced($order));
 
         if (session('coupon')) {
-            auth()->user()->coupons()->where('code', session('coupon')->code)->first()->pivot->update(['isApplied' => true]);
+            Auth::user()->coupons()->where('code', session('coupon')->code)->first()->pivot->update(['isApplied' => true]);
 
             session()->forget('coupon');
         }
