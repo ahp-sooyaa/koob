@@ -47,48 +47,48 @@ class NotificationsTest extends TestCase
         $this->assertCount(0, $admin->fresh()->unreadNotifications);
     }
 
-    public function test_admin_can_filter_unread_notifications_only()
-    {
-        $admin = User::factory()->create(['role' => 'admin']);
-        $this->actingAs($admin);
+    // public function test_admin_can_filter_unread_notifications_only()
+    // {
+    //     $admin = User::factory()->create(['role' => 'admin']);
+    //     $this->actingAs($admin);
 
-        $unreadNotification = DatabaseNotificationFactory::new()->create();
-        $readNotification = DatabaseNotificationFactory::new()->create([
-            'data' => ['message' => 'This is read message', 'link' => 'This is link'],
-            'read_at' => now()
-        ]);
+    //     $unreadNotification = DatabaseNotificationFactory::new()->create();
+    //     $readNotification = DatabaseNotificationFactory::new()->create([
+    //         'data' => ['message' => 'This is read message', 'link' => 'This is link'],
+    //         'read_at' => now()
+    //     ]);
 
-        $this
-            ->get(route('admin.unread-notifications'))
-            ->assertSee($unreadNotification->data['message'])
-            ->assertDontSee($readNotification->data['message']);
-    }
+    //     $this
+    //         ->get(route('admin.unread-notifications'))
+    //         ->assertSee($unreadNotification->data['message'])
+    //         ->assertDontSee($readNotification->data['message']);
+    // }
 
-    public function test_unauthorized_user_cannot_see_admin_notifications()
-    {
-        $admin = User::factory()->create(['role' => 'admin']);
-        $notification = DatabaseNotificationFactory::new()->create(['notifiable_id' => $admin->id]);
+    // public function test_unauthorized_user_cannot_see_admin_notifications()
+    // {
+    //     $admin = User::factory()->create(['role' => 'admin']);
+    //     $notification = DatabaseNotificationFactory::new()->create(['notifiable_id' => $admin->id]);
 
-        $this
-            ->get(route('admin.notifications.index'))
-            ->assertRedirect(route('login'));
-        $this
-            ->get(route('admin.notifications.show' , $notification->id))
-            ->assertRedirect(route('login'));
-        $this
-            ->get(route('admin.unread-notifications'))
-            ->assertRedirect(route('login'));
+    //     $this
+    //         ->get(route('admin.notifications.index'))
+    //         ->assertRedirect(route('login'));
+    //     $this
+    //         ->get(route('admin.notifications.show' , $notification->id))
+    //         ->assertRedirect(route('login'));
+    //     $this
+    //         ->get(route('admin.unread-notifications'))
+    //         ->assertRedirect(route('login'));
 
-        $this->actingAs($admin);
+    //     $this->actingAs($admin);
 
-        $this
-            ->get(route('admin.notifications.index'))
-            ->assertSuccessful();
-        $this
-            ->get(route('admin.notifications.show' , $notification->id))
-            ->assertRedirect($notification->data['link']);
-        $this
-            ->get(route('admin.unread-notifications'))
-            ->assertSuccessful();
-    }
+    //     $this
+    //         ->get(route('admin.notifications.index'))
+    //         ->assertSuccessful();
+    //     $this
+    //         ->get(route('admin.notifications.show' , $notification->id))
+    //         ->assertRedirect($notification->data['link']);
+    //     $this
+    //         ->get(route('admin.unread-notifications'))
+    //         ->assertSuccessful();
+    // }
 }

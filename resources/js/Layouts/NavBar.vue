@@ -15,6 +15,8 @@
 									<img
 										src="/images/logo.svg"
 										alt="logo"
+										width="54"
+										height="18"
 									>
 								</Link>
 							</div>

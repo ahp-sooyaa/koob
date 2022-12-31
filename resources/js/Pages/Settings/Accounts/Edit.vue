@@ -16,27 +16,6 @@
 			<p class="text-sm text-gray-500 mt-1">
 				Update your username, email or password.
 			</p>
-			<!-- <h2 class="flex font-semibold text-xl text-gray-800 leading-tight">
-				<Link
-					:href="route('profile.show', $page.props.auth.user.name)"
-					class="text-gray-500 hover:text-gray-900"
-				>
-					Profile
-				</Link>
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					class="h-6 w-6 text-gray-400"
-					viewBox="0 0 20 20"
-					fill="currentColor"
-				>
-					<path
-						fill-rule="evenodd"
-						d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-						clip-rule="evenodd"
-					/>
-				</svg>
-				Setting
-			</h2> -->
 		</template>
 		
 		<div class="w-full max-w-xl lg:max-w-4xl lg:mx-auto px-4 sm:px-6 lg:px-8">
@@ -65,6 +44,7 @@
 						@change="selectedProfilePhoto($event)"
 						type="file"
 						class="hidden"
+						accept="image/*"
 					>
 					<button
 						@click="$refs.photo.click()"

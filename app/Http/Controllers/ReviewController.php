@@ -13,12 +13,13 @@ class ReviewController extends Controller
     {
         $reviews = Review::query()
             ->where('book_id', $book->id)
-            ->when(Auth::user(), function($query) {
+            ->when(Auth::user() && !Auth::user()->is_admin, function($query) {
                 $query->where(function($query) {
                     $query->where('approved_at', '!=', null)
                         ->orWhere('user_id', Auth::id());
                 });
-            }, function($query) {
+            })
+            ->when(!Auth::user(), function($query) {
                 $query->where('approved_at', '!=', null);
             })
             ->with('user')
@@ -80,6 +81,15 @@ class ReviewController extends Controller
 
         return response()->json([
             'message' => 'Successfully deleted your review & rating.'
+        ]);
+    }
+
+    public function approve(Review $review)
+    {
+        $review->update(['approved_at' => now()]);
+
+        return response()->json([
+            'message' => 'Successfully approved review.'
         ]);
     }
 }

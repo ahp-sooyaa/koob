@@ -28,6 +28,8 @@ mix.options({
     }
 })
 
+mix.extract()
+
 // const domain = 'koob.test' // <= EDIT THIS
 // const homedir = require('os').homedir()
 //

@@ -59,7 +59,7 @@
 								placeholder="Search by book title or excerpt..."
 								classes="hover:border-transparent focus:border-transparent rounded-full w-full"
 							/>
-							<div class="flex items-center justify-between mb-5 mt-3 w-full md:w-auto">
+							<div class="flex items-center justify-between mb-5 mt-3 md:mb-0 md:mt-0 w-full md:w-auto">
 								<div
 									v-show="books.total"
 									class="text-sm text-gray-600 md:hidden"
@@ -103,6 +103,7 @@
 								src="/images/not-found.svg"
 								alt="Not Found svg"
 								class="w-52 h-52"
+								loading="lazy"
 							>
 							<h1 class="mt-8 text-xl font-bold text-gray-900 tracking-wide">
 								Result Not Found

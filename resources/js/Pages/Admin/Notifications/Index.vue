@@ -7,39 +7,39 @@
 
 	<div class="w-2/3 my-12 mx-5">
 		<div class="flex border-b-2">
-			<Link
-				:href="route('admin.notifications.index')"
-				:class="route().current('admin.notifications.index') ? '-mb-0.5 border-b-2 border-gray-900 text-gray-700' : 'text-gray-500'"
-				class="py-1 px-5 flex items-center"
+			<div
+				@click="showAllNotifications"
+				:class="currentTab == 'all' ? '-mb-0.5 border-b-2 border-gray-900 text-gray-700' : 'text-gray-500'"
+				class="py-1 px-5 flex items-center cursor-pointer"
 			>
 				All
 				<span
 					class="ml-1 px-1.5 py-0.5 rounded-full text-xs"
-					:class="route().current('admin.notifications.index') ? 'bg-gray-900 text-white' : 'bg-gray-500 text-gray-200'"
+					:class="currentTab == 'all' ? 'bg-gray-900 text-white' : 'bg-gray-500 text-gray-200'"
 				>
 					{{ notifications.length }}
 				</span>
-			</Link>
-			<Link
-				:href="route('admin.unread-notifications')"
-				:class="route().current('admin.unread-notifications') ? '-mb-0.5 border-b-2 border-gray-900 text-gray-700' : 'text-gray-500'"
-				class="py-1 px-5 flex items-center"
+			</div>
+			<div
+				@click="showUnreadNotifications"
+				:class="currentTab == 'unread' ? '-mb-0.5 border-b-2 border-gray-900 text-gray-700' : 'text-gray-500'"
+				class="py-1 px-5 flex items-center cursor-pointer"
 			>
 				Unread
 				<span
 					class="ml-1 px-1.5 py-0.5 rounded-full text-xs"
-					:class="route().current('admin.unread-notifications') ? 'bg-gray-900 text-white' : 'bg-gray-500 text-gray-200'"
+					:class="currentTab == 'unread' ? 'bg-gray-900 text-white' : 'bg-gray-500 text-gray-200'"
 				>
 					{{ unreadNotifications.length }}
 				</span>
-			</Link>
+			</div>
 		</div>
 		<div
-			v-if="notifications.length"
+			v-if="notificationsList.length"
 			class="my-5 space-y-2 divide-y"
 		>
 			<div
-				v-for="(notification, index) in notifications"
+				v-for="(notification, index) in notificationsList"
 				:key="notification.id"
 			>
 				<div
@@ -58,10 +58,10 @@
 			v-else
 			class="my-5 text-sm text-gray-500 text-center"
 		>
-			<span v-show="route().current('admin.notifications.index')">
+			<span v-show="currentTab == 'all'">
 				You don't have any notifications yet!
 			</span>
-			<span v-show="route().current('admin.unread-notifications')">
+			<span v-show="currentTab == 'unread'">
 				You have read all notifications!
 			</span>
 		</div>
@@ -72,6 +72,7 @@
 import AdminLayout from '@/Layouts/Admin'
 import AdminHeader from '@/Components/AdminHeader'
 import format from '@/mixins/format'
+
 export default {
     components: { AdminHeader },
 
@@ -81,9 +82,26 @@ export default {
 
     props: ['notifications', 'unreadNotifications'],
 
+    data() {
+        return {
+            currentTab: 'all',
+            notificationsList: this.notifications,
+        }
+    },
+
     methods: {
         readNotification(id) {
             this.$inertia.get(route('admin.notifications.show', id))
+        },
+
+        showAllNotifications() {
+            this.currentTab = 'all'
+            this.notificationsList = this.notifications
+        },
+
+        showUnreadNotifications() {
+            this.currentTab = 'unread'
+            this.notificationsList = this.unreadNotifications
         },
     }
 }

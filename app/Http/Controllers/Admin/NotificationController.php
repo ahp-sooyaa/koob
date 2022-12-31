@@ -13,6 +13,7 @@ class NotificationController extends Controller
     {
         return Inertia::render('Admin/Notifications/Index', [
             'notifications' => Auth::user()->notifications,
+            'unreadNotifications' => Auth::user()->unreadNotifications,
         ]);
     }
 
@@ -22,12 +23,5 @@ class NotificationController extends Controller
         $notification->markAsRead();
 
         return Redirect::to($notification->data['link']);
-    }
-
-    public function unreadNotifications()
-    {
-        return Inertia::render('Admin/Notifications/Index', [
-            'notifications' => Auth::user()->unreadNotifications,
-        ]);
     }
 }

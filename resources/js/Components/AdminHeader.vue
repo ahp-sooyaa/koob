@@ -91,7 +91,7 @@ export default {
 
     data() {
         return {
-            unreadNotifications: this.$page.props.auth.user.unread_notifications
+            unreadNotifications: this.$page.props.auth.user.unread_notifications ?? []
         }
     },
 }

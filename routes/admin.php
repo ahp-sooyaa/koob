@@ -11,7 +11,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::get('notifications', [NotificationController::class, 'index'])->name('notifications.index');
-    Route::get('unread-notifications', [NotificationController::class, 'unreadNotifications'])->name('unread-notifications');
+    // Route::get('unread-notifications', [NotificationController::class, 'unreadNotifications'])->name('unread-notifications');
     Route::get('notifications/{notification}', [NotificationController::class, 'show'])->name('notifications.show');
 
     Route::get('books', [BookController::class, 'index'])->name('books.index');

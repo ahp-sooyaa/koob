@@ -66,6 +66,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('books/{book}/reviews', [ReviewController::class, 'store'])->name('books.reviews.store');
     Route::patch('reviews/{review}', [ReviewController::class, 'update'])->name('reviews.update');
     Route::delete('reviews/{review}', [ReviewController::class, 'destroy'])->name('reviews.destroy');
+    
+    Route::patch('reviews/{review}/approve', [ReviewController::class, 'approve'])->name('reviews.approve');
 });
 
 Route::get('books/{book}/reviews', [ReviewController::class, 'index'])->name('books.reviews.index');

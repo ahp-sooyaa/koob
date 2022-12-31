@@ -47,6 +47,7 @@
 						:src="book.cover_url"
 						:alt="book.title + '\s cover image'"
 						class="w-32 h-44 flex-shrink-0 shadow-2xl"
+						loading="lazy"
 					>
 					<div>
 						<Link
@@ -89,6 +90,7 @@
 						:src="book.cover_url"
 						:alt="book.title + '\s cover image'"
 						class="w-32 h-44 flex-shrink-0 shadow-2xl"
+						loading="lazy"
 					>
 					<div>
 						<Link
@@ -130,6 +132,7 @@
 					src="images/avatar.jpg"
 					alt="cover image"
 					class="flex-shrink-0 shadow-2xl w-52 h-64 object-cover"
+					loading="lazy"
 				>
 			</div>
 			<div class="flex mx-auto w-20 space-x-4 justify-center mt-10">

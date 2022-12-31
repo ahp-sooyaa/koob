@@ -78,6 +78,7 @@
 							</option>
 						</select>
 						<Button
+							v-if="book.stock_count"
 							@click="addToCart"
 							:disabled="isAdded"
 							:class="{'cursor-default opacity-50': isAdded}"
@@ -85,14 +86,16 @@
 						>
 							{{ isAdded ? 'Added' : 'Add' }} to Cart
 						</Button>
+						<Button
+							v-else
+							class="w-full cursor-default opacity-50"
+						>
+							Out of stock
+						</Button>
 					</div>
 				</div>
 			</div>
 		</section>
-
-		<!-- <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 mb-16 pt-7">
-			similar books
-		</section> -->
 
 		<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-10 mb-16 pt-7">
 			<div class="flex border-b-2 pb-2 text-lg space-x-10 text-gray-400 tracking-wide mb-10">

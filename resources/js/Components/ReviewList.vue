@@ -1,5 +1,8 @@
 <template>
-	<div class="lg:w-1/3 flex flex-shrink-0">
+	<div
+		v-if="reviews.length"
+		class="lg:w-1/3 flex flex-shrink-0"
+	>
 		<div class="mr-5">
 			<div class="text-4xl bg-red-500 text-white p-3 mb-3 rounded-md grid place-items-center">
 				{{ averageRating }} 
@@ -165,7 +168,7 @@
 						class="flex items-end"
 					>
 						Your review is awaiting approval.
-						<svg
+						<!-- <svg
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 20 20"
 							fill="currentColor"
@@ -176,7 +179,7 @@
 								d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM8.94 6.94a.75.75 0 11-1.061-1.061 3 3 0 112.871 5.026v.345a.75.75 0 01-1.5 0v-.5c0-.72.57-1.172 1.081-1.287A1.5 1.5 0 108.94 6.94zM10 15a1 1 0 100-2 1 1 0 000 2z"
 								clip-rule="evenodd"
 							/>
-						</svg>
+						</svg> -->
 					</p>
 					<div
 						v-if="review.id === authUserReview?.id"
@@ -184,6 +187,13 @@
 						class="ml-auto text-xs tracking-widest border border-gray-300 rounded-full px-2 hover:border-gray-500 cursor-pointer hover:bg-gray-300"
 					>
 						delete
+					</div>
+					<div
+						v-if="$page.props.auth.user.is_admin"
+						@click="approveReview(review.id)"
+						class="ml-auto text-xs tracking-widest border border-gray-300 rounded-full px-2 hover:border-gray-500 cursor-pointer hover:bg-gray-300"
+					>
+						approve
 					</div>
 				</div>
 				<div class="flex space-x-3">
@@ -332,9 +342,6 @@ export default {
                         this.selectedRating = this.authUserReview?.rating
                     }
                 })
-                .catch((err) => {
-                    console.log(err)
-                })
         },
 
         percentageOfStar(star) {
@@ -372,6 +379,15 @@ export default {
 
         deleteReview(id) {
             axios.delete(route('reviews.destroy', id))
+                .then(res => {
+                    this.fetchReviewsAndRatings()
+                    window.flash(res.data.message)
+                })
+                .catch(err => window.flash(err.response.data.message, 'error'))
+        },
+
+        approveReview(id) {
+            axios.patch(route('reviews.approve', id))
                 .then(res => {
                     this.fetchReviewsAndRatings()
                     window.flash(res.data.message)
