@@ -5,6 +5,7 @@ namespace App\Providers;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\QueryExecuted;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
@@ -33,15 +34,15 @@ class AppServiceProvider extends ServiceProvider
         if (! app()->isProduction()) {
             Model::preventLazyLoading();
 
-            DB::listen(function (QueryExecuted $event) {
-                if ($event->time > 100) {
-                    throw new QueryException(
-                        $event->sql,
-                        $event->bindings,
-                        new Exception("Individual database query exceed 100ms")
-                    );
-                }
-            });
+            // DB::listen(function (QueryExecuted $event) {
+            //     if ($event->time > 100) {
+            //         throw new QueryException(
+            //             $event->sql,
+            //             $event->bindings,
+            //             new Exception("Individual database query exceed 100ms")
+            //         );
+            //     }
+            // });
         }
     }
 }

@@ -31,7 +31,7 @@ class BookFactory extends Factory
             'price' => $this->faker->numberBetween(10_00, 90_00),
             'cover_photo_path' => 'cover-photos/cover.png',
             // 'available_stock_count' => 10,
-            'stock_count' => 10
+            'stock_count' => 20
         ];
     }
 }

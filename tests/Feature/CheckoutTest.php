@@ -116,7 +116,7 @@ class CheckoutTest extends TestCase
             ->assertSuccessful();
 
         // deducted stock count of placed order book
-        $this->assertEquals(9, $book->fresh()->stock_count);
+        $this->assertEquals(19, $book->fresh()->stock_count);
 
         // remove from cart table
         $this->assertDatabaseMissing('carts', [
