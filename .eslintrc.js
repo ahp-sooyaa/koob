@@ -4,13 +4,14 @@ module.exports = {
         es2021: true,
         node: true,
     },
-    extends: [
-        "plugin:vue/vue3-strongly-recommended",
-        "plugin:prettier/recommended",
-    ],
+    extends: ["eslint:recommended", "plugin:vue/vue3-recommended", "prettier"],
     parserOptions: {
         ecmaVersion: 13,
         sourceType: "module",
+    },
+    globals: {
+        route: true, // adding ziggy route() as global variable otherwise eslint showing as 'no-undef' error
+        axios: true,
     },
     // rules: {
     // indent: ["error", 4],
