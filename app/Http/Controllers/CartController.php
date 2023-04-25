@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Cart;
 use App\Models\Book;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
@@ -13,15 +13,15 @@ class CartController extends Controller
     {
         if (request()->wantsJson()) {
             return response()->json([
-                'cartItems' => !empty(session('cart')) ? array_values(session('cart')) : [],
+                'cartItems' => ! empty(session('cart')) ? array_values(session('cart')) : [],
             ]);
         }
 
         $filtered = $cart->checkStockForCheckout();
 
         return Inertia::render('Cart', array_merge($filtered, [
-            'cartItems' => !empty(session('cart')) ? array_values(session('cart')) : [],
-            'allSavedItems' => !empty(session('saveforlater')) ? array_values(session('saveforlater')) : [],
+            'cartItems' => ! empty(session('cart')) ? array_values(session('cart')) : [],
+            'allSavedItems' => ! empty(session('saveforlater')) ? array_values(session('saveforlater')) : [],
         ]));
     }
 
@@ -29,7 +29,7 @@ class CartController extends Controller
     {
         if ($book->stock_count < $request->input('qty')) {
             return response()->json([
-                'message' => "Quantity is exceeding over available stock. Available quantity($book->stock_count)"
+                'message' => "Sorry, we only have $book->stock_count items in stock.",
             ], 422);
         }
 
@@ -45,7 +45,7 @@ class CartController extends Controller
 
         if ($book->stock_count < (is_null($cartItem) ? 0 : $cartItem['quantity']) + $qty) {
             return response()->json([
-                'message' => "Quantity is exceeding over available stock. Available quantity($book->stock_count)"
+                'message' => "Sorry, we only have $book->stock_count items in stock.",
             ], 422);
         }
 

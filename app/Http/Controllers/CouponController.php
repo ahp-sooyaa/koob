@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Coupon;
 use Carbon\Carbon;
+use App\Models\Coupon;
 use Illuminate\Http\Request;
 
 class CouponController extends Controller
@@ -19,12 +19,16 @@ class CouponController extends Controller
     {
         $coupon = Coupon::where('code', $request->input('code'))->first();
 
-        if (!$coupon) {
+        if (! $coupon) {
             return response()->json(['message' => 'This code is not from us.'], 404);
         }
 
-        if ($coupon->expired_at < Carbon::now() || $coupon->isApplied()) {
+        if ($coupon->expired_at < Carbon::now()) {
             return response()->json(['message' => "You can't use this coupon anymore"], 422);
+        }
+
+        if ($coupon->isApplied()) {
+            return response()->json(['message' => "You've already used this coupon"], 422);
         }
 
         session()->put('coupon', $coupon);

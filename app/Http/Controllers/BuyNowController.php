@@ -16,7 +16,7 @@ class BuyNowController extends Controller
         $cartItem = session("buyNow.{$book->id}");
 
         if ($book->stock_count < (is_null($cartItem) ? 0 : $cartItem['quantity']) + 1) {
-            return Redirect::back()->with('error', "Quantity is exceeding over available stock. Available quantity($book->stock_count)");
+            return Redirect::back()->with('error', "Sorry, we only have $book->stock_count items in stock.");
         }
 
         $buyNow->add($book, 1);
@@ -28,7 +28,7 @@ class BuyNowController extends Controller
     {
         if ($book->stock_count < $request->input('qty')) {
             return response()->json([
-                'message' => "Quantity is exceeding over available stock. Available quantity($book->stock_count)"
+                'message' => "Sorry, we only have $book->stock_count items in stock.",
             ], 422);
         }
 
