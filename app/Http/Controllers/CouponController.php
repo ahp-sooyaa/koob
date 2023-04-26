@@ -33,7 +33,7 @@ class CouponController extends Controller
 
         session()->put('coupon', $coupon);
 
-        return response()->json(['message' => 'Successfully applied coupon.', 'coupon' => $coupon]);
+        return response()->json(['message' => 'Coupon applied successfully.', 'coupon' => $coupon]);
     }
 
     public function destroy()

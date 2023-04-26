@@ -237,7 +237,7 @@
                                     class="w-full rounded-l-2xl border-gray-300 focus:border-black focus:ring-0"
                                 />
                                 <div
-									dusk="apply"
+                                    dusk="apply"
                                     class="rounded-r-2xl border border-gray-700 bg-gray-700 px-7 py-2"
                                     :class="
                                         code
@@ -260,6 +260,7 @@
                                     >
                                 </div>
                                 <div
+                                    dusk="removeCoupon"
                                     class="cursor-pointer text-gray-500 hover:text-gray-700"
                                     @click="removeCoupon"
                                 >

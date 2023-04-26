@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Address;
 use App\Models\Book;
 use App\Models\Cart;
-use App\Models\Order;
 use App\Models\User;
-use App\Notifications\CustomerOrderPlaced;
-use App\Notifications\OrderPlaced;
+use Inertia\Inertia;
+use App\Models\Order;
+use App\Models\Address;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Notifications\OrderPlaced;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
+use App\Notifications\CustomerOrderPlaced;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Str;
-use Inertia\Inertia;
 
 class OrderController extends Controller
 {
@@ -29,8 +29,8 @@ class OrderController extends Controller
                     $query
                         ->where('id', $search)
                         ->orWhereHas('books', function ($query) use ($search) {
-                        $query->where('title', 'like', "%{$search}%");
-                    });
+                            $query->where('title', 'like', "%{$search}%");
+                        });
                 });
             })
             ->latest()
@@ -39,7 +39,7 @@ class OrderController extends Controller
         return Inertia::render('Settings/Orders/Index', [
             'orders' => $orders,
             'ordersCount' => $ordersCount,
-            'search' => request('search')
+            'search' => request('search'),
         ]);
     }
 
@@ -72,7 +72,7 @@ class OrderController extends Controller
         //     ]
         // );
 
-        foreach(json_decode($request->input('cart'), true) as $item) {
+        foreach (json_decode($request->input('cart'), true) as $item) {
             $book = Book::find($item['id']);
 
             if ($book->stock_count < $item['quantity']) {
@@ -87,6 +87,7 @@ class OrderController extends Controller
             );
         } catch (\Exception $e) {
             Log::debug($e->getMessage());
+
             return response()->json(['message' => $e->getMessage()], 500);
         }
 
@@ -105,7 +106,7 @@ class OrderController extends Controller
             // product or book stock quantities should decrease here
             $book = Book::find($item['id']);
             $book->update([
-                'stock_count' => $book->stock_count - $item['quantity']
+                'stock_count' => $book->stock_count - $item['quantity'],
             ]);
         }
 
