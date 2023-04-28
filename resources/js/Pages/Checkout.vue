@@ -310,7 +310,7 @@ export default {
 
     mixins: [format],
 
-    props: ["message", "appliedCoupon", "checkoutMode"],
+    props: ["message", "appliedCoupon", "isCartCheckout"],
 
     data() {
         return {
@@ -365,7 +365,7 @@ export default {
     },
 
     created() {
-        this.products = this.checkoutMode === "cart" ? this.cart : this.buyNow;
+        this.products = this.isCartCheckout ? this.cart : this.buyNow;
     },
 
     async mounted() {
@@ -393,8 +393,9 @@ export default {
             }
 
             let cartItem = this.products[index];
-            let routeName =
-                this.checkoutMode === "cart" ? "cart.update" : "buyNow.update";
+            let routeName = this.isCartCheckout
+                ? "cart.update"
+                : "buyNow.update";
 
             axios
                 .patch(route(routeName, item.id), {
@@ -416,7 +417,7 @@ export default {
                 return;
             }
 
-            if (this.checkoutMode === "cart") {
+            if (this.isCartCheckout) {
                 axios.delete(route("cart.destroy", item.id)).then(() => {
                     if (Object.keys(this.products).length === 1) {
                         this.$inertia.get(

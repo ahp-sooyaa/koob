@@ -1,32 +1,12 @@
 # Koob
 
-> WIP
+[![CI](https://github.com/ahp-sooyaa/koob/actions/workflows/dusk.yml/badge.svg)](https://github.com/ahp-sooyaa/koob/actions/workflows/dusk.yml)
 
 Koob (Book) is ecommerce bookstore project for personal portfolio that's built by laravel 8, Vue3, Inertia. User can add book to cart, checkout the books in the cart.
 
-## Screenshots
-
-![preview](Doc/login_page.png)
-
-![preview](Doc/welcome_page.png)
-
-![preview](Doc/shop_page.png)
-
-![preview](Doc/single_page.png)
-
-![preview](Doc/cart_page_empty_state.png)
-
-![preview](Doc/cart_page_with_items.png)
-
-![preview](Doc/checkout_page.png)
-
-![preview](Doc/thankyou_page.png)
-
-![preview](Doc/order_history_page.png)
-
-![preview](Doc/order_detail_page.png)
-
-![preview](Doc/dashboard_page.png)
+## Demo
+Link - [https://koobdemo.site/](https://koobdemo.site/)
+![preview](Doc/pika-1682477435106-1x.png)
 
 ## Installation
 

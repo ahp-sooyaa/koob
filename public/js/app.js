@@ -2661,7 +2661,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     Addresses: _Components_Checkout_Addresses__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   mixins: [_mixins_format__WEBPACK_IMPORTED_MODULE_6__["default"]],
-  props: ["message", "appliedCoupon", "checkoutMode"],
+  props: ["message", "appliedCoupon", "isCartCheckout"],
   data: function data() {
     var _this$$page$props$aut, _this$$page$props$aut2;
 
@@ -2712,7 +2712,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   created: function created() {
-    this.products = this.checkoutMode === "cart" ? this.cart : this.buyNow;
+    this.products = this.isCartCheckout ? this.cart : this.buyNow;
   },
   mounted: function mounted() {
     var _this = this;
@@ -2762,7 +2762,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       var cartItem = this.products[index];
-      var routeName = this.checkoutMode === "cart" ? "cart.update" : "buyNow.update";
+      var routeName = this.isCartCheckout ? "cart.update" : "buyNow.update";
       axios.patch(route(routeName, item.id), {
         qty: parseInt(event.target.value)
       }).then(function (res) {
@@ -2781,7 +2781,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         return;
       }
 
-      if (this.checkoutMode === "cart") {
+      if (this.isCartCheckout) {
         axios["delete"](route("cart.destroy", item.id)).then(function () {
           if (Object.keys(_this2.products).length === 1) {
             _this2.$inertia.get(route("books.index"), {}, {

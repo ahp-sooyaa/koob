@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cart;
+use Inertia\Inertia;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Inertia\Inertia;
 
 class CheckoutController extends Controller
 {
     public function index(Request $request)
     {
-        $hasItems = $request->input('buynow') ? !empty(session('buyNow')) : !empty(session('cart'));
+        $hasItems = $request->input('buynow') ? ! empty(session('buyNow')) : ! empty(session('cart'));
 
         if (Auth::check() && $hasItems) {
             return Inertia::render('Checkout', [
                 'appliedCoupon' => session('coupon'),
-                'checkoutMode' => $request->input('buynow') ? 'buynow' : 'cart',
+                'isCartCheckout' => $request->input('buynow') ? false : true,
             ]);
         }
 
