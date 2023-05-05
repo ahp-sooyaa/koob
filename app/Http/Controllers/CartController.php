@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Cart;
 use App\Models\Book;
 use Inertia\Inertia;
+use App\Models\Promotion;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -19,9 +20,23 @@ class CartController extends Controller
 
         $filtered = $cart->checkStockForCheckout();
 
+        $cartData = ! empty(session('cart')) ? array_values(session('cart')) : [];
+
+        if (! empty(session('cart'))) {
+            foreach ($cartData as $key => $cartItem) {
+                $book = Book::find($cartItem['id']);
+
+                // $cartItem['price'] = $book->price;
+                $cartItem['discount_amount'] = $book->promotions->first()?->discount_amount;
+                $cartItem['is_percentage_discount'] = $book->promotions->first()?->is_percentage_discount;
+                $cartData[$key] = $cartItem;
+            }
+        }
+
         return Inertia::render('Cart', array_merge($filtered, [
-            'cartItems' => ! empty(session('cart')) ? array_values(session('cart')) : [],
+            'cartItems' => $cartData,
             'allSavedItems' => ! empty(session('saveforlater')) ? array_values(session('saveforlater')) : [],
+            'promotions' => Promotion::with('books')->get(),
         ]));
     }
 

@@ -10,9 +10,6 @@
 
     <BreezeNavBarLayout>
         <template v-if="previousPurchasedOrder" #header>
-            <!-- <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-				Shop
-			</h2> -->
             <h1 class="text-sm text-gray-700">
                 You have previously purchased this book. See
                 <Link
@@ -28,20 +25,6 @@
             class="mx-auto mb-16 max-w-7xl px-4 pt-7 sm:px-6 lg:px-10"
             :class="{ 'mt-16': !previousPurchasedOrder }"
         >
-            <!-- <div
-				v-if="previousPurchasedOrder"
-				class="text-gray-700 text-sm bg-white inline-block mb-5 px-5 py-3 rounded-2xl shadow"
-			>
-				<h1>
-					You have previously purchased this book. See
-					<Link
-						:href="route('orders.show', previousPurchasedOrder.id)"
-						class="hover:text-gray-900 transform hover:translate-y-20 underline"
-					>
-						order detail
-					</Link>
-				</h1>
-			</div> -->
             <div class="flex flex-col justify-start md:flex-row">
                 <img
                     :src="book.cover_url"
@@ -53,7 +36,10 @@
                         {{ book.title }}
                     </h1>
                     <div class="mb-3 text-2xl font-semibold text-gray-900">
-                        {{ formatPrice(book.price) }}
+                        <span class="text-gray-500 line-through">{{
+                            formatPrice(book.price)
+                        }}</span>
+                        {{ price }}
                     </div>
                     <p class="mb-3 text-gray-700">
                         {{ book.excerpt }}
@@ -175,6 +161,23 @@ export default {
             ),
             activeTab: "reviews",
         };
+    },
+
+    computed: {
+        price() {
+            if (this.book.promotion) {
+                let amount = this.book.promotion.is_percentage_discount
+                    ? this.book.price -
+                      this.book.price *
+                          (this.book.promotion.discount_amount / 100)
+                    : 100 *
+                      (this.book.price / 100 -
+                          this.book.promotion.discount_amount / 100);
+                return this.formatPrice(amount);
+            }
+
+            return this.formatPrice(this.book.price);
+        },
     },
 
     methods: {

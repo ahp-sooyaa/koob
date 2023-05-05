@@ -2,8 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Http\Request;
 use Inertia\Middleware;
+use App\Models\Promotion;
+use Illuminate\Http\Request;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -37,10 +38,10 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
-            'cart' => !empty($request->session()->get('cart'))
+            'cart' => ! empty($request->session()->get('cart'))
                 ? array_values($request->session()->get('cart'))
                 : [],
-            'buyNow' => !empty($request->session()->get('buyNow'))
+            'buyNow' => ! empty($request->session()->get('buyNow'))
                 ? array_values($request->session()->get('buyNow'))
                 : [],
             'flash' => function () use ($request) {
@@ -49,6 +50,7 @@ class HandleInertiaRequests extends Middleware
                     'error' => $request->session()->get('error'),
                 ];
             },
+            'promotion' => Promotion::whereDate('starts_at', '<', now())->whereDate('ends_at', '>', now())->first(),
         ]);
     }
 }
