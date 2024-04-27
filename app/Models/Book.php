@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Book extends Model
 {
@@ -13,8 +13,13 @@ class Book extends Model
     protected $guarded = [];
 
     protected $appends = [
-        'cover_url'
+        'cover_url',
     ];
+
+    public function promotions()
+    {
+        return $this->belongsToMany(Promotion::class);
+    }
 
     public function orders()
     {
@@ -36,7 +41,7 @@ class Book extends Model
         if (! Storage::disk('public')->exists($this->cover_photo_path)) {
             return url('/images/cover.png');
         }
-        
+
         return Storage::url($this->cover_photo_path);
     }
 

@@ -79,8 +79,13 @@
                                             {{ qty }}
                                         </option>
                                     </select>
-                                    <span class="font-semibold">
+                                    <span
+                                        class="font-semibold text-gray-500 line-through"
+                                    >
                                         {{ formatPrice(item.price) }}
+                                    </span>
+                                    <span class="font-semibold">
+                                        {{ cartItemPrice(item) }}
                                     </span>
                                 </div>
 
@@ -210,19 +215,6 @@
                                 {{ item.title }}
                             </Link>
                             <div class="mt-3 flex items-center space-x-5">
-                                <!--								<select-->
-                                <!--									@change="updateCartQuantity(index, item, $event)"-->
-                                <!--									class="rounded-2xl shadow-md cursor-pointer"-->
-                                <!--								>-->
-                                <!--									<option-->
-                                <!--										v-for="qty in 10"-->
-                                <!--										:key="qty"-->
-                                <!--										:value="qty"-->
-                                <!--										:selected="item.quantity == qty"-->
-                                <!--									>-->
-                                <!--										{{ qty }}-->
-                                <!--									</option>-->
-                                <!--								</select>-->
                                 <span class="font-semibold">
                                     {{ formatPrice(item.price) }}
                                 </span>
@@ -266,6 +258,7 @@ export default {
         "allSavedItems",
         "overStockItems",
         "availableSavedItems",
+        "promotions",
     ],
 
     computed: {
@@ -280,8 +273,22 @@ export default {
         cartTotal() {
             let amount = 0;
             for (const key in this.cartItems) {
-                amount +=
-                    this.cartItems[key].quantity * this.cartItems[key].price;
+                if (
+                    this.cartItems[key].discount_amount &&
+                    this.cartItems[key].is_percentage_discount
+                ) {
+                    amount +=
+                        this.cartItems[key].quantity *
+                        (this.cartItems[key].price -
+                            (this.cartItems[key].price *
+                                this.cartItems[key].discount_amount) /
+                                100);
+                } else {
+                    amount +=
+                        this.cartItems[key].quantity *
+                            this.cartItems[key].price -
+                        this.cartItems[key].discount_amount;
+                }
             }
 
             return this.formatPrice(amount);
@@ -289,6 +296,16 @@ export default {
     },
 
     methods: {
+        cartItemPrice(item) {
+            if (item.is_percentage_discount) {
+                return this.formatPrice(
+                    item.price - item.price * (item.discount_amount / 100)
+                );
+            }
+
+            return this.formatPrice(item.price - item.discount_amount);
+        },
+
         isInStockItem(id) {
             if (this.availableSavedItems) {
                 return this.availableSavedItems.some((item) => {

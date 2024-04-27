@@ -181,8 +181,11 @@
                                             {{ qty }}
                                         </option>
                                     </select>
-                                    <span class="font-semibold">
+                                    <span class="font-semibold text-gray-500 line-through">
                                         {{ formatPrice(item.price) }}
+                                    </span>
+                                    <span class="font-semibold">
+                                        {{ cartItemPrice(item) }}
                                     </span>
                                 </div>
                             </div>
@@ -310,7 +313,7 @@ export default {
 
     mixins: [format],
 
-    props: ["message", "appliedCoupon", "isCartCheckout"],
+    props: ["message", "appliedCoupon", "isCartCheckout", "cartData"],
 
     data() {
         return {
@@ -332,7 +335,7 @@ export default {
 
     computed: {
         cart() {
-            return this.$page.props.cart;
+            return this.cartData;
         },
 
         buyNow() {
@@ -350,9 +353,26 @@ export default {
         cartTotal() {
             let amount = 0;
             for (const key in this.products) {
-                amount +=
-                    this.products[key].quantity * this.products[key].price;
+                if (
+                    this.products[key].discount_amount &&
+                    this.products[key].is_percentage_discount
+                ) {
+                    amount +=
+                        this.products[key].quantity *
+                        (this.products[key].price -
+                            (this.products[key].price *
+                                this.products[key].discount_amount) /
+                                100);
+                } else {
+                    amount +=
+                        this.products[key].quantity *
+                            this.products[key].price -
+                        this.products[key].discount_amount;
+                }
+                // amount +=
+                //     this.products[key].quantity * this.products[key].price;
             }
+
             if (this.coupon) {
                 amount =
                     this.coupon.type === "Percentage"
@@ -387,6 +407,14 @@ export default {
     },
 
     methods: {
+        cartItemPrice(item) {
+            if (item.is_percentage_discount) {
+                return this.formatPrice(item.price - item.price * (item.discount_amount / 100));
+            }
+
+            return this.formatPrice(item.price - item.discount_amount);
+        },
+
         updateCartQuantity(index, item, event) {
             if (this.paymentProcessing) {
                 return;
@@ -509,14 +537,17 @@ export default {
                         this.cardElement.update({ disabled: false });
 
                         if (
-                            error.response.data.message &&
-                            error.response.status === 500
+                            error.response.status === 422 &&
+                            error.response.data.message
                         ) {
                             window.flash(error.response.data.message, "error");
                         }
 
-                        if (error.response.status === 422) {
-                            this.errors = error.response.data;
+                        if (
+                            error.response.status === 422 &&
+                            error.response.data.errors
+                        ) {
+                            this.errors = error.response.data.errors;
                         }
                     });
             }

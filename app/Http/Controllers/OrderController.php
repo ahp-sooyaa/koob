@@ -8,12 +8,10 @@ use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Order;
 use App\Models\Address;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Notifications\OrderPlaced;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use App\Notifications\CustomerOrderPlaced;
 use Illuminate\Support\Facades\Notification;
 
@@ -60,23 +58,11 @@ class OrderController extends Controller
             'address_id' => ['required', 'numeric'],
         ]);
 
-        // check order quantity are more than available stock here
-        // or check this before add to cart
-        // $user = User::firstOrCreate(
-        //     [
-        //         'email' => $request->input('email')
-        //     ],
-        //     [
-        //         'password' => Hash::make(Str::random(12)),
-        //         'name' => $request->input('first_name') . ' ' . $request->input('last_name')
-        //     ]
-        // );
-
         foreach (json_decode($request->input('cart'), true) as $item) {
             $book = Book::find($item['id']);
 
             if ($book->stock_count < $item['quantity']) {
-                return response()->json(['message' => 'Sorry! Some items in your cart are not available.'], 500);
+                return response()->json(['message' => 'Sorry! Some items in your cart are not available.'], 422);
             }
         }
 
@@ -88,7 +74,7 @@ class OrderController extends Controller
         } catch (\Exception $e) {
             Log::debug($e->getMessage());
 
-            return response()->json(['message' => $e->getMessage()], 500);
+            return response()->json(['message' => $e->getMessage()], 422);
         }
 
         $order = Auth::user()->orders()
@@ -103,7 +89,6 @@ class OrderController extends Controller
             $order->books()
                 ->attach($item['id'], ['quantity' => $item['quantity']]);
 
-            // product or book stock quantities should decrease here
             $book = Book::find($item['id']);
             $book->update([
                 'stock_count' => $book->stock_count - $item['quantity'],

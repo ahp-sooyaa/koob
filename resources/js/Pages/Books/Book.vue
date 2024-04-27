@@ -1,5 +1,4 @@
 <template>
-    <!-- <div class="bg-gray-200 mb-5 p-5 rounded-2xl"> -->
     <div class="flex space-x-5">
         <img
             :src="data.cover_url"
@@ -13,12 +12,12 @@
             >
                 {{ data.title }}
             </Link>
-            <div class="mt-2 mb-auto mr-3 text-lg text-gray-500 lg:text-sm">
-                {{ formatPrice(data.price) }}
+            <div class="mt-2 mb-auto mr-3 text-lg text-gray-700 lg:text-sm">
+                <span v-if="data.promotion" class="text-gray-500 line-through">{{ formatPrice(data.price) }}</span>
+                {{ price }}
             </div>
         </div>
     </div>
-    <!-- </div> -->
     <div class="flex flex-1 flex-col px-1">
         <Link
             :href="'books/' + data.slug"
@@ -27,9 +26,10 @@
             {{ data.title }}
         </Link>
         <div
-            class="mt-2 mb-auto mr-3 hidden text-lg text-gray-500 sm:block lg:text-sm"
+            class="mt-2 mb-auto mr-3 hidden text-lg text-gray-700 sm:block lg:text-sm"
         >
-            {{ formatPrice(data.price) }}
+            <span v-if="data.promotion" class="text-gray-400 line-through">{{ formatPrice(data.price) }}</span>
+            {{ price }}
         </div>
         <div
             v-if="data.stock_count"
@@ -120,6 +120,23 @@ export default {
                 return item["id"] === this.data.id;
             }),
         };
+    },
+
+    computed: {
+        price() {
+            if (this.data.promotion) {
+                let amount = this.data.promotion.is_percentage_discount
+                    ? this.data.price -
+                      this.data.price *
+                          (this.data.promotion.discount_amount / 100)
+                    : 100 *
+                      (this.data.price / 100 -
+                          this.data.promotion.discount_amount / 100);
+                return this.formatPrice(amount);
+            }
+
+            return this.formatPrice(this.data.price);
+        },
     },
 
     methods: {
