@@ -97,7 +97,7 @@
 
                     <button
                         class="mt-5 flex w-full cursor-pointer items-center justify-center space-x-2 rounded-xl border bg-gray-700 px-5 py-3 text-sm text-white shadow-md hover:shadow-none"
-                        dusk="paynow"
+                        dusk="payNowButton"
                         :class="{
                             'cursor-not-allowed opacity-50':
                                 paymentProcessing || !products.length,

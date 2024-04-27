@@ -21,42 +21,42 @@ class CheckoutTest extends DuskTestCase
         });
     }
 
-    // public function testUserCanCheckout()
-    // {
-    //     Book::factory()->create();
-    //     $user = User::factory()->create();
+    public function testUserCanCheckout()
+    {
+        Book::factory()->create();
+        $user = User::factory()->create();
 
-    //     $this->browse(function (Browser $browser) use ($user) {
-    //         $browser->loginAs($user)
-    //                 ->visitRoute('books.index')
-    //                 ->press('@addToCart')
-    //                 ->pause(1000)
-    //                 ->visitRoute('cart.index')
-    //                 ->screenshot('cart')
-    //                 ->pause(1000)
-    //                 ->visitRoute('checkout.index')
-    //                 ->screenshot('checkout')
-    //                 ->pause(1000)
-    //                 ->type('label', 'home')
-    //                 ->type('building', 'building')
-    //                 ->type('street', 'street')
-    //                 ->type('township', 'padauk')
-    //                 ->type('city', 'yangon')
-    //                 ->type('state', 'yangon')
-    //                 ->pause(3000)
-    //                 ->withinFrame('.__PrivateStripeElement iframe', function ($browser) {
-    //                     $browser
-    //                     ->type('[placeholder="Card number"]', '4242424242424242')
-    //                     ->type('[placeholder="MM / YY"]', '0923')
-    //                     ->type('[placeholder="CVC"]', '123')
-    //                     ->type('[placeholder="ZIP"]', '12345');
-    //                 })
-    //                 ->press('Pay Now')
-    //                 ->waitForText('Thank you for your purchase')
-    //                 ->assertPathBeginsWith('/thankyou')
-    //                 ->screenshot('thankyou');
-    //     });
-    // }
+        $this->browse(function (Browser $browser) use ($user) {
+            $browser->loginAs($user)
+                    ->visitRoute('books.index')
+                    ->press('@addToCart')
+                    ->pause(1000)
+                    ->visitRoute('cart.index')
+                    ->screenshot('cart')
+                    ->pause(1000)
+                    ->visitRoute('checkout.index')
+                    ->screenshot('checkout')
+                    ->pause(1000)
+                    ->type('label', 'home')
+                    ->type('building', 'building')
+                    ->type('street', 'street')
+                    ->type('township', 'padauk')
+                    ->type('city', 'yangon')
+                    ->type('state', 'yangon')
+                    ->pause(1000)
+                    ->press('@saveAddressButton')
+                    ->withinFrame('.__PrivateStripeElement iframe', function ($browser) {
+                        $browser
+                        ->type('[placeholder="Card number"]', '4242424242424242')
+                        ->type('[placeholder="MM / YY"]', '0923')
+                        ->type('[placeholder="CVC"]', '123')
+                        ->type('[placeholder="ZIP"]', '12345');
+                    })
+                    ->press('@payNowButton')
+                    ->pause(15000)
+                    ->assertSee('Thank you for your purchase');
+        });
+    }
 
     public function testUserCanNotSelectMoreThanAvailableStock()
     {
@@ -66,6 +66,7 @@ class CheckoutTest extends DuskTestCase
             $browser
                 ->loginAs(User::factory()->create())
                 ->visitRoute('books.index')
+                ->pause(1000)
                 ->press('@addToCart')
                 ->pause(1000)
                 ->visitRoute('cart.index')
